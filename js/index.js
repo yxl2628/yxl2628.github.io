@@ -38,20 +38,32 @@ function checkStatus(response) {
     return response;
   }
 }
+$('#editArea').click(function(){
+	$('#tip').show();
+});
 $('#btn_send').click(function(){
-	if($('#editArea').html()){
-		mySend($('#editArea').html());
-		var options = {
-			"mode": "cors",
-			"Content-Type": "text/plain"
-		};
-		fetch('http://snomile.3322.org:8000/'+encodeURI($('#editArea').html()), options)
-		.then(checkStatus)
-		.then(parseJSON)
-		.then(function(data){
-			console.log(data);
-			reContent(data);
-			$('#editArea').html('');
-		});
+	if($('#editArea').val()){
+		var send = $('#editArea').val();
+		msgSend(send);
 	}
 });
+$('.tip li').click(function(){
+	msgSend($(this).html());
+});
+function msgSend(send){
+	mySend(send);
+	$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
+	$('#editArea').val('');
+	$('#tip').hide();
+	var options = {
+		"mode": "cors",
+		"Content-Type": "text/plain"
+	};
+	fetch('http://snomile.3322.org:8000/'+encodeURI(send), options)
+	.then(checkStatus)
+	.then(parseJSON)
+	.then(function(data){
+		reContent(data);
+		$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
+	});
+}

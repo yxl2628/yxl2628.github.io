@@ -373,9 +373,8 @@ a.btn {
     }
 
     .box_ft_hd .editArea {
-        overflow-y: auto;
-        overflow-x: hidden;
-        outline: 0;
+        width: 90%;
+        border: 0;
         border-bottom: 1px solid #ababab;
         font-size: 14px;
         padding: 0 5px;
@@ -450,7 +449,14 @@ a.btn {
     .eaitWrap .qqface{
         border:0;
     }
-
+.tip{
+  margin:10px 0 20px;
+}
+.tip li{
+  text-align: center;
+  line-height: 35px;
+  border-bottom: 1px solid #666;
+}
 /*信息end*/
 
 
