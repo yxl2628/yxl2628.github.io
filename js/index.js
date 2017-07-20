@@ -26,9 +26,25 @@ function reContent(content){
 		re_send += '			</div>';
 		re_send += '		</div>';
 		re_send += '	</div>';
-		re_send += '</div>';
+		re_send
 	$('#messageList').append(re_send);
 }
+function processContent(userinput,pre_content,do_content){
+	var re_process = '<div class="panel panel-default">';
+		re_process += '<div class="panel-header">用户问题【';
+		re_process += userinput;
+		re_process += '】分析过程</div>';
+		re_process += '<div class="panel-body">';
+		re_process += '<div>';
+		re_process += pre_content;
+		re_process += '</div>';
+		re_process += '<div>';
+		re_process += do_content;
+		re_process += '</div>';
+		re_process += '</div>';
+	$('#processList').append(re_process);
+}
+
 function parseJSON(response) {
   return response.text();
 }
@@ -38,32 +54,46 @@ function checkStatus(response) {
     return response;
   }
 }
-$('#editArea').click(function(){
-	$('#tip').show();
-});
+function html_encode(str)
+{
+  var s = "";
+  if (str.length == 0) return "";
+  s = str.replace(/&/g, "&gt;");
+  s = s.replace(/</g, "&lt;");
+  s = s.replace(/>/g, "&gt;");
+  s = s.replace(/ /g, "&nbsp;");
+  s = s.replace(/\'/g, "&#39;");
+  s = s.replace(/\"/g, "&quot;");
+  s = s.replace(/\n/g, "<br>");
+  return s;
+}
 $('#btn_send').click(function(){
 	if($('#editArea').val()){
 		var send = $('#editArea').val();
 		msgSend(send);
 	}
 });
-$('.tip li').click(function(){
-	msgSend($(this).html());
-});
 function msgSend(send){
+	var url = $('#url').val();
+	var casecode = $('#casecode').val();
 	mySend(send);
 	$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
+	$("#processList").scrollTop($("#processList")[0].scrollHeight);
 	$('#editArea').val('');
-	$('#tip').hide();
 	var options = {
 		"mode": "cors",
 		"Content-Type": "text/plain"
 	};
-	fetch('http://snomile.3322.org:8000/'+encodeURI(send), options)
+	fetch(url+'/chat?casecode='+casecode+'&userinput='+encodeURI(send), options)
 	.then(checkStatus)
 	.then(parseJSON)
 	.then(function(data){
-		reContent(data);
+		console.log(data);
+		// var result = data.split(/[\n,]/g);
+		var result = JSON.parse(data);
+		reContent(result[0]);
+		processContent(send,result[1],html_encode(result[2]));
 		$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
+		$("#processList").scrollTop($("#processList")[0].scrollHeight);
 	});
 }

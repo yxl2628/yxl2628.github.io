@@ -8,32 +8,51 @@
     <link href="css/index.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="main">
-        <div class="main_inner clearfix">
-            <div class="panel"></div>
-            <div id="chatArea" class="box chat">
-                <div class="box_hd"></div>
-                <div class="box_bd" id="messageList">
-                </div>
-                <div class="box_ft">
-                    <div class="box_ft_hd">
-                        <div class="eaitWrap">
-                            <input id="editArea" class="editArea" />
+    <div class="main-row">
+      <div class="col-left">
+        <div class="iphone">
+          <div class="iphone-title">
+            人工智能对话系统
+          </div>
+          <div class="iphone-content">
+            <div class="main">
+                <div class="main_inner clearfix">
+                    <div class="panel-phone"></div>
+                    <div id="chatArea" class="box chat">
+                        <div class="box_hd"></div>
+                        <div class="box_bd" id="messageList">
                         </div>
-                        <a href="javascript:;" class="btn btn_send" id="btn_send">发送</a>
-                    </div>
-                    <div class="box_ft_bd hide" id="tip">
-                      <ul class="tip">
-                        <li>最近一直咳嗽，3个小时前发烧了</li>
-                        <li>咳得厉害，身体也烧起来了，昨天开始的</li>
-                        <li>身体发冷、咳嗽，有一天了</li>
-                      </ul>
+                        <div class="box_ft">
+                            <div class="box_ft_hd">
+                                <div class="eaitWrap">
+                                    <input id="editArea" class="editArea" />
+                                </div>
+                                <a href="javascript:;" class="btn btn_send" id="btn_send">发送</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="col-right">
+        <div class="config-all">
+          <div class="config">
+            <label class="form-lable" for="url">服务器地址</label>
+            <div class="col-right"><input type="text" class="input-text" id="url" value="http://219.144.68.146:8000" /></div>
+          </div>
+          <div class="config">
+            <label class="form-lable" for="casecode">case code</label>
+            <div class="col-right"><input type="text" class="input-text" id="casecode" value="startimes" /></div>
+          </div>
+        </div>
+        <div id="processList">
+
+        </div>
+      </div>
     </div>
-    <script src="libs/jquery.min.js"></script>
+    <script src="libs/zepto.min.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>
