@@ -88,7 +88,6 @@ function msgSend(send){
 	.then(checkStatus)
 	.then(parseJSON)
 	.then(function(data){
-		console.log(data);
 		// var result = data.split(/[\n,]/g);
 		var result = JSON.parse(data);
 		reContent(result[0]);
