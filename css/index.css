@@ -576,7 +576,6 @@ table th{text-align:left; font-weight:400}
 }
 #processList{
   margin-top: 20px;
-  height: auto;
   height: 550px;
   overflow-y: auto;
   overflow-x: hidden;
