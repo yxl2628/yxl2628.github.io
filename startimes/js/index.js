@@ -134,6 +134,15 @@ function reset(){
   $('#casecode').val('None');
   starAjax('');
 }
+
+function export_result(){
+  sessionStorage.setItem('messageList',$("#messageList").html());
+  sessionStorage.setItem('processList',$("#processList").html());
+  window.open('./export_message.html');
+  window.open('./export_process.html');
+}
+
+
 jQuery.Huitab = function(tabBar, tabCon, class_name, tabEvent, i) {
   var $tab_menu = $(tabBar);
   // 初始化操作
