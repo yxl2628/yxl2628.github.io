@@ -602,7 +602,10 @@ table th{text-align:left; font-weight:400}
   overflow-x: hidden;
 }
 
-@media (max-height:650px) {
+@media (max-height:800px) {
+  body,html{
+    font-size: 12px;
+  }
   .iphone{
     background: url('../images/iphone6_299_571.png') no-repeat;
     margin-top:10px;
@@ -614,6 +617,22 @@ table th{text-align:left; font-weight:400}
     left: 19px;
     width: 257px;
     height: 403px;
+  }
+  .message .avatar {
+      width: 30px;
+      height: 30px;
+  }
+  .bubble {
+    max-width: 80%;
+    font-size: 12px;
+    margin: 0 8px;
+  }
+  .bubble_cont .plain {
+    padding: 3px 8px;
+  }
+  .bubble:before, .bubble:after{
+    top: 10px;
+    border: 3px solid transparent;
   }
   .config-all{
     margin-top: 10px;
