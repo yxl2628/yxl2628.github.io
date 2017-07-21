@@ -546,6 +546,7 @@ table th{text-align:left; font-weight:400}
   width: 374px;
   height: 714px;
 }
+
 .iphone-reload{
   position: absolute;
   top: 90px;
@@ -599,4 +600,25 @@ table th{text-align:left; font-weight:400}
   height: 550px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+@media (max-height:650px) {
+  .iphone{
+    background: url('../images/iphone6_299_571.png') no-repeat;
+    margin-top:10px;
+    width: 299.2px;
+    height: 571.2px;
+  }
+  .iphone-content{
+    top: 95px;
+    left: 19px;
+    width: 257px;
+    height: 403px;
+  }
+  .config-all{
+    margin-top: 10px;
+  }
+  #processList{
+    height: 500px;
+  }
 }

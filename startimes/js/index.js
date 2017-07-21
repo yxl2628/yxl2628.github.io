@@ -88,7 +88,7 @@ $('#btn_send').click(function() {
   }
 });
 $('#editArea').bind('keypress',function(event){
-   if(event.keyCode == 13)      
+   if(event.keyCode == 13)
    {
      var send = $('#editArea').val();
      msgSend(send);
@@ -120,7 +120,7 @@ function starAjax(send){
         casecode = result[0].match(/\[(\S*)\]/);
         $('#casecode').val(result[0].match(/\[(\S*)\]/)[1]);
       }else{
-        if(result[1]&&result[2]){
+        if(result[1] || result[2]){
           processContent(send, html_encode(result[1]), html_encode(result[2]));
         }
       }
