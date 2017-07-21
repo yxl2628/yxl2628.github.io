@@ -1,11 +1,11 @@
 # Basic
-title: Vno Jekyll
-subtitle: A blog-orientation theme for Jekyll
-welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
-description: Vno Jekyll is a port of my Ghost theme vno.
-creator: <a href="http://onev.cat">@onevcat</a>
+title: 小龙的博客
+subtitle: 先知三日，富贵十年
+welcome_message: 欢迎来到我的网站~
+description:
+creator: xiaolong.yang
 
-url: "http://vno.onevcat.com"
+url: "https://yxl2628.github.io/"
 
 permalink: /:year/:month/:title/
 
@@ -33,8 +33,8 @@ paginate_path: "page/:num/"
 # Comment
 comment:
     disqus: vno-jekyll
-    # duoshuo: 
-    
+    # duoshuo:
+
 # Social
 social:
     weibo: onevcat
