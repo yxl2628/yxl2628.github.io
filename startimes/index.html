@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="css/index.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="main-row">
+    <div class="col-left">
+      <div class="iphone">
+        <div class="iphone-reload" onclick="javascript: location.reload()"></div>
+        <div class="iphone-title">
+          人工智能对话系统
+        </div>
+        <div class="iphone-content">
+          <div class="main">
+            <div class="main_inner clearfix">
+              <div class="panel-phone"></div>
+              <div id="chatArea" class="box chat">
+                <div class="box_hd"></div>
+                <div class="box_bd" id="messageList">
+                </div>
+                <div class="box_ft">
+                  <div class="box_ft_hd">
+                    <div class="eaitWrap">
+                      <input id="editArea" class="editArea" />
+                    </div>
+                    <a href="javascript:;" class="btn btn_send" id="btn_send">发送</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-right">
+      <div id="tab_demo" class="config-all">
+        <div class="tabBar clearfix"><span>解析过程</span><span>系统配置</span></div>
+        <div class="tabCon" id="processList"></div>
+        <div class="tabCon">
+          <div class="config">
+            <label class="form-lable" for="url">服务器地址</label>
+            <div class="col-right"><input type="text" class="input-text" id="url" value="http://219.144.68.146:8000" /></div>
+          </div>
+          <div class="config">
+            <label class="form-lable" for="casecode">case code</label>
+            <div class="col-right"><input type="text" class="input-text disabled" id="casecode" value="None" readonly="true" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="libs/jquery.min.js"></script>
+  <script src="js/index.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $.Huitab("#tab_demo .tabBar span", "#tab_demo .tabCon", "current", "click", "0");
+      starAjax('');
+    });
+  </script>
+</body>
+
+</html>
