@@ -47,7 +47,7 @@ function processContent(userinput, pre_content, do_content) {
   re_process += '</td>';
   re_process += '</tr>';
   re_process += '<tr>';
-  re_process += '<th>推流模块</th>';
+  re_process += '<th>推理模块</th>';
   re_process += '<td>';
   re_process += do_content;
   re_process += '</td>';
