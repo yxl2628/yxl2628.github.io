@@ -33,7 +33,7 @@ function reContent(content) {
 
 function processContent(userinput, pre_content, do_content) {
   var re_process = '<div class="panel panel-default">';
-  re_process += '<div class="panel-header">用户问题【';
+  re_process += '<div class="panel-header">用户输入【';
   re_process += userinput;
   re_process += '】分析过程</div>';
   re_process += '<div class="panel-body">';
@@ -41,7 +41,7 @@ function processContent(userinput, pre_content, do_content) {
   re_process += '<table class="table table-border">';
   re_process += '<tbody>';
   re_process += '<tr>';
-  re_process += '<th>预解析模块</th>';
+  re_process += '<th width="20px">预解析模块</th>';
   re_process += '<td>';
   re_process += pre_content;
   re_process += '</td>';
@@ -89,15 +89,18 @@ $('#btn_send').click(function() {
 });
 
 function msgSend(send) {
+  mySend(send);
+  starAjax(send);
+}
+function starAjax(send){
   var url = $('#url').val();
   var casecode = $('#casecode').val();
-  mySend(send);
   $("#messageList").scrollTop($("#messageList")[0].scrollHeight);
   $("#processList").scrollTop($("#processList")[0].scrollHeight);
   $('#editArea').val('');
   var options = {
+    "Content-Type": "text/plain",
     "mode": "cors",
-    "Content-Type": "text/plain"
   };
   fetch(url + '/chat?casecode=' + casecode + '&userinput=' + encodeURI(send), options)
     .then(checkStatus)
@@ -106,7 +109,14 @@ function msgSend(send) {
       // var result = data.split(/[\n,]/g);
       var result = JSON.parse(data);
       reContent(result[0]);
-      processContent(send, result[1], html_encode(result[2]));
+      if(result[0].indexOf('case code登记成功')>=0){
+        casecode = result[0].match(/\[(\S*)\]/);
+        $('#casecode').val(result[0].match(/\[(\S*)\]/)[1]);
+      }else{
+        if(result[1]&&result[2]){
+          processContent(send, result[1], html_encode(result[2]));
+        }
+      }
       $("#messageList").scrollTop($("#messageList")[0].scrollHeight);
       $("#processList").scrollTop($("#processList")[0].scrollHeight);
     });

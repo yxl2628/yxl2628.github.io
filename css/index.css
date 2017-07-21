@@ -477,6 +477,8 @@ a.btn {
 .input-text:hover,.textarea:hover{border: solid 1px #3bb4f2}
 /*得到焦点后*/
 .input-text.focus,textarea.focus{border:solid 1px #0f9ae0 \9;border-color:rgba(82,168,236,0.8);box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6)}
+/*只读状态*/
+.input-text.disabled,.textarea.disabled{background-color:#e6e6e6; cursor:default}
 /*默认table*/
 table{width:100%;empty-cells:show;background-color:transparent;border-collapse:collapse;border-spacing:0}
 table th{text-align:left; font-weight:400}
@@ -543,6 +545,20 @@ table th{text-align:left; font-weight:400}
   z-index: 1;
   width: 374px;
   height: 714px;
+}
+.iphone-reload{
+  position: absolute;
+  top: 90px;
+  left: 30px;
+  color: #fff;
+  font-size: 14px;
+  width: 35px;
+  height: 20px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
 }
 .iphone-title{
   position: absolute;

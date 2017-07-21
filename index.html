@@ -13,6 +13,7 @@
   <div class="main-row">
     <div class="col-left">
       <div class="iphone">
+        <div class="iphone-reload" onclick="javascript: location.reload()"></div>
         <div class="iphone-title">
           人工智能对话系统
         </div>
@@ -40,7 +41,8 @@
     </div>
     <div class="col-right">
       <div id="tab_demo" class="config-all">
-        <div class="tabBar clearfix"><span>系统配置</span><span>解析过程</span></div>
+        <div class="tabBar clearfix"><span>解析过程</span><span>系统配置</span></div>
+        <div class="tabCon" id="processList"></div>
         <div class="tabCon">
           <div class="config">
             <label class="form-lable" for="url">服务器地址</label>
@@ -48,10 +50,9 @@
           </div>
           <div class="config">
             <label class="form-lable" for="casecode">case code</label>
-            <div class="col-right"><input type="text" class="input-text" id="casecode" value="startimes" /></div>
+            <div class="col-right"><input type="text" class="input-text disabled" id="casecode" value="None" readonly="true" /></div>
           </div>
         </div>
-        <div class="tabCon" id="processList"></div>
       </div>
     </div>
   </div>
@@ -59,7 +60,8 @@
   <script src="js/index.js"></script>
   <script type="text/javascript">
     $(function() {
-      $.Huitab("#tab_demo .tabBar span", "#tab_demo .tabCon", "current", "click", "0")
+      $.Huitab("#tab_demo .tabBar span", "#tab_demo .tabCon", "current", "click", "0");
+      starAjax('');
     });
   </script>
 </body>
