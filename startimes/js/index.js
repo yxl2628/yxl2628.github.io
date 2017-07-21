@@ -87,6 +87,13 @@ $('#btn_send').click(function() {
     msgSend(send);
   }
 });
+$('#editArea').bind('keypress',function(event){
+   if(event.keyCode == 13)      
+   {
+     var send = $('#editArea').val();
+     msgSend(send);
+   }
+});
 
 function msgSend(send) {
   mySend(send);
@@ -114,12 +121,18 @@ function starAjax(send){
         $('#casecode').val(result[0].match(/\[(\S*)\]/)[1]);
       }else{
         if(result[1]&&result[2]){
-          processContent(send, result[1], html_encode(result[2]));
+          processContent(send, html_encode(result[1]), html_encode(result[2]));
         }
       }
       $("#messageList").scrollTop($("#messageList")[0].scrollHeight);
       $("#processList").scrollTop($("#processList")[0].scrollHeight);
     });
+}
+function reset(){
+  $("#messageList").html('');
+  $("#processList").html('');
+  $('#casecode').val('None');
+  starAjax('');
 }
 jQuery.Huitab = function(tabBar, tabCon, class_name, tabEvent, i) {
   var $tab_menu = $(tabBar);
