@@ -608,7 +608,7 @@ table th{text-align:left; font-weight:400}
   }
   .iphone{
     background: url('../images/iphone6_299_571.png') no-repeat;
-    margin-top:10px;
+    /*margin-top:10px;*/
     width: 299.2px;
     height: 571.2px;
   }
@@ -635,7 +635,7 @@ table th{text-align:left; font-weight:400}
     border: 3px solid transparent;
   }
   .config-all{
-    margin-top: 10px;
+    /*margin-top: 10px;*/
   }
   #processList{
     height: 500px;
