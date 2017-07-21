@@ -612,6 +612,16 @@ table th{text-align:left; font-weight:400}
     width: 299.2px;
     height: 571.2px;
   }
+  .iphone-reload {
+    top: 70px;
+    left: 20px;
+  }
+  .iphone-title {
+    top: 70px;
+    left: 55px;
+    font-size: 12px;
+    width: 180px;
+  }
   .iphone-content{
     top: 95px;
     left: 19px;
