@@ -628,6 +628,21 @@ table th{text-align:left; font-weight:400}
     width: 257px;
     height: 403px;
   }
+  .box_ft_hd .editArea {
+    width: 90%;
+    font-size: 12px;
+    padding: 0 5px;
+    line-height: 25px;
+    margin-top: 5px;
+  }
+  .btn {
+      padding: 3px 8px;
+      font-size: 12px;
+      height: 20px;
+      line-height: 20px;
+      margin-top: 7px;
+      cursor: pointer;
+  }
   .message .avatar {
       width: 30px;
       height: 30px;
