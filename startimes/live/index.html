@@ -9,13 +9,16 @@
     video {
       width: 100%;
     }
+
     #app {
       max-width: 80%;
       margin: 10px auto;
     }
+
     .main {
       padding: 0 15px;
     }
+
     .mask {
       position: absolute;
       top: 0;
@@ -24,9 +27,11 @@
       height: 100%;
       z-index: 999;
     }
+
     .mask:hover {
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0, 0, 0, 0.8);
     }
+
     .show-btn {
       display: none;
       position: absolute;
@@ -37,7 +42,8 @@
       margin-left: -50px;
       margin-top: -25px;
     }
-    .mask:hover .show-btn{
+
+    .mask:hover .show-btn {
       display: block;
     }
   </style>
@@ -61,43 +67,49 @@
     </div>
   </div>
   <script>
-    if (Hls.isSupported()) {
-      var app = new Vue({
-        el: '#app',
-        data () {
-          return {
-            init: false,
-            list: videoList
-          }
-        },
-        mounted () {
-          if (!this.init) {
-            videoList.forEach(function(item,index){
-              var video = document.getElementById('video'+index);
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          init: false,
+          list: videoList
+        }
+      },
+      mounted() {
+        if (!this.init) {
+          videoList.forEach(function(item, index) {
+            var video = document.getElementById('video' + index);
+            if (Hls.isSupported()) {
               var hls = new Hls();
               hls.loadSource(item);
               hls.attachMedia(video);
               hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
               });
-            })
-          }
-        },
-        methods: {
-          showMe: function(item){
-            var video = document.getElementById('video');
+            } else {
+              video.src = item;
+              video.play();
+            }
+          })
+        }
+      },
+      methods: {
+        showMe: function(item) {
+          var video = document.getElementById('video');
+          if (Hls.isSupported()) {
             var hls = new Hls();
             hls.loadSource(item);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
               video.play();
             });
+          } else {
+            video.src = item;
+            video.play();
           }
         }
-      });
-    } else {
-      alert('浏览器不支持m3u8格式,请更换最新版chrome浏览器')
-    }
+      }
+    });
   </script>
 </body>
 
