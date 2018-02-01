@@ -103,7 +103,8 @@ blockquote {
   margin: 0 0 20px;
   font-family: $serif-font;
   font-weight: lighter;
-  font-size: 1em;
+  font-size: 0.8em;
+  color: $gray-dark;
   border-left: 3px solid $primary-color;
 
   p {
