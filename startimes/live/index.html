@@ -9,14 +9,8 @@
     video {
       width: 100%;
     }
-
     #app {
-      max-width: 80%;
-      margin: 10px auto;
-    }
-
-    .main {
-      padding: 0 15px;
+      max-width: 100%;
     }
     #app .row {
       text-align: center;
@@ -29,11 +23,27 @@
   <script src="./static/hls.min.js"></script>
   <script src="./static/vue.js"></script>
   <div id="app" class="container-fluid">
-    <div class="row main">
-      <video id="video" controls autoplay></video>
+    <div class="row">
+      <div class="col-xs-12 col-md-10">
+        <video id="video" controls autoplay></video>
+      </div>
+      <div class="col-xs-12 col-md-2" style="padding-top:3%;">
+        <div v-if="index < 3" v-for="(item,index) in list">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <video :id="'video'+index" muted autoplay></video>
+              </div>
+              <div class="row">
+                <button class="btn btn-primary" @click="showMe(item)">设为主屏</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
-      <div v-for="(item,index) in list" class="col-xs-6 col-md-3">
+      <div v-if="index >= 3" v-for="(item,index) in list" class="col-xs-6 col-md-3">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="row">
@@ -55,6 +65,10 @@
           init: false,
           list: videoList
         }
+      },
+      created () {
+        var video = document.getElementById('video');
+        video.style.height = video.offsetWidth*9/16 + 'px';
       },
       mounted() {
         if (!this.init) {
