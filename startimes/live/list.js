@@ -1,8 +1,8 @@
 window.videoList = [
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/daokejiazudenvren/143456.m3u8',
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/kuaiqiangshou/143456.m3u8',
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/xiyouji/143456.m3u8',
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/zanmenxiangaiba/143456.m3u8',
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/huaqiangu/143456.m3u8',
-  'https://newtranstar.oss-cn-beijing.aliyuncs.com/gongfushaolin/143456.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/liangc2_11_541_CODEC_VIDEO_H264/live.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/test002_543_CODEC_VIDEO_H264/live.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/test003_555_CODEC_VIDEO_H264/live.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/test004_557_CODEC_VIDEO_H264/live.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/test005_559_CODEC_VIDEO_H264/live.m3u8',
+  'http://d37gxy1s0uw2pc.cloudfront.net/html/vod/test006_561_CODEC_VIDEO_H264/live.m3u8',
 ]

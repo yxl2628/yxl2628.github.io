@@ -47,8 +47,12 @@
       <div v-for="(item,index) in list" class="col-xs-6 col-md-2">
         <div class="panel panel-default">
           <div class="panel-body">
+            <div class="row" :id="'viewVideo'+index">
+              <video :id="'video'+index" preload="none" muted></video>
+              <img :id="'img'+index" src='' style="display:none" />
+            </div>
             <div class="row">
-              <video :id="'video'+index" muted autoplay></video>
+              {{ index < 2 ? '主会场' : '0' + (index-1) + '分会场' }}
             </div>
             <div class="row">
               <button class="btn btn-primary btn-sm" @click="showMe(item)">设为主屏</button>
@@ -63,7 +67,6 @@
       el: '#app',
       data() {
         return {
-          init: false,
           list: videoList
         }
       },
@@ -72,23 +75,18 @@
         video.style.height = video.offsetWidth*9/16 + 'px';
       },
       mounted() {
-        if (!this.init) {
-          videoList.forEach(function(item, index) {
-            var video = document.getElementById('video' + index);
-            if (Hls.isSupported()) {
-              var hls = new Hls();
-              hls.loadSource(item);
-              hls.attachMedia(video);
-              hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
-              });
-            } else {
-              video.src = item;
-              video.play();
-            }
-          })
-          this.showMe(videoList[0])
-        }
+        const _this = this;
+        videoList.forEach(function(item, index) {
+          setTimeout(function(){
+            _this.captureImage(item,index)
+          },(index+1)*5000)
+          setInterval(function(){
+            setTimeout(function(){
+              _this.captureImage(item,index)
+            },(index+1)*5000)
+          },30000);
+        })
+        this.showMe(videoList[0])
       },
       methods: {
         showMe: function(item) {
@@ -97,12 +95,38 @@
             var hls = new Hls();
             hls.loadSource(item);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-              video.play();
-            });
           } else {
             video.src = item;
             video.play();
+          }
+        },
+        captureImage: function(item,index) {
+          // console.log('开始加载视频' + index)
+          var video = document.getElementById('video' + index);
+          var canvas = document.createElement("canvas");
+          var videoView = document.getElementById('viewVideo' + index);
+          var img = document.getElementById('img' + index);
+          var hls = null;
+          if (Hls.isSupported()) {
+            hls = new Hls();
+            hls.loadSource(item);
+            hls.attachMedia(video);
+          } else {
+            video.src = item;
+          }
+          video.onloadeddata = function(){
+            // console.log('视频' + index + '可以播放，开始截帧')
+            canvas.width = videoView.offsetWidth;
+            canvas.height = videoView.offsetWidth*9/16;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            img.src = canvas.toDataURL("image/png");
+            if (Hls.isSupported()) {
+              hls.destroy()
+            }
+            video.pause();
+            video.src = null;
+            img.style.display = 'block';
+            video.style.display = 'none';
           }
         }
       }
