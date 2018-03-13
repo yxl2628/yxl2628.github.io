@@ -13,7 +13,7 @@
         <div id="dialog" class="dialog">
           <template v-for="item in resultList">
             <div v-if="item.action == 'response'" class="message me">
-              <img class="avatar" src="./static/user.jpg" />
+              <img class="avatar" src="./user.jpg" />
               <div class="dialog-content">
                 <div class="bubble bubble_primary right">
                   <div class="bubble_cont">
@@ -22,8 +22,8 @@
                 </div>
               </div>
             </div>
-            <div v-if="item.action == 'question'" class="message">
-              <img class="avatar" src="./static/admin.jpg" />
+            <div v-if="item.action == 'question' || item.action == 'conclusion'" class="message">
+              <img class="avatar" src="./admin.jpg" />
               <div class="dialog-content">
                 <div class="bubble bubble_default left">
                   <div class="bubble_cont">
@@ -51,7 +51,7 @@
       mounted() {
         this.sessionid = localStorage.getItem('sessionid')
         this.casecode = localStorage.getItem('casecode')
-        this.localDate = localStorage.getItem('localDate')
+        this.localDate = ''
         this.getResult()
       },
       updated() {
@@ -66,6 +66,7 @@
                 var res = typeof result === 'string' ? JSON.parse(result) : result;
                 if (res.responseCode == "0") {
                   if(res.data.finish == 'finish') {
+                    console.log('请求的localDate：'+_this.localDate,'返回的localDate:'+res.data.localDate)
                     _this.localDate = res.data.localDate
                     _this.resultList = _this.resultList.concat(res.data.InquiryList)
                   }

@@ -228,10 +228,9 @@
         getResult: function () {
           var sessionid = localStorage.getItem('sessionid')
           var casecode = localStorage.getItem('casecode')
-          var localDate = localStorage.getItem('localDate')
           var _this = this
           setInterval(function () {
-            $.post(baseUrl+'getInquiryRecord?sessionid='+sessionid+'&casecode='+casecode+'&localDate='+localDate,
+            $.post(baseUrl+'getInquiryRecord?sessionid='+sessionid+'&casecode='+casecode+'&localDate=',
               function (result) {
                 var res = typeof result === 'string' ? JSON.parse(result) : result;
                 if (res.responseCode == "0") {
