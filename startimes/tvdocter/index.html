@@ -34,18 +34,215 @@
           </div>
         </div>
       </div>
+      <div v-show="now==='brithday'" class="brithday-select">
+        <div class="brithday-body">
+          <div class="year">
+            <div class="title" :class="{active:brithdayCurrent=='year'}">年</div>
+            <ul class="content">
+              <li v-for="n in 5" v-html="year - 6 + n"></li>
+              <li class="active" v-html="year"></li>
+              <li v-for="n in 5" v-html="(year + n) <= maxYear ? (year + n) : ''"></li>
+            </ul>
+          </div>
+          <div class="month">
+            <div class="title" :class="{active:brithdayCurrent=='month'}">月</div>
+            <ul class="content">
+              <li v-for="n in 5" v-html="(month - 6 + n) > 0 ? (month - 6 + n) : ''"></li>
+              <li class="active" v-html="month"></li>
+              <li v-for="n in 5" v-html="(month + n) <= 12 ? (month + n) : ''"></li>
+            </ul>
+          </div>
+          <div class="day">
+            <div class="title" :class="{active:brithdayCurrent=='day'}">日</div>
+            <ul class="content">
+              <li v-for="n in 5" v-html="(day - 6 + n) > 0 ? (day - 6 + n) : ''"></li>
+              <li class="active" v-html="day"></li>
+              <li v-for="n in 5" v-html="(day + n) <= maxDay ? (day + n) : ''"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div v-show="qrcode" class="brithday-select">
+        <div class="code-result" v-html="qrcodeResult"></div>
+        <div id="code"></div>
+      </div>
     </div>
   </body>
+  <script src="util.js" charset="utf-8"></script>
   <script src="vue.js" charset="utf-8"></script>
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <script src="qrcode.min.js" charset="utf-8"></script>
   <script type="text/javascript">
+    var now = new Date()
+
     var app = new Vue({
       el: '#app',
       data() {
         return {
           type: 0,
           sex: 0,
-          brithday: '请选择',
-          current: 'button'
+          brithday: '',
+          current: 'type',
+          now: 'main',
+          list: ['type', 'sex', 'brithday', 'button'],
+          year: now.getFullYear(),
+          month: now.getMonth()+1,
+          day: now.getDay(),
+          maxYear: now.getFullYear(),
+          maxDay: 31,
+          brithdayCurrent: 'year',
+          qrcode: false,
+          qrcodeResult: '等待连接'
+        }
+      },
+      created () {
+        var _this = this;
+        var monthShow = this.month < 10 ? ('0' + this.month) : this.month
+        var dayShow = this.day < 10 ? ('0' + this.day) : this.day
+        this.brithday = this.year + '-' + monthShow + '-' + dayShow
+        //绑定按键
+        document.onkeydown = function(e) {
+          _this.changeKey(e.which)
+        }
+      },
+      methods: {
+        changeKey: function (key) {
+          var index = this.list.indexOf(this.current)
+          switch (key) {
+            case 38: // up
+              if (this.now === 'main') {
+                this.mainUp(index)
+              } else if (this.now === 'brithday') {
+                this.brithdayUp()
+              }
+              break
+            case 40: // down
+              if (this.now === 'main') {
+                this.mainDown(index)
+              } else if (this.now === 'brithday') {
+                this.brithdayDown()
+              }
+              break
+            case 39: // right
+              if (this.now === 'main' && this.current === 'brithday') {
+                this.now = 'brithday'
+              } else if (this.now === 'main') {
+                this.mainChange()
+              } else if (this.now === 'brithday') {
+                this.brithdayChange('right')
+              }
+              break
+            case 37: // left
+              if (this.now === 'main') {
+                this.mainChange()
+              } else if (this.now === 'brithday') {
+                this.brithdayChange('left')
+              }
+              break
+            case 13: // enter
+              if (this.now === 'brithday') {
+                var monthShow = this.month < 10 ? ('0' + this.month) : this.month
+                var dayShow = this.day < 10 ? ('0' + this.day) : this.day
+                this.brithday = this.year + '-' + monthShow + '-' + dayShow
+                this.now = 'main'
+              } else if (this.now === 'main' && this.current === 'button') {
+                var _this = this
+                $.post(baseUrl+'addCase?sid=&sex='+this.sex+'&birthdate='+this.brithday+'&type='+this.type,
+                  function (result) {
+                    var res = typeof result === 'string' ? JSON.parse(result) : result;
+                    if (res.responseCode == "0") {
+                      localStorage.setItem('casecode',res.data.casecode)
+                      localStorage.setItem('sessionid',res.data.sessionid)
+                      localStorage.setItem('localDate',getNowFormatDate())
+
+                      _this.qrcode = true
+                      $('#code').qrcode({
+                        text: JSON.stringify({"casecode":res.data.casecode,'sessionid':res.data.sessionid}),
+                        width: 230,
+                        height: 230
+                      });
+                      _this.getResult()
+                    }
+                  }
+                )
+              }
+              break
+          }
+        },
+        mainUp: function (index) {
+          if (index > 0) {
+            this.current = this.list[index - 1]
+          }
+        },
+        mainDown: function (index) {
+          if (index < 3) {
+            this.current = this.list[index + 1]
+          }
+        },
+        mainChange: function () {
+          if (this.current === 'type') {
+            this.type = this.type ? 0 : 1
+          } else if (this.current === 'sex') {
+            this.sex = this.sex ? 0 : 1
+          }
+        },
+        brithdayUp: function () {
+          switch(this.brithdayCurrent) {
+            case 'year':
+              this.year = this.year - 1
+              break
+            case 'month':
+              this.month = this.month > 1 ? this.month - 1 : this.month
+              this.maxDay = new Date(this.year,this.month,0).getDate()
+              this.day = this.day > this.maxDay ? this.maxDay : this.day
+              break
+            case 'day':
+              this.day = this.day > 1 ? this.day - 1 : this.day
+              break
+          }
+        },
+        brithdayDown: function () {
+          switch(this.brithdayCurrent) {
+            case 'year':
+              this.year = this.year < this.maxYear ? this.year + 1 : this.year
+              break
+            case 'month':
+              this.month = this.month < 12 ? this.month + 1 : this.month
+              this.maxDay = new Date(this.year,this.month,0).getDate()
+              this.day = this.day > this.maxDay ? this.maxDay : this.day
+              break
+            case 'day':
+              this.day = this.day < this.maxDay ? this.day + 1 : this.day
+              break
+          }
+        },
+        brithdayChange: function (lr) {
+          if (this.brithdayCurrent === 'year') {
+            this.brithdayCurrent = lr === 'left' ? 'year' : 'month'
+          } else if (this.brithdayCurrent === 'month') {
+            this.brithdayCurrent = lr === 'left' ? 'year' : 'day'
+          } else if (this.brithdayCurrent === 'day') {
+            this.brithdayCurrent = lr === 'left' ? 'month' : 'day'
+          }
+        },
+        getResult: function () {
+          var sessionid = localStorage.getItem('sessionid')
+          var casecode = localStorage.getItem('casecode')
+          var localDate = localStorage.getItem('localDate')
+          var _this = this
+          setInterval(function () {
+            $.post(baseUrl+'getInquiryRecord?sessionid='+sessionid+'&casecode='+casecode+'&localDate='+localDate,
+              function (result) {
+                var res = typeof result === 'string' ? JSON.parse(result) : result;
+                if (res.responseCode == "0") {
+                  if(res.data.finish == 'star' || res.data.finish == 'finish') {
+                    _this.qrcodeResult = '设备已连接'
+                    location.href = './result.html'
+                  }
+                }
+              }
+            )
+          },3000)
         }
       }
     });

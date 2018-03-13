@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,target-densitydpi=high-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>自助诊疗</title>
+    <link rel="stylesheet" href="./master.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">自助诊疗</div>
+      <div class="body" style="padding:0">
+        <div id="dialog" class="dialog">
+          <template v-for="item in resultList">
+            <div v-if="item.action == 'response'" class="message me">
+              <img class="avatar" src="./static/user.jpg" />
+              <div class="dialog-content">
+                <div class="bubble bubble_primary right">
+                  <div class="bubble_cont">
+                    <div class="plain">{{item.content}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="item.action == 'question'" class="message">
+              <img class="avatar" src="./static/admin.jpg" />
+              <div class="dialog-content">
+                <div class="bubble bubble_default left">
+                  <div class="bubble_cont">
+                    <div class="plain">{{item.content}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="util.js" charset="utf-8"></script>
+  <script src="vue.js" charset="utf-8"></script>
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          resultList: []
+        }
+      },
+      mounted() {
+        this.sessionid = localStorage.getItem('sessionid')
+        this.casecode = localStorage.getItem('casecode')
+        this.localDate = localStorage.getItem('localDate')
+        this.getResult()
+      },
+      updated() {
+        $('#dialog').scrollTop($('#dialog')[0].scrollHeight);
+      },
+      methods: {
+        getResult: function () {
+          var _this = this
+          setInterval(function () {
+            $.post(baseUrl+'getInquiryRecord?sessionid='+_this.sessionid+'&casecode='+_this.casecode+'&localDate='+_this.localDate,
+              function (result) {
+                var res = typeof result === 'string' ? JSON.parse(result) : result;
+                if (res.responseCode == "0") {
+                  if(res.data.finish == 'finish') {
+                    _this.localDate = res.data.localDate
+                    _this.resultList = _this.resultList.concat(res.data.InquiryList)
+                  }
+                }
+              }
+            )
+          },3000)
+        }
+      }
+    })
+  </script>
+</html>
