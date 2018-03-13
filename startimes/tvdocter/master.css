@@ -1,0 +1,86 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  width: 1280px;
+  height: 720px;
+  background-color: #ededed;
+  font-size: 24px;
+  color: #ffffff;
+  line-height: 50px;
+}
+.header {
+  height: 50px;
+  background-color: #02bca4;
+  font-size: 30px;
+  text-align: center;
+}
+.body {
+  width: 1280px;
+  height: 670px;
+  background: url('./static/bg.jpg');
+  padding-top: 120px;
+}
+.content {
+  width: 500px;
+  margin: 0 auto;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 20px;
+}
+.row .label {
+  width: 150px;
+  text-align: right;
+  float: left;
+}
+.row .input {
+  display: inline-flex;
+  text-align: right;
+  float: right;
+}
+.row .input .value{
+  width: 100px;
+  text-align: center;
+}
+.row .input .value.active{
+  color: #02bca4;
+}
+.clearfix:before,
+.clearfix:after{
+  display: block;
+  content:"";
+  clear: both;
+}
+.change-type:before{
+  content: "<";
+  margin-right: 30px;
+}
+.change-type:after{
+  content: ">";
+  margin-left: 30px;
+}
+.select-type::before{
+  content: "";
+  margin-right: 40px;
+}
+.select-type::after{
+  content: ">";
+  margin-left: 30px;
+}
+.button{
+  width: 200px;
+  text-align: center;
+  margin: 50px auto 30px;
+  height: 60px;
+  line-height: 60px;
+  background-color: #ffffff;
+  color: #02bca4;
+  padding: 10 50px;
+  border-radius: 20px;
+}
+.button.active{
+  background-color: #02bca4;
+  color: #ffffff;
+}

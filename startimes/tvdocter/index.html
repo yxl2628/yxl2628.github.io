@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,target-densitydpi=high-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>自助诊疗</title>
+    <link rel="stylesheet" href="./master.css">
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">自助诊疗</div>
+      <div class="body">
+        <div class="content">
+          <div class="row clearfix">
+            <div class="label">患者选择</div>
+            <div class="input change-type">
+              <div class="value" :class="{active:current=='type'}" v-html="type?'代述':'自己'"></div>
+            </div>
+          </div>
+          <div class="row clearfix">
+            <div class="label">性别</div>
+            <div class="input change-type">
+              <div class="value" :class="{active:current=='sex'}" v-html="sex?'女':'男'"></div>
+            </div>
+          </div>
+          <div class="row clearfix">
+            <div class="label">出生日期</div>
+            <div class="input select-type">
+              <div class="value" :class="{active:current=='brithday'}" v-html="brithday"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="button" :class="{active:current=='button'}">开始诊断</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          type: 0,
+          sex: 0,
+          brithday: '请选择',
+          current: 'button'
+        }
+      }
+    });
+  </script>
+</html>
