@@ -92,7 +92,8 @@
           maxDay: 31,
           brithdayCurrent: 'year',
           qrcode: false,
-          qrcodeResult: '等待连接'
+          qrcodeResult: '等待连接',
+          sid: ''
         }
       },
       created () {
@@ -100,6 +101,7 @@
         var monthShow = this.month < 10 ? ('0' + this.month) : this.month
         var dayShow = this.day < 10 ? ('0' + this.day) : this.day
         this.brithday = this.year + '-' + monthShow + '-' + dayShow
+        this.sid = getUrlKey('sid') ? getUrlKey('sid') : ''
         //绑定按键
         document.onkeydown = function(e) {
           _this.changeKey(e.which)
@@ -147,7 +149,7 @@
                 this.now = 'main'
               } else if (this.now === 'main' && this.current === 'button') {
                 var _this = this
-                $.post(baseUrl+'addCase?sid=&sex='+this.sex+'&birthdate='+this.brithday+'&type='+this.type,
+                $.post(baseUrl+'addCase?sid='+this.sid+'&sex='+this.sex+'&birthdate='+this.brithday+'&type='+this.type,
                   function (result) {
                     var res = typeof result === 'string' ? JSON.parse(result) : result;
                     if (res.responseCode == "0") {

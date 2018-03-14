@@ -1,6 +1,11 @@
 var baseUrl = 'http://219.144.68.15:8084/fushionbaby-app/inquiry/'
 // var baseUrl = 'http://127.0.0.1:8084/'
 
+function getUrlKey(name) {
+  var key = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || ['']
+  return key.length > 1 ? decodeURIComponent(key[1].replace(/\+/g, '%20')) || null : ''
+}
+
 function getNowFormatDate() {
     var date = new Date();
     var seperator1 = "-";
