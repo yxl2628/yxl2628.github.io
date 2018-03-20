@@ -5,8 +5,8 @@ const packageConfig = require('../package.json')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../index.html'),
-    assetsRoot: path.resolve(__dirname, '../'),
+    index: path.resolve(__dirname, '../dist/views/index.html'),
+    assetsRoot: path.resolve(__dirname, '../dist/'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '../',
     productionSourceMap: true,
