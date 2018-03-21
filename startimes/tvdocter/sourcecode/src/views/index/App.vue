@@ -71,6 +71,8 @@ import { getUrlKey, getNowFormatDate } from '../../utils/utils'
 import { addCase, getInquiryRecord } from '../../service'
 import QRCode from 'qrcode'
 
+let timeout = null
+
 const now = new Date()
 export default {
   data() {
@@ -243,7 +245,7 @@ export default {
       const sessionid = localStorage.getItem('sessionid')
       const casecode = localStorage.getItem('casecode')
       const _this = this
-      setInterval(function() {
+      timeout = setInterval(function() {
         getInquiryRecord({
           sessionid,
           casecode,
@@ -262,6 +264,10 @@ export default {
           _this.errorMessage = '请求服务器错误，错误日志为：' + err
         })
       }, 3000)
+      setTimeout(function() {
+        clearInterval(timeout)
+        _this.qrcode = false
+      }, 300000)
     }
   }
 }
