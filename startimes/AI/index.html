@@ -71,7 +71,7 @@
     methods: {
       enterQuestion: function () {
         var _this = this
-        if (this.question.indexOf('回滚') < 0 && this.question.indexOf('升级') >= 0) {
+        if (this.question.indexOf('回滚') < 0 && this.question.indexOf('状态') < 0 && this.question.indexOf('升级') >= 0) {
           _this.chatList.push({
             user: {
               name: '李军',
