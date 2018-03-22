@@ -53,8 +53,8 @@
     </div>
   </div>
 </body>
-<script src="js/vue.js" charset="utf-8"></script>
-<script src="js/data.js" charset="utf-8"></script>
+<script src="js/vue.js?v1.0.0" charset="utf-8"></script>
+<script src="js/data.js?v1.0.0" charset="utf-8"></script>
 <script type="text/javascript">
   var app = new Vue({
     el: '#chat',
@@ -110,10 +110,6 @@
           for (var i=0;i<zihui.length;i++) {
             _this.addAIChat(i,zihui,1000)
           }
-          setTimeout(function () {
-            window.opener=null
-            window.close()
-          }, 12000)
         } else {
           _this.chatList.push({
             user: {
