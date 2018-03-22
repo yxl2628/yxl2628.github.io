@@ -183,3 +183,8 @@ body {
     height: 3pc;
   }
 }
+.tip {
+  color: #40a9ff;
+  text-decoration: underline;
+  cursor: pointer;
+}

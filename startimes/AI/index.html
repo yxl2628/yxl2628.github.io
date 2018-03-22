@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi ">
   <title>运维列表</title>
-  <link rel="stylesheet" href="css/master.css">
+  <link rel="stylesheet" href="css/master.css?v1.0.0">
 </head>
 
 <body>
@@ -71,7 +71,7 @@
     methods: {
       enterQuestion: function () {
         var _this = this
-        if (this.question.indexOf('升级') >= 0) {
+        if (this.question.indexOf('回滚') < 0 && this.question.indexOf('升级') >= 0) {
           _this.chatList.push({
             user: {
               name: '李军',
@@ -110,7 +110,7 @@
           for (var i=0;i<huigunqueren.length;i++) {
             _this.addAIChat(i,huigunqueren)
           }
-        } else if (this.chatList[this.chatList.length-1].content === '@李军，请授予权限' && this.question.indexOf('通过') >= 0) {
+        } else if (this.chatList.length > 1 && this.chatList[this.chatList.length-1].content === '@李军，请授予权限' && this.question.indexOf('通过') >= 0) {
           _this.chatList.push({
             user: {
               name: '李军',
@@ -152,7 +152,7 @@
               img: 'img/ai.jpg'
             },
             time: _this.getNowFormatDate(),
-            content: '你说啥呢，我听不懂....'
+            content: '<p>你在说什么？我听不懂....</p><p>你可以试试这些命令：</p><p class="tip" onClick="addQuestion(1)">1.在加纳MTN进行10%比例的Cache 2.3版本灰度升级</p><p class="tip" onClick="addQuestion(2)">2.显示本次升级的系统状态</p><p class="tip" onClick="addQuestion(3)">3.本次升级回滚</p>'
           })
         }
       },
@@ -186,6 +186,20 @@
         return currentdate
       }
     }
-  });
+  })
+  function addQuestion(type) {
+    switch(type){
+      case 1:
+        app.question = '在加纳MTN进行10%比例的Cache 2.3版本灰度升级'
+        break
+      case 2:
+        app.question = '显示本次升级的系统状态'
+        break
+      case 3:
+        app.question = '本次升级回滚'
+        break
+    }
+    app.enterQuestion()
+  }
 </script>
 </html>
