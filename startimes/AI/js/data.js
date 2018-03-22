@@ -16,12 +16,12 @@ window.zhuangtai = [
   '确定运营商为加纳MTN',
   '数据提取时间：2018.3.21 11:17~2018.3.22 11:18',
   '数据提取中……',
-  '<img src="img/status.jpg" width="600px" />'
+  '<img src="img/status.png" width="600px" />'
 ]
 window.zihui = [
   '开始自毁倒计时.....','10','9','8','7','6','5','4','3','2','1','haha,haha,haha,我在开玩笑'
 ]
-window.huigunqueren = ['@李军，请授予权限']
+window.huigunqueren = ['<p>@李军，请授予权限</p><p>(输入通过，授予权限)</p>']
 window.huigun = [
   '收到','开始回退.....', '回退成功'
 ]
