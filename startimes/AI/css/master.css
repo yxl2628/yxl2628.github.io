@@ -168,3 +168,18 @@ body {
 .error {
   color: #f5222d;
 }
+@media screen and (max-width: 500px) {
+  #chat{
+    width: 100%;
+    padding: 0;
+  }
+  #chat .sidebar {
+    display: none;
+  }
+  #chat .m-message {
+    height: calc(100% - 3pc);
+  }
+  .m-text {
+    height: 3pc;
+  }
+}
