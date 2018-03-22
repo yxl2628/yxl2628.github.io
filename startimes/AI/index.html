@@ -54,7 +54,7 @@
   </div>
 </body>
 <script src="js/vue.js?v1.0.0" charset="utf-8"></script>
-<script src="js/data.js?v1.0.0" charset="utf-8"></script>
+<script src="js/data.js?v1.0.1" charset="utf-8"></script>
 <script type="text/javascript">
   var app = new Vue({
     el: '#chat',
@@ -71,7 +71,7 @@
     methods: {
       enterQuestion: function () {
         var _this = this
-        if (this.question.indexOf('灰度升级') >= 0) {
+        if (this.question.indexOf('升级') >= 0) {
           _this.chatList.push({
             user: {
               name: '李军',
@@ -84,7 +84,7 @@
           for (var i=0;i<yunwei.length;i++) {
             _this.addAIChat(i,yunwei)
           }
-        } else if (this.question.indexOf('运行状态') >= 0) {
+        } else if (this.question.indexOf('状态') >= 0) {
           _this.chatList.push({
             user: {
               name: '候铭睿',
@@ -96,6 +96,32 @@
           _this.question = ''
           for (var i=0;i<zhuangtai.length;i++) {
             _this.addAIChat(i,zhuangtai)
+          }
+        } else if (this.question.indexOf('回滚') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '候铭睿',
+              img: 'img/2.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<huigunqueren.length;i++) {
+            _this.addAIChat(i,huigunqueren)
+          }
+        } else if (this.chatList[this.chatList.length-1].content === '@李军，请授予权限' && this.question.indexOf('通过') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '李军',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<huigun.length;i++) {
+            _this.addAIChat(i,huigun)
           }
         } else if (this.question.indexOf('自毁') >= 0) {
           _this.chatList.push({

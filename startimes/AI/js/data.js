@@ -21,3 +21,7 @@ window.zhuangtai = [
 window.zihui = [
   '开始自毁倒计时.....','10','9','8','7','6','5','4','3','2','1','haha,haha,haha,我在开玩笑'
 ]
+window.huigunqueren = ['@李军，请授予权限']
+window.huigun = [
+  '收到','开始回退.....', '回退成功'
+]
