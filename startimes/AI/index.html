@@ -110,7 +110,7 @@
           for (var i=0;i<huigunqueren.length;i++) {
             _this.addAIChat(i,huigunqueren)
           }
-        } else if (this.chatList.length > 1 && this.chatList[this.chatList.length-1].content === '@李军，请授予权限' && this.question.indexOf('通过') >= 0) {
+        } else if (this.chatList.length > 1 && this.chatList[this.chatList.length-1].content === '@李军，请授予权限' && this.question.indexOf('同意') >= 0) {
           _this.chatList.push({
             user: {
               name: '李军',
