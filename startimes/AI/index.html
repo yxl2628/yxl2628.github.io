@@ -2,71 +2,208 @@
 <html>
 
 <head>
-  <title></title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-  <link href="css/index.css" rel="stylesheet" />
+  <meta charset="utf-8">
+  <title>运维列表</title>
+  <link rel="stylesheet" href="css/master.css">
 </head>
 
 <body>
-  <div class="main-row">
-    <div class="col-left">
-      <div class="iphone">
-        <div class="iphone-reload" onclick="reset()"></div>
-        <div class="iphone-title">
-          人工智能对话系统
-        </div>
-        <div class="iphone-content">
-          <div class="main">
-            <div class="main_inner clearfix">
-              <div class="panel-phone"></div>
-              <div id="chatArea" class="box chat">
-                <div class="box_hd"></div>
-                <div class="box_bd" id="messageList">
-                </div>
-                <div class="box_ft">
-                  <div class="box_ft_hd">
-                    <div class="eaitWrap">
-                      <input id="editArea" class="editArea" />
-                    </div>
-                    <a href="javascript:;" class="btn btn_send" id="btn_send">发送</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div id="chat">
+    <div class="sidebar">
+      <div class="m-card">
+        <header>
+          <p class="name">在线人员列表</p>
+        </header>
       </div>
+      <!--v-component-->
+      <div class="m-list">
+        <ul>
+          <!--v-for-start-->
+          <li><img class="avatar" width="30" height="30" src="img/1.jpg">
+            <p class="name">李军</p>
+          </li>
+          <li><img class="avatar" width="30" height="30" src="img/2.jpg">
+            <p class="name">候铭睿</p>
+          </li>
+          <li><img class="avatar" width="30" height="30" src="img/3.jpg">
+            <p class="name">杨小龙</p>
+          </li>
+          <!--v-for-end-->
+        </ul>
+      </div>
+      <!--v-component-->
     </div>
-    <div class="col-right">
-      <div id="tab_demo" class="config-all">
-        <div class="tabBar clearfix"><span>解析过程</span><span>系统配置</span></div>
-        <div class="tabCon" id="processList"></div>
-        <div class="tabCon">
-          <div class="config">
-            <label class="form-lable" for="url">服务器地址</label>
-            <div class="col-right"><input type="text" class="input-text" id="url" value="http://219.144.68.146:8000" /></div>
-          </div>
-          <div class="config">
-            <label class="form-lable" for="casecode">case code</label>
-            <div class="col-right"><input type="text" class="input-text disabled" id="casecode" value="None" readonly="true" /></div>
-          </div>
-          <div class="config">
-            <label class="form-lable" for="casecode"><span class="btn btn_send" onclick="export_result()">导出</span></label>
-          </div>
-        </div>
+    <div class="main">
+      <div id="dialog" class="m-message">
+        <ul>
+          <!--v-for-start-->
+          <li v-for="chat in chatList">
+            <p class="time"><span>{{chat.time}}</span></p>
+            <div class="main" :class="{self:chat.user.name!=='ai'}"><img class="avatar" width="30" height="30" :src="chat.user.img">
+              <div class="text" v-html="chat.content"></div>
+            </div>
+          </li>
+          <!--v-for-end-->
+        </ul>
       </div>
+      <!--v-component-->
+      <div class="m-text"><textarea v-model="question" placeholder="按 Enter 发送" @keyup.enter="enterQuestion"></textarea></div>
+      <!--v-component-->
     </div>
   </div>
-  <script src="libs/jquery.min.js"></script>
-  <script src="js/index.js"></script>
-  <script type="text/javascript">
-    $(function() {
-      $.Huitab("#tab_demo .tabBar span", "#tab_demo .tabCon", "current", "click", "0");
-      starAjax('');
-    });
-  </script>
 </body>
-
+<script src="js/vue.js" charset="utf-8"></script>
+<script src="js/data.js" charset="utf-8"></script>
+<script type="text/javascript">
+  var app = new Vue({
+    el: '#chat',
+    data () {
+      return {
+        question: '',
+        chatList: [
+          {
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: '2018-3-22 12:53:40',
+            content: '<span class="error">发现紧急情况：加纳MTN Server03 Node8 offline</span>'
+          },
+          {
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: '2018-3-22 12:55:31',
+            content: '启动自动修复……'
+          },
+          {
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: '2018-3-22 12:56:54',
+            content: '自动修复完成，开始数据采集……'
+          },
+          {
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: '2018-3-22 12:58:20',
+            content: '最近1分钟关键指标：下载速度……'
+          },
+          {
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: '2018-3-22 12:59:48',
+            content: '已通知系统管理员，事件处理完毕'
+          }
+        ]
+      }
+    },
+    updated() {
+      var dialog = document.getElementById('dialog')
+      dialog.scrollTop = dialog.scrollHeight
+    },
+    methods: {
+      enterQuestion: function () {
+        var _this = this
+        if (this.question.indexOf('灰度升级') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '李军',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<yunwei.length;i++) {
+            _this.addAIChat(i,yunwei)
+          }
+        } else if (this.question.indexOf('运行状态') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '候铭睿',
+              img: 'img/2.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<zhuangtai.length;i++) {
+            _this.addAIChat(i,zhuangtai)
+          }
+        } else if (this.question.indexOf('准备自毁') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '杨小龙',
+              img: 'img/3.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<zihui.length;i++) {
+            _this.addAIChat(i,zihui,1000)
+          }
+          setTimeout(function () {
+            window.opener=null
+            window.close()
+          }, 12000)
+        } else {
+          _this.chatList.push({
+            user: {
+              name: '李军',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          _this.chatList.push({
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: '你说啥呢，我听不懂....'
+          })
+        }
+      },
+      addAIChat: function(i,data,time) {
+        time = time || 3000
+        var _this = this
+        setTimeout(function () {
+          _this.chatList.push({
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: data[i]
+          })
+        }, i*time)
+      },
+      getNowFormatDate: function() {
+        var date = new Date()
+        var seperator1 = '-'
+        var seperator2 = ':'
+        var month = date.getMonth() + 1
+        var strDate = date.getDate()
+        if (month >= 1 && month <= 9) {
+          month = '0' + month
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = '0' + strDate
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
+        return currentdate
+      }
+    }
+  });
+</script>
 </html>
