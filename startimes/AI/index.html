@@ -61,48 +61,7 @@
     data () {
       return {
         question: '',
-        chatList: [
-          {
-            user: {
-              name: 'ai',
-              img: 'img/ai.jpg'
-            },
-            time: '2018-3-22 12:53:40',
-            content: '<span class="error">发现紧急情况：加纳MTN Server03 Node8 offline</span>'
-          },
-          {
-            user: {
-              name: 'ai',
-              img: 'img/ai.jpg'
-            },
-            time: '2018-3-22 12:55:31',
-            content: '启动自动修复……'
-          },
-          {
-            user: {
-              name: 'ai',
-              img: 'img/ai.jpg'
-            },
-            time: '2018-3-22 12:56:54',
-            content: '自动修复完成，开始数据采集……'
-          },
-          {
-            user: {
-              name: 'ai',
-              img: 'img/ai.jpg'
-            },
-            time: '2018-3-22 12:58:20',
-            content: '最近1分钟关键指标：下载速度……'
-          },
-          {
-            user: {
-              name: 'ai',
-              img: 'img/ai.jpg'
-            },
-            time: '2018-3-22 12:59:48',
-            content: '已通知系统管理员，事件处理完毕'
-          }
-        ]
+        chatList: []
       }
     },
     updated() {
@@ -138,7 +97,7 @@
           for (var i=0;i<zhuangtai.length;i++) {
             _this.addAIChat(i,zhuangtai)
           }
-        } else if (this.question.indexOf('准备自毁') >= 0) {
+        } else if (this.question.indexOf('自毁') >= 0) {
           _this.chatList.push({
             user: {
               name: '杨小龙',
