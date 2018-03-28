@@ -54,26 +54,31 @@
       localStorage.setItem('time', time > 10 ? 1 : time)
       if (time <= 5) {
         $.get('http://rapapi.org/mockjsdata/12364/getPicData', function (res) {
-          for (var i=0;i<res.data.length;i++){
-            $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res.data[i]+')"></div>')
-          }
-          var swiper = new Swiper('.swiper-container', {
-            spaceBetween: 30,
-            effect: 'fade',
-            pagination: {
-              el: '.swiper-pagination',
-              clickable: true,
-            },
-            navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            },
-          });
+          appCallback(res)
         })
       } else {
         console.log('执行原生方法')
+        javascript:control.getLocalData();
       }
     })
+
+    function appCallback (res) {
+      for (var i=0;i<res.data.length;i++){
+        $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res.data[i]+')"></div>')
+      }
+      var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        effect: 'fade',
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    }
   </script>
 </body>
 </html>
