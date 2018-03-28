@@ -63,6 +63,7 @@
     })
 
     function appCallback (res) {
+      console.log('获取原生方法', res)
       for (var i=0;i<res.data.length;i++){
         $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res.data[i]+')"></div>')
       }
