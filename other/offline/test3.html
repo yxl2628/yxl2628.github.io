@@ -49,9 +49,9 @@
   <!-- Initialize Swiper -->
   <script>
     $(function(){
-      $.get('./result.json', function (res) {
-        for (var i=0;i<res.length;i++){
-          $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res[i]+')"></div>')
+      $.get('http://rapapi.org/mockjsdata/12364/getPicData', function (res) {
+        for (var i=0;i<res.data.length;i++){
+          $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res.data[i]+')"></div>')
         }
         var swiper = new Swiper('.swiper-container', {
           spaceBetween: 30,
