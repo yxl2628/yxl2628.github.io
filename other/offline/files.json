@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "files": [
+    "swiper.min.css",
+    "swiper.min.js",
+    "test.js"
+  ]
+}
