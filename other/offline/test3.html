@@ -49,20 +49,26 @@
   <!-- Initialize Swiper -->
   <script>
     $(function(){
-      var time = localStorage.getItem('time') ? localStorage.getItem('time') : 0;
-      time++;
-      localStorage.setItem('time', time > 3 ? 0 : time)
+      var time = localStorage.getItem('time') ? localStorage.getItem('time') : 1;
+      console.log(time)
       if (time <= 1) {
         $.get('http://rapapi.org/mockjsdata/12364/getPicData', function (res) {
-          appCallback(res)
+          renderHtml(res)
         })
       } else {
         console.log('执行原生方法')
-        javascript:control.getLocalData();
+        try {
+          var res = window.control.getLocalData();
+          renderHtml(JSON.parse(res))
+        } catch (e) {
+          console.error(e)
+        }
       }
+      time++;
+      localStorage.setItem('time', time > 2 ? 1 : time)
     })
 
-    function appCallback (res) {
+    function renderHtml (res) {
       console.log('获取原生方法', res)
       for (var i=0;i<res.data.length;i++){
         $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(./'+res.data[i]+')"></div>')
