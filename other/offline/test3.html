@@ -49,10 +49,10 @@
   <!-- Initialize Swiper -->
   <script>
     $(function(){
-      var time = localStorage.getItem('time') ? localStorage.getItem('time') : 1;
+      var time = localStorage.getItem('time') ? localStorage.getItem('time') : 0;
       time++;
-      localStorage.setItem('time', time > 10 ? 1 : time)
-      if (time <= 5) {
+      localStorage.setItem('time', time > 3 ? 0 : time)
+      if (time <= 1) {
         $.get('http://rapapi.org/mockjsdata/12364/getPicData', function (res) {
           appCallback(res)
         })
