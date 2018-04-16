@@ -38,6 +38,7 @@
 import { getInquiryRecord } from '../../service'
 
 let timeout = null
+let loading = false
 
 export default {
   data() {
@@ -61,29 +62,34 @@ export default {
     getResult: function () {
       var _this = this
       timeout = setInterval(function () {
-        getInquiryRecord({
-          sessionid: _this.sessionid,
-          casecode: _this.casecode,
-          localDate: _this.localDate
-        }, function (result) {
-          var res = typeof result === 'string' ? JSON.parse(result) : result
-          if (res.responseCode === '0') {
-            if (res.data.finish === 'finish' && res.data.InquiryList.length > 0) {
-              _this.localDate = res.data.localDate
-              _this.resultList = _this.resultList.concat(res.data.InquiryList)
-              for (let i = 0; i < res.data.InquiryList.length; i++) {
-                const itemResult = res.data.InquiryList[i]
-                if (itemResult.action === 'conclusion') {
-                  clearInterval(timeout)
+        if (!loading) {
+          loading = true
+          getInquiryRecord({
+            sessionid: _this.sessionid,
+            casecode: _this.casecode,
+            localDate: _this.localDate
+          }, function (result) {
+            loading = false
+            var res = typeof result === 'string' ? JSON.parse(result) : result
+            if (res.responseCode === '0') {
+              if (res.data.finish === 'finish' && res.data.InquiryList.length > 0) {
+                _this.localDate = res.data.localDate
+                _this.resultList = _this.resultList.concat(res.data.InquiryList)
+                for (let i = 0; i < res.data.InquiryList.length; i++) {
+                  const itemResult = res.data.InquiryList[i]
+                  if (itemResult.action === 'conclusion') {
+                    clearInterval(timeout)
+                  }
                 }
               }
+            } else {
+              _this.errorMessage = '请求结果返回错误，结果为：' + JSON.stringify(res)
             }
-          } else {
-            _this.errorMessage = '请求结果返回错误，结果为：' + JSON.stringify(res)
-          }
-        }, function (err) {
-          _this.errorMessage = '请求服务器错误，错误日志为：' + err
-        })
+          }, function (err) {
+            loading = false
+            _this.errorMessage = '请求服务器错误，错误日志为：' + err
+          })
+        }
       }, 3000)
     }
   }
