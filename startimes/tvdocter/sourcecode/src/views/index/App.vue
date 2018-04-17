@@ -287,7 +287,7 @@ export default {
   box-sizing: border-box;
 }
 .content {
-  width: 500px;
+  width: 450px;
   margin: 0 auto;
   background-color: rgba(0,0,0,0.3);
   border-radius: 10px;
@@ -329,12 +329,12 @@ export default {
   width: 200px;
   text-align: center;
   margin: 50px auto 30px;
-  height: 60px;
-  line-height: 60px;
+  height: 50px;
+  line-height: 50px;
   background-color: #ffffff;
   color: #02bca4;
   padding: 10 50px;
-  border-radius: 20px;
+  border-radius: 5px;
 }
 .button.active{
   background-color: #02bca4;

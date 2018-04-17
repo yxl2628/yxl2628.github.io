@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="dialog-header">自助诊疗</div>
-  <div class="dialog-body" style="background: url('../static/bg.jpg');padding:0;">
+  <div class="dialog-body" style="background: url('../static/bg-1.jpg');padding:0;">
     <div id="dialog" class="dialog">
       <template v-for="item in resultList">
         <div v-if="item.action == 'response' ||  item.action == 'upload_image'" class="message me">
@@ -107,8 +107,14 @@ export default {
   box-sizing: border-box;
 }
 .dialog{
-  width: 700px;
-  height: 660px;
+  position: absolute;
+  top: 70px;
+  left: 100px;
+  width: 640px;
+  height: 620px;
+  background-color: #ebebeb;
+  box-shadow: 0 0 30px #ebebeb;
+  border-radius: 2px;
   padding: 10px 10px 0;
   overflow-y: auto;
   overflow-x: hidden;
