@@ -73,7 +73,6 @@ export default {
             if (res.data.finish === 'finish') {
               // 如果问答信息不为空，则进行解析渲染
               if (res.data.InquiryList.length > 0) {
-                console.log('localDate为：', _this.localDate, '返回值为：', res.data.InquiryList)
                 for (let i = 0; i < res.data.InquiryList.length; i++) {
                   const itemResult = res.data.InquiryList[i]
                   if (itemResult.action === 'conclusion') {
