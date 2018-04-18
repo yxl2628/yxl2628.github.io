@@ -95,26 +95,28 @@ export default {
 </script>
 <style>
 .dialog-header {
-  height: 50px;
+  height: 60px;
+  padding-top: 10px;
+  line-height: 60px;
   background-color: #02bca4;
   font-size: 30px;
   text-align: center;
 }
 .dialog-body {
   width: 1280px;
-  height: 670px;
+  height: 650px;
   padding-top: 120px;
   box-sizing: border-box;
 }
 .dialog{
   position: absolute;
-  top: 70px;
+  top: 90px;
   left: 100px;
-  width: 640px;
-  height: 620px;
+  width: 1080px;
+  height: 600px;
   background-color: #ebebeb;
   box-shadow: 0 0 30px #ebebeb;
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 10px 10px 0;
   overflow-y: auto;
   overflow-x: hidden;
@@ -233,6 +235,7 @@ export default {
   word-wrap: break-word;
   word-break: break-all;
   min-height: 25px;
+  font-size: 18px;
 }
 .bubble_cont img {
   vertical-align: middle;

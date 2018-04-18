@@ -85,7 +85,6 @@ for (var pathname in pages) {
   };
   if (pathname in baseWebpackConfig.entry) {
     conf.chunks = ['manifest', 'vendor', pathname];
-    conf.hash = true;
   }
 
   baseWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf));

@@ -275,14 +275,16 @@ export default {
 
 <style>
 .header {
-  height: 50px;
+  height: 60px;
+  padding-top: 10px;
+  line-height: 60px;
   background-color: #02bca4;
   font-size: 30px;
   text-align: center;
 }
 .body {
   width: 1280px;
-  height: 670px;
+  height: 650px;
   padding-top: 120px;
   box-sizing: border-box;
 }
@@ -302,6 +304,7 @@ export default {
   display: inline-flex;
   text-align: right;
   float: right;
+  padding-right: 55px;
 }
 .row .input .value{
   width: 100px;
