@@ -67,20 +67,23 @@ export default {
           localDate: _this.localDate
         }, function (result) {
           var res = typeof result === 'string' ? JSON.parse(result) : result
+          // 返回结果为正常
           if (res.responseCode === '0') {
-            if (res.data.finish === 'finish' && res.data.InquiryList.length > 0) {
-              if (_this.localDate === res.data.localDate) {
-                console.log('结果重复,跳过')
-              } else {
-                _this.localDate = res.data.localDate
-                _this.resultList = _this.resultList.concat(res.data.InquiryList)
+            // 只有是finish状态，才进行问答信息解析
+            if (res.data.finish === 'finish') {
+              // 如果问答信息不为空，则进行解析渲染
+              if (res.data.InquiryList.length > 0) {
                 for (let i = 0; i < res.data.InquiryList.length; i++) {
                   const itemResult = res.data.InquiryList[i]
                   if (itemResult.action === 'conclusion') {
                     clearInterval(timeout)
                   }
                 }
+                // 将数据追加到已有结果上
+                _this.resultList = _this.resultList.concat(res.data.InquiryList)
               }
+              // 将返回的localDate更新
+              _this.localDate = res.data.localDate
             }
           } else {
             _this.errorMessage = '请求结果返回错误，结果为：' + JSON.stringify(res)
