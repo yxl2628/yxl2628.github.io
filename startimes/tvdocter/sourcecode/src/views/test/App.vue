@@ -14,16 +14,20 @@
             <th>耗时（毫秒）</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(item, key) in list">
-            <td>{{key}}</td>
-            <td>{{item.start}}</td>
-            <td :class="{success:item.result==='成功'}">{{item.result}}</td>
-            <td>{{item.end}}</td>
-            <td :class="{success:item.time<3000,warning:item.time>=3000}">{{item.time}}</td>
-          </tr>
-        </tbody>
       </table>
+      <div id="resultList">
+        <table>
+          <tbody>
+            <tr v-for="(item, key) in list">
+              <td>{{key}}</td>
+              <td>{{item.start}}</td>
+              <td :class="{success:item.result==='成功'}">{{item.result}}</td>
+              <td>{{item.end}}</td>
+              <td :class="{success:item.time<3000,warning:item.time>=3000}">{{item.time}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -43,14 +47,19 @@ export default {
     }
   },
   mounted() {
+    const _this = this
+    // 绑定按键
+    document.onkeydown = function(e) {
+      _this.changeKey(e.which)
+    }
     this.sessionid = localStorage.getItem('sessionid')
     this.casecode = localStorage.getItem('casecode')
     this.localDate = ''
     this.getResult()
   },
   updated() {
-    const dialog = document.getElementById('dialog')
-    dialog.scrollTop = dialog.scrollHeight
+    const resultList = document.getElementById('resultList')
+    resultList.scrollTop = resultList.scrollHeight
   },
   methods: {
     getResult: function () {
@@ -101,6 +110,18 @@ export default {
       }
       var currentdate = date.getHours() + seperator + date.getMinutes() + seperator + date.getSeconds()
       return currentdate
+    },
+    changeKey: function (key) {
+      switch (key) {
+        case 38: // up
+          this.total++
+          break
+        case 40: // down
+          if (this.total > 0) {
+            this.total--
+          }
+          break
+      }
     }
   }
 }
@@ -134,6 +155,11 @@ export default {
   overflow-x: hidden;
   flex: 1;
 }
+#resultList {
+  height: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .label {
   font-size: 20px;
   color: #000000;
@@ -161,8 +187,10 @@ thead {
 }
 thead th{
   border: 1px solid #ebeef5;
+  width: 20%;
 }
 tbody td{
+  width: 20%;
   min-width: 0;
   box-sizing: border-box;
   text-overflow: ellipsis;
