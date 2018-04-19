@@ -3,7 +3,7 @@
   <div class="dialog-header">自助诊疗</div>
   <div class="dialog-body" style="background: url('../static/bg-1.jpg');padding:0;">
     <div id="dialog" class="dialog">
-      <span class="label">请求次数：</span><input v-model="total" /><span class="test-result">成功次数：{{success}} / {{total}}</span>
+      <span class="label">请求次数：</span><input v-model="total" /><span class="tip">(遥控器上下控制次数)</span><span class="test-result">成功次数：{{success}} / {{total}}</span>
       <table>
         <thead>
           <tr>
@@ -168,6 +168,7 @@ input {
   height: 30px;
   line-height: 40px;
   font-size: 20px;
+  width: 100px;
 }
 table {
   position: relative;
@@ -208,5 +209,9 @@ tbody td{
 .test-result{
   padding-left: 50px;
   color: #000000;
+}
+.tip {
+  color: #999999;
+  font-size: 20px;
 }
 </style>
