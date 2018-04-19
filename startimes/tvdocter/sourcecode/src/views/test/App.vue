@@ -3,7 +3,10 @@
   <div class="dialog-header">自助诊疗</div>
   <div class="dialog-body" style="background: url('../static/bg-1.jpg');padding:0;">
     <div id="dialog" class="dialog">
-      <span class="label">请求次数：</span><input v-model="total" /><span class="tip">(遥控器上下控制次数)</span><span class="test-result">成功次数：{{success}} / {{total}}</span>
+      <span class="label">请求次数：</span>
+      <input v-model="total" />
+      <span class="tip">(遥控器上下控制次数)</span>
+      <span class="test-result">成功次数：{{success}} / {{index}}</span>
       <table>
         <thead>
           <tr>
@@ -40,7 +43,7 @@ let timeout = null
 export default {
   data() {
     return {
-      index: 1,
+      index: 0,
       total: 20,
       list: {},
       success: 0
@@ -66,7 +69,6 @@ export default {
       var _this = this
       timeout = setInterval(function () {
         var item = {
-          localDate: _this.localDate,
           start: _this.getNowFormatDate(),
           startTime: new Date().getTime(),
           result: '加载中',
@@ -74,23 +76,21 @@ export default {
           endTime: '',
           time: ''
         }
+        _this.index++
         _this.list[_this.index] = item
         getInquiryRecord({
           sessionid: _this.sessionid,
           casecode: _this.casecode,
           localDate: _this.localDate
         }, function (result) {
-          console.log()
           _this.list[_this.index].result = '成功'
           _this.list[_this.index].end = _this.getNowFormatDate()
           _this.list[_this.index].time = new Date().getTime() - _this.list[_this.index].startTime
-          _this.index++
           _this.success++
         }, function () {
           _this.list[_this.index].result = '失败'
           _this.list[_this.index].end = _this.getNowFormatDate()
           _this.list[_this.index].time = new Date().getTime() - _this.list[_this.index].startTime
-          _this.index++
         })
         if (_this.index > _this.total - 1) {
           clearInterval(timeout)
