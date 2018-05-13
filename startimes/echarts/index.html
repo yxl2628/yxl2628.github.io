@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 引入 ECharts 文件 -->
+  <script src="./echarts.js"></script>
+  <script src="./jquery.min.js"></script>
+  <style media="screen">
+    html,body{
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="main" style="width: 100%;height:100%;"></div>
+  <script type="text/javascript">
+    $.get('./africa.json', function(africaJson) {
+      echarts.registerMap('africa', africaJson);
+      var chart = echarts.init(document.getElementById('main'));
+      chart.setOption({
+        title: {
+          text: '泛非用户体验指标',
+          left: 'center'
+        },
+        tooltip: false,
+        toolbox: {},
+        animation: true,
+        animationDurationUpdate: 1000,
+        animationEasingUpdate: 'cubicInOut',
+        series: [{
+          name: '用户体验',
+          type: 'map',
+          zoom: 2,
+          mapType: 'africa',
+          roam: true,
+          label: {
+            normal: {
+              show: true,
+              formatter: function(params) {
+                var bingfa = params.data.value[0],
+                fuzai = params.data.value[1],
+                xinyuan = params.data.value[2],
+                wangluo = params.data.value[3],
+                bingfaType = 'ysmall'+ bingfa.type,
+                fuzaiType = 'small'+ fuzai.type,
+                xinyuanType = 'small'+ xinyuan.type,
+                wangluoType = 'small'+ wangluo.type;
+                if (bingfa.num >= 50 && bingfa.num < 100) {
+                  bingfaType = 'ynormal' + bingfa.type
+                }
+                if (bingfa.num >= 100) {
+                  bingfaType = 'ybig' + bingfa.type
+                }
+                if (fuzai.num >= 50 && fuzai.num < 100) {
+                  fuzaiType = 'normal' + fuzai.type
+                }
+                if (fuzai.num >= 100) {
+                  fuzaiType = 'big' + fuzai.type
+                }
+                if (xinyuan.num >= 50 && xinyuan.num < 100) {
+                  xinyuanType = 'normal' + xinyuan.type
+                }
+                if (xinyuan.num >= 100) {
+                  xinyuanType = 'big' + xinyuan.type
+                }
+                if (wangluo.num >= 50 && wangluo.num < 100) {
+                  wangluoType = 'normal' + wangluo.type
+                }
+                if (wangluo.num >= 100) {
+                  wangluoType = 'big' + wangluo.type
+                }
+                return params.name +
+                  '：{' + bingfaType + '|} ' +
+                  '{' + fuzaiType + '|} ' +
+                  '{' + xinyuanType + '|} ' +
+                  '{' + wangluoType + '|} ';
+              },
+              position: 'inside',
+              backgroundColor: '#fff',
+              padding: [4, 5],
+              borderRadius: 3,
+              borderWidth: 1,
+              borderColor: 'rgba(0,0,0,0.5)',
+              color: '#777',
+              rich: {
+                ysmallbad: {
+                  backgroundColor: '#f5222d',
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+
+                },
+                ysmallwell: {
+                  backgroundColor: '#faad14',
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10
+                },
+                ysmallgood: {
+                  backgroundColor: '#52c41a',
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10
+                },
+                ynormalbad: {
+                  backgroundColor: '#f5222d',
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20
+                },
+                ynormalwell: {
+                  backgroundColor: '#faad14',
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20
+                },
+                ynormalgood: {
+                  backgroundColor: '#52c41a',
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20
+                },
+                ybigbad: {
+                  backgroundColor: '#f5222d',
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30
+                },
+                ybigwell: {
+                  backgroundColor: '#faad14',
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30
+                },
+                ybiggood: {
+                  backgroundColor: '#52c41a',
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30
+                },
+                smallbad: {
+                  backgroundColor: '#f5222d',
+                  width: 20,
+                  height: 30
+                },
+                smallwell: {
+                  backgroundColor: '#faad14',
+                  width: 20,
+                  height: 30
+                },
+                smallgood: {
+                  backgroundColor: '#52c41a',
+                  width: 20,
+                  height: 30
+                },
+                normalbad: {
+                  backgroundColor: '#f5222d',
+                  width: 20,
+                  height: 50
+                },
+                normalwell: {
+                  backgroundColor: '#faad14',
+                  width: 20,
+                  height: 50
+                },
+                normalgood: {
+                  backgroundColor: '#52c41a',
+                  width: 20,
+                  height: 50
+                },
+                bigbad: {
+                  backgroundColor: '#f5222d',
+                  width: 20,
+                  height: 70
+                },
+                bigwell: {
+                  backgroundColor: '#faad14',
+                  width: 20,
+                  height: 70
+                },
+                biggood: {
+                  backgroundColor: '#52c41a',
+                  width: 20,
+                  height: 70
+                },
+              }
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          data: [
+            {name: 'Algeria', value: [{type:'well', num: 20}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
+            {name: 'Libya', value: [{type:'good', num: 140}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
+            {name: 'Uganda', value: [{type:'bad', num: 51}, {type:'well', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
+            {name: 'Zambia', value: [{type:'well', num: 66}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]}
+          ]
+        }]
+      });
+
+    });
+  </script>
+</body>
+</body>
+
+</html>
