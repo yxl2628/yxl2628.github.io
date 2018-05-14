@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 引入 ECharts 文件 -->
+  <script src="./echarts.js"></script>
+  <!-- <script src="./echarts-gl.min.js"></script> -->
+  <script src="./jquery.min.js"></script>
+  <style media="screen">
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="main" style="width: 100%;height:100%;"></div>
+  <script type="text/javascript">
+    $.get('./africa.json', function(africaJson) {
+      echarts.registerMap('africa', africaJson);
+      var chart = echarts.init(document.getElementById('main'));
+      chart.setOption({
+        backgroundColor: '#404a59',
+        title: {
+          text: '泛非用户体验指标',
+          x: 'center',
+          top: "10",
+          textStyle: {
+            color: '#fff',
+            fontSize: 20
+          }
+        },
+        tooltip: false,
+        geo: {
+          map: 'africa',
+          show: true,
+          label: {
+            emphasis: {
+              show: false
+            }
+          },
+          roam: true,
+          itemStyle: {
+            normal: {
+              areaColor: '#323c48',
+              borderColor: '#111'
+            },
+            emphasis: {
+              areaColor: '#2a333d'
+            }
+          }
+        },
+        series: [{
+          name: "并发流数",
+          type: "effectScatter",
+          coordinateSystem: 'geo',
+          label: {
+            normal: {
+              formatter: '{b}',
+              position: 'right',
+              show: true
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#f4e925',
+              shadowBlur: 10,
+              shadowColor: '#333'
+            }
+          },
+          data: [{
+            name: "South Africa",
+            value: [23.5, -29.6, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Madagascar",
+            value: [46.216063, -19.6, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Mozambique",
+            value: [37.9, -14.2, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Zimbabwe",
+            value: [25.3, -14, (Math.random() * 300).toFixed(2)]
+          }]
+        },
+        {
+          name: "系统负载",
+          type: "bar",
+          coordinateSystem: 'geo',
+          label: {
+            normal: {
+              formatter: '{b}',
+              position: 'right',
+              show: true
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#f4e925',
+              shadowBlur: 10,
+              shadowColor: '#333'
+            }
+          },
+          data: [{
+            name: "South Africa",
+            value: [23.5, -29.6, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Madagascar",
+            value: [46.216063, -19.6, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Mozambique",
+            value: [37.9, -14.2, (Math.random() * 300).toFixed(2)]
+          }, {
+            name: "Zimbabwe",
+            value: [25.3, -14, (Math.random() * 300).toFixed(2)]
+          }]
+        }]
+      });
+    });
+  </script>
+</body>
+</body>
+
+</html>
