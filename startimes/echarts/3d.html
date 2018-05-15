@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <!-- 引入 ECharts 文件 -->
   <script src="./echarts.js"></script>
-  <!-- <script src="./echarts-gl.min.js"></script> -->
+  <script src="./echarts-gl.min.js"></script>
   <script src="./jquery.min.js"></script>
   <style media="screen">
     html,
@@ -23,7 +23,6 @@
       echarts.registerMap('africa', africaJson);
       var chart = echarts.init(document.getElementById('main'));
       chart.setOption({
-        backgroundColor: '#404a59',
         title: {
           text: '泛非用户体验指标',
           x: 'center',
@@ -34,89 +33,160 @@
           }
         },
         tooltip: false,
-        geo: {
+        backgroundColor: '#cdcfd5',
+        geo3D: {
           map: 'africa',
-          show: true,
-          label: {
-            emphasis: {
-              show: false
-            }
-          },
           roam: true,
           itemStyle: {
-            normal: {
-              areaColor: '#323c48',
-              borderColor: '#111'
+            areaColor: '#1d5e98',
+            opacity: 1,
+            borderWidth: 0.4,
+            borderColor: '#000'
+          },
+          label: {
+            show: true,
+            textStyle: {
+              color: '#000', //地图初始化区域字体颜色
+              fontSize: 8,
+              opacity: 1,
+              backgroundColor: 'rgba(0,23,11,0)'
             },
-            emphasis: {
-              areaColor: '#2a333d'
+          },
+          emphasis: { //当鼠标放上去  地区区域是否显示名称
+            label: {
+              show: true,
+              textStyle: {
+                color: '#fff',
+                fontSize: 3,
+                backgroundColor: 'rgba(0,23,11,0)'
+              }
+            }
+          },
+          //shading: 'lambert',
+          light: { //光照阴影
+            main: {
+              color: '#fff', //光照颜色
+              intensity: 1.2, //光照强度
+              //shadowQuality: 'high', //阴影亮度
+              shadow: false, //是否显示阴影
+              alpha: 55,
+              beta: 10
+
+            },
+            ambient: {
+              intensity: 0.3
             }
           }
         },
         series: [{
-          name: "并发流数",
-          type: "effectScatter",
-          coordinateSystem: 'geo',
-          label: {
-            normal: {
-              formatter: '{b}',
-              position: 'right',
-              show: true
-            }
+            name: "并发流数",
+            type: "bar3D",
+            coordinateSystem: 'geo3D',
+            barSize: 1, //柱子粗细
+            shading: 'lambert',
+            opacity: 1,
+            bevelSize: 0.3,
+            itemStyle: {
+              normal: {
+                color: '#2ec7c9'
+              }
+            },
+            data: [{
+              name: "South Africa",
+              value: [23, -29, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Madagascar",
+              value: [46, -19, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Mozambique",
+              value: [37, -14, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Zimbabwe",
+              value: [25, -14, (Math.random() * 300).toFixed(2)]
+            }]
           },
-          itemStyle: {
-            normal: {
-              color: '#f4e925',
-              shadowBlur: 10,
-              shadowColor: '#333'
-            }
+          {
+            name: "系统负载",
+            type: "bar3D",
+            coordinateSystem: 'geo3D',
+            barSize: 1, //柱子粗细
+            shading: 'lambert',
+            opacity: 1,
+            bevelSize: 0.3,
+            itemStyle: {
+              normal: {
+                color: '#b6a2de'
+              }
+            },
+            data: [{
+              name: "South Africa",
+              value: [22, -29, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Madagascar",
+              value: [45, -19, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Mozambique",
+              value: [36, -14, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Zimbabwe",
+              value: [24, -14, (Math.random() * 300).toFixed(2)]
+            }]
           },
-          data: [{
-            name: "South Africa",
-            value: [23.5, -29.6, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Madagascar",
-            value: [46.216063, -19.6, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Mozambique",
-            value: [37.9, -14.2, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Zimbabwe",
-            value: [25.3, -14, (Math.random() * 300).toFixed(2)]
-          }]
-        },
-        {
-          name: "系统负载",
-          type: "bar",
-          coordinateSystem: 'geo',
-          label: {
-            normal: {
-              formatter: '{b}',
-              position: 'right',
-              show: true
-            }
+          {
+            name: "信源质量",
+            type: "bar3D",
+            coordinateSystem: 'geo3D',
+            barSize: 1, //柱子粗细
+            shading: 'lambert',
+            opacity: 1,
+            bevelSize: 0.3,
+            itemStyle: {
+              normal: {
+                color: '#5ab1ef'
+              }
+            },
+            data: [{
+              name: "South Africa",
+              value: [23, -30, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Madagascar",
+              value: [46, -20, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Mozambique",
+              value: [37, -15, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Zimbabwe",
+              value: [25, -15, (Math.random() * 300).toFixed(2)]
+            }]
           },
-          itemStyle: {
-            normal: {
-              color: '#f4e925',
-              shadowBlur: 10,
-              shadowColor: '#333'
-            }
-          },
-          data: [{
-            name: "South Africa",
-            value: [23.5, -29.6, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Madagascar",
-            value: [46.216063, -19.6, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Mozambique",
-            value: [37.9, -14.2, (Math.random() * 300).toFixed(2)]
-          }, {
-            name: "Zimbabwe",
-            value: [25.3, -14, (Math.random() * 300).toFixed(2)]
-          }]
-        }]
+          {
+            name: "网络质量",
+            type: "bar3D",
+            coordinateSystem: 'geo3D',
+            barSize: 1, //柱子粗细
+            shading: 'lambert',
+            opacity: 1,
+            bevelSize: 0.3,
+            itemStyle: {
+              normal: {
+                color: '#ffb980'
+              }
+            },
+            data: [{
+              name: "South Africa",
+              value: [22, -30, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Madagascar",
+              value: [45, -20, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Mozambique",
+              value: [36, -15, (Math.random() * 300).toFixed(2)]
+            }, {
+              name: "Zimbabwe",
+              value: [24, -15, (Math.random() * 300).toFixed(2)]
+            }]
+          }
+        ]
       });
     });
   </script>
