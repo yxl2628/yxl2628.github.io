@@ -7,7 +7,8 @@
   <script src="./echarts.js"></script>
   <script src="./jquery.min.js"></script>
   <style media="screen">
-    html,body{
+    html,
+    body {
       height: 100%;
     }
   </style>
@@ -17,192 +18,293 @@
   <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
   <div id="main" style="width: 100%;height:100%;"></div>
   <script type="text/javascript">
+    var color = ['#fb734e', '#e32f46', '#94d96c', '#0bbcb7', '#1a9bfc', '#7049f0'];
+    var dataStyle = {
+      normal: {
+        label: {
+          show: false
+        },
+        labelLine: {
+          show: false
+        },
+        shadowBlur: 40,
+        borderWidth: 10,
+        shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
+      }
+    };
+    var placeHolderStyle = {
+        normal: {
+            color: 'rgba(44,59,70,1)',
+            label: {
+                show: false
+            },
+            labelLine: {
+                show: false
+            }
+        },
+        emphasis: {
+            color: 'rgba(44,59,70,1)'
+        }
+    };
     $.get('./africa.json', function(africaJson) {
       echarts.registerMap('africa', africaJson);
-      var chart = echarts.init(document.getElementById('main'));
-      chart.setOption({
+      var typeIndex = 1;
+      var geoCoordMap = {
+        'Algeria': [2.737691, 28.048718],
+        'Libya': [18.044242, 27.13075],
+        'Uganda': [32.099777, 1.398559],
+        'Mozambique': [36.588717, -16.871404],
+        'South Africa': [23.63702, -30.004753],
+        'Zimbabwe': [25.550339, -14.303746]
+      };
+      var myChart = echarts.init(document.getElementById('main'));
+      var option = {
         title: {
           text: '泛非用户体验指标',
           left: 'center'
         },
         tooltip: false,
         toolbox: {},
-        animation: true,
-        animationDurationUpdate: 1000,
-        animationEasingUpdate: 'cubicInOut',
         series: [{
-          name: '用户体验',
+          name: '非洲地图',
           type: 'map',
-          zoom: 2,
           mapType: 'africa',
           roam: true,
-          label: {
-            normal: {
-              show: true,
-              formatter: function(params) {
-                var bingfa = params.data.value[0],
-                fuzai = params.data.value[1],
-                xinyuan = params.data.value[2],
-                wangluo = params.data.value[3],
-                bingfaType = 'ysmall'+ bingfa.type,
-                fuzaiType = 'small'+ fuzai.type,
-                xinyuanType = 'small'+ xinyuan.type,
-                wangluoType = 'small'+ wangluo.type;
-                if (bingfa.num >= 50 && bingfa.num < 100) {
-                  bingfaType = 'ynormal' + bingfa.type
-                }
-                if (bingfa.num >= 100) {
-                  bingfaType = 'ybig' + bingfa.type
-                }
-                if (fuzai.num >= 50 && fuzai.num < 100) {
-                  fuzaiType = 'normal' + fuzai.type
-                }
-                if (fuzai.num >= 100) {
-                  fuzaiType = 'big' + fuzai.type
-                }
-                if (xinyuan.num >= 50 && xinyuan.num < 100) {
-                  xinyuanType = 'normal' + xinyuan.type
-                }
-                if (xinyuan.num >= 100) {
-                  xinyuanType = 'big' + xinyuan.type
-                }
-                if (wangluo.num >= 50 && wangluo.num < 100) {
-                  wangluoType = 'normal' + wangluo.type
-                }
-                if (wangluo.num >= 100) {
-                  wangluoType = 'big' + wangluo.type
-                }
-                return params.name +
-                  '：{' + bingfaType + '|} ' +
-                  '{' + fuzaiType + '|} ' +
-                  '{' + xinyuanType + '|} ' +
-                  '{' + wangluoType + '|} ';
-              },
-              position: 'inside',
-              backgroundColor: '#fff',
-              padding: [4, 5],
-              borderRadius: 3,
-              borderWidth: 1,
-              borderColor: 'rgba(0,0,0,0.5)',
-              color: '#777',
-              rich: {
-                ysmallbad: {
-                  backgroundColor: '#f5222d',
-                  width: 20,
-                  height: 20,
-                  borderRadius: 10,
+          label: false,
+          data: []
+        }]
+      }
+      var data = [{
+          name: 'Algeria',
+          value: [71, 82, 56, 91]
+        },
+        {
+          name: 'Libya',
+          value: [72, 93, 77, 84]
+        },
+        {
+          name: 'Uganda',
+          value: [82, 57, 92, 82]
+        },
+        {
+          name: 'Mozambique',
+          value: [56, 81, 99, 93]
+        },
+        {
+          name: 'South Africa',
+          value: [32, 74, 82, 93]
+        },
+        {
+          name: 'Zimbabwe',
+          value: [53, 62, 71, 83]
+        }
+      ];
 
-                },
-                ysmallwell: {
-                  backgroundColor: '#faad14',
-                  width: 20,
-                  height: 20,
-                  borderRadius: 10
-                },
-                ysmallgood: {
-                  backgroundColor: '#52c41a',
-                  width: 20,
-                  height: 20,
-                  borderRadius: 10
-                },
-                ynormalbad: {
-                  backgroundColor: '#f5222d',
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20
-                },
-                ynormalwell: {
-                  backgroundColor: '#faad14',
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20
-                },
-                ynormalgood: {
-                  backgroundColor: '#52c41a',
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20
-                },
-                ybigbad: {
-                  backgroundColor: '#f5222d',
-                  width: 60,
-                  height: 60,
-                  borderRadius: 30
-                },
-                ybigwell: {
-                  backgroundColor: '#faad14',
-                  width: 60,
-                  height: 60,
-                  borderRadius: 30
-                },
-                ybiggood: {
-                  backgroundColor: '#52c41a',
-                  width: 60,
-                  height: 60,
-                  borderRadius: 30
-                },
-                smallbad: {
-                  backgroundColor: '#f5222d',
-                  width: 20,
-                  height: 30
-                },
-                smallwell: {
-                  backgroundColor: '#faad14',
-                  width: 20,
-                  height: 30
-                },
-                smallgood: {
-                  backgroundColor: '#52c41a',
-                  width: 20,
-                  height: 30
-                },
-                normalbad: {
-                  backgroundColor: '#f5222d',
-                  width: 20,
-                  height: 50
-                },
-                normalwell: {
-                  backgroundColor: '#faad14',
-                  width: 20,
-                  height: 50
-                },
-                normalgood: {
-                  backgroundColor: '#52c41a',
-                  width: 20,
-                  height: 50
-                },
-                bigbad: {
-                  backgroundColor: '#f5222d',
-                  width: 20,
-                  height: 70
-                },
-                bigwell: {
-                  backgroundColor: '#faad14',
-                  width: 20,
-                  height: 70
-                },
-                biggood: {
-                  backgroundColor: '#52c41a',
-                  width: 20,
-                  height: 70
-                },
+      function addPie(chart, data) {
+        var op = chart.getOption();
+        var sd = option.series;
+        for (var i = 0; i < data.length; i++) {
+          var geoCoord = geoCoordMap[data[i].name];
+          if (geoCoord) {
+            var vr = [];
+            (data[i].value).map(function(v, j) {
+              vr.push({
+                name: data[i].name,
+                value: v,
+                itemStyle: {
+                  normal: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                      offset: 0,
+                      color: color[j]
+                    }, {
+                      offset: 1,
+                      color: color[j+1]
+                    }])
+                  }
+                }
+              });
+            });
+            vr[0].label = {
+              normal: {
+                  formatter: '{d}',
+                  position: 'center',
+                  show: true,
+                  textStyle: {
+                      fontWeight: 'normal',
+                      color: '#000'
+                  }
+              }
+            }
+            var center = chart.convertToPixel({
+              seriesIndex: 0
+            }, geoCoord);
+            sd.push({
+              name: data[i].name,
+              type: 'pie',
+              tooltip: {
+                formatter: function(params) {
+                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
+                }
+              },
+              radius: [10, 15],
+              center: center,
+              data: [vr[0], {name:'',value:100-vr[0].value,itemStyle: placeHolderStyle}],
+              zlevel: 4,
+              itemStyle: dataStyle,
+              hoverAnimation: false,
+              clockWise: false,
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              itemStyle: {
+                mormal: {
+                  opacity: 1
+                }
               }
             },
-            emphasis: {
-              show: false
-            }
-          },
-          data: [
-            {name: 'Algeria', value: [{type:'well', num: 20}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
-            {name: 'Libya', value: [{type:'good', num: 140}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
-            {name: 'Uganda', value: [{type:'bad', num: 51}, {type:'well', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
-            {name: 'Mozambique', value: [{type:'well', num: 66}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
-            {name: 'South Africa', value: [{type:'well', num: 66}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]},
-            {name: 'Zimbabwe', value: [{type:'well', num: 66}, {type:'good', num: 132}, {type:'bad', num: 20}, {type:'good', num: 72}]}
-          ]
-        }]
+            {
+              name: data[i].name,
+              type: 'pie',
+              tooltip: {
+                formatter: function(params) {
+                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
+                }
+              },
+              radius: [15, 20],
+              center: center,
+              data: [vr[1], {name:'',value:100-vr[1].value,itemStyle: placeHolderStyle}],
+              zlevel: 4,
+              itemStyle: dataStyle,
+              hoverAnimation: false,
+              clockWise: false,
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              itemStyle: {
+                mormal: {
+                  opacity: 1
+                }
+              }
+            },
+            {
+              name: data[i].name,
+              type: 'pie',
+              tooltip: {
+                formatter: function(params) {
+                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
+                }
+              },
+              radius: [20, 25],
+              center: center,
+              data: [vr[2], {name:'',value:100-vr[2].value,itemStyle: placeHolderStyle}],
+              zlevel: 4,
+              itemStyle: dataStyle,
+              hoverAnimation: false,
+              clockWise: false,
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              itemStyle: {
+                mormal: {
+                  opacity: 1
+                }
+              }
+            },
+            {
+              name: data[i].name,
+              type: 'pie',
+              tooltip: {
+                formatter: function(params) {
+                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
+                }
+              },
+              radius: [25, 30],
+              center: center,
+              data: [vr[3], {name:'',value:100-vr[3].value,itemStyle: placeHolderStyle}],
+              zlevel: 4,
+              itemStyle: dataStyle,
+              hoverAnimation: false,
+              clockWise: false,
+              label: {
+                normal: {
+                  show: false
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              itemStyle: {
+                mormal: {
+                  opacity: 1
+                }
+              }
+            });
+          }
+        }
+        return sd;
+      }
+      myChart.setOption(option, true);
+      addPie(myChart, data);
+      console.log(option)
+      myChart.setOption(option, true);
+      /*饼图跟着地图移动:pie*/
+      myChart.on('georoam', function(params) {
+        resetPie(myChart, params, geoCoordMap, typeIndex);
       });
-
+      myChart.on('datarangeselected', function(params) {
+        resetPie(myChart, params, geoCoordMap, typeIndex);
+      });
+      window.addEventListener("resize", function() {
+        myChart.resize();
+        resetPie(myChart, 0, geoCoordMap);
+      })
+      myChart.setOption(option);
+      /*resetPie*/
+      function resetPie(myChart, params, geoCoordMap, typeIndex) {
+        var op = myChart.getOption();
+        var ops = op.series;
+        ops.forEach(function(v, i) {
+          if (i > 0) {
+            var geoCoord = geoCoordMap[v.name];
+            var p = myChart.convertToPixel({
+              seriesIndex: 0
+            }, geoCoord);
+            v.center = p;
+            if (params != 0 && params.zoom) {
+              v.radius = [v.radius[0] * params.zoom, v.radius[1] * params.zoom];
+            }
+            // if(params != 0 && params.selected){
+            // 	var rangeFirstNumber = params.selected[0];
+            // 	var rangeSecondNumber = params.selected[1];
+            // 	var pd = v.data[typeIndex].value;
+            // 	if(pd < rangeFirstNumber || pd > rangeSecondNumber){
+            // 		v.itemStyle.normal.opacity = 0;
+            // 	}else{
+            // 		v.itemStyle.normal.opacity = 1;
+            // 	}
+            // }
+          }
+        });
+        myChart.setOption(op, true);
+      }
     });
   </script>
 </body>
