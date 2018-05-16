@@ -35,13 +35,13 @@
   <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
   <div id="main" style="width: 100%;height:100%;"></div>
   <div class="legend">
-    <div><img src="./icon1.png"/><span>用户数</span></div>
-    <div><img src="./icon2.png"/><span>系统负载</span></div>
-    <div><img src="./icon3.png"/><span>信源质量</span></div>
-    <div><img src="./icon4.png"/><span>网络质量</span></div>
+    <!-- <div><img src="./icon1.png"/><span>用户数</span></div> -->
+    <div><img src="./icon3.png"/><span>系统负载</span></div>
+    <div><img src="./icon4.png"/><span>信源质量</span></div>
+    <div><img src="./icon2.png"/><span>网络质量</span></div>
   </div>
   <script type="text/javascript">
-    var color = ['#fb734e', '#e32f46', '#7049f0', '#0bbcb7', '#1a9bfc'];
+    var color = ['#f5222d', '#7049f0', '#0bbcb7', '#e32f46'];
     var fontSize = 14;
     var dataStyle = {
       normal: {
@@ -144,23 +144,29 @@
                 value: v,
                 itemStyle: {
                   normal: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                      offset: 0,
-                      color: color[j]
-                    }])
+                    color: color[j]
                   }
                 }
               });
             });
+            if (vr[0].value < 50) {
+              vr[0].itemStyle.normal.color = '#f5222d';
+            }
+            if (vr[0].value >= 50 && vr[0].value < 80) {
+              vr[0].itemStyle.normal.color = '#faad14';
+            }
+            if (vr[0].value >=80) {
+              vr[0].itemStyle.normal.color = '#52c41a';
+            }
             vr[0].label = {
               normal: {
-                  formatter: '{d}',
+                  formatter: '{c}',
                   position: 'center',
                   show: true,
                   textStyle: {
                       fontSize: fontSize,
                       fontWeight: 'normal',
-                      color: '#000'
+                      color: '#fff'
                   }
               }
             }
@@ -175,9 +181,9 @@
                   return params.seriesName + "<br/>" + params.name + " : " + params.value;
                 }
               },
-              radius: [15, 15],
+              radius: [0, 15],
               center: center,
-              data: [vr[0], {name:'',value:100-vr[0].value,itemStyle: placeHolderStyle}],
+              data: [vr[0]],
               zlevel: 4,
               itemStyle: dataStyle,
               hoverAnimation: false,
@@ -325,17 +331,16 @@
                 fontSize = v.data[0].label.textStyle.fontSize;
                 v.data[0].label.textStyle.fontSize = fontSize * params.zoom;
               }
+              if (v.data[0].value < 50) {
+                v.data[0].itemStyle.color = '#f5222d';
+              }
+              if (v.data[0].value >= 50 && v.data[0].value < 80) {
+                v.data[0].itemStyle.color = '#faad14';
+              }
+              if (v.data[0].value >=80) {
+                v.data[0].itemStyle.color = '#52c41a';
+              }
             }
-            // if(params != 0 && params.selected){
-            // 	var rangeFirstNumber = params.selected[0];
-            // 	var rangeSecondNumber = params.selected[1];
-            // 	var pd = v.data[typeIndex].value;
-            // 	if(pd < rangeFirstNumber || pd > rangeSecondNumber){
-            // 		v.itemStyle.normal.opacity = 0;
-            // 	}else{
-            // 		v.itemStyle.normal.opacity = 1;
-            // 	}
-            // }
           }
         });
         myChart.setOption(op, true);
