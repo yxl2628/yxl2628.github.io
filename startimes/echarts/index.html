@@ -11,13 +11,37 @@
     body {
       height: 100%;
     }
+    .legend{
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      width: 130px;
+      line-height: 30px;
+    }
+    .legend div{
+      display: inline-flex;
+    }
+    .legend div span{
+      margin-left: 15px;
+    }
+    .legend img {
+      width: 25px;
+      height: 25px;
+    }
   </style>
 </head>
 
 <body>
   <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
   <div id="main" style="width: 100%;height:100%;"></div>
+  <div class="legend">
+    <div><img src="./icon1.png"/><span>用户数</span></div>
+    <div><img src="./icon2.png"/><span>系统负载</span></div>
+    <div><img src="./icon3.png"/><span>信源质量</span></div>
+    <div><img src="./icon4.png"/><span>网络质量</span></div>
+  </div>
   <script type="text/javascript">
+    var color = ['#fb734e', '#e32f46', '#7049f0', '#0bbcb7', '#1a9bfc'];
     var fontSize = 14;
     var dataStyle = {
       normal: {
@@ -33,18 +57,18 @@
       }
     };
     var placeHolderStyle = {
-      normal: {
-        color: 'rgba(255,255,255,0.3)',
-        label: {
-          show: false
+        normal: {
+            color: 'rgba(255,255,255,0.3)',
+            label: {
+                show: false
+            },
+            labelLine: {
+                show: false
+            }
         },
-        labelLine: {
-          show: false
+        emphasis: {
+            color: 'rgba(255,255,255,0.3)'
         }
-      },
-      emphasis: {
-        color: 'rgba(255,255,255,0.3)'
-      }
     };
     $.get('./africa.json', function(africaJson) {
       echarts.registerMap('africa', africaJson);
@@ -65,21 +89,6 @@
         },
         tooltip: false,
         toolbox: {},
-        legend: {
-          type: 'scroll',
-          orient: 'vertical',
-          top: 40,
-          right: 30,
-          textStyle: {
-            fontSize: 14
-          },
-          data: [
-            {name: '用户数',icon: 'image://http://yangxl.cn/startimes/echarts/assets/icon1.png'},
-            {name: '系统负载',icon: 'image://http://yangxl.cn/startimes/echarts/assets/icon2.png'},
-            {name: '信源质量',icon: 'image://http://yangxl.cn/startimes/echarts/assets/icon3.png'},
-            {name: '网络质量',icon: 'image://http://yangxl.cn/startimes/echarts/assets/icon4.png'}
-          ]
-        },
         series: [{
           name: '非洲地图',
           type: 'map',
@@ -125,7 +134,6 @@
       function addPie(chart, data) {
         var op = chart.getOption();
         var sd = option.series;
-        var color = ['#fb734e', '#e32f46', '#7049f0', '#0bbcb7', '#1a9bfc'];
         for (var i = 0; i < data.length; i++) {
           var geoCoord = geoCoordMap[data[i].name];
           if (geoCoord) {
@@ -146,21 +154,21 @@
             });
             vr[0].label = {
               normal: {
-                formatter: '{d}',
-                position: 'center',
-                show: true,
-                textStyle: {
-                  fontSize: fontSize,
-                  fontWeight: 'normal',
-                  color: '#000'
-                }
+                  formatter: '{d}',
+                  position: 'center',
+                  show: true,
+                  textStyle: {
+                      fontSize: fontSize,
+                      fontWeight: 'normal',
+                      color: '#000'
+                  }
               }
             }
             var center = chart.convertToPixel({
               seriesIndex: 0
             }, geoCoord);
             sd.push({
-              name: '用户数',
+              name: data[i].name,
               type: 'pie',
               tooltip: {
                 formatter: function(params) {
@@ -169,11 +177,7 @@
               },
               radius: [15, 15],
               center: center,
-              data: [vr[0], {
-                name: '',
-                value: 100 - vr[0].value,
-                itemStyle: placeHolderStyle
-              }],
+              data: [vr[0], {name:'',value:100-vr[0].value,itemStyle: placeHolderStyle}],
               zlevel: 4,
               itemStyle: dataStyle,
               hoverAnimation: false,
@@ -188,8 +192,9 @@
                   opacity: 1
                 }
               }
-            }, {
-              name: '系统负载',
+            },
+            {
+              name: data[i].name,
               type: 'pie',
               tooltip: {
                 formatter: function(params) {
@@ -198,11 +203,7 @@
               },
               radius: [15, 20],
               center: center,
-              data: [vr[1], {
-                name: '',
-                value: 100 - vr[1].value,
-                itemStyle: placeHolderStyle
-              }],
+              data: [vr[1], {name:'',value:100-vr[1].value,itemStyle: placeHolderStyle}],
               zlevel: 4,
               itemStyle: dataStyle,
               hoverAnimation: false,
@@ -222,8 +223,9 @@
                   opacity: 1
                 }
               }
-            }, {
-              name: '信源质量',
+            },
+            {
+              name: data[i].name,
               type: 'pie',
               tooltip: {
                 formatter: function(params) {
@@ -232,11 +234,7 @@
               },
               radius: [20, 25],
               center: center,
-              data: [vr[2], {
-                name: '',
-                value: 100 - vr[2].value,
-                itemStyle: placeHolderStyle
-              }],
+              data: [vr[2], {name:'',value:100-vr[2].value,itemStyle: placeHolderStyle}],
               zlevel: 4,
               itemStyle: dataStyle,
               hoverAnimation: false,
@@ -256,8 +254,9 @@
                   opacity: 1
                 }
               }
-            }, {
-              name: '网络质量',
+            },
+            {
+              name: data[i].name,
               type: 'pie',
               tooltip: {
                 formatter: function(params) {
@@ -266,11 +265,7 @@
               },
               radius: [25, 30],
               center: center,
-              data: [vr[3], {
-                name: '',
-                value: 100 - vr[3].value,
-                itemStyle: placeHolderStyle
-              }],
+              data: [vr[3], {name:'',value:100-vr[3].value,itemStyle: placeHolderStyle}],
               zlevel: 4,
               itemStyle: dataStyle,
               hoverAnimation: false,
@@ -297,6 +292,7 @@
       }
       myChart.setOption(option, true);
       addPie(myChart, data);
+      console.log(option)
       myChart.setOption(option, true);
       /*饼图跟着地图移动:pie*/
       myChart.on('georoam', function(params) {
@@ -325,7 +321,7 @@
               v.radius = [v.radius[0] * params.zoom, v.radius[1] * params.zoom];
             }
             if (v.data[0].label) {
-              if (!isNaN(v.data[0].label.textStyle.fontSize) && params.zoom) {
+              if(!isNaN(v.data[0].label.textStyle.fontSize) && params.zoom){
                 fontSize = v.data[0].label.textStyle.fontSize;
                 v.data[0].label.textStyle.fontSize = fontSize * params.zoom;
               }
