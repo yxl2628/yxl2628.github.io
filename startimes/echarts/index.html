@@ -1,375 +1,42 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <!-- 引入 ECharts 文件 -->
-  <script src="./echarts.js"></script>
-  <script src="./jquery.min.js"></script>
-  <style media="screen">
-    html,
-    body {
-      height: 100%;
-    }
-    .legend{
-      position: absolute;
-      top: 40px;
-      right: 40px;
-      width: 130px;
-      line-height: 25px;
-    }
-    .legend div{
-      display: inline-flex;
-    }
-    .legend div span{
-      margin-left: 15px;
-    }
-    .legend img {
-      width: 25px;
-      height: 25px;
-    }
-    .table {
-      position: absolute;
-      bottom: 100px;
-      left: 100px;
-      width: 200px;
-      border: 1px solid #000;
-      padding: 10px 20px;
-    }
-    .table p{
-      margin: 0;
-      line-height: 25px;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-  <div id="main" style="width: 100%;height:100%;"></div>
-  <div class="legend">
-    <!-- <div><img src="./icon1.png"/><span>用户数</span></div> -->
-    <div><img src="./icon3.png"/><span>系统负载</span></div>
-    <div><img src="./icon4.png"/><span>信源质量</span></div>
-    <div><img src="./icon2.png"/><span>网络质量</span></div>
-  </div>
-  <div class="table">
-    <p>在线频道数：139</p>
-    <p>异常频道数：1</p>
-    <p>总回看小时：7900</p>
-    <p>总点播小时：2200</p>
-    <p>&nbsp;</p>
-    <p>总并发数：149万</p>
-    <p>直播并发流：100万</p>
-    <p>点播并发流：49万</p>
-  </div>
-  <script type="text/javascript">
-    var color = ['#f5222d', '#7049f0', '#0bbcb7', '#e32f46'];
-    var fontSize = 14;
-    var dataStyle = {
-      normal: {
-        label: {
-          show: false
-        },
-        labelLine: {
-          show: false
-        },
-        shadowBlur: 40,
-        borderWidth: 10,
-        shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
-      }
-    };
-    var placeHolderStyle = {
-        normal: {
-            color: 'rgba(255,255,255,0.3)',
-            label: {
-                show: false
-            },
-            labelLine: {
-                show: false
-            }
-        },
-        emphasis: {
-            color: 'rgba(255,255,255,0.3)'
-        }
-    };
-    $.get('./africa.json', function(africaJson) {
-      echarts.registerMap('africa', africaJson);
-      var typeIndex = 1;
-      var geoCoordMap = {
-        'Algeria': [2.737691, 28.048718],
-        'Libya': [18.044242, 27.13075],
-        'Uganda': [32.099777, 1.398559],
-        'Mozambique': [36.588717, -16.871404],
-        'South Africa': [23.63702, -30.004753],
-        'Zimbabwe': [25.550339, -14.303746]
-      };
-      var myChart = echarts.init(document.getElementById('main'));
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>四达时代网络监控-OTT</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/jquery.min.js" charset="utf-8"></script>
+    <script src="./js/echarts.js" charset="utf-8"></script>
+    <script src="./js/zabbix.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main"></div>
+    <script src="./map/africa.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      echarts.registerMap('customMap', mapJson)
+      var myChart = echarts.init(document.getElementById('main'))
       var option = {
-        title: {
-          text: '泛非用户体验指标',
-          left: 'center'
-        },
-        tooltip: false,
-        toolbox: {},
+        backgroundColor: '#3a3a3a',
         series: [{
           name: '非洲地图',
           type: 'map',
-          mapType: 'africa',
+          mapType: 'customMap',
           roam: true,
-          data: [
-            // {name: 'Algeria', value: 'Algeria',
-            // label: {
-            //   normal: {
-            //     formatter: '{b}',
-            //     show: true
-            //   }
-            // }}
-          ]
+          itemStyle: {
+            areaColor: '#161616',
+            borderColor: '#2b2b2b'
+          },
+          emphasis: {
+            itemStyle: {
+              areaColor: '#161616',
+              borderColor: '#2b2b2b'
+            }
+          },
+          data: []
         }]
       }
-      var data = [{
-          name: 'Algeria',
-          value: [64, 82, 56, 91]
-        },
-        {
-          name: 'Libya',
-          value: [72, 93, 77, 84]
-        },
-        {
-          name: 'Uganda',
-          value: [82, 57, 92, 82]
-        },
-        {
-          name: 'Mozambique',
-          value: [56, 81, 99, 93]
-        },
-        {
-          name: 'South Africa',
-          value: [32, 74, 82, 93]
-        },
-        {
-          name: 'Zimbabwe',
-          value: [53, 62, 71, 83]
-        }
-      ];
-
-      function addPie(chart, data) {
-        var op = chart.getOption();
-        var sd = option.series;
-        for (var i = 0; i < data.length; i++) {
-          var geoCoord = geoCoordMap[data[i].name];
-          if (geoCoord) {
-            var vr = [];
-            (data[i].value).map(function(v, j) {
-              vr.push({
-                name: data[i].name,
-                value: v,
-                itemStyle: {
-                  normal: {
-                    color: color[j]
-                  }
-                }
-              });
-            });
-            if (vr[0].value < 50) {
-              vr[0].itemStyle.normal.color = '#f5222d';
-            }
-            if (vr[0].value >= 50 && vr[0].value < 80) {
-              vr[0].itemStyle.normal.color = '#faad14';
-            }
-            if (vr[0].value >=80) {
-              vr[0].itemStyle.normal.color = '#52c41a';
-            }
-            vr[0].label = {
-              normal: {
-                  formatter: '{c}',
-                  position: 'center',
-                  show: true,
-                  textStyle: {
-                      fontSize: fontSize,
-                      fontWeight: 'normal',
-                      color: '#fff'
-                  }
-              }
-            }
-            var center = chart.convertToPixel({
-              seriesIndex: 0
-            }, geoCoord);
-            sd.push({
-              name: data[i].name,
-              type: 'pie',
-              tooltip: {
-                formatter: function(params) {
-                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
-                }
-              },
-              radius: [0, 15],
-              center: center,
-              data: [vr[0]],
-              zlevel: 4,
-              itemStyle: dataStyle,
-              hoverAnimation: false,
-              clockWise: false,
-              labelLine: {
-                normal: {
-                  show: false
-                }
-              },
-              itemStyle: {
-                mormal: {
-                  opacity: 1
-                }
-              }
-            },
-            {
-              name: data[i].name,
-              type: 'pie',
-              tooltip: {
-                formatter: function(params) {
-                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
-                }
-              },
-              radius: [15, 20],
-              center: center,
-              data: [vr[1], {name:'',value:100-vr[1].value,itemStyle: placeHolderStyle}],
-              zlevel: 4,
-              itemStyle: dataStyle,
-              hoverAnimation: false,
-              clockWise: false,
-              label: {
-                normal: {
-                  show: false
-                }
-              },
-              labelLine: {
-                normal: {
-                  show: false
-                }
-              },
-              itemStyle: {
-                mormal: {
-                  opacity: 1
-                }
-              }
-            },
-            {
-              name: data[i].name,
-              type: 'pie',
-              tooltip: {
-                formatter: function(params) {
-                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
-                }
-              },
-              radius: [20, 25],
-              center: center,
-              data: [vr[2], {name:'',value:100-vr[2].value,itemStyle: placeHolderStyle}],
-              zlevel: 4,
-              itemStyle: dataStyle,
-              hoverAnimation: false,
-              clockWise: false,
-              label: {
-                normal: {
-                  show: false
-                }
-              },
-              labelLine: {
-                normal: {
-                  show: false
-                }
-              },
-              itemStyle: {
-                mormal: {
-                  opacity: 1
-                }
-              }
-            },
-            {
-              name: data[i].name,
-              type: 'pie',
-              tooltip: {
-                formatter: function(params) {
-                  return params.seriesName + "<br/>" + params.name + " : " + params.value;
-                }
-              },
-              radius: [25, 30],
-              center: center,
-              data: [vr[3], {name:'',value:100-vr[3].value,itemStyle: placeHolderStyle}],
-              zlevel: 4,
-              itemStyle: dataStyle,
-              hoverAnimation: false,
-              clockWise: false,
-              label: {
-                normal: {
-                  show: false
-                }
-              },
-              labelLine: {
-                normal: {
-                  show: false
-                }
-              },
-              itemStyle: {
-                mormal: {
-                  opacity: 1
-                }
-              }
-            });
-          }
-        }
-        return sd;
-      }
-      myChart.setOption(option, true);
-      addPie(myChart, data);
-      console.log(option)
-      myChart.setOption(option, true);
-      /*饼图跟着地图移动:pie*/
-      myChart.on('georoam', function(params) {
-        resetPie(myChart, params, geoCoordMap, typeIndex);
-      });
-      myChart.on('datarangeselected', function(params) {
-        resetPie(myChart, params, geoCoordMap, typeIndex);
-      });
-      window.addEventListener("resize", function() {
-        myChart.resize();
-        resetPie(myChart, 0, geoCoordMap);
-      })
-      myChart.setOption(option);
-      /*resetPie*/
-      function resetPie(myChart, params, geoCoordMap, typeIndex) {
-        var op = myChart.getOption();
-        var ops = op.series;
-        ops.forEach(function(v, i) {
-          if (i > 0) {
-            var geoCoord = geoCoordMap[v.name];
-            var p = myChart.convertToPixel({
-              seriesIndex: 0
-            }, geoCoord);
-            v.center = p;
-            if (params != 0 && params.zoom) {
-              v.radius = [v.radius[0] * params.zoom, v.radius[1] * params.zoom];
-            }
-            if (v.data[0].label) {
-              if(!isNaN(v.data[0].label.textStyle.fontSize) && params.zoom){
-                fontSize = v.data[0].label.textStyle.fontSize;
-                v.data[0].label.textStyle.fontSize = fontSize * params.zoom;
-              }
-              if (v.data[0].value < 50) {
-                v.data[0].itemStyle.color = '#f5222d';
-              }
-              if (v.data[0].value >= 50 && v.data[0].value < 80) {
-                v.data[0].itemStyle.color = '#faad14';
-              }
-              if (v.data[0].value >=80) {
-                v.data[0].itemStyle.color = '#52c41a';
-              }
-            }
-          }
-        });
-        myChart.setOption(op, true);
-      }
-    });
-  </script>
-</body>
-</body>
-
+      myChart.setOption(option, true)
+    </script>
+    <script src="./js/main.js" charset="utf-8"></script>
+  </body>
 </html>
