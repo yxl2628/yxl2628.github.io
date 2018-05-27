@@ -4,10 +4,10 @@ zabbix_server.setOptions({
   username: 'search',
   password: '123456'
 })
-zabbix_server.userLogin()
-zabbix_server.queryData('item.get',{
-  groupids: 36,
-  // search: {}
-}, function(res) {
-  console.log(res)
-})
+// zabbix_server.userLogin()
+// zabbix_server.queryData('item.get',{
+//   groupids: 36,
+//   // search: {}
+// }, function(res) {
+//   console.log(res)
+// })

@@ -17,11 +17,11 @@
       var myChart = echarts.init(document.getElementById('main'))
       var option = {
         backgroundColor: '#3a3a3a',
-        series: [{
+        geo: {
           name: '非洲地图',
-          type: 'map',
-          mapType: 'customMap',
+          map: 'customMap',
           roam: true,
+          zoom: 1,
           itemStyle: {
             areaColor: '#161616',
             borderColor: '#2b2b2b'
@@ -31,8 +31,45 @@
               areaColor: '#161616',
               borderColor: '#2b2b2b'
             }
+          }
+        },
+        series: [{
+          name: 'aws',
+          type: 'custom',
+          coordinateSystem: 'geo',
+          renderItem: function (params, api) {
+            return {
+              type: 'image',
+              style: {
+                image: './img/aws.svg',
+                x: api.coord([-7.970082,43.272408])[0],
+                y: api.coord([-7.970082,43.272408])[1],
+                width: 30,
+                height: 30,
+                fill: '#ff0000'
+              }
+            }
           },
-          data: []
+          data: [{name: 'aws', value: [-7.970082,53.272408]}]
+        },
+        {
+          name: 'china',
+          type: 'custom',
+          coordinateSystem: 'geo',
+          renderItem: function (params, api) {
+            return {
+              type: 'image',
+              style: {
+                image: './img/china.svg',
+                x: api.coord([55.694964,43.878124])[0],
+                y: api.coord([55.694964,43.878124])[1],
+                width: 40,
+                height: 40,
+                fill: '#ff0000'
+              }
+            }
+          },
+          data: [{name: 'china', value: [104.694964,33.878124]}]
         }]
       }
       myChart.setOption(option, true)
