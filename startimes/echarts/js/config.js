@@ -60,86 +60,13 @@ var geoCoordMap = {
   '亚马逊云': [-7, 37.5],
   '卫星': [-30, 25],
   '上云站': [15, -34],
-  '乌干达': [32.5825, 0.3476],
-  '刚果金': [15.2663, -4.4419],
-  '南非': [18.4240, -33.9248],
-  '卢旺达': [30.1044, -1.9706],
-  '坦桑尼亚': [35.7516, -6.1629],
-  '尼日利亚': [7.3986, 9.0765],
-  '布隆迪': [29.3598, -3.3613],
-  '肯尼亚': [36.8219, -1.2920],
-  '莫桑比克': [32.6051, -25.8919],
-  '赞比亚': [28.3228, -15.3875],
-  '马达': [8.7095, 8.3061],
-  //'示例': [经度,纬度],
+  '乌干达-Africell': [32.290275, 1.373333]
 }
 //丢包率
-var pack_loss_probability = [{
-    fromName: '北京',
-    toName: '亚马逊云',
-    value: 0
-  },
-  {
-    fromName: '上云站',
-    toName: '卫星',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '乌干达',
-    value: 30
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '刚果金',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '南非',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '卢旺达',
-    value: 10
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '坦桑尼亚',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '尼日利亚',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '布隆迪',
-    value: 20
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '肯尼亚',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '莫桑比克',
-    value: 100
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '赞比亚',
-    value: 0
-  },
-  {
-    fromName: '亚马逊云',
-    toName: '马达',
-    value: 0
-  },
-  //{fromName: '示例'}, {id: 45938,name: '示例',value: null}],
+var pack_loss_probability = [
+  {fromName: '北京', toName: '亚马逊云', value: 0},
+  {fromName: '上云站', toName: '卫星', value: 0},
+  {fromName: '乌干达-Africell', toName: '亚马逊云', value: 0}
 ]
 // 格式化
 var convertLinesData = function(data) {
@@ -168,50 +95,8 @@ var convertLinesData = function(data) {
   return res
 }
 // cache节点告警数量
-var cache_error = [{
-    name: '乌干达',
-    value: [20, 0]
-  },
-  {
-    name: '刚果金',
-    value: [0, 20]
-  },
-  {
-    name: '南非',
-    value: [0, 0]
-  },
-  {
-    name: '卢旺达',
-    value: [0, 90]
-  },
-  {
-    name: '坦桑尼亚',
-    value: [0, 100]
-  },
-  {
-    name: '尼日利亚',
-    value: [0, 0]
-  },
-  {
-    name: '布隆迪',
-    value: [30, 60]
-  },
-  {
-    name: '肯尼亚',
-    value: [0, 100]
-  },
-  {
-    name: '莫桑比克',
-    value: [0, 0]
-  },
-  {
-    name: '赞比亚',
-    value: [80, 100]
-  },
-  {
-    name: '马达',
-    value: [70, 0]
-  }
+var cache_error = [
+  {name: '乌干达-Africell', value: [0, 0]}
 ]
 var convertPonitData = function(data) {
   var res = []
