@@ -56,10 +56,10 @@ var richStyle = {
 }
 //经纬度
 var geoCoordMap = {
-  'china': [58, 35.5],
-  'aws': [-7, 37.5],
-  'satellite': [-30, 25],
-  'radar': [15, -34],
+  '北京': [58, 35.5],
+  '亚马逊云': [-7, 37.5],
+  '卫星': [-30, 25],
+  '上云站': [15, -34],
   '乌干达': [32.5825, 0.3476],
   '刚果金': [15.2663, -4.4419],
   '南非': [18.4240, -33.9248],
@@ -75,67 +75,67 @@ var geoCoordMap = {
 }
 //丢包率
 var pack_loss_probability = [{
-    fromName: 'china',
-    toName: 'aws',
+    fromName: '北京',
+    toName: '亚马逊云',
     value: 0
   },
   {
-    fromName: 'radar',
-    toName: 'satellite',
+    fromName: '上云站',
+    toName: '卫星',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '乌干达',
     value: 30
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '刚果金',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '南非',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '卢旺达',
     value: 10
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '坦桑尼亚',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '尼日利亚',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '布隆迪',
     value: 20
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '肯尼亚',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '莫桑比克',
     value: 100
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '赞比亚',
     value: 0
   },
   {
-    fromName: 'aws',
+    fromName: '亚马逊云',
     toName: '马达',
     value: 0
   },
