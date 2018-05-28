@@ -6,7 +6,7 @@ $(document).ready(function(){
     password: '123456'
   })
   // 先登录获取zabbix的auth
-  zabbix_server.userLogin()
+  // zabbix_server.userLogin()
   // 定时获取各数据
   // zabbix_server.queryData('item.get',{
   //   groupids: 36,
