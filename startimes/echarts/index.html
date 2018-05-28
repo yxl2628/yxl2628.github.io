@@ -1,79 +1,86 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>四达时代网络监控-OTT</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <script src="./js/jquery.min.js" charset="utf-8"></script>
-    <script src="./js/echarts.js" charset="utf-8"></script>
-    <script src="./js/zabbix.js" charset="utf-8"></script>
-  </head>
-  <body>
-    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-    <div id="main"></div>
-    <script src="./map/africa.js" charset="utf-8"></script>
-    <script type="text/javascript">
-      echarts.registerMap('customMap', mapJson)
-      var myChart = echarts.init(document.getElementById('main'))
-      var option = {
-        backgroundColor: '#3a3a3a',
-        geo: {
-          name: '非洲地图',
-          map: 'customMap',
-          roam: true,
-          zoom: 1,
+
+<head>
+  <meta charset="utf-8">
+  <title>四达时代网络监控-OTT</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="./js/jquery.min.js" charset="utf-8"></script>
+  <script src="./js/echarts.js" charset="utf-8"></script>
+  <script src="./js/zabbix.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="main"></div>
+  <script src="./map/africa.js" charset="utf-8"></script>
+  <script src="./js/config.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    echarts.registerMap('customMap', mapJson)
+    var myChart = echarts.init(document.getElementById('main'))
+    var option = {
+      backgroundColor: '#3a3a3a',
+      geo: {
+        name: '非洲地图',
+        map: 'customMap',
+        roam: true,
+        zoom: 1.1,
+        itemStyle: {
+          areaColor: '#161616',
+          borderColor: '#2b2b2b'
+        },
+        emphasis: {
           itemStyle: {
             areaColor: '#161616',
             borderColor: '#2b2b2b'
-          },
-          emphasis: {
-            itemStyle: {
-              areaColor: '#161616',
-              borderColor: '#2b2b2b'
-            }
           }
-        },
-        series: [{
-          name: 'aws',
-          type: 'custom',
+        }
+      },
+      series: [
+        {
+          name: '地点',
+          type: 'scatter',
           coordinateSystem: 'geo',
-          renderItem: function (params, api) {
-            return {
-              type: 'image',
-              style: {
-                image: './img/aws.svg',
-                x: api.coord([-7.970082,43.272408])[0],
-                y: api.coord([-7.970082,43.272408])[1],
-                width: 30,
-                height: 30,
-                fill: '#ff0000'
-              }
-            }
-          },
-          data: [{name: 'aws', value: [-7.970082,53.272408]}]
+          zlevel: 10,
+          showEffectOn: 'render',
+          data: [
+            {name: 'aws', value:[-8.3, 37.5], symbol: awsPath, symbolSize: 30},
+            {name: 'china', value:[58, 35.5], symbol: chinaPath, symbolSize: [50,33.31]},
+            {name: 'satellite', value:[-30, 25], symbol: satellitePath, symbolSize: 50},
+            {name: 'radar', value:[14, -33.5], symbol: radarPath, symbolSize: 40}
+          ]
         },
         {
-          name: 'china',
-          type: 'custom',
-          coordinateSystem: 'geo',
-          renderItem: function (params, api) {
-            return {
-              type: 'image',
-              style: {
-                image: './img/china.svg',
-                x: api.coord([55.694964,43.878124])[0],
-                y: api.coord([55.694964,43.878124])[1],
-                width: 40,
-                height: 40,
-                fill: '#ff0000'
-              }
-            }
+          name: '网络状态',
+          type: 'lines',
+          zlevel: 2,
+          effect: {
+            show: true,
+            constantSpeed: 30,
+            symbol: 'arrow',
+            symbolSize: 6,
+            trailLength: 0,
           },
-          data: [{name: 'china', value: [104.694964,33.878124]}]
-        }]
-      }
-      myChart.setOption(option, true)
-    </script>
-    <script src="./js/main.js" charset="utf-8"></script>
-  </body>
+          data: convertLinesData(pack_loss_probability)
+        },
+        {
+          name: 'cache节点告警',
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          symbolSize: 7,
+          showEffectOn: 'render',
+          rippleEffect: {
+            period: 4,
+            scale: 4,
+            brushType: 'fill'
+          },
+          data: convertPonitData(cache_error)
+        }
+      ]
+    }
+    myChart.setOption(option, true)
+  </script>
+  <script src="./js/main.js" charset="utf-8"></script>
+</body>
+
 </html>
