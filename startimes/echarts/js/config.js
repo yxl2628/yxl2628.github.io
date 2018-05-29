@@ -23,50 +23,21 @@ var format_number = function(n) {
   var r = len % 3
   return r > 0 ? b.slice(0, r) + "," + b.slice(r, len).match(/\d{3}/g).join(",") : b.slice(r, len).match(/\d{3}/g).join(",")
 }
-// 富文本标签样式
-var richStyle = {
-  title: {
-    color: '#ffffff',
-    align: 'center',
-    fontSize: 16,
-    height: 35
-  },
-  subTitle: {
-    color: '#ffffff',
-    align: 'left',
-    fontSize: 14,
-    height: 25,
-    padding: [0, 5, 0, 0]
-  },
-  good: {
-    color: getColor('good'),
-    align: 'left',
-    fontSize: 14
-  },
-  well: {
-    color: getColor('well'),
-    align: 'left',
-    fontSize: 14
-  },
-  bad: {
-    color: getColor('bad'),
-    align: 'left',
-    fontSize: 14
-  }
-}
 //经纬度
 var geoCoordMap = {
   '北京': [58, 35.5],
-  '亚马逊云': [-7, 37.5],
-  '卫星': [-30, 25],
+  '亚马逊云': [-5, 36.5],
+  '卫星': [-20, 14],
   '上云站': [15, -34],
-  '乌干达-Africell': [32.290275, 1.373333]
+  '乌干达_Africell': [32.290275, 1.373333],
+  '尼日利亚_Glo': [8.675277, 9.081999]
 }
 //丢包率
 var pack_loss_probability = [
-  {fromName: '北京', toName: '亚马逊云', value: 0},
-  {fromName: '上云站', toName: '卫星', value: 0},
-  {fromName: '乌干达-Africell', toName: '亚马逊云', value: 0}
+  {fromName: '北京', hostid: '10084', toName: '亚马逊云', value: 0},
+  {fromName: '上云站', hostid: '', toName: '卫星', value: 0},
+  {fromName: '乌干达_Africell', hostid: '10593', toName: '亚马逊云', value: 0},
+  {fromName: '尼日利亚_Glo', hostid: '10601', toName: '亚马逊云', value: 0}
 ]
 // 格式化
 var convertLinesData = function(data) {
@@ -76,7 +47,7 @@ var convertLinesData = function(data) {
     var fromCoord = geoCoordMap[dataItem.fromName]
     var toCoord = geoCoordMap[dataItem.toName]
     if (fromCoord && toCoord) {
-      var type = dataItem.value <= 10 ? 'good' : dataItem.value <= 50 ? 'well' : 'bad'
+      var type = dataItem.value < 10 ? 'good' : dataItem.value < 50 ? 'well' : 'bad'
       res.push({
         fromName: dataItem.fromName,
         toName: dataItem.toName,
@@ -94,9 +65,10 @@ var convertLinesData = function(data) {
   }
   return res
 }
-// cache节点告警数量
-var cache_error = [
-  {name: '乌干达-Africell', value: [0, 0]}
+// cache节点告警数量及带宽
+var cache_list = [
+  {name: '乌干达_Africell', groupid: '60', value: [0, 0]},
+  {name: '尼日利亚_Glo', groupid: '61', value: [0, 0]}
 ]
 var convertPonitData = function(data) {
   var res = []
@@ -104,8 +76,8 @@ var convertPonitData = function(data) {
     var dataItem = data[i]
     var coord = geoCoordMap[dataItem.name]
     if (coord) {
-      var type_cathe = dataItem.value[0] <= 10 ? 'good' : dataItem.value[0] <= 50 ? 'well' : 'bad'
-      var type_load = dataItem.value[1] <= 10 ? 'good' : dataItem.value[1] <= 50 ? 'well' : 'bad'
+      var type_cathe = dataItem.value[0] <= 0 ? 'good' : dataItem.value[0] < 5 ? 'well' : 'bad'
+      var type_load = dataItem.value[1] < 80 ? 'good' : dataItem.value[1] < 90 ? 'well' : 'bad'
       res.push({
         name: dataItem.name,
         value: coord.concat(dataItem.value),
@@ -117,6 +89,7 @@ var convertPonitData = function(data) {
         label: {
           show: true,
           position: 'bottom',
+          padding: [5, 0, 0, 0],
           formatter: function(params) {
             return params.value[3] + '%'
           },
