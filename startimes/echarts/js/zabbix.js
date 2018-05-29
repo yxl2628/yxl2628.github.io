@@ -6,7 +6,7 @@
       username: 'username',
       password: 'password',
       timeout: 5000,
-      limit: 100,
+      limit: 1000,
     }, options)
     var rpc_id = 0
     var auth_id = null

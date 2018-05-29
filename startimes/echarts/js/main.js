@@ -7,44 +7,54 @@ $(document).ready(function(){
   })
   // 先登录获取zabbix的auth
   zabbix_server.userLogin()
-  // 获取cache节点的告警数量
+  // 获取cache节点的groupid集合
   var cache_groupids = []
   cache_list.forEach(function(item) {
     if (item.groupid) {
       cache_groupids.push(item.groupid)
     }
   })
-  // 获取各个cache节点zabbix告警数
-  getCacheZabbixError(cache_groupids)
-  // 获取各个cache节点带宽负载
-  cache_groupids.forEach(function(groupid) {
-    getCacheNetworkPersent(groupid)
-  })
-  // 获取各个监控点到亚马逊云S3的丢包率
+  // 获取丢包率节点的hostid集合
   var pack_loss_host_list = []
   pack_loss_probability.forEach(function(item) {
     if (item.hostid) {
       pack_loss_host_list.push(item.hostid)
     }
   })
-  // 获取各个监控点到亚马逊云S3的丢包率
-  getPackLoss(pack_loss_host_list)
-  // 获取总用户数、总带宽及合作运营商
-  getAllUsers(cache_groupids)
+  task(cache_groupids, pack_loss_host_list)
   /**
    * 下面是定时任务，将上述获取过程，写入定时任务
+   * 默认是60秒请求一次
    */
   setInterval(function(){
-    getCacheZabbixError(cache_groupids)
-    cache_groupids.forEach(function(groupid) {
-      getCacheNetworkPersent(groupid)
-    })
-    getPackLoss(pack_loss_host_list)
-    getAllUsers()
-  },10000)
+    task(cache_groupids, pack_loss_host_list)
+  },60000)
   /**
    * 下面是各个获取数据的详细方法
    */
+  // 总的任务
+  function task (cache_groupids, pack_loss_host_list) {
+    // 获取各个cache节点zabbix告警数
+    getCacheZabbixError(cache_groupids)
+    // 获取各个cache节点带宽负载
+    cache_groupids.forEach(function(groupid) {
+      getCacheNetworkPersent(groupid)
+    })
+    // 获取各个监控点到亚马逊云S3的丢包率
+    getPackLoss(pack_loss_host_list)
+    // 获取南非上行站频道接收数据
+    getRadarData('jieshou', 55, 'channel status')
+    // 获取南非上行站频道转码数据
+    getRadarData('zhuanma', 54, 'YJY_Recoder_LOG_CHANNL')
+    // 获取南非上行站频道切片数据
+    getRadarData('qiepian', 54, 'delete_qiepian')
+    // 获取南非上行站频道AWS上传数据
+    getRadarData('awsshangchuan', 54, 'aws_channel_status')
+    // 获取aws数据
+    getAWSData(36, 10611)
+    // 获取总用户数、总带宽及合作运营商
+    getAllUsers(cache_groupids)
+  }
   // 获取zabbix告警数
   function getCacheZabbixError (groupids) {
     zabbix_server.queryData('trigger.get',{
@@ -189,5 +199,79 @@ $(document).ready(function(){
     })
     $('#network').html((totalNetwork/1000000).toFixed(2))
     $('#partner').html(cache_list.length)
+  }
+  // 获取南非上行站频道监控
+  function getRadarData (id, groupid, application) {
+    zabbix_server.queryData('item.get',{
+      'groupids': groupid,
+      'application': application,
+      'filter': {
+        'state': '0'
+      },
+      'output': ['lastvalue', 'state']
+    }, function(res) {
+      var total = 0, error = 0
+      if (res.result) {
+        var totalUser = 0
+        res.result.forEach(function(item) {
+          total += 1
+          var value = parseInt(item.lastvalue)
+          switch (id) { //针对不同的id，错误计算方式不同，默认是 1位正常，0位异常
+            case 'jieshou':
+              if (value > 0) {
+                error += 1
+              }
+              break
+            case 'qiepian':
+              if (value >= 5) {
+                error += 1
+              }
+              break
+            default:
+              if (value === 0) {
+                error += 1
+              }
+          }
+        })
+        $('#' + id).text((total-error) + '/' + total)
+        var className = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
+        $('#' + id).addClass(className)
+      }
+    })
+  }
+  function getAWSData (groupid, hostid) {
+    zabbix_server.queryData('item.get',{
+      'groupids': groupid,
+      'hostids': hostid,
+      'search': {
+        'key_': 'gslb'
+      },
+      'output': ['name', 'key_', 'lastvalue']
+    }, function(res) {
+      if (res.result) {
+        var gslb_success_request_count_monitor_view = 0,
+        gslb_request_count_monitor_view = 0,
+        gslb_response_duration_monitor_view = 0,
+        gslb_qps_monitor_view = 0
+        res.result.forEach(function(item) {
+          if (item.name.indexOf('gslb.success.request.count.monitor.view') >= 0) {
+            gslb_success_request_count_monitor_view += parseInt(item.lastvalue)
+          } else if (item.name.indexOf('gslb.request.count.monitor.view') >= 0) {
+            gslb_request_count_monitor_view += parseInt(item.lastvalue)
+          } else if (item.name.indexOf('gslb.response.duration.monitor.view') >= 0) {
+            gslb_response_duration_monitor_view = gslb_response_duration_monitor_view > parseInt(item.lastvalue) ? gslb_response_duration_monitor_view : parseInt(item.lastvalue)
+          } else if (item.name.indexOf('gslb.qps.monitor.view') >= 0) {
+            gslb_qps_monitor_view = gslb_qps_monitor_view > parseInt(item.lastvalue) ? gslb_qps_monitor_view : parseInt(item.lastvalue)
+          }
+        })
+        var persent = gslb_request_count_monitor_view === 0 ? 0 : (gslb_success_request_count_monitor_view/gslb_request_count_monitor_view).toFixed(0)
+        $('#chenggonglv').text(persent + '%')
+        $('#xiangyingshijian').text(gslb_response_duration_monitor_view + 'ms')
+        $('#qps').text(gslb_qps_monitor_view)
+        $('#chenggonglv').addClass(persent > 99 ? 'good' : persent > 95 ? 'well' : 'bad')
+        $('#xiangyingshijian').addClass(gslb_response_duration_monitor_view < 40 ? 'good' : gslb_response_duration_monitor_view < 50 ? 'well' : 'bad')
+        $('#qps').addClass(gslb_qps_monitor_view < 700 ? 'good' : gslb_qps_monitor_view < 900 ? 'well' : 'bad')
+      }
+    })
   }
 })
