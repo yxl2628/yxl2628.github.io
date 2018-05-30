@@ -90,7 +90,7 @@
           zlevel: 10,
           showEffectOn: 'render',
           data: [
-            {name: '亚马逊云', value:[-5, 38], symbol: awsPath, symbolSize: 30},
+            {name: '亚马逊云', value:[-5, 38.5], symbol: awsPath, symbolSize: 30},
             {name: '北京', value:[58, 35.5], symbol: chinaPath, symbolSize: [50,33.31]},
             {name: '卫星', value:[-20, 14], symbol: satellitePath, symbolSize: 50},
             {name: '上云站', value:[14, -33.5], symbol: radarPath, symbolSize: 40}
@@ -126,6 +126,21 @@
       ]
     }
     myChart.setOption(option, true)
+    myChart.on('click', function (params) {
+      if (params.seriesType && (params.seriesType === 'scatter' || params.seriesType === 'effectScatter')) {
+        var name = params.name, url = ''
+        switch (name) {
+          case '亚马逊云':
+            url = 'http://10.0.224.100:3000/d/j_79dUVmz/gslbtu-xing'
+            break
+          default:
+            console.log(name)
+        }
+        if (url) {
+          location.href = url
+        }
+      }
+    })
   </script>
   <script src="./js/main.js" charset="utf-8"></script>
 </body>

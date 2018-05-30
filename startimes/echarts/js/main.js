@@ -205,9 +205,6 @@ $(document).ready(function(){
     zabbix_server.queryData('item.get',{
       'groupids': groupid,
       'application': application,
-      'filter': {
-        'state': '0'
-      },
       'output': ['lastvalue', 'state']
     }, function(res) {
       var total = 0, error = 0
@@ -234,8 +231,8 @@ $(document).ready(function(){
           }
         })
         $('#' + id).text((total-error) + '/' + total)
-        var className = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
-        $('#' + id).addClass(className)
+        var colortype = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
+        $('#' + id).css('color',getColor(colortype))
       }
     })
   }
@@ -270,9 +267,9 @@ $(document).ready(function(){
         $('#chenggonglv').text(persent + '%')
         $('#xiangyingshijian').text(gslb_response_duration_monitor_view + 'ms')
         $('#qps').text(gslb_qps_monitor_view)
-        $('#chenggonglv').addClass(persent > 99 ? 'good' : persent > 95 ? 'well' : 'bad')
-        $('#xiangyingshijian').addClass(gslb_response_duration_monitor_view < 40 ? 'good' : gslb_response_duration_monitor_view < 50 ? 'well' : 'bad')
-        $('#qps').addClass(gslb_qps_monitor_view < standardValue*0.7 ? 'good' : gslb_qps_monitor_view < standardValue*0.9 ? 'well' : 'bad')
+        $('#chenggonglv').css('color',getColor(persent > 99 ? 'good' : persent > 95 ? 'well' : 'bad'))
+        $('#xiangyingshijian').css('color',getColor(gslb_response_duration_monitor_view < 40 ? 'good' : gslb_response_duration_monitor_view < 50 ? 'well' : 'bad'))
+        $('#qps').css('color',getColor(gslb_qps_monitor_view < standardValue*0.7 ? 'good' : gslb_qps_monitor_view < standardValue*0.9 ? 'well' : 'bad'))
       }
     })
   }
