@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>南非上云站-四达时代网络监控-OTT</title>
+    <link rel="stylesheet" href="./css/to_radar.css?version=1527655294538">
+  </head>
+  <body>
+  <div class="channel">
+    <div class="channel-title">频道监控：</div>
+    <div class="channel-item">
+      <span>正常频道数量</span>
+      <p id="success" class="channel-item_good">0</p>
+    </div>
+    <div class="channel-item">
+      <span>故障频道数量</span>
+      <p id="error" class="channel-item_bad">0</p>
+    </div>
+    <div id="channelStatus"></div>
+  </div>
+  <div class="iframe">
+    <iframe src="http://10.0.224.100:3000/d/WOgDNpVik/nan-fei-shang-yun-zhan?orgId=1" id="iframe" width="100%" height="1024px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
+  </div>
+  <script src="./js/jquery.min.js?version=1527655294537" charset="utf-8"></script>
+  <script src="./js/zabbix.js?version=1527655294537" charset="utf-8"></script>
+  <script src="./js/template-web.js?version=1527655294538" charset="utf-8"></script>
+  <script id="channelStatusTpl" type="text/html">
+    <div class="channel-status">
+      <div class="channel-status_head">
+        <div class="channel-status_normal">频道名称</div>
+        <div class="channel-status_normal">接收</div>
+        <div class="channel-status_normal">转码</div>
+        <div class="channel-status_normal">切片</div>
+        <div class="channel-status_normal">AWS分发</div>
+      </div>
+      {{if data.length>0}}
+      {{each data}}
+        <div class="channel-status_body">
+          <div class="channel-status_normal">{{$value.name}}</div>
+          <div class="channel-status_normal channel-status_good {{if $value.jieshou[0]!=$value.jieshou[1] || $value.jieshou[1]==0}}channel-status_bad{{/if}}">{{$value.jieshou[0]}}/{{$value.jieshou[1]}}</div>
+          <div class="channel-status_normal channel-status_good {{if $value.zhuanma[0]!=$value.zhuanma[1] || $value.zhuanma[1]==0}}channel-status_bad{{/if}}">{{$value.zhuanma[0]}}/{{$value.zhuanma[1]}}</div>
+          <div class="channel-status_normal channel-status_good {{if $value.qiepian[0]!=$value.qiepian[1] || $value.qiepian[1]==0}}channel-status_bad{{/if}}">{{$value.qiepian[0]}}/{{$value.qiepian[1]}}</div>
+          <div class="channel-status_normal channel-status_good {{if $value.aws[0]!=$value.aws[1] || $value.aws[1]==0}}channel-status_bad{{/if}}">{{$value.aws[0]}}/{{$value.aws[1]}}</div>
+        </div>
+      {{/each}}
+      {{else}}
+        <div class="channel-status_body channel-status_no_error">无故障频道</div>
+      {{/if}}
+    </div>
+  </script>
+  <script>
+    $(document).ready(function(){
+      var zabbix_server = new $.jqzabbix()
+      zabbix_server.setOptions({
+        url: 'http://192.168.32.221/api_jsonrpc.php',
+        username: 'search',
+        password: '123456'
+      })
+      // 先登录获取zabbix的auth
+      zabbix_server.userLogin()
+      // 获取接收 转码 切片 aws分发 的数据
+      var resData = {}
+      getRadarData()
+      setInterval(function(){
+        getRadarData()
+      },60000)
+
+      // 处理数据
+      function getRadarData() {
+        var groupid_ott = 55, group_os = 54, jieshou = 'channel status',
+          zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = 'delete_qiepian',
+          awsshangchuan = 'aws_channel_status'
+        // 先获取接收的数据，需要用接收的数据来组合频道
+        zabbix_server.queryData('item.get',{
+          'groupids': groupid_ott,
+          'application': jieshou,
+          'filter': {
+            'state': '0'
+          },
+          'output': ['lastvalue', 'name']
+        }, function(res) {
+          if (res.result) {
+            res.result.forEach(function(item) {
+              var name = item.name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(' ', '_')
+              var value = parseInt(item.lastvalue)
+              resData[name] = {
+                name: name,
+                error: false,
+                jieshou: [0, 0],
+                zhuanma: [0, 0],
+                qiepian: [0, 0],
+                aws: [0, 0]
+              }
+              resData[name].jieshou[1] += 1
+              resData[name].jieshou[0] += 1
+              if (value > 0) {
+                resData[name].error = true
+                resData[name].jieshou[0] -= 1
+              }
+            })
+            // 解析频道之后，依次解析转码、切片、aws分发
+            // 获取转码数据
+            zabbix_server.queryData('item.get',{
+              'groupids': group_os,
+              'application': zhuanma,
+              'filter': {
+                'state': '0'
+              },
+              'output': ['lastvalue', 'name']
+            }, function(res) {
+              if (res.result) {
+                res.result.forEach(function(item) {
+                  var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var value = parseInt(item.lastvalue)
+                  if (resData[name] === undefined) {
+                    // console.log('【转码】未找到频道：' + name)
+                  } else {
+                    resData[name].zhuanma[0] += 1
+                    resData[name].zhuanma[1] += 1
+                    if (value === 0) {
+                      resData[name].error = true
+                      resData[name].zhuanma[0] -= 1
+                    }
+                  }
+                })
+                rander(resData)
+              }
+            })
+            // 获取切片数据
+            zabbix_server.queryData('item.get',{
+              'groupids': group_os,
+              'application': qiepian,
+              'filter': {
+                'state': '0'
+              },
+              'output': ['lastvalue', 'name']
+            }, function(res) {
+              if (res.result) {
+                res.result.forEach(function(item) {
+                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var value = parseInt(item.lastvalue)
+                  if (resData[name] === undefined) {
+                    // console.log('【切片】未找到频道：' + name)
+                  } else {
+                    resData[name].qiepian[0] += 1
+                    resData[name].qiepian[1] += 1
+                    if (value >= 5) {
+                      resData[name].error = true
+                      resData[name].qiepian[0] -= 1
+                    }
+                  }
+                })
+                rander(resData)
+              }
+            })
+            // 获取aws分发数据
+            zabbix_server.queryData('item.get',{
+              'groupids': group_os,
+              'application': awsshangchuan,
+              'filter': {
+                'state': '0'
+              },
+              'output': ['lastvalue', 'name']
+            }, function(res) {
+              if (res.result) {
+                res.result.forEach(function(item) {
+                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var value = parseInt(item.lastvalue)
+                  if (resData[name] === undefined) {
+                    // console.log('【aws分发】未找到频道：' + name)
+                  } else {
+                    resData[name].aws[0] += 1
+                    resData[name].aws[1] += 1
+                    if (value === 0) {
+                      resData[name].error = true
+                      resData[name].aws[0] -= 1
+                    }
+                  }
+                })
+                rander(resData)
+              }
+            })
+          }
+        })
+      }
+    })
+    function rander(data) {
+      var filterData = [], success = 0, error = 0
+      for (var x in data) {
+        if (data[x].error) {
+          filterData.push(data[x])
+          error += 1
+        } else {
+          success += 1
+        }
+      }
+      $('#success').text(success)
+      $('#error').text(error)
+      $('#channelStatus').html(template('channelStatusTpl', {data: filterData}))
+    }
+  </script>
+  </body>
+</html>

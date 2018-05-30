@@ -205,7 +205,10 @@ $(document).ready(function(){
     zabbix_server.queryData('item.get',{
       'groupids': groupid,
       'application': application,
-      'output': ['lastvalue', 'state']
+      'filter': {
+        'state': '0'
+      },
+      'output': ['lastvalue']
     }, function(res) {
       var total = 0, error = 0
       if (res.result) {

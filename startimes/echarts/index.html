@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8">
   <title>四达时代网络监控-OTT</title>
-  <link rel="stylesheet" href="./css/main.css">
-  <script src="./js/jquery.min.js" charset="utf-8"></script>
-  <script src="./js/echarts.js" charset="utf-8"></script>
-  <script src="./js/zabbix.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="./css/main.css?version=1527655294537">
+  <script src="./js/jquery.min.js?version=1527655294537" charset="utf-8"></script>
+  <script src="./js/echarts.js?version=1527655294537" charset="utf-8"></script>
+  <script src="./js/zabbix.js?version=1527655294537" charset="utf-8"></script>
 </head>
 
 <body>
@@ -57,8 +57,8 @@
       </div>
     </div>
   </div>
-  <script src="./map/africa.js" charset="utf-8"></script>
-  <script src="./js/config.js" charset="utf-8"></script>
+  <script src="./map/africa.js?version=1527655294537" charset="utf-8"></script>
+  <script src="./js/config.js?version=1527655294537" charset="utf-8"></script>
   <script type="text/javascript">
     echarts.registerMap('customMap', mapJson)
     var myChart = echarts.init(document.getElementById('main'))
@@ -92,8 +92,8 @@
           data: [
             {name: '亚马逊云', value:[-5, 38.5], symbol: awsPath, symbolSize: 30},
             {name: '北京', value:[58, 35.5], symbol: chinaPath, symbolSize: [50,33.31]},
-            {name: '卫星', value:[-20, 14], symbol: satellitePath, symbolSize: 50},
-            {name: '上云站', value:[14, -33.5], symbol: radarPath, symbolSize: 40}
+            {name: '卫星', value:[-22, 14], symbol: satellitePath, symbolSize: 50, itemStyle: {color: getColor('good')}},
+            {name: '上云站', value:[20.5, -32], symbol: radarPath, symbolSize: 30, itemStyle: {color: getColor('good')}}
           ]
         },
         {
@@ -133,6 +133,9 @@
           case '亚马逊云':
             url = 'http://10.0.224.100:3000/d/j_79dUVmz/gslbtu-xing'
             break
+          case '上云站':
+            url = './to_radar.html'
+            break
           default:
             console.log(name)
         }
@@ -142,7 +145,7 @@
       }
     })
   </script>
-  <script src="./js/main.js" charset="utf-8"></script>
+  <script src="./js/main.js?version=1527655294537" charset="utf-8"></script>
 </body>
 
 </html>

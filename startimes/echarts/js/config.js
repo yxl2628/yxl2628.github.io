@@ -35,7 +35,6 @@ var geoCoordMap = {
 //丢包率
 var pack_loss_probability = [
   {fromName: '北京', hostid: '10084', toName: '亚马逊云', value: 0},
-  {fromName: '上云站', hostid: '', toName: '卫星', value: 0},
   {fromName: '乌干达_Africell', hostid: '10593', toName: '亚马逊云', value: 0},
   {fromName: '尼日利亚_Glo', hostid: '10601', toName: '亚马逊云', value: 0}
 ]
