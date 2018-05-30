@@ -80,6 +80,7 @@ var convertPonitData = function(data) {
       res.push({
         name: dataItem.name,
         value: coord.concat(dataItem.value),
+        groupid: dataItem.groupid,
         itemStyle: {
           normal: {
             color: getColor(type_cathe)
