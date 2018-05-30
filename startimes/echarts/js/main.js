@@ -239,7 +239,9 @@ $(document).ready(function(){
       }
     })
   }
+  // 获取全局调度系统的指标
   function getAWSData (groupid, hostid) {
+    var standardValue = 65000
     zabbix_server.queryData('item.get',{
       'groupids': groupid,
       'hostids': hostid,
@@ -270,7 +272,7 @@ $(document).ready(function(){
         $('#qps').text(gslb_qps_monitor_view)
         $('#chenggonglv').addClass(persent > 99 ? 'good' : persent > 95 ? 'well' : 'bad')
         $('#xiangyingshijian').addClass(gslb_response_duration_monitor_view < 40 ? 'good' : gslb_response_duration_monitor_view < 50 ? 'well' : 'bad')
-        $('#qps').addClass(gslb_qps_monitor_view < 700 ? 'good' : gslb_qps_monitor_view < 900 ? 'well' : 'bad')
+        $('#qps').addClass(gslb_qps_monitor_view < standardValue*0.7 ? 'good' : gslb_qps_monitor_view < standardValue*0.9 ? 'well' : 'bad')
       }
     })
   }
