@@ -38,15 +38,15 @@ $(document).ready(function(){
     // 获取各个监控点到亚马逊云S3的丢包率
     getPackLoss(pack_loss_host_list)
     // 获取南非上行站频道接收数据
-    getRadarData('jieshou', 55, 'channel status')
+    getRadarData('jieshou', groupid_ott, 'channel status')
     // 获取南非上行站频道转码数据
-    getRadarData('zhuanma', 54, 'YJY_Recoder_LOG_CHANNL')
+    getRadarData('zhuanma', group_os, 'YJY_Recoder_LOG_CHANNL')
     // 获取南非上行站频道切片数据
-    getRadarData('qiepian', 54, 'delete_qiepian')
+    getRadarData('qiepian', group_os, 'delete_qiepian')
     // 获取南非上行站频道AWS上传数据
-    getRadarData('awsshangchuan', 54, 'aws_channel_status')
+    getRadarData('awsshangchuan', group_os, 'aws_channel_status')
     // 获取aws数据
-    getAWSData(36, 10611)
+    getAWSData(yjw_aws_groupid)
     // 获取总用户数、总带宽及合作运营商
     getAllUsers(cache_groupids)
   }
@@ -239,7 +239,6 @@ $(document).ready(function(){
     var standardValue = 65000
     zabbix_server.queryData('item.get',{
       'groupids': groupid,
-      'hostids': hostid,
       'search': {
         'key_': 'gslb'
       },

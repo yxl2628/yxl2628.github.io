@@ -24,6 +24,7 @@
   <script src="./js/jquery.min.js?version=1527755407240" charset="utf-8"></script>
   <script src="./js/zabbix.js?version=1527755407240" charset="utf-8"></script>
   <script src="./js/template-web.js?version=1527755407240" charset="utf-8"></script>
+  <script src="./js/config.js?version=1527755407240" charset="utf-8"></script>
   <script id="channelStatusTpl" type="text/html">
     <div class="channel-status">
       <div class="channel-status_head">
@@ -62,7 +63,7 @@
 
       // 处理数据
       function getRadarData() {
-        var groupid_ott = 55, group_os = 54, jieshou = 'channel status',
+        var jieshou = 'channel status',
           zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = 'delete_qiepian',
           awsshangchuan = 'aws_channel_status'
         // 先获取接收的数据，需要用接收的数据来组合频道

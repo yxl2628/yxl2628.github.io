@@ -7,17 +7,19 @@ var geoCoordMap = {
   '乌干达_Africell': [32.290275, 1.373333],
   '尼日利亚_Glo': [8.675277, 9.081999]
 }
-//丢包率
+//网络链接
 var pack_loss_probability = [
   {fromName: '北京', hostid: '10084', toName: '亚马逊云', value: 0},
   {fromName: '乌干达_Africell', hostid: '10593', toName: '亚马逊云', value: 0},
   {fromName: '尼日利亚_Glo', hostid: '10601', toName: '亚马逊云', value: 0}
 ]
-// cache节点告警数量及带宽
+// cache节点
 var cache_list = [
   {name: '乌干达_Africell', groupid: '60', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1014},
   {name: '尼日利亚_Glo', groupid: '61', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1014}
 ]
+// 南非OS组id、南非ott上云组id、研究院组id、
+var groupid_ott = 55, group_os = 54, yjw_aws_groupid = 36
 // 获取统一的状态色
 var getColor = function(type) {
   if (type == 'good') {
