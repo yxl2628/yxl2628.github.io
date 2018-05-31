@@ -244,7 +244,6 @@ $(document).ready(function(){
       },
       'output': ['name', 'key_', 'lastvalue']
     }, function(res) {
-      console.log(res)
       if (res.result) {
         var gslb_success_request_count_monitor_view = 0,
         gslb_request_count_monitor_view = 0,
