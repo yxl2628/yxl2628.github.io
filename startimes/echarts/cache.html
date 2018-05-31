@@ -9,9 +9,12 @@
   <div id="content"></div>
   <script id="contentTpl" type="text/html">
     <div class="title">{{cache.name}}</div>
+    <div class="iframe">
+      <iframe src="{{cache.url}}" id="iframe" width="100%" height="{{cache.height}}px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
+    </div>
     <div class="content">
       <div class="sub-title">拓扑</div>
-      <div class="body" style="margin-top:{{cacheList[0].length*35}}px">
+      <div class="body" style="margin-top:{{cacheList[0].length*35 + 20}}px;margin-bottom:{{cacheList[cacheList.length-1].length*35 + 20}}px;">
         <div class="col-1 after-line"><span class="arrow"></span><img src="./img/cache_radar.png" /></div>
         <div class="col-2">
           {{each reciveList}}
