@@ -51,11 +51,6 @@
   <script>
     $(document).ready(function(){
       var zabbix_server = new $.jqzabbix()
-      zabbix_server.setOptions({
-        url: 'http://192.168.32.221/api_jsonrpc.php',
-        username: 'search',
-        password: '123456'
-      })
       // 先登录获取zabbix的auth
       zabbix_server.userLogin()
       // 获取接收 转码 切片 aws分发 的数据

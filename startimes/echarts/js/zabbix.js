@@ -2,9 +2,12 @@
   $.jqzabbix = function(options) {
     // 默认参数
     options = $.extend({
-      url: 'http://hostname/api_jsonrpc.php',
-      username: 'username',
-      password: 'password',
+      // url: 'http://hostname/api_jsonrpc.php',
+      // username: 'username',
+      // password: 'password',
+      url: 'http://192.168.32.221/api_jsonrpc.php',
+      username: 'search',
+      password: '123456',
       timeout: 5000,
       limit: 1000,
     }, options)

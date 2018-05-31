@@ -128,7 +128,7 @@
     myChart.setOption(option, true)
     myChart.on('click', function (params) {
       if (params.seriesType && params.seriesType === 'effectScatter') {
-        goto('./cache.html?groupid=' + params.data.groupid + '&name=' + encodeURI(params.data.name))
+        goto('./cache.html#' + params.data.groupid)
       }
     })
     function goto(url){

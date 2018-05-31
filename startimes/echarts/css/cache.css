@@ -9,10 +9,153 @@ html, body {
 }
 .title {
   text-align: center;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
   color: #ffffff;
   height: 50px;
   line-height: 50px;
   border-bottom: 1px solid #797979;
+}
+.content {
+  padding: 10px 20px;
+  color: #ffffff;
+}
+.sub-title {
+  font-size: 22px;
+  font-weight: 500;
+  height: 50px;
+  line-height: 50px;
+}
+.body {
+  margin: 30px auto;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+.col-1 {
+  position: relative;
+  box-sizing: border-box;
+  width: 13%;
+  overflow: hidden;
+}
+.col-1 img{
+  width: 60%;
+  vertical-align: middle;
+}
+.col-1.before-line .arrow {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  margin-top: -10px;
+  margin-left: -21px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-left: 20px solid #797979;
+  border-bottom: 10px solid transparent;
+}
+.col-1.before-line:before, .col-1.after-line:after {
+  position: absolute;
+  top:50%;
+  margin-top: -1px;
+  display: inline-block;
+  content: '';
+  width: 20%;
+  height: 3px;
+  background-color: #797979;
+}
+.col-1.before-line:before{
+  left: 0;
+  margin-left: -5px;
+}
+.col-2 {
+  box-sizing: border-box;
+  font-size: 0;
+  width: 20%;
+}
+.col-3 {
+  box-sizing: border-box;
+  font-size: 0;
+  width: 20%;
+}
+.item {
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  border-left: 3px solid #797979;
+  border-right: 3px solid #797979;
+}
+.point {
+  position: relative;
+  display: inline-block;
+  width: 50%;
+  background-color: #31872A;
+  font-size: 14px;
+  height: 70px;
+  line-height: 70px;
+  border: 1px solid #797979;
+}
+.col-3 .item {
+  border-right: 0;
+}
+.col-2 .item:before, .col-2 .item:after, .col-3 .item:before {
+  display: inline-block;
+  content: '';
+  width: 25%;
+  height: 3px;
+  background-color: #797979;
+}
+.item:before {
+  margin-right: 5px;
+}
+.item.first {
+  height: 50px;
+  align-items: flex-start;
+}
+.item.first .point {
+  margin-top: -35px;
+}
+.item.last {
+  height: 50px;
+  align-items: flex-end;
+}
+.item.last .point {
+  margin-bottom: -35px;
+}
+.item.once {
+  margin-top: 1px;
+  height: 70px;
+  align-items: center;
+  border: 0;
+}
+.item.once .point {
+  margin: 0;
+}
+.child-point {
+  height: 70px;
+  line-height: 70px;
+}
+.child-point:not(:last-child){
+  border-bottom: 1px solid #797979;
+}
+.error {
+  background-color: #832A2A;
+}
+.point:before {
+  position: absolute;
+  top: 50%;
+  left: -21px;
+  margin-top: -10px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-left: 20px solid #797979;
+  border-bottom: 10px solid transparent;
 }

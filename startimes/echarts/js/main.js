@@ -1,10 +1,5 @@
 $(document).ready(function(){
   var zabbix_server = new $.jqzabbix()
-  zabbix_server.setOptions({
-    url: 'http://192.168.32.221/api_jsonrpc.php',
-    username: 'search',
-    password: '123456'
-  })
   // 先登录获取zabbix的auth
   zabbix_server.userLogin()
   // 获取cache节点的groupid集合
