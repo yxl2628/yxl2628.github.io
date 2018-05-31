@@ -18,8 +18,8 @@ var cache_list = [
   {name: '乌干达_Africell', groupid: '60', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1014},
   {name: '尼日利亚_Glo', groupid: '61', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1014}
 ]
-// 南非OS组id、南非ott上云组id、研究院组id、
-var groupid_ott = 55, group_os = 54, yjw_aws_groupid = 36
+// 南非OS组id、南非ott上云组id、gslb的主机id
+var groupid_ott = 55, group_os = 54, gslb_staging_manage_hostid = 10611
 // 获取统一的状态色
 var getColor = function(type) {
   if (type == 'good') {

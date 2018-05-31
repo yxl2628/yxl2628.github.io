@@ -46,7 +46,7 @@ $(document).ready(function(){
     // 获取南非上行站频道AWS上传数据
     getRadarData('awsshangchuan', group_os, 'aws_channel_status')
     // 获取aws数据
-    getAWSData(yjw_aws_groupid)
+    getAWSData(gslb_staging_manage_hostid)
     // 获取总用户数、总带宽及合作运营商
     getAllUsers(cache_groupids)
   }
@@ -235,15 +235,16 @@ $(document).ready(function(){
     })
   }
   // 获取全局调度系统的指标
-  function getAWSData (groupid, hostid) {
+  function getAWSData (gslb_staging_manage_hostid) {
     var standardValue = 65000
     zabbix_server.queryData('item.get',{
-      'groupids': groupid,
+      'hostids': gslb_staging_manage_hostid,
       'search': {
         'key_': 'gslb'
       },
       'output': ['name', 'key_', 'lastvalue']
     }, function(res) {
+      console.log(res)
       if (res.result) {
         var gslb_success_request_count_monitor_view = 0,
         gslb_request_count_monitor_view = 0,
