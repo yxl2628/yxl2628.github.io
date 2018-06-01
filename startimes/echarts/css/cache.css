@@ -98,7 +98,7 @@ html, body {
   font-size: 14px;
   height: 70px;
   line-height: 70px;
-  border: 1px solid #797979;
+  border: 1px solid #ffffff;
   cursor: pointer;
 }
 .col-3 .item {
@@ -138,8 +138,8 @@ html, body {
   margin: 0;
 }
 .child-point {
-  height: 70px;
-  line-height: 70px;
+  height: 40px;
+  line-height: 40px;
   cursor: pointer;
 }
 .child-point:not(:last-child){
