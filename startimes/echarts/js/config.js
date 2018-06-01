@@ -20,6 +20,19 @@ var cache_list = [
 ]
 // 南非OS组id、南非ott上云组id、gslb的主机id
 var groupid_ott = 55, group_os = 54, gslb_staging_manage_hostid = 10611
+// 各个cache节点对应的子页面地址
+var cache_url = {
+  'UGA-Africell-SER-OS-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'UGA-Africell-SER-MGT-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'UGA-Africell-SER-STR-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'UGA-Africell-SER-MGT-02': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-CAC-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-CAC-02': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-MGT-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-STR-01': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-STR-07': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1',
+  'NGA-Glo-SER-MGT-02': 'http://10.0.224.100:3000/d/x7_B_94mk/cache-jie-dian-ji-bie-shu-ju-jian-kong?orgId=1'
+}
 // 获取统一的状态色
 var getColor = function(type) {
   if (type == 'good') {
