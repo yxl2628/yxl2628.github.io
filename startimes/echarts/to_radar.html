@@ -66,39 +66,49 @@
         var jieshou = 'channel status',
           zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = 'delete_qiepian',
           awsshangchuan = 'aws_channel_status'
-        // 先获取接收的数据，需要用接收的数据来组合频道
+        // 先获取转码的数据，然后使用转码的数据来组织频道
         zabbix_server.queryData('item.get',{
-          'groupids': groupid_ott,
-          'application': jieshou,
+          'groupids': group_os,
+          'application': zhuanma,
           'filter': {
             'state': '0'
           },
           'output': ['lastvalue', 'name']
         }, function(res) {
           if (res.result) {
+            // 先循环一次，把频道数目固定
             res.result.forEach(function(item) {
-              var name = item.name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(' ', '_')
+              var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
               var value = parseInt(item.lastvalue)
               resData[name] = {
                 name: name,
+                realName: item.name,
                 error: false,
                 jieshou: [0, 0],
                 zhuanma: [0, 0],
                 qiepian: [0, 0],
                 aws: [0, 0]
               }
-              resData[name].jieshou[1] += 1
-              resData[name].jieshou[0] += 1
-              if (value > 0) {
-                resData[name].error = true
-                resData[name].jieshou[0] -= 1
+            })
+            res.result.forEach(function(item) {
+              var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+              var value = parseInt(item.lastvalue)
+              if (resData[name] === undefined) {
+                // console.log('【转码】未找到频道：', item.name)
+              } else {
+                resData[name].zhuanma[0] += 1
+                resData[name].zhuanma[1] += 1
+                if (value === 0) {
+                  resData[name].error = true
+                  resData[name].zhuanma[0] -= 1
+                }
               }
             })
             // 解析频道之后，依次解析转码、切片、aws分发
             // 获取转码数据
             zabbix_server.queryData('item.get',{
-              'groupids': group_os,
-              'application': zhuanma,
+              'groupids': groupid_ott,
+              'application': jieshou,
               'filter': {
                 'state': '0'
               },
@@ -106,16 +116,21 @@
             }, function(res) {
               if (res.result) {
                 res.result.forEach(function(item) {
-                  var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var name = item.name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(/\s/ig, '_').replace(/(_SD||_BD||_HD||_CD)$/ig, '')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
-                    // console.log('【转码】未找到频道：' + name)
+                    resData[name] = {
+                      name: name,
+                      realName: item.name,
+                      error: true,
+                      jieshou: [0, 0]
+                    }
                   } else {
-                    resData[name].zhuanma[0] += 1
-                    resData[name].zhuanma[1] += 1
-                    if (value === 0) {
+                    resData[name].jieshou[1] += 1
+                    resData[name].jieshou[0] += 1
+                    if (value > 0) {
                       resData[name].error = true
-                      resData[name].zhuanma[0] -= 1
+                      resData[name].jieshou[0] -= 1
                     }
                   }
                 })
@@ -133,10 +148,15 @@
             }, function(res) {
               if (res.result) {
                 res.result.forEach(function(item) {
-                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '').replace('record/','')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
-                    // console.log('【切片】未找到频道：' + name)
+                    resData[name] = {
+                      name: name,
+                      realName: item.name,
+                      error: true,
+                      qiepian: [0, 0]
+                    }
                   } else {
                     resData[name].qiepian[0] += 1
                     resData[name].qiepian[1] += 1
@@ -163,7 +183,12 @@
                   var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
-                    // console.log('【aws分发】未找到频道：' + name)
+                    resData[name] = {
+                      name: name,
+                      realName: item.name,
+                      error: true,
+                      aws: [0, 0]
+                    }
                   } else {
                     resData[name].aws[0] += 1
                     resData[name].aws[1] += 1
@@ -184,6 +209,18 @@
       var filterData = [], success = 0, error = 0
       for (var x in data) {
         if (data[x].error) {
+          if (data[x].jieshou ===undefined){
+            data[x].jieshou = [0, 0]
+          }
+          if (data[x].zhuanma ===undefined){
+            data[x].zhuanma = [0, 0]
+          }
+          if (data[x].qiepian ===undefined){
+            data[x].qiepian = [0, 0]
+          }
+          if (data[x].aws ===undefined){
+            data[x].aws = [0, 0]
+          }
           filterData.push(data[x])
           error += 1
         } else {
