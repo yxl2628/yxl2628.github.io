@@ -55,12 +55,11 @@
       // 先登录获取zabbix的auth
       zabbix_server.userLogin()
       // 获取接收 转码 切片 aws分发 的数据
-      var resData = {}
+
       getRadarData()
       setInterval(function(){
         getRadarData()
       },60000)
-
       // 处理数据
       function getRadarData() {
         var jieshou = 'channel status',
@@ -76,6 +75,7 @@
           'output': ['lastvalue', 'name']
         }, function(res) {
           if (res.result) {
+            var resData = {}
             // 先循环一次，把频道数目固定
             res.result.forEach(function(item) {
               var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>告警列表</title>
+    <link rel="stylesheet" href="./css/error.css?version=1527755407240">
+  </head>
+  <body>
+    <div id="table"></div>
+    <script src="./js/jquery.min.js?version=1527755407240" charset="utf-8"></script>
+    <script src="./js/zabbix.js?version=1527755407240" charset="utf-8"></script>
+    <script src="./js/template-web.js?version=1527755407240" charset="utf-8"></script>
+    <script src="./js/moment.js?version=1527755407240" charset="utf-8"></script>
+    <script id="tableTpl" type="text/html">
+      <div class="title">
+        实时告警信息（共{{list.length}}条）
+      </div>
+      <table border="0" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th width="20%">告警主机</th>
+            <th width="40%">告警信息</th>
+            <th width="20%">告警时间</th>
+            <th width="20%">持续时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{each list}}
+          {{if $index < 10}}
+          <tr>
+            <td>{{$value.hosts[0].name}}</td>
+            <td class="{{if $value.priority <= 3}}bad{{else}}error{{/if}}">{{$value.description}}</td>
+            <td>{{$value.date}}</td>
+            <td>{{$value.time}}</td>
+          </tr>
+          {{/if}}
+          {{/each}}
+        </tbody>
+      </table>
+    </script>
+    <script type="text/javascript">
+      var zabbix_server = new $.jqzabbix()
+      // 先登录获取zabbix的auth
+      zabbix_server.userLogin()
+      // 先获取该主机组下的所有主机
+      zabbix_server.queryData('trigger.get',{
+        'only_true': 1, // 仅返回最近处于问题状态的触发器
+        'monitored': 1, //属于受监控主机的已启用触发器
+        'active': 1, // 只返回属于受监控主机的启用的触发器
+        'min_severity': 2,
+        'selectHosts': ['name'], // 同时查出所属的主机信息
+        // 'selectGroups': ['name'], // 同时查出所属的主机组信息
+        // 'sortfield': 'triggerid',
+        'sortorder': 'ASC',
+        'search': {
+          'state': '0'
+        },
+        'output': ['description', 'hosts', 'lastchange', 'priority']
+      }, function(res) {
+        if (res.result) {
+          var result = res.result.reverse()
+          moment.locale('zh_cn')
+          for(var i = 0; i < 10; i++) {
+            result[i].date = moment(result[i].lastchange*1000).format('YYYY-MM-DD HH:mm:ss')
+            result[i].time = moment(result[i].lastchange*1000).fromNow().replace('前', '')
+          }
+          $('#table').html(template('tableTpl', {list: result}))
+        }
+      })
+
+    </script>
+  </body>
+</html>

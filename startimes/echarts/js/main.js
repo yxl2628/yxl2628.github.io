@@ -140,10 +140,11 @@ $(document).ready(function(){
     zabbix_server.queryData('item.get',{
       'hostids': pack_loss_host_list,
       'search': {
-        'name': '到S3上传桶-LOSS'
+        'name': 'S3上传桶-LOSS'
       },
       'output': ['hostid', 'name', 'lastvalue']
     }, function(res) {
+      console.log(pack_loss_host_list, res)
       if (res.result) {
         var _countObj = {}
         res.result.forEach(function(item) {
@@ -182,6 +183,7 @@ $(document).ready(function(){
         res.result.forEach(function(item) {
           if (item.name.indexOf('cache.demand.unique.count') >= 0 || item.name.indexOf('cache.live.unique.count') >= 0){
             totalUser += parseInt(item.lastvalue)
+            $('#user').html(template('ledTpl', {value: totalUser.toString()}))
           }
         })
       }
@@ -192,8 +194,9 @@ $(document).ready(function(){
         totalNetwork += item.realValue
       }
     })
-    $('#network').html((totalNetwork/1000000).toFixed(2))
-    $('#partner').html(cache_list.length)
+
+    $('#network').html(template('ledTpl', {value: (totalNetwork/1000000).toFixed(0)}))
+    $('#partner').html(template('ledTpl', {value: cache_list.length.toString()}))
   }
   // 获取南非上行站频道监控
   function getRadarData (id, groupid, application) {

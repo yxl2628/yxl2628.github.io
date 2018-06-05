@@ -9,9 +9,6 @@
   <div id="content"></div>
   <script id="contentTpl" type="text/html">
     <div class="title">{{cache.name}}</div>
-    <div class="iframe">
-      <iframe src="{{cache.url}}" id="iframe" width="100%" height="{{cache.height}}px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
-    </div>
     <div class="content">
       <div class="sub-title">拓扑</div>
       <div class="body" style="margin-top:{{cacheList[0].length*20 + 20}}px;margin-bottom:{{cacheList[cacheList.length-1].length*20 + 20}}px;">
@@ -48,6 +45,9 @@
           {{/each}}
         </div>
       </div>
+    </div>
+    <div class="iframe">
+      <iframe src="{{cache.url}}" id="iframe" width="100%" height="{{cache.height}}px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
     </div>
   </script>
   <script src="./js/config.js?version=1527755407240" charset="utf-8"></script>
