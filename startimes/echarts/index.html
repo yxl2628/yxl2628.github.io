@@ -13,7 +13,7 @@
 <body>
   <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
   <div id="main"></div>
-  <div class="aws" onclick="goto('http://10.0.224.100:3000/d/j_79dUVmz/gslbtu-xing')">
+  <div class="aws" onclick="goto('http://10.0.224.100:3000/d/7kn6CcImz/gslb-sheng-chan-huan-jing?refresh=1m')">
     <span></span>
     <span></span>
     <span></span>
@@ -49,7 +49,7 @@
         <div id="network" class="number"></div>
       </div>
     </div>
-    <div class="item">
+    <div class="item" style="display:none">
       <!-- <div class="label"><img src='./img/partner.png' /></div> -->
       <div class="content">
         <div class="title">合作运营商数</div>
@@ -70,7 +70,7 @@
         roam: true,
         zoom: 1.1,
         top: '10%',
-        left: '30%',
+        left: '25%',
         itemStyle: {
           areaColor: '#151515',
           borderColor: '#555555'
@@ -98,8 +98,8 @@
           data: [
             {name: '亚马逊云', value:geoCoordMap['亚马逊云'], symbol: awsPath, symbolSize: 45, itemStyle: {color: getColor('good')}},
             {name: '北京', value:geoCoordMap['北京'], symbol: chinaPath, symbolSize: 50},
-            {name: '卫星', value:geoCoordMap['卫星'], symbol: satellitePath, symbolSize: 45, itemStyle: {color: getColor('good')}},
-            {name: '上云站', value:geoCoordMap['上云站'], symbol: radarPath, symbolSize: 40, itemStyle: {color: getColor('good')}}
+            {name: '卫星', value:geoCoordMap['卫星'], symbolSize: 0},
+            {name: '上云站机房', value:geoCoordMap['上云站机房'], symbol: serverPath, symbolSize: 25}
           ]
         },
         {
@@ -137,6 +137,10 @@
       ]
     }
     myChart.setOption(option, true)
+    var satellitePx = myChart.convertToPixel('geo', geoCoordMap['卫星']),
+    radarPix = myChart.convertToPixel('geo', geoCoordMap['上云站'])
+    var satelliteImg = '<img src="' + satellitePath +'" style="position:absolute;top:' + satellitePx[1] + 'px;left:' + satellitePx[0] + 'px;width:45px;height:45px;" />'
+    $('#main').after(satelliteImg)
     myChart.on('click', function (params) {
       if (params.seriesType && params.seriesType === 'effectScatter') {
         goto('./cache.html#' + params.data.groupid)

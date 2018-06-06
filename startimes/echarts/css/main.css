@@ -19,7 +19,7 @@ html, body {
 .total {
   position: absolute;
   left: 50px;
-  bottom: 40px;
+  bottom: 70px;
 }
 
 .total .item {
@@ -66,16 +66,23 @@ html, body {
   border: 1px solid #525252;
 }
 .aws {
-  left: 50px;
-  top: 60px;
+  left: 30px;
+  top: 80px;
 }
 .radar {
-  right: 20px;
-  bottom: 40px;
+  width: 200px;
+  right: 10px;
+  bottom: 30px;
+  padding-right: 10px;
 }
 .radar .title, .aws .title {
   font-size: 16px;
   margin-bottom: 10px;
+}
+.radar .item{
+  display: inline-block;
+  box-sizing: border-box;
+  width: 47%;
 }
 .radar p, .aws p {
   display: inline;

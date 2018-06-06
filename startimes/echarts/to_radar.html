@@ -66,7 +66,7 @@
           zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = 'delete_qiepian',
           awsshangchuan = 'aws_channel_status'
         // 先获取转码的数据，然后使用转码的数据来组织频道
-        zabbix_server.queryData('item.get',{
+        zabbix_server.queryData('item.get', {
           'groupids': group_os,
           'application': zhuanma,
           'filter': {
@@ -78,7 +78,7 @@
             var resData = {}
             // 先循环一次，把频道数目固定
             res.result.forEach(function(item) {
-              var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+              var name = getName(item.name, 'zhuanma')
               var value = parseInt(item.lastvalue)
               resData[name] = {
                 name: name,
@@ -90,25 +90,17 @@
                 aws: [0, 0]
               }
             })
-            res.result.forEach(function(item) {
-              var name = item.name.replace('check ', '').replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
-              var value = parseInt(item.lastvalue)
-              if (resData[name] === undefined) {
-                // console.log('【转码】未找到频道：', item.name)
-              } else {
-                resData[name].zhuanma[0] += 1
-                resData[name].zhuanma[1] += 1
-                if (value === 0) {
-                  resData[name].error = true
-                  resData[name].zhuanma[0] -= 1
-                }
-              }
-            })
-            // 解析频道之后，依次解析转码、切片、aws分发
-            // 获取转码数据
+
+            // console.log(resData)
+            // var numtest = []
+            // for(var x in resData){
+            //   numtest.push(resData[x])
+            // }
+            // console.log(numtest)
+            // 获取接收数据
             zabbix_server.queryData('item.get',{
               'groupids': groupid_ott,
-              'application': jieshou,
+              'application': qiepian,
               'filter': {
                 'state': '0'
               },
@@ -116,7 +108,7 @@
             }, function(res) {
               if (res.result) {
                 res.result.forEach(function(item) {
-                  var name = item.name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(/\s/ig, '_').replace(/(_SD||_BD||_HD||_CD)$/ig, '')
+                  var name = getName(item.name, 'qiepian')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
                     resData[name] = {
@@ -137,6 +129,39 @@
                 rander(resData)
               }
             })
+            // 获取转码数据
+            zabbix_server.queryData('item.get',{
+              'groupids': group_os,
+              'application': zhuanma,
+              'filter': {
+                'state': '0'
+              },
+              'output': ['lastvalue', 'name']
+            }, function(res) {
+              if (res.result) {
+                res.result.forEach(function(item) {
+                  var name = getName(item.name, 'zhuanma')
+                  var value = parseInt(item.lastvalue)
+                  if (resData[name] === undefined) {
+                    resData[name] = {
+                      name: name,
+                      realName: item.name,
+                      error: true,
+                      zhuanma: [0, 0]
+                    }
+                  } else {
+                    resData[name].zhuanma[0] += 1
+                    resData[name].zhuanma[1] += 1
+                    if (value === 0) {
+                      resData[name].error = true
+                      resData[name].zhuanma[0] -= 1
+                    }
+                  }
+                })
+
+                rander(resData)
+              }
+            })
             // 获取切片数据
             zabbix_server.queryData('item.get',{
               'groupids': group_os,
@@ -148,7 +173,7 @@
             }, function(res) {
               if (res.result) {
                 res.result.forEach(function(item) {
-                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '').replace('record/','')
+                  var name = getName(item.name, 'qiepian')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
                     resData[name] = {
@@ -180,7 +205,7 @@
             }, function(res) {
               if (res.result) {
                 res.result.forEach(function(item) {
-                  var name = item.name.replace(/(_SD||_BD||_HD||_CD)_\d+_\d+_\d+x\d+_\d+.+/ig, '')
+                  var name = getName(item.name, 'aws')
                   var value = parseInt(item.lastvalue)
                   if (resData[name] === undefined) {
                     resData[name] = {
@@ -203,6 +228,50 @@
             })
           }
         })
+      }
+      function getName (name, type) {
+        name = name.replace('record/','').replace('__', '_').replace(/(_SD||_BD||_HD||_CD||_DB)_\d+_\d+_\d+x\d+_\d+.+/ig, '').replace('__', '_')
+        switch (type) {
+          case 'jieshou':
+            name = name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(/\s/ig, '_')
+            .replace(/(_SD||_BD||_HD||_CD||_DB)+/ig, '')
+            break
+          case 'zhuanma':
+            name = name.replace('check ', '')
+            break
+          case 'qiepian':
+            name = name
+            break
+          case 'aws':
+            name = name
+            break
+          default:
+            name = name
+        }
+        switch (name) {
+          case 'NGW':
+            name = 'NGW_F'
+            break
+          case 'fenghuan':
+            name = 'FENG_HUAN'
+            break
+          case 'ST_Music':
+            name = 'ST_SA_Music'
+            break
+          case 'CHINESE':
+            name = 'ST_CHINESE_HOMELAND'
+            break
+          case 'BORDER':
+            name = 'BORDER_TV'
+            break
+          case 'ETV_ROA':
+            name = 'ETV'
+            break
+          default:
+            name = name
+        }
+        name = name.replace('-', '_').toUpperCase()
+        return name
       }
     })
     function rander(data) {
