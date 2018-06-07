@@ -307,7 +307,7 @@ $(document).ready(function(){
           var groupName = result[i].groups[0].name
           if (groupName === '0701_AWS_研究院') {
             aws_error += 1
-            if (result[i].priority >= 3) {
+            if (result[i].priority > 3) {
               aws_error += 6
             }
             break
