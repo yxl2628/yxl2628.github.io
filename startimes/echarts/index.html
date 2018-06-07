@@ -34,23 +34,39 @@
     <div class="item"><label>切片：</label><p id="qiepian"></p></div>
     <div class="item"><label>上云：</label><p id="awsshangchuan"></p></div>
   </div>
+  <div class="app">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <div class="title">APP用户体验</div>
+    <div class="item"><label>播放：</label><p id="appplay"></p></div>
+    <div class="item"><label>首页：</label><p id="apphome"></p></div>
+    <div class="item"><label>登录：</label><p id="applogin"></p></div>
+    <div class="item"><label>注册：</label><p id="appregister"></p></div>
+    <div class="item"><label>订单：</label><p id="apporder"></p></div>
+    <div class="item"><label>支付：</label><p id="apppay"></p></div>
+  </div>
   <div class="total">
     <div class="item">
-      <!-- <div class="label"><img src='./img/user.png' /></div> -->
+      <div class="content">
+        <div class="title">StarTimesAPP在线用户数</div>
+        <div id="apponline" class="number"></div>
+      </div>
+    </div>
+    <div class="item">
       <div class="content">
         <div class="title">四达CDN在线用户数</div>
         <div id="user" class="number"></div>
       </div>
     </div>
     <div class="item">
-      <!-- <div class="label"><img src='./img/network.png' /></div> -->
       <div class="content">
-        <div class="title">四达CDN总带宽(Gbit/s)</div>
+        <div class="title">四达CDN总带宽(<span id="networdUnit"></span>bit/s)</div>
         <div id="network" class="number"></div>
       </div>
     </div>
     <div class="item" style="display:none">
-      <!-- <div class="label"><img src='./img/partner.png' /></div> -->
       <div class="content">
         <div class="title">合作运营商数</div>
         <div id="partner" class="number"></div>

@@ -13,7 +13,7 @@ var geoCoordMap = {
   '坦桑_Hallotel': [31.1572265625, -7.4060477171],
   '加纳_MTN': [-1.1425781250, 7.9286748014],
   '赞比亚_MTN': [28.3447265625, -15.4960324142],
-  '南非_Vodacom': [21.9726562500, -28.8061735089],
+  '南非_Vodacom': [25.9726562500, -28.8061735089],
   '南非_MTN': [31.0253906250, -28.1495032115],
   '乌干达_MTN': [31.4648437500, 3.1185762168],
   '乌干达_Airtel': [33.8818359375, 3.3379539614],
@@ -36,26 +36,46 @@ var geoCoordMap = {
 var pack_loss_probability = [
   {fromName: '北京', hostid: '10084', toName: '亚马逊云', value: 0},
   {fromName: '上云站机房', hostid: '10545', toName: '亚马逊云', value: 0},
-  {fromName: '乌干达_Africell', hostid: '10593', toName: '亚马逊云', value: 0},
+  {fromName: '尼日利亚_MTN', hostid: '', toName: '亚马逊云', value: -1},
   {fromName: '尼日利亚_Glo', hostid: '10601', toName: '亚马逊云', value: 0},
-  {fromName: '坦桑_Hallotel', hostid: '10620', toName: '亚马逊云', value: 0}
+  {fromName: '肯尼亚_Safaricom', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '坦桑_Tigo', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '坦桑_Airtel', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '坦桑_Hallotel', hostid: '10620', toName: '亚马逊云', value: 0},
+  {fromName: '加纳_MTN', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '赞比亚_MTN', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '南非_Vodacom', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '南非_MTN', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '乌干达_MTN', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '乌干达_Airtel', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '乌干达_Africell', hostid: '10593', toName: '亚马逊云', value: 0},
+  {fromName: '科特迪瓦_MTN', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '塞内加尔_Orange', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '莫桑比克_Vodacom', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '卢旺达', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '马达', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '刚果金_Africell', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '刚果金_Vodacom', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '刚果金_Orange', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '喀麦隆', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '几内亚', hostid: '', toName: '亚马逊云', value: -1},
+  {fromName: '布隆迪', hostid: '', toName: '亚马逊云', value: -1}
 ]
 // cache节点
 var cache_list = [
   {name: '尼日利亚_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
-  {name: '尼日利亚_Glo', groupid: '61', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1400},
+  {name: '尼日利亚_Glo', groupid: '61', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian-ni-ri-glo?refresh=1m&orgId=1', height: 1400},
   {name: '肯尼亚_Safaricom', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '坦桑_Tigo', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '坦桑_Airtel', groupid: '', value: [-1, -1], url: '', height: 1400},
-  {name: '坦桑_Hallotel', groupid: '', value: [-1, -1], url: '', height: 1400},
-  {name: '坦桑_Hallotel', groupid: '66', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1400},
+  {name: '坦桑_Hallotel', groupid: '66', value: [0, 0], url: '', height: 1400},
   {name: '加纳_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '赞比亚_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '南非_Vodacom', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '南非_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '乌干达_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '乌干达_Airtel', groupid: '', value: [-1, -1], url: '', height: 1400},
-  {name: '乌干达_Africell', groupid: '60', value: [0, 0], url: 'http://10.0.224.100:3000/d/0MiACYVmz/cachezhan-dian?orgId=1', height: 1400},
+  {name: '乌干达_Africell', groupid: '60', value: [0, 0], url: '', height: 1400},
   {name: '科特迪瓦_MTN', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '塞内加尔_Orange', groupid: '', value: [-1, -1], url: '', height: 1400},
   {name: '莫桑比克_Vodacom', groupid: '', value: [-1, -1], url: '', height: 1400},
@@ -122,8 +142,18 @@ var convertLinesData = function(data) {
       fromCoord = [fromCoord[0] - 1.5, fromCoord[1] + 1.5]
     }
     if (fromCoord && toCoord) {
-      var type = dataItem.value < 10 ? 'good' : dataItem.value < 50 ? 'well' : 'bad'
-      res.push({
+      var type = 'none', opacity = 0.1
+      if (dataItem.value >= 0) {
+        type = 'good'
+        opacity = 0.3
+      } else if (dataItem.value >=10) {
+        type = 'well'
+        opacity = 0.5
+      } else if (dataItem.value >=50) {
+        type = 'bad'
+        opacity = 0.8
+      }
+      var push_data = {
         fromName: dataItem.fromName,
         toName: dataItem.toName,
         coords: [fromCoord, toCoord],
@@ -131,11 +161,17 @@ var convertLinesData = function(data) {
           normal: {
             color: getColor(type),
             width: 1,
-            opacity: 0.6,
+            opacity: opacity,
             curveness: 0.2
           }
         }
-      })
+      }
+      if (type === 'none') {
+        push_data.effect = {
+          symbolSize: 0
+        }
+      }
+      res.push(push_data)
     }
   }
   return res
@@ -187,7 +223,7 @@ var convertPonitData = function(data) {
           scale: 0
         }
       }
-      if (type_load == 'none') {
+      if (type_load == 'none' || dataItem.value[1] == 0) {
         push_data.label.show = false
       }
       res.push(push_data)
@@ -195,11 +231,19 @@ var convertPonitData = function(data) {
   }
   return res
 }
-// svg 路径
-var awsPath = 'image://./img/aws_ott.png'
-var chinaPath = 'image://./img/startimes_noc.png'
-var satellitePath = './img/wx.gif'
-var radarPath = './img/radar.gif'
-var serverPath = 'image://./img/server-good.svg'
-var serverBadPath = 'image://./img/server-bad.svg'
-var serverErrorPath = 'image://./img/server-error.svg'
+// 图片路径
+var awsPath = 'image://./img/aws_ott-good.png'
+var awsBadPath = 'image://./img/aws_ott-bad.png'
+var awsErrorPath = 'image://./img/aws_ott-error.png'
+var chinaPath = 'image://./img/startimes_noc-good.png'
+var chinaBadPath = 'image://./img/startimes_noc-bad.png'
+var chinaErrorPath = 'image://./img/startimes_noc-error.png'
+var satellitePath = './img/wx-good.gif'
+var satelliteBadPath = './img/wx-bad.gif'
+var satelliteErrorPath = './img/wx-error.gif'
+var radarPath = './img/radar-good.gif'
+var radarBadPath = './img/radar-bad.gif'
+var radarErrorPath = './img/radar-error.gif'
+var serverPath = 'image://./img/server-good.png'
+var serverBadPath = 'image://./img/server-bad.png'
+var serverErrorPath = 'image://./img/server-error.png'

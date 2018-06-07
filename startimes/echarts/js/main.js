@@ -48,7 +48,10 @@ $(document).ready(function(){
     // 获取aws数据
     getAWSData(gslb_manage_hostid)
     // 获取总用户数、总带宽及合作运营商
-    getAllUsers(cache_groupids)
+    setTimeout(function(){
+      getAllUsers(cache_groupids)
+    },2000)
+    getAppData()
   }
   // 获取zabbix告警数
   function getCacheZabbixError (groupids) {
@@ -153,8 +156,6 @@ $(document).ready(function(){
           var _key = 'h-' + item.hostid
           if (_countObj[_key] !== undefined) {
             item.value = _countObj[_key]
-          } else {
-            item.value = 100
           }
         })
         var _option = myChart.getOption()
@@ -169,31 +170,41 @@ $(document).ready(function(){
   }
   // 获取总用户数
   function getAllUsers (cache_groupids) {
-    zabbix_server.queryData('item.get',{
-      'groupids': cache_groupids,
-      'search': {
-        'name': 'cache'
-      },
-      'output': ['name', 'lastvalue']
-    }, function(res) {
-      if (res.result) {
-        var totalUser = 0
-        res.result.forEach(function(item) {
-          if (item.name.indexOf('cache.demand.unique.count') >= 0 || item.name.indexOf('cache.live.unique.count') >= 0){
-            totalUser += parseInt(item.lastvalue)
-            $('#user').html(template('ledTpl', {value: totalUser.toString()}))
-          }
-        })
-      }
-    })
-    var totalNetwork = 0
+    var totalUser = 0
+    // zabbix_server.queryData('item.get',{
+    //   'groupids': cache_groupids,
+    //   'search': {
+    //     'name': 'cache'
+    //   },
+    //   'output': ['name', 'lastvalue']
+    // }, function(res) {
+    //   if (res.result) {
+    //     totalUser = 0
+    //     res.result.forEach(function(item) {
+    //       if (item.name.indexOf('cache.demand.unique.count') >= 0 || item.name.indexOf('cache.live.unique.count') >= 0){
+    //         totalUser += parseInt(item.lastvalue)
+    //         $('#user').html(template('ledTpl', {value: totalUser.toString()}))
+    //       }
+    //     })
+    //   }
+    // })
+    var totalNetwork = 0, type = 'G'
     cache_list.forEach(function(item) {
       if (item.realValue != undefined) {
         totalNetwork += item.realValue
       }
     })
-
-    $('#network').html(template('ledTpl', {value: (totalNetwork/1000000).toFixed(0)}))
+    if (totalNetwork < 1000000) {
+      totalNetwork = totalNetwork/1000
+      type = 'M'
+      totalUser =  Math.ceil(totalNetwork/0.4)
+    } else {
+      totalNetwork = totalNetwork/1000000
+      totalUser =  Math.ceil(totalNetwork*1000/0.4)
+    }
+    $('#user').html(template('ledTpl', {value: totalUser.toString()}))
+    $('#networdUnit').text(type)
+    $('#network').html(template('ledTpl', {value: totalNetwork.toFixed(0)}))
     $('#partner').html(template('ledTpl', {value: cache_list.length.toString()}))
   }
   // 获取南非上行站频道监控
@@ -252,7 +263,6 @@ $(document).ready(function(){
       'output': ['name', 'key_', 'lastvalue']
     }, function(res) {
       if (res.result) {
-        console.log(res.result)
         var success_persent = 0,
         response_time = [],
         qps = 0
@@ -274,5 +284,63 @@ $(document).ready(function(){
         $('#qps').css('color',getColor(qps < standardValue * 0.7 ? 'good' : qps < standardValue * 0.9 ? 'well' : 'bad'))
       }
     })
+
+    zabbix_server.queryData('trigger.get', {
+      'only_true': 1, // 仅返回最近处于问题状态的触发器
+      'monitored': 1, //属于受监控主机的已启用触发器
+      'active': 1, // 只返回属于受监控主机的启用的触发器
+      'min_severity': 2,
+      'selectHosts': ['name'], // 同时查出所属的主机信息
+      'selectGroups': ['name'], // 同时查出所属的主机组信息
+      // 'sortfield': 'triggerid',
+      'sortorder': 'ASC',
+      'filter': {
+        'value': '1'
+      },
+      'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
+    }, function(res) {
+      if (res.result) {
+        var result = res.result
+        var group = {}, groupList = [], aws_error = 0
+        for (var i = 0, resLen = result.length; i < resLen; i++) {
+          var groupName = result[i].groups[0].name
+          if (groupName === '0701_AWS_研究院') {
+            aws_error += 1
+            if (result[i].priority >= 3) {
+              aws_error += 6
+            }
+            break
+          }
+        }
+        var _option = myChart.getOption()
+        _option.series.forEach(function(item) {
+          if (item.name === '地点') {
+            item.data.forEach(function(value) {
+              if (value.name === '亚马逊云') {
+                if (aws_error === 0) {
+                  value.symbol = awsPath
+                } else if (aws_error > 0 && aws_error <= 5) {
+                  value.symbol = awsBadPath
+                } else if (aws_error > 5) {
+                  value.symbol = awsErrorPath
+                }
+              }
+            })
+          }
+        })
+        console.log(_option)
+        myChart.setOption(_option, true)
+      }
+    })
+  }
+  // 获取App数据
+  function getAppData(){
+    $('#apponline').html(template('ledTpl', {value: '987654'}))
+    $('#appplay').text('99.99%')
+    $('#apphome').text('99.99%')
+    $('#applogin').text('99.99%')
+    $('#appregister').text('99.99%')
+    $('#apporder').text('99.99%')
+    $('#apppay').text('99.99%')
   }
 })

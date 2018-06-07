@@ -70,7 +70,8 @@ tr:nth-child(2n){
   background-color: #3c3c3c;
 }
 th, td {
-  line-height: 40px;
+  line-height: 45px;
+  height: 45px;
   overflow: hidden;
 }
 th span, td span{
@@ -96,7 +97,15 @@ th:nth-child(5),td:nth-child(5) {
   max-width: 40px;
 }
 #main {
+  position: absolute;
+  top: 650px;
+  left: 0;
   width: 100%;
-  margin: 0 auto;
-  height: 350px;
+  height: 270px;
+}
+.echart.title {
+  position: absolute;
+  width: 100%;
+  top: 605px;
+  left: 0;
 }

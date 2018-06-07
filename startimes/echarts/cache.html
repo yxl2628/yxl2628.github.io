@@ -11,7 +11,7 @@
     <div class="title">{{cache.name}}</div>
     <div class="content">
       <div class="sub-title">拓扑</div>
-      <div class="body" style="margin-top:{{cacheList[0].length*20 + 20}}px;margin-bottom:{{cacheList[cacheList.length-1].length*20 + 20}}px;">
+      <div class="body">
         <div class="col-1 after-line"><span class="arrow"></span><img src="./img/cache_radar.png" /></div>
         <div class="col-2">
           {{each reciveList}}
@@ -32,10 +32,10 @@
         <div class="col-3">
           {{each cacheList cache}}
           <div class="item{{if $index==0}} first{{/if}}{{if $index==(cacheList.length-1)}} last{{/if}}{{if cacheList.length==1}} once{{/if}}"
-          style="height:{{cache.length*40+30}}px;{{if $index==0||$index==(cacheList.length-1)}}height:{{(cache.length*40+30)/2}}px;{{/if}}">
+          style="height:150px;{{if $index==0||$index==(cacheList.length-1)}}height:75px;{{/if}}">
             <div class="point"
               {{if $index==0}}style="margin-top:-60px;"
-              {{else if $index==(cacheList.length-1)}}style="margin-bottom:-60px;"
+              {{else if $index==(cacheList.length-1)}}style="margin-bottom:-60px;"{{/if}}>
               {{each cache item}}
               <div class="child-point{{if item.status!=1}} error{{/if}}" onclick="goto('{{item.name}}')">{{item.name}}</div>
               {{/each}}

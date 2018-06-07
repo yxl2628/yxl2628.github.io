@@ -9,7 +9,7 @@
 
 <body>
   <div id="table"></div>
-  <div class="title" style="margin-top: 10px;">告警分布</div>
+  <div class="echart title">告警分布</div>
   <div id="main"></div>
   <script src="./js/jquery.min.js?version=1527755407240" charset="utf-8"></script>
   <script src="./js/zabbix.js?version=1527755407240" charset="utf-8"></script>
@@ -86,7 +86,7 @@
         'filter': {
           'value': '1'
         },
-        // 'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
+        'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
       }, function(res) {
         if (res.result) {
           var result = res.result.reverse()
@@ -97,18 +97,41 @@
             groupList = []
           for (var i = 0, resLen = result.length; i < resLen; i++) {
             var groupName = result[i].groups[0].name
-            if (error_group_list.indexOf(groupName) < 0) continue
-            result[i].date = moment(result[i].lastchange * 1000).format('HH:mm:ss')
-            result[i].time = moment(result[i].lastchange * 1000).fromNow().replace('前', '')
-            if (result[i].priority <= 3) {
-              badList.push(result[i])
-            } else {
-              errorList.push(result[i])
+            if (error_group_list.indexOf(groupName) >= 0 || groupName.indexOf('CDN_') >= 0){
+              switch (groupName) {
+                case '0701_AWS_研究院':
+                  groupName = 'AWS OTT后台'
+                  break;
+                case '南非上云_OTT':
+                  groupName = '南非OTT前端'
+                  break;
+                case '南非os组':
+                  groupName = '南非OTT前端'
+                  break;
+                case '国内_总部机房':
+                  groupName = ''
+                  break;
+                case '国内_研究院_Aws_Openvpn_server':
+                  groupName = 'OTT链路'
+                  break;
+                default:
+                  groupName = groupName
+              }
+              if (groupName.indexOf('CDN_') >= 0) {
+                groupName = '四达CDN'
+              }
+              result[i].date = moment(result[i].lastchange * 1000).format('HH:mm:ss')
+              result[i].time = moment(result[i].lastchange * 1000).fromNow().replace('前', '')
+              if (result[i].priority <= 3) {
+                badList.push(result[i])
+              } else {
+                errorList.push(result[i])
+              }
+              if (group[groupName] === undefined) {
+                group[groupName] = 0
+              }
+              group[groupName] += 1
             }
-            if (group[groupName] === undefined) {
-              group[groupName] = 0
-            }
-            group[groupName] += 1
           }
           for (var x in group) {
             groupList.push({name:x, value: group[x]})
@@ -147,7 +170,7 @@
           }
 
           myChart.setOption(option, true)
-          var len = errorList.length > 10 ? 0 : 10 - errorList.length
+          var len = errorList.length > 11 ? 0 : 11 - errorList.length
           $('#table').html(template('tableTpl', {
             badList: badList,
             errorList: errorList,
