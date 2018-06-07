@@ -6,8 +6,8 @@
       // username: 'username',
       // password: 'password',
       url: 'http://192.168.32.221/api_jsonrpc.php',
-      username: 'search',
-      password: '123456',
+      username: 'cdn-get',
+      password: 'qweasdzxc',
       timeout: 5000,
       limit: 1000,
     }, options)

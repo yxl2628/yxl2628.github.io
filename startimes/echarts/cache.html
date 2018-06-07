@@ -34,9 +34,8 @@
           <div class="item{{if $index==0}} first{{/if}}{{if $index==(cacheList.length-1)}} last{{/if}}{{if cacheList.length==1}} once{{/if}}"
           style="height:{{cache.length*40+30}}px;{{if $index==0||$index==(cacheList.length-1)}}height:{{(cache.length*40+30)/2}}px;{{/if}}">
             <div class="point"
-              {{if $index==0}}style="height:{{cache.length*40}}px;margin-top:-{{cache.length*20}}px;"
-              {{else if $index==(cacheList.length-1)}}style="height:{{cache.length*40}}px;margin-bottom:-{{cache.length*20}}px;"
-              {{else}}style="height:{{cache.length*40}}px"{{/if}}>
+              {{if $index==0}}style="margin-top:-60px;"
+              {{else if $index==(cacheList.length-1)}}style="margin-bottom:-60px;"
               {{each cache item}}
               <div class="child-point{{if item.status!=1}} error{{/if}}" onclick="goto('{{item.name}}')">{{item.name}}</div>
               {{/each}}
@@ -76,15 +75,20 @@
             {name: '接收机1', hostid: '0', status: 1},
             {name: '接收机2', hostid: '0', status: 1}
           ],osList = [], cacheObj = {}, cacheList = []
-          res.result.forEach(function(item) {
+          res.result.forEach(function(item, index) {
             var cache_split = item.name.split('-')
             var name = cache_split[cache_split.length-2], num = parseInt(cache_split[cache_split.length-1])
             item.status = 1
+            item.name = name + '-' + num
             if (name == 'OS' || name == 'CAC') {
               osList.push(item)
             } else {
               if (name == 'STR') {
-                num = Math.ceil(num/7)
+                if (num > 14) {
+                  num = Math.ceil((num+2)/8)
+                } else {
+                  num = Math.ceil(num/7)
+                }
               }
               if (cacheObj[num] === undefined) {
                 cacheObj[num] = []

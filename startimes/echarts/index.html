@@ -38,14 +38,14 @@
     <div class="item">
       <!-- <div class="label"><img src='./img/user.png' /></div> -->
       <div class="content">
-        <div class="title">总在线用户数</div>
+        <div class="title">四达CDN在线用户数</div>
         <div id="user" class="number"></div>
       </div>
     </div>
     <div class="item">
       <!-- <div class="label"><img src='./img/network.png' /></div> -->
       <div class="content">
-        <div class="title">总带宽(Gbit/s)</div>
+        <div class="title">四达CDN总带宽(Gbit/s)</div>
         <div id="network" class="number"></div>
       </div>
     </div>
@@ -81,9 +81,7 @@
             borderColor: '#555555'
           },
           label: {
-            show: true,
-            fontSize: 20,
-            color: '#ffffff'
+            show: false
           }
         },
 
@@ -99,6 +97,7 @@
             {name: '亚马逊云', value:geoCoordMap['亚马逊云'], symbol: awsPath, symbolSize: 45, itemStyle: {color: getColor('good')}},
             {name: '北京', value:geoCoordMap['北京'], symbol: chinaPath, symbolSize: 50},
             {name: '卫星', value:geoCoordMap['卫星'], symbolSize: 0},
+            {name: '上云站', value:geoCoordMap['上云站'], symbolSize: 0},
             {name: '上云站机房', value:geoCoordMap['上云站机房'], symbol: serverPath, symbolSize: 25}
           ]
         },
@@ -129,7 +128,13 @@
           },
           emphasis: {
             label: {
-              show: true
+              show: true,
+              color: '#ffffff',
+              fontSize: 22,
+              position: ['100%', '100%'],
+              backgroundColor: 'rgba(43, 43, 43, 0.8)',
+              padding: 30,
+              formatter: '{b}'
             }
           },
           data: [convertPonitData(cache_list)]
@@ -139,11 +144,20 @@
     myChart.setOption(option, true)
     var satellitePx = myChart.convertToPixel('geo', geoCoordMap['卫星']),
     radarPix = myChart.convertToPixel('geo', geoCoordMap['上云站'])
-    var satelliteImg = '<img src="' + satellitePath +'" style="position:absolute;top:' + satellitePx[1] + 'px;left:' + satellitePx[0] + 'px;width:45px;height:45px;" />'
-    $('#main').after(satelliteImg)
+    var satelliteImg = '<img src="' + satellitePath +'" style="position:absolute;top:' + satellitePx[1] + 'px;left:' + satellitePx[0] + 'px;width:45px;height:45px;" />',
+    radarImg = '<img src="' + radarPath +'" style="position:absolute;top:' + radarPix[1] + 'px;left:' + radarPix[0] + 'px;width:45px;height:45px;" />'
+    $('#main').after(satelliteImg).after(radarImg)
     myChart.on('click', function (params) {
       if (params.seriesType && params.seriesType === 'effectScatter') {
         goto('./cache.html#' + params.data.groupid)
+      } else if (params.seriesType && params.seriesType === 'scatter'){
+        switch (params.name) {
+          case '北京':
+            goto('http://10.0.224.100:3000/d/Qb7BQ5Siz/cachezhan-dian-ce-shi-zu?refresh=1m&orgId=1')
+            break;
+          default:
+            console.log(params.name)
+        }
       }
     })
     function goto(url){

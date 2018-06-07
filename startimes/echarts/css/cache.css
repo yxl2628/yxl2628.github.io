@@ -104,6 +104,10 @@ html, body {
 .col-3 .item {
   border-right: 0;
 }
+.col-3 .point {
+  height: 40px;
+  line-height: 40px;
+}
 .col-2 .item:before, .col-2 .item:after, .col-3 .item:before {
   display: inline-block;
   content: '';
@@ -138,12 +142,12 @@ html, body {
   margin: 0;
 }
 .child-point {
+  display: inline-block;
+  width: 30%;
   height: 40px;
   line-height: 40px;
   cursor: pointer;
-}
-.child-point:not(:last-child){
-  border-bottom: 1px solid #797979;
+  border: 1px solid #797979;
 }
 .error {
   background-color: #832A2A;

@@ -42,7 +42,7 @@ $(document).ready(function(){
     // 获取南非上行站频道转码数据
     getRadarData('zhuanma', group_os, 'YJY_Recoder_LOG_CHANNL')
     // 获取南非上行站频道切片数据
-    getRadarData('qiepian', group_os, 'delete_qiepian')
+    getRadarData('qiepian', group_os, '本地切片')
     // 获取南非上行站频道AWS上传数据
     getRadarData('awsshangchuan', group_os, 'aws_channel_status')
     // 获取aws数据
@@ -73,7 +73,6 @@ $(document).ready(function(){
         cache_list.forEach(function(item) {
           var _key = 'g-' + item.groupid
           if (_countObj[_key] === undefined) {
-            item.value[0] = 0
           } else {
             item.value[0] = _countObj[_key]
           }
@@ -219,11 +218,6 @@ $(document).ready(function(){
                 error += 1
               }
               break
-            case 'qiepian':
-              if (value >= 5) {
-                error += 1
-              }
-              break
             default:
               if (value === 0) {
                 error += 1
@@ -232,6 +226,17 @@ $(document).ready(function(){
         })
         $('#' + id).text((total-error) + '/' + total)
         var colortype = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
+        var _option = myChart.getOption()
+        _option.series.forEach(function(item) {
+          if (item.name === '地点') {
+            item.data.forEach(function(value) {
+              if (value.name === '上云站机房') {
+                value.symbol = error < 1 ? serverPath : error < 10 ? serverBadPath : serverErrorPath
+              }
+            })
+          }
+        })
+        myChart.setOption(_option, true)
         $('#' + id).css('color',getColor(colortype))
       }
     })
@@ -247,28 +252,26 @@ $(document).ready(function(){
       'output': ['name', 'key_', 'lastvalue']
     }, function(res) {
       if (res.result) {
-        var gslb_success_request_count_monitor_view = 0,
-        gslb_request_count_monitor_view = 0,
-        gslb_response_duration_monitor_view = 0,
-        gslb_qps_monitor_view = 0
+        console.log(res.result)
+        var success_persent = 0,
+        response_time = [],
+        qps = 0
         res.result.forEach(function(item) {
-          if (item.name.indexOf('gslb.success.request.count.monitor.view') >= 0) {
-            gslb_success_request_count_monitor_view += parseInt(item.lastvalue)
-          } else if (item.name.indexOf('gslb.request.count.monitor.view') >= 0) {
-            gslb_request_count_monitor_view += parseInt(item.lastvalue)
+          if (item.name.indexOf('gslb.success.global.rate.monitor.view') >= 0) {
+            success_persent = item.lastvalue * 100
           } else if (item.name.indexOf('gslb.response.duration.monitor.view') >= 0) {
-            gslb_response_duration_monitor_view = gslb_response_duration_monitor_view > parseInt(item.lastvalue) ? gslb_response_duration_monitor_view : parseInt(item.lastvalue)
+            response_time.push(parseInt(item.lastvalue))
           } else if (item.name.indexOf('gslb.qps.monitor.view') >= 0) {
-            gslb_qps_monitor_view = gslb_qps_monitor_view > parseInt(item.lastvalue) ? gslb_qps_monitor_view : parseInt(item.lastvalue)
+            qps += parseInt(item.lastvalue)
           }
         })
-        var persent = gslb_request_count_monitor_view === 0 ? 0 : (gslb_success_request_count_monitor_view/gslb_request_count_monitor_view).toFixed(0)
-        $('#chenggonglv').text(persent + '%')
-        $('#xiangyingshijian').text(gslb_response_duration_monitor_view + 'ms')
-        $('#qps').text(gslb_qps_monitor_view)
-        $('#chenggonglv').css('color',getColor(persent > 99 ? 'good' : persent > 95 ? 'well' : 'bad'))
-        $('#xiangyingshijian').css('color',getColor(gslb_response_duration_monitor_view < 40 ? 'good' : gslb_response_duration_monitor_view < 50 ? 'well' : 'bad'))
-        $('#qps').css('color',getColor(gslb_qps_monitor_view < standardValue*0.7 ? 'good' : gslb_qps_monitor_view < standardValue*0.9 ? 'well' : 'bad'))
+        response_time.sort(function(a, b) {return a-b})
+        $('#chenggonglv').text(success_persent.toFixed(2) + '%')
+        $('#xiangyingshijian').text(response_time[0] + 'ms')
+        $('#qps').text(qps)
+        $('#chenggonglv').css('color',getColor(success_persent > 99 ? 'good' : success_persent > 95 ? 'well' : 'bad'))
+        $('#xiangyingshijian').css('color',getColor(response_time[0] < 40 ? 'good' : response_time[0] < 50 ? 'well' : 'bad'))
+        $('#qps').css('color',getColor(qps < standardValue * 0.7 ? 'good' : qps < standardValue * 0.9 ? 'well' : 'bad'))
       }
     })
   }

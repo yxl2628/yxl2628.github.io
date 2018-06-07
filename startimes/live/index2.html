@@ -44,6 +44,24 @@
         <video id="video" controls autoplay></video>
       </div>
     </div>
+    <div class="row">
+      <div v-for="(item,index) in list" class="col-xs-6 col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row" :id="'viewVideo'+index">
+              <video :id="'video'+index" preload="none" muted></video>
+              <img :id="'img'+index" src='' style="display:none" />
+            </div>
+            <div class="row">
+              监控{{ index + 1 }}
+            </div>
+            <div class="row">
+              <button class="btn btn-primary btn-sm" @click="showMe(item)">设为主屏</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     var app = new Vue({

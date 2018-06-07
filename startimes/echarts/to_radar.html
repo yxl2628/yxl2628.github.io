@@ -63,7 +63,7 @@
       // 处理数据
       function getRadarData() {
         var jieshou = 'channel status',
-          zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = 'delete_qiepian',
+          zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = '本地切片',
           awsshangchuan = 'aws_channel_status'
         // 先获取转码的数据，然后使用转码的数据来组织频道
         zabbix_server.queryData('item.get', {
@@ -185,7 +185,7 @@
                   } else {
                     resData[name].qiepian[0] += 1
                     resData[name].qiepian[1] += 1
-                    if (value >= 5) {
+                    if (value === 0) {
                       resData[name].error = true
                       resData[name].qiepian[0] -= 1
                     }
