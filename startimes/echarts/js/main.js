@@ -269,7 +269,7 @@ $(document).ready(function(){
         res.result.forEach(function(item) {
           if (item.name.indexOf('gslb.success.global.rate.monitor.view') >= 0) {
             success_persent = item.lastvalue * 100
-            console.log(item.lastvalue, success_persent, success_persent.toFixed(2))
+            // console.log(item.lastvalue, success_persent, success_persent.toFixed(2))
           } else if (item.name.indexOf('gslb.response.duration.monitor.view') >= 0) {
             response_time.push(parseInt(item.lastvalue))
           } else if (item.name.indexOf('gslb.qps.monitor.view') >= 0) {
