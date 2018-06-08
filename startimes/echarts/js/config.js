@@ -88,13 +88,13 @@ var cache_list = [
   {name: '几内亚', groupid: '', value: [-1, -1], url: ''},
   {name: '布隆迪', groupid: '', value: [-1, -1], url: ''}
 ]
+// 各个cache节点对应的grafana子页面地址
+var cache_url = {
+}
 // 南非OS组id、南非ott上云组id、gslb的主机id
 var groupid_ott = 55, group_os = 54, gslb_manage_hostid = 10600
 // 需要监控的主机组
 var error_group_list = ['0701_AWS_研究院', '南非上云_OTT', '南非os组', '国内_总部机房', '国内_研究院_Aws_Openvpn_server']
-// 各个cache节点对应的子页面地址
-var cache_url = {
-}
 // 获取统一的状态色
 var getColor = function(type) {
   if (type == 'none') {
