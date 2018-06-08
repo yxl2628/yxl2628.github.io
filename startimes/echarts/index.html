@@ -165,7 +165,11 @@
     $('#main').after(satelliteImg).after(radarImg)
     myChart.on('click', function (params) {
       if (params.seriesType && params.seriesType === 'effectScatter') {
-        goto('./cache.html#' + params.data.groupid)
+        if (params.data.url) {
+          goto('./cache.html#' + params.data.groupid)
+        } else {
+          alert(params.data.name + '的grafana子页面未配置')
+        }
       } else if (params.seriesType && params.seriesType === 'scatter'){
         switch (params.name) {
           case '北京':

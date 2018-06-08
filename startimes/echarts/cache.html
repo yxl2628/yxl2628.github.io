@@ -16,7 +16,7 @@
         <div class="col-2">
           {{each reciveList}}
           <div class="item{{if $index==0}} first{{/if}}{{if $index==(reciveList.length-1)}} last{{/if}}{{if reciveList.length==1}} once{{/if}}">
-            <div class="point{{if $value.status!=1}} error{{/if}}" onclick="goto('{{$value.name}}')">{{$value.name}}</div>
+            <div class="point{{if $value.status!=1}} error{{/if}}" onclick="goto('{{$value.realName}}')">{{$value.name}}</div>
           </div>
           {{/each}}
         </div>
@@ -24,7 +24,7 @@
         <div class="col-2">
           {{each osList}}
           <div class="item{{if $index==0}} first{{/if}}{{if $index==(osList.length-1)}} last{{/if}}{{if osList.length==1}} once{{/if}}">
-            <div class="point{{if $value.status!=1}} error{{/if}}" onclick="goto('{{$value.name}}')">{{$value.name}}</div>
+            <div class="point{{if $value.status!=1}} error{{/if}}" onclick="goto('{{$value.realName}}')">{{$value.name}}</div>
           </div>
           {{/each}}
         </div>
@@ -37,7 +37,7 @@
               {{if $index==0}}style="margin-top:-60px;"
               {{else if $index==(cacheList.length-1)}}style="margin-bottom:-60px;"{{/if}}>
               {{each cache item}}
-              <div class="child-point{{if item.status!=1}} error{{/if}}" onclick="goto('{{item.name}}')">{{item.name}}</div>
+              <div class="child-point{{if item.status!=1}} error{{/if}}" onclick="goto('{{item.realName}}')">{{item.name}}</div>
               {{/each}}
             </div>
           </div>
@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="iframe">
-      <iframe src="{{cache.url}}" id="iframe" width="100%" height="{{cache.height}}px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
+      <iframe src="{{cache.url}}" id="iframe" width="100%" height="1350px" frameborder="0" scrolling="no" style="border:0px;"></iframe>
     </div>
   </script>
   <script src="./js/config.js?version=1527755407240" charset="utf-8"></script>
@@ -72,13 +72,14 @@
       }, function(res) {
         if (res.result) {
           var reciveList = [
-            {name: '接收机1', hostid: '0', status: 1},
-            {name: '接收机2', hostid: '0', status: 1}
+            {name: '接收机1', realName: '接收机1', status: 1},
+            {name: '接收机2', realName: '接收机1', status: 1}
           ],osList = [], cacheObj = {}, cacheList = []
           res.result.forEach(function(item, index) {
             var cache_split = item.name.split('-')
             var name = cache_split[cache_split.length-2], num = parseInt(cache_split[cache_split.length-1])
             item.status = 1
+            item.realName = item.name
             item.name = name + '-' + num
             if (name == 'OS' || name == 'CAC') {
               osList.push(item)
@@ -147,6 +148,8 @@
     function goto(name) {
       if (cache_url[name] !== undefined) {
         location.href = cache_url[name]
+      } else {
+        alert(name + '的grafana子页面url未配置')
       }
     }
   </script>

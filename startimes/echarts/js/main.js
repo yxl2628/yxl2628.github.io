@@ -3,20 +3,25 @@ $(document).ready(function(){
   // 先登录获取zabbix的auth
   zabbix_server.userLogin()
   // 获取cache节点的groupid集合
-  var cache_groupids = []
+  var cache_groupids = [], groupidObjs = {}
   cache_list.forEach(function(item) {
     if (item.groupid) {
       cache_groupids.push(item.groupid)
+      groupidObjs[item.name] = item.groupid
     }
   })
   // 获取丢包率节点的hostid集合
-  var pack_loss_host_list = []
+  var pack_loss_host_list = [], pack_loss_group_list = []
   pack_loss_probability.forEach(function(item) {
-    if (item.hostid) {
+    if (item.hostid !== undefined) {
       pack_loss_host_list.push(item.hostid)
+    } else {
+      if (groupidObjs[item.fromName] !== undefined) {
+        pack_loss_group_list.push(groupidObjs[item.fromName])
+      }
     }
   })
-  task(cache_groupids, pack_loss_host_list)
+  task(cache_groupids, pack_loss_host_list, pack_loss_group_list)
   /**
    * 下面是定时任务，将上述获取过程，写入定时任务
    * 默认是60秒请求一次
@@ -28,7 +33,7 @@ $(document).ready(function(){
    * 下面是各个获取数据的详细方法
    */
   // 总的任务
-  function task (cache_groupids, pack_loss_host_list) {
+  function task (cache_groupids, pack_loss_host_list, pack_loss_group_list) {
     // 获取各个cache节点zabbix告警数
     getCacheZabbixError(cache_groupids)
     // 获取各个cache节点带宽负载
@@ -36,7 +41,7 @@ $(document).ready(function(){
       getCacheNetworkPersent(groupid)
     })
     // 获取各个监控点到亚马逊云S3的丢包率
-    getPackLoss(pack_loss_host_list)
+    getPackLoss(pack_loss_host_list, pack_loss_group_list)
     // 获取南非上行站频道接收数据
     getRadarData('jieshou', groupid_ott, 'channel status')
     // 获取南非上行站频道转码数据
@@ -138,7 +143,8 @@ $(document).ready(function(){
     })
   }
   // 丢包率
-  function getPackLoss (pack_loss_host_list) {
+  function getPackLoss (pack_loss_host_list, pack_loss_group_list) {
+    var _countObj = {}
     zabbix_server.queryData('item.get',{
       'hostids': pack_loss_host_list,
       'search': {
@@ -147,13 +153,39 @@ $(document).ready(function(){
       'output': ['hostid', 'name', 'lastvalue']
     }, function(res) {
       if (res.result) {
-        var _countObj = {}
         res.result.forEach(function(item) {
           var _hostid = 'h-' + item.hostid
           _countObj[_hostid] = parseInt(item.lastvalue)
         })
         pack_loss_probability.forEach(function(item) {
           var _key = 'h-' + item.hostid
+          if (_countObj[_key] !== undefined) {
+            item.value = _countObj[_key]
+          }
+        })
+        var _option = myChart.getOption()
+        _option.series.forEach(function(item) {
+          if (item.name === '网络状态') {
+            item.data = convertLinesData(pack_loss_probability)
+          }
+        })
+        myChart.setOption(_option, true)
+      }
+    })
+    zabbix_server.queryData('item.get',{
+      'groupids': pack_loss_group_list,
+      'search': {
+        'name': 'S3上传桶-LOSS'
+      },
+      'output': ['hostid', 'name', 'lastvalue']
+    }, function(res) {
+      if (res.result) {
+        res.result.forEach(function(item) {
+          var _hostid = 'g-' + item.hostid
+          _countObj[_hostid] = parseInt(item.lastvalue)
+        })
+        pack_loss_probability.forEach(function(item) {
+          var _key = 'g-' + item.hostid
           if (_countObj[_key] !== undefined) {
             item.value = _countObj[_key]
           }

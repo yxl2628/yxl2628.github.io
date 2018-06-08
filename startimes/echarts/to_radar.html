@@ -176,7 +176,6 @@
               var name = getName(item.name, 'aws')
               var value = parseInt(item.lastvalue)
               if (chanelResData[name] === undefined) {
-                console.log('aws频道多余，多余的频道为：', name, item.name)
                 chanelResData[name] = {
                   name: name,
                   awsName: item.name,
