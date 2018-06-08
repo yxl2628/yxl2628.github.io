@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>南非上云站-四达时代网络监控-OTT</title>
-    <link rel="stylesheet" href="./css/to_radar.css?version=1527755407240">
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <title>南非上云站-四达时代网络监控-OTT</title>
+  <link rel="stylesheet" href="./css/to_radar.css?version=1527755407240">
+</head>
+
+<body>
   <div class="channel">
     <div class="channel-title">频道监控：</div>
     <div class="channel-item">
@@ -34,37 +36,37 @@
         <div class="channel-status_normal">切片</div>
         <div class="channel-status_normal">AWS分发</div>
       </div>
-      {{if data.length>0}}
-      {{each data}}
-        <div class="channel-status_body">
-          <div class="channel-status_normal">{{$value.name}}</div>
-          <div class="channel-status_normal channel-status_good {{if $value.jieshou[0]!=$value.jieshou[1] || $value.jieshou[1]==0}}channel-status_bad{{/if}}">{{$value.jieshou[0]}}/{{$value.jieshou[1]}}</div>
-          <div class="channel-status_normal channel-status_good {{if $value.zhuanma[0]!=$value.zhuanma[1] || $value.zhuanma[1]==0}}channel-status_bad{{/if}}">{{$value.zhuanma[0]}}/{{$value.zhuanma[1]}}</div>
-          <div class="channel-status_normal channel-status_good {{if $value.qiepian[0]!=$value.qiepian[1] || $value.qiepian[1]==0}}channel-status_bad{{/if}}">{{$value.qiepian[0]}}/{{$value.qiepian[1]}}</div>
-          <div class="channel-status_normal channel-status_good {{if $value.aws[0]!=$value.aws[1] || $value.aws[1]==0}}channel-status_bad{{/if}}">{{$value.aws[0]}}/{{$value.aws[1]}}</div>
-        </div>
-      {{/each}}
-      {{else}}
-        <div class="channel-status_body channel-status_no_error">无故障频道</div>
+      {{if data.length>0}} {{each data}}
+      <div class="channel-status_body">
+        <div class="channel-status_normal">{{$value.name}}</div>
+        <div class="channel-status_normal channel-status_good {{if $value.jieshou[0]!=$value.jieshou[1] || $value.jieshou[1]==0}}channel-status_bad{{/if}}">{{$value.jieshou[0]}}/{{$value.jieshou[1]}}</div>
+        <div class="channel-status_normal channel-status_good {{if $value.zhuanma[0]!=$value.zhuanma[1] || $value.zhuanma[1]==0}}channel-status_bad{{/if}}">{{$value.zhuanma[0]}}/{{$value.zhuanma[1]}}</div>
+        <div class="channel-status_normal channel-status_good {{if $value.qiepian[0]!=$value.qiepian[1] || $value.qiepian[1]==0}}channel-status_bad{{/if}}">{{$value.qiepian[0]}}/{{$value.qiepian[1]}}</div>
+        <div class="channel-status_normal channel-status_good {{if $value.aws[0]!=$value.aws[1] || $value.aws[1]==0}}channel-status_bad{{/if}}">{{$value.aws[0]}}/{{$value.aws[1]}}</div>
+      </div>
+      {{/each}} {{else}}
+      <div class="channel-status_body channel-status_no_error">无故障频道</div>
       {{/if}}
     </div>
   </script>
   <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
       var zabbix_server = new $.jqzabbix()
       // 先登录获取zabbix的auth
       zabbix_server.userLogin()
       // 获取接收 转码 切片 aws分发 的数据
       getRadarData()
-      setInterval(function(){
+      setInterval(function() {
         getRadarData()
-      },60000)
+      }, 60000)
       // 处理数据
       function getRadarData() {
         var jieshou = 'channel status',
-          zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = '本地切片',
-          awsshangchuan = 'aws_channel_status', chanelResData = {}
-        // 先组织频道
+          zhuanma = 'YJY_Recoder_LOG_CHANNL',
+          qiepian = '本地切片',
+          awsshangchuan = 'aws_channel_status',
+          chanelResData = {}
+        // 获取接收数据
         zabbix_server.queryData('item.get', {
           'groupids': groupid_ott,
           'application': jieshou,
@@ -72,177 +74,153 @@
             'status': '0'
           },
           'output': ['lastvalue', 'name']
-        }, function(res) {
-          if (res.result) {
-            // 先循环一次，把频道数目固定
-            res.result.forEach(function(item) {
+        }, function(jieshouRes) {
+          if (jieshouRes.result) {
+            jieshouRes.result.forEach(function(item) {
               var name = getName(item.name, 'jieshou')
               var value = parseInt(item.lastvalue)
-              chanelResData[name] = {
-                name: name,
-                jieshou: [0, 0],
-                zhuanma: [0, 0],
-                qiepian: [0, 0],
-                aws: [0, 0]
+              if (chanelResData[name] === undefined) {
+                chanelResData[name] = {
+                  name: name,
+                  jieshouName: item.name,
+                  jieshou: [1, 1]
+                }
+              } else {
+                if (chanelResData[name].jieshou === undefined) chanelResData[name].jieshou = [0, 0]
+                chanelResData[name].jieshouName = item.name
+                chanelResData[name].jieshou[1] += 1
+                chanelResData[name].jieshou[0] += 1
+              }
+              if (value > 0) {
+                chanelResData[name].jieshou[0] -= 1
               }
             })
-            // 获取接收数据
-            zabbix_server.queryData('item.get',{
-              'groupids': groupid_ott,
-              'application': jieshou,
-              'filter': {
-                'status': '0'
-              },
-              'output': ['lastvalue', 'name']
-            }, function(jieshouRes) {
-              if (jieshouRes.result) {
-                jieshouRes.result.forEach(function(item) {
-                  var name = getName(item.name, 'jieshou')
-                  var value = parseInt(item.lastvalue)
-                  if (chanelResData[name] === undefined) {
-                    console.log('接收频道多余，多余的频道为：', name, item.name)
-                    chanelResData[name] = {
-                      name: name,
-                      jieshouName: item.name,
-                      jieshou: [1, 1]
-                    }
-                  } else {
-                    if (chanelResData[name].jieshou === undefined) chanelResData[name].jieshou = [0, 0]
-                    chanelResData[name].jieshouName = item.name
-                    chanelResData[name].jieshou[1] += 1
-                    chanelResData[name].jieshou[0] += 1
-                  }
-                  if (value > 0) {
-                    chanelResData[name].jieshou[0] -= 1
-                  }
-                })
-                rander(chanelResData)
+            rander(chanelResData)
+          }
+        })
+        // 获取转码数据
+        zabbix_server.queryData('item.get', {
+          'groupids': group_os,
+          'application': zhuanma,
+          'filter': {
+            'status': '0'
+          },
+          'output': ['lastvalue', 'name']
+        }, function(zhuanmaRes) {
+          if (zhuanmaRes.result) {
+            zhuanmaRes.result.forEach(function(item) {
+              var name = getName(item.name, 'zhuanma')
+              var value = parseInt(item.lastvalue)
+              if (chanelResData[name] === undefined) {
+                chanelResData[name] = {
+                  name: name,
+                  zhuanmaName: item.name,
+                  zhuanma: [1, 1]
+                }
+              } else {
+                if (chanelResData[name].zhuanma === undefined) chanelResData[name].zhuanma = [0, 0]
+                chanelResData[name].zhuanmaName = item.name
+                chanelResData[name].zhuanma[0] += 1
+                chanelResData[name].zhuanma[1] += 1
+              }
+              if (value === 0) {
+                chanelResData[name].zhuanma[0] -= 1
               }
             })
-            // 获取转码数据
-            zabbix_server.queryData('item.get',{
-              'groupids': group_os,
-              'application': zhuanma,
-              'filter': {
-                'status': '0'
-              },
-              'output': ['lastvalue', 'name']
-            }, function(zhuanmaRes) {
-              if (zhuanmaRes.result) {
-                zhuanmaRes.result.forEach(function(item) {
-                  var name = getName(item.name, 'zhuanma')
-                  var value = parseInt(item.lastvalue)
-                  if (chanelResData[name] === undefined) {
-                    console.log('转码频道多余，多余的频道为：', name, item.name)
-                    chanelResData[name] = {
-                      name: name,
-                      zhuanmaName: item.name,
-                      zhuanma: [1, 1]
-                    }
-                  } else {
-                    if (chanelResData[name].zhuanma === undefined) chanelResData[name].zhuanma = [0, 0]
-                    chanelResData[name].zhuanmaName = item.name
-                    chanelResData[name].zhuanma[0] += 1
-                    chanelResData[name].zhuanma[1] += 1
-                  }
-                  if (value === 0) {
-                    chanelResData[name].zhuanma[0] -= 1
-                  }
-                })
-                rander(chanelResData)
+            rander(chanelResData)
+          }
+        })
+        // 获取切片数据
+        zabbix_server.queryData('item.get', {
+          'groupids': group_os,
+          'application': qiepian,
+          'filter': {
+            'status': '0'
+          },
+          'output': ['lastvalue', 'name']
+        }, function(qiepianRes) {
+          if (qiepianRes.result) {
+            qiepianRes.result.forEach(function(item) {
+              var name = getName(item.name, 'qiepian')
+              var value = parseInt(item.lastvalue)
+              if (chanelResData[name] === undefined) {
+                chanelResData[name] = {
+                  name: name,
+                  qiepianName: item.name,
+                  qiepian: [1, 1]
+                }
+              } else {
+                if (chanelResData[name].qiepian === undefined) chanelResData[name].qiepian = [0, 0]
+                chanelResData[name].qiepianName = item.name
+                chanelResData[name].qiepian[0] += 1
+                chanelResData[name].qiepian[1] += 1
+              }
+              if (value === 0) {
+                chanelResData[name].qiepian[0] -= 1
               }
             })
-            // 获取切片数据
-            zabbix_server.queryData('item.get',{
-              'groupids': group_os,
-              'application': qiepian,
-              'filter': {
-                'status': '0'
-              },
-              'output': ['lastvalue', 'name']
-            }, function(qiepianRes) {
-              if (qiepianRes.result) {
-                qiepianRes.result.forEach(function(item) {
-                  var name = getName(item.name, 'qiepian')
-                  var value = parseInt(item.lastvalue)
-                  if (chanelResData[name] === undefined) {
-                    console.log('切片频道多余，多余的频道为：', name, item.name)
-                    chanelResData[name] = {
-                      name: name,
-                      qiepianName: item.name,
-                      qiepian: [1, 1]
-                    }
-                  } else {
-                    if (chanelResData[name].qiepian === undefined) chanelResData[name].qiepian = [0, 0]
-                    chanelResData[name].qiepianName = item.name
-                    chanelResData[name].qiepian[0] += 1
-                    chanelResData[name].qiepian[1] += 1
-                  }
-                  if (value === 0) {
-                    chanelResData[name].qiepian[0] -= 1
-                  }
-                })
-                rander(chanelResData)
+            rander(chanelResData)
+          }
+        })
+        // 获取aws分发数据
+        zabbix_server.queryData('item.get', {
+          'groupids': group_os,
+          'application': awsshangchuan,
+          'filter': {
+            'status': '0'
+          },
+          'output': ['lastvalue', 'name']
+        }, function(awsRes) {
+          if (awsRes.result) {
+            awsRes.result.forEach(function(item) {
+              var name = getName(item.name, 'aws')
+              var value = parseInt(item.lastvalue)
+              if (chanelResData[name] === undefined) {
+                console.log('aws频道多余，多余的频道为：', name, item.name)
+                chanelResData[name] = {
+                  name: name,
+                  awsName: item.name,
+                  aws: [1, 1]
+                }
+              } else {
+                if (chanelResData[name].aws === undefined) chanelResData[name].aws = [0, 0]
+                chanelResData[name].awsName = item.name
+                chanelResData[name].aws[0] += 1
+                chanelResData[name].aws[1] += 1
+              }
+              if (value === 0) {
+                chanelResData[name].aws[0] -= 1
               }
             })
-            // 获取aws分发数据
-            zabbix_server.queryData('item.get',{
-              'groupids': group_os,
-              'application': awsshangchuan,
-              'filter': {
-                'status': '0'
-              },
-              'output': ['lastvalue', 'name']
-            }, function(awsRes) {
-              if (awsRes.result) {
-                awsRes.result.forEach(function(item) {
-                  var name = getName(item.name, 'aws')
-                  var value = parseInt(item.lastvalue)
-                  if (chanelResData[name] === undefined) {
-                    console.log('aws频道多余，多余的频道为：', name, item.name)
-                    chanelResData[name] = {
-                      name: name,
-                      awsName: item.name,
-                      aws: [1, 1]
-                    }
-                  } else {
-                    if (chanelResData[name].aws === undefined) chanelResData[name].aws = [0, 0]
-                    chanelResData[name].awsName = item.name
-                    chanelResData[name].aws[0] += 1
-                    chanelResData[name].aws[1] += 1
-                  }
-                  if (value === 0) {
-                    chanelResData[name].aws[0] -= 1
-                  }
-                })
-                rander(chanelResData)
-              }
-            })
+            rander(chanelResData)
           }
         })
       }
     })
+
     function rander(data) {
-      var filterData = [], success = 0, error = 0
+      var filterData = [],
+        success = 0,
+        error = 0
       for (var x in data) {
-        if (data[x].jieshou === undefined){
+        if (data[x].jieshou === undefined) {
           data[x].jieshou = [0, 0]
         }
-        if (data[x].zhuanma === undefined){
+        if (data[x].zhuanma === undefined) {
           data[x].zhuanma = [0, 0]
         }
-        if (data[x].qiepian === undefined){
+        if (data[x].qiepian === undefined) {
           data[x].qiepian = [0, 0]
         }
-        if (data[x].aws === undefined){
+        if (data[x].aws === undefined) {
           data[x].aws = [0, 0]
         }
       }
       for (var x in data) {
-        if (data[x].jieshou[1] == 0 || data[x].jieshou[0]!=data[x].jieshou[1]
-        || data[x].zhuanma[1] == 0 || data[x].zhuanma[0]!=data[x].zhuanma[1]
-        || data[x].qiepian[1] == 0 || data[x].qiepian[0]!=data[x].qiepian[1]
-        || data[x].aws[1] == 0 || data[x].aws[0]!=data[x].aws[1]) {
+        if (data[x].jieshou[1] == 0 || data[x].jieshou[0] != data[x].jieshou[1] ||
+          data[x].zhuanma[1] == 0 || data[x].zhuanma[0] != data[x].zhuanma[1] ||
+          data[x].qiepian[1] == 0 || data[x].qiepian[0] != data[x].qiepian[1] ||
+          data[x].aws[1] == 0 || data[x].aws[0] != data[x].aws[1]) {
           data[x].error = true
           filterData.push(data[x])
           error += 1
@@ -253,8 +231,11 @@
       }
       $('#success').text(success)
       $('#error').text(error)
-      $('#channelStatus').html(template('channelStatusTpl', {data: filterData}))
+      $('#channelStatus').html(template('channelStatusTpl', {
+        data: filterData
+      }))
     }
   </script>
-  </body>
+</body>
+
 </html>
