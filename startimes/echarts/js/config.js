@@ -32,36 +32,6 @@ var geoCoordMap = {
   '中非': [20.8740234375, 6.7082539687],
   '布隆迪_LEO': [29.9188860000, -3.3730560000]
 }
-//网络链接
-var pack_loss_probability = [
-  {fromName: '北京', hostid: '10084', toName: '亚马逊云'},
-  {fromName: '上云站机房', hostid: '10545', toName: '亚马逊云'},
-  {fromName: '尼日利亚_MTN', toName: '亚马逊云'},
-  {fromName: '尼日利亚_Glo', toName: '亚马逊云'},
-  {fromName: '肯尼亚_Safaricom', toName: '亚马逊云'},
-  {fromName: '坦桑_Tigo', toName: '亚马逊云'},
-  {fromName: '坦桑_Airtel', toName: '亚马逊云'},
-  {fromName: '坦桑_Hallotel', toName: '亚马逊云'},
-  {fromName: '加纳_MTN', toName: '亚马逊云'},
-  {fromName: '赞比亚_MTN', toName: '亚马逊云'},
-  {fromName: '南非_Vodacom', toName: '亚马逊云'},
-  {fromName: '南非_MTN', toName: '亚马逊云'},
-  {fromName: '乌干达_MTN', toName: '亚马逊云'},
-  {fromName: '乌干达_Airtel', toName: '亚马逊云'},
-  {fromName: '乌干达_Africell', toName: '亚马逊云'},
-  {fromName: '科特迪瓦_MTN', toName: '亚马逊云'},
-  {fromName: '塞内加尔_Orange', toName: '亚马逊云'},
-  {fromName: '莫桑比克_Vodacom', toName: '亚马逊云'},
-  {fromName: '刚果布_Airtel', toName: '亚马逊云'},
-  {fromName: '卢旺达', toName: '亚马逊云'},
-  {fromName: '马达', toName: '亚马逊云'},
-  {fromName: '刚果金_Africell', toName: '亚马逊云'},
-  {fromName: '刚果金_Vodacom', toName: '亚马逊云'},
-  {fromName: '刚果金_Orange', toName: '亚马逊云'},
-  {fromName: '喀麦隆', toName: '亚马逊云'},
-  {fromName: '几内亚_MTN', toName: '亚马逊云'},
-  {fromName: '布隆迪_LEO', toName: '亚马逊云'}
-]
 // cache节点
 var cache_list = [
   {name: '尼日利亚_MTN', groupid: '', url: ''},
@@ -93,6 +63,11 @@ var cache_list = [
 // 各个cache节点对应的grafana子页面地址
 var cache_url = {
 }
+//网络链接
+var pack_loss_probability = [
+  {fromName: '北京', hostid: '10084', toName: '亚马逊云'},
+  {fromName: '上云站机房', hostid: '10545', toName: '亚马逊云'}
+]
 // 南非OS组id、南非ott上云组id、gslb的主机id
 var groupid_ott = 55, group_os = 54, gslb_manage_hostid = 10600
 // 需要监控的主机组

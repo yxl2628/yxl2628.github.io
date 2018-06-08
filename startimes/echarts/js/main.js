@@ -3,30 +3,33 @@ $(document).ready(function(){
   // 先登录获取zabbix的auth
   zabbix_server.userLogin()
   // 获取cache节点的groupid集合
-  var cache_groupids = [], groupidObjs = {}
+  var cache_groupids = []
   cache_list.forEach(function(item) {
     if (item.groupid) {
       cache_groupids.push(item.groupid)
-      groupidObjs[item.name] = item.groupid
       item.value = [0, 0]
     } else {
       item.value = [-1, -1]
     }
+    pack_loss_probability.push({
+      fromName: item.name,
+      toName: '亚马逊云',
+      groupid: item.groupid
+    })
   })
-
-  task(cache_groupids, groupidObjs)
+  task(cache_groupids)
   /**
    * 下面是定时任务，将上述获取过程，写入定时任务
    * 默认是60秒请求一次
    */
   setInterval(function(){
-    task(cache_groupids, pack_loss_host_list)
+    task(cache_groupids)
   },60000)
   /**
    * 下面是各个获取数据的详细方法
    */
   // 总的任务
-  function task (cache_groupids, groupidObjs) {
+  function task (cache_groupids) {
     // 获取各个cache节点zabbix告警数
     getCacheZabbixError(cache_groupids)
     // 获取各个cache节点带宽负载
@@ -39,8 +42,8 @@ $(document).ready(function(){
       if (item.hostid !== undefined) {
         getPackLoss('hostids', item.hostid, item.fromName)
       } else {
-        if (groupidObjs[item.fromName] !== undefined) {
-          getPackLoss('groupids', groupidObjs[item.fromName], item.fromName)
+        if (item.groupid) {
+          getPackLoss('groupids', item.groupid, item.fromName)
         }
       }
     })
