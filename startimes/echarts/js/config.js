@@ -208,6 +208,17 @@ var convertPonitData = function(data) {
             return params.value[3] + '%'
           },
           color: getColor(type_load)
+        },
+        emphasis: {
+          label: {
+            show: true,
+            color: '#ffffff',
+            fontSize: 22,
+            position: ['100%', '100%'],
+            backgroundColor: 'rgba(43, 43, 43, 0.8)',
+            padding: 30,
+            formatter: '{b}'
+          }
         }
       }
       if (type_cache == 'none') {
