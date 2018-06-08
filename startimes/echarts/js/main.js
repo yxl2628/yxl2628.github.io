@@ -99,7 +99,7 @@ $(document).ready(function(){
       'selectHosts': ['name'], // 同时查出所属主机的信息
       'search': {
         'name': 'Outgoing',
-        'key_': 'enp12s0'
+        'key_': 'enp3s0f1'
       },
       'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
     }, function(res) {
@@ -111,11 +111,11 @@ $(document).ready(function(){
             if (_countObj[_groupid] === undefined) {
               _countObj[_groupid] = {
                 realValue: parseInt(item.lastvalue),
-                totalValue: 10000000
+                totalValue: 10000000000
               }
             } else {
               _countObj[_groupid].realValue += parseInt(item.lastvalue)
-              _countObj[_groupid].totalValue += 10000000
+              _countObj[_groupid].totalValue += 10000000000
             }
           }
         })
@@ -194,12 +194,17 @@ $(document).ready(function(){
         totalNetwork += item.realValue
       }
     })
-    if (totalNetwork < 1000000) {
+    console.log(totalNetwork)
+    if (totalNetwork < 10000000) {
       totalNetwork = totalNetwork/1000
+      type = 'K'
+      totalUser =  Math.ceil(totalNetwork/400)
+    }else if (totalNetwork < 1000000000) {
+      totalNetwork = totalNetwork/1000000
       type = 'M'
       totalUser =  Math.ceil(totalNetwork/0.4)
     } else {
-      totalNetwork = totalNetwork/1000000
+      totalNetwork = totalNetwork/1000000000
       totalUser =  Math.ceil(totalNetwork*1000/0.4)
     }
     $('#user').html(template('ledTpl', {value: totalUser.toString()}))
