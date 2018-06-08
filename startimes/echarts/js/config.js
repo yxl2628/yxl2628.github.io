@@ -231,6 +231,44 @@ var convertPonitData = function(data) {
   }
   return res
 }
+function getName (name, type) {
+  name = name.replace('record/','').replace('__', '_').replace(/(_SD||_BD||_HD||_CD||_DB)_\d+_\d+_\d+x\d+_\d+.+/ig, '').replace('__', '_')
+  switch (type) {
+    case 'jieshou':
+      name = name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(/\s/ig, '_')
+      .replace(/(_SD||_BD||_HD||_CD||_DB)+/ig, '')
+      break
+    case 'zhuanma':
+      name = name.replace('check ', '')
+      break
+    case 'qiepian':
+      name = name
+      break
+    case 'aws':
+      name = name
+      break
+    default:
+      name = name
+  }
+  switch (name) {
+    case 'NGW':
+      name = 'NGW_E'
+      break
+    case 'fenghuan':
+      name = 'FENG_HUAN'
+      break
+    case 'CHINESE':
+      name = 'ST_CHINESE_HOMELAND'
+      break
+    case 'BORDER':
+      name = 'BORDER_TV'
+      break
+    default:
+      name = name
+  }
+  name = name.replace('-', '_').toUpperCase()
+  return name
+}
 // 图片路径
 var awsPath = 'image://./img/aws_ott-good.png'
 var awsBadPath = 'image://./img/aws_ott-bad.png'

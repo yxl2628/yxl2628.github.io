@@ -55,7 +55,6 @@
       // 先登录获取zabbix的auth
       zabbix_server.userLogin()
       // 获取接收 转码 切片 aws分发 的数据
-
       getRadarData()
       setInterval(function(){
         getRadarData()
@@ -64,69 +63,60 @@
       function getRadarData() {
         var jieshou = 'channel status',
           zhuanma = 'YJY_Recoder_LOG_CHANNL', qiepian = '本地切片',
-          awsshangchuan = 'aws_channel_status'
-        // 先获取转码的数据，然后使用转码的数据来组织频道
+          awsshangchuan = 'aws_channel_status', chanelResData = {}
+        // 先组织频道
         zabbix_server.queryData('item.get', {
-          'groupids': group_os,
-          'application': zhuanma,
+          'groupids': groupid_ott,
+          'application': jieshou,
           'filter': {
-            'state': '0'
+            'status': '0'
           },
           'output': ['lastvalue', 'name']
         }, function(res) {
           if (res.result) {
-            var resData = {}
             // 先循环一次，把频道数目固定
             res.result.forEach(function(item) {
-              var name = getName(item.name, 'zhuanma')
+              var name = getName(item.name, 'jieshou')
               var value = parseInt(item.lastvalue)
-              resData[name] = {
+              chanelResData[name] = {
                 name: name,
-                realName: item.name,
-                error: false,
                 jieshou: [0, 0],
                 zhuanma: [0, 0],
                 qiepian: [0, 0],
                 aws: [0, 0]
               }
             })
-
-            // console.log(resData)
-            // var numtest = []
-            // for(var x in resData){
-            //   numtest.push(resData[x])
-            // }
-            // console.log(numtest)
             // 获取接收数据
             zabbix_server.queryData('item.get',{
               'groupids': groupid_ott,
-              'application': qiepian,
+              'application': jieshou,
               'filter': {
-                'state': '0'
+                'status': '0'
               },
               'output': ['lastvalue', 'name']
-            }, function(res) {
-              if (res.result) {
-                res.result.forEach(function(item) {
-                  var name = getName(item.name, 'qiepian')
+            }, function(jieshouRes) {
+              if (jieshouRes.result) {
+                jieshouRes.result.forEach(function(item) {
+                  var name = getName(item.name, 'jieshou')
                   var value = parseInt(item.lastvalue)
-                  if (resData[name] === undefined) {
-                    resData[name] = {
+                  if (chanelResData[name] === undefined) {
+                    console.log('接收频道多余，多余的频道为：', name, item.name)
+                    chanelResData[name] = {
                       name: name,
-                      realName: item.name,
-                      error: true,
-                      jieshou: [0, 0]
+                      jieshouName: item.name,
+                      jieshou: [1, 1]
                     }
                   } else {
-                    resData[name].jieshou[1] += 1
-                    resData[name].jieshou[0] += 1
-                    if (value > 0) {
-                      resData[name].error = true
-                      resData[name].jieshou[0] -= 1
-                    }
+                    if (chanelResData[name].jieshou === undefined) chanelResData[name].jieshou = [0, 0]
+                    chanelResData[name].jieshouName = item.name
+                    chanelResData[name].jieshou[1] += 1
+                    chanelResData[name].jieshou[0] += 1
+                  }
+                  if (value > 0) {
+                    chanelResData[name].jieshou[0] -= 1
                   }
                 })
-                rander(resData)
+                rander(chanelResData)
               }
             })
             // 获取转码数据
@@ -134,32 +124,32 @@
               'groupids': group_os,
               'application': zhuanma,
               'filter': {
-                'state': '0'
+                'status': '0'
               },
               'output': ['lastvalue', 'name']
-            }, function(res) {
-              if (res.result) {
-                res.result.forEach(function(item) {
+            }, function(zhuanmaRes) {
+              if (zhuanmaRes.result) {
+                zhuanmaRes.result.forEach(function(item) {
                   var name = getName(item.name, 'zhuanma')
                   var value = parseInt(item.lastvalue)
-                  if (resData[name] === undefined) {
-                    resData[name] = {
+                  if (chanelResData[name] === undefined) {
+                    console.log('转码频道多余，多余的频道为：', name, item.name)
+                    chanelResData[name] = {
                       name: name,
-                      realName: item.name,
-                      error: true,
-                      zhuanma: [0, 0]
+                      zhuanmaName: item.name,
+                      zhuanma: [1, 1]
                     }
                   } else {
-                    resData[name].zhuanma[0] += 1
-                    resData[name].zhuanma[1] += 1
-                    if (value === 0) {
-                      resData[name].error = true
-                      resData[name].zhuanma[0] -= 1
-                    }
+                    if (chanelResData[name].zhuanma === undefined) chanelResData[name].zhuanma = [0, 0]
+                    chanelResData[name].zhuanmaName = item.name
+                    chanelResData[name].zhuanma[0] += 1
+                    chanelResData[name].zhuanma[1] += 1
+                  }
+                  if (value === 0) {
+                    chanelResData[name].zhuanma[0] -= 1
                   }
                 })
-
-                rander(resData)
+                rander(chanelResData)
               }
             })
             // 获取切片数据
@@ -167,31 +157,32 @@
               'groupids': group_os,
               'application': qiepian,
               'filter': {
-                'state': '0'
+                'status': '0'
               },
               'output': ['lastvalue', 'name']
-            }, function(res) {
-              if (res.result) {
-                res.result.forEach(function(item) {
+            }, function(qiepianRes) {
+              if (qiepianRes.result) {
+                qiepianRes.result.forEach(function(item) {
                   var name = getName(item.name, 'qiepian')
                   var value = parseInt(item.lastvalue)
-                  if (resData[name] === undefined) {
-                    resData[name] = {
+                  if (chanelResData[name] === undefined) {
+                    console.log('切片频道多余，多余的频道为：', name, item.name)
+                    chanelResData[name] = {
                       name: name,
-                      realName: item.name,
-                      error: true,
-                      qiepian: [0, 0]
+                      qiepianName: item.name,
+                      qiepian: [1, 1]
                     }
                   } else {
-                    resData[name].qiepian[0] += 1
-                    resData[name].qiepian[1] += 1
-                    if (value === 0) {
-                      resData[name].error = true
-                      resData[name].qiepian[0] -= 1
-                    }
+                    if (chanelResData[name].qiepian === undefined) chanelResData[name].qiepian = [0, 0]
+                    chanelResData[name].qiepianName = item.name
+                    chanelResData[name].qiepian[0] += 1
+                    chanelResData[name].qiepian[1] += 1
+                  }
+                  if (value === 0) {
+                    chanelResData[name].qiepian[0] -= 1
                   }
                 })
-                rander(resData)
+                rander(chanelResData)
               }
             })
             // 获取aws分发数据
@@ -199,100 +190,64 @@
               'groupids': group_os,
               'application': awsshangchuan,
               'filter': {
-                'state': '0'
+                'status': '0'
               },
               'output': ['lastvalue', 'name']
-            }, function(res) {
-              if (res.result) {
-                res.result.forEach(function(item) {
+            }, function(awsRes) {
+              if (awsRes.result) {
+                awsRes.result.forEach(function(item) {
                   var name = getName(item.name, 'aws')
                   var value = parseInt(item.lastvalue)
-                  if (resData[name] === undefined) {
-                    resData[name] = {
+                  if (chanelResData[name] === undefined) {
+                    console.log('aws频道多余，多余的频道为：', name, item.name)
+                    chanelResData[name] = {
                       name: name,
-                      realName: item.name,
-                      error: true,
-                      aws: [0, 0]
+                      awsName: item.name,
+                      aws: [1, 1]
                     }
                   } else {
-                    resData[name].aws[0] += 1
-                    resData[name].aws[1] += 1
-                    if (value === 0) {
-                      resData[name].error = true
-                      resData[name].aws[0] -= 1
-                    }
+                    if (chanelResData[name].aws === undefined) chanelResData[name].aws = [0, 0]
+                    chanelResData[name].awsName = item.name
+                    chanelResData[name].aws[0] += 1
+                    chanelResData[name].aws[1] += 1
+                  }
+                  if (value === 0) {
+                    chanelResData[name].aws[0] -= 1
                   }
                 })
-                rander(resData)
+                rander(chanelResData)
               }
             })
           }
         })
       }
-      function getName (name, type) {
-        name = name.replace('record/','').replace('__', '_').replace(/(_SD||_BD||_HD||_CD||_DB)_\d+_\d+_\d+x\d+_\d+.+/ig, '').replace('__', '_')
-        switch (type) {
-          case 'jieshou':
-            name = name.match(/'(\w|\s)*'/ig)[0].replace('\'', '').replace('\'', '').replace(/\s/ig, '_')
-            .replace(/(_SD||_BD||_HD||_CD||_DB)+/ig, '')
-            break
-          case 'zhuanma':
-            name = name.replace('check ', '')
-            break
-          case 'qiepian':
-            name = name
-            break
-          case 'aws':
-            name = name
-            break
-          default:
-            name = name
-        }
-        switch (name) {
-          case 'NGW':
-            name = 'NGW_F'
-            break
-          case 'fenghuan':
-            name = 'FENG_HUAN'
-            break
-          case 'ST_Music':
-            name = 'ST_SA_Music'
-            break
-          case 'CHINESE':
-            name = 'ST_CHINESE_HOMELAND'
-            break
-          case 'BORDER':
-            name = 'BORDER_TV'
-            break
-          case 'ETV_ROA':
-            name = 'ETV'
-            break
-          default:
-            name = name
-        }
-        name = name.replace('-', '_').toUpperCase()
-        return name
-      }
     })
     function rander(data) {
       var filterData = [], success = 0, error = 0
       for (var x in data) {
-        if (data[x].error) {
-          if (data[x].jieshou ===undefined){
-            data[x].jieshou = [0, 0]
-          }
-          if (data[x].zhuanma ===undefined){
-            data[x].zhuanma = [0, 0]
-          }
-          if (data[x].qiepian ===undefined){
-            data[x].qiepian = [0, 0]
-          }
-          if (data[x].aws ===undefined){
-            data[x].aws = [0, 0]
-          }
+        if (data[x].jieshou === undefined){
+          data[x].jieshou = [0, 0]
+        }
+        if (data[x].zhuanma === undefined){
+          data[x].zhuanma = [0, 0]
+        }
+        if (data[x].qiepian === undefined){
+          data[x].qiepian = [0, 0]
+        }
+        if (data[x].aws === undefined){
+          data[x].aws = [0, 0]
+        }
+      }
+      for (var x in data) {
+        if (data[x].jieshou[1] == 0 || data[x].jieshou[0]!=data[x].jieshou[1]
+        || data[x].zhuanma[1] == 0 || data[x].zhuanma[0]!=data[x].zhuanma[1]
+        || data[x].qiepian[1] == 0 || data[x].qiepian[0]!=data[x].qiepian[1]
+        || data[x].aws[1] == 0 || data[x].aws[0]!=data[x].aws[1]) {
+          data[x].error = true
           filterData.push(data[x])
           error += 1
         } else {
+          data[x].error = false
           success += 1
         }
       }

@@ -194,7 +194,6 @@ $(document).ready(function(){
         totalNetwork += item.realValue
       }
     })
-    console.log(totalNetwork)
     if (totalNetwork < 10000000) {
       totalNetwork = totalNetwork/1000
       type = 'K'
@@ -218,28 +217,44 @@ $(document).ready(function(){
       'groupids': groupid,
       'application': application,
       'filter': {
-        'state': '0'
+        'status': '0'
       },
-      'output': ['lastvalue']
+      'output': ['lastvalue', 'name']
     }, function(res) {
-      var total = 0, error = 0
+      var resData={}, total = 0, error = 0, totalUser = 0
       if (res.result) {
-        var totalUser = 0
         res.result.forEach(function(item) {
-          total += 1
+          var name = getName(item.name, id)
           var value = parseInt(item.lastvalue)
+          if (resData[name] === undefined) {
+            resData[name] = false
+          }
+          total += 1
           switch (id) { //针对不同的id，错误计算方式不同，默认是 1位正常，0位异常
             case 'jieshou':
               if (value > 0) {
+                resData[name] = true
                 error += 1
               }
               break
             default:
               if (value === 0) {
+                resData[name] = true
                 error += 1
               }
           }
         })
+        if (id === 'jieshou') {
+          total = 0
+          error = 0
+          for (var x in resData) {
+            total += 1
+            if (resData[x]) {
+              error += 1
+            }
+          }
+        }
+
         $('#' + id).text((total-error) + '/' + total)
         var colortype = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
         var _option = myChart.getOption()
@@ -340,12 +355,12 @@ $(document).ready(function(){
   }
   // 获取App数据
   function getAppData(){
-    $('#apponline').html(template('ledTpl', {value: '987654'}))
-    $('#appplay').text('99.99%')
-    $('#apphome').text('99.99%')
-    $('#applogin').text('99.99%')
-    $('#appregister').text('99.99%')
-    $('#apporder').text('99.99%')
-    $('#apppay').text('99.99%')
+    $('#apponline').html(template('ledTpl', {value: '7654'}))
+    $('#appplay').text('99.99%').css('color',getColor('good'))
+    $('#apphome').text('99.99%').css('color',getColor('good'))
+    $('#applogin').text('99.99%').css('color',getColor('good'))
+    $('#appregister').text('99.99%').css('color',getColor('good'))
+    $('#apporder').text('99.99%').css('color',getColor('good'))
+    $('#apppay').text('99.99%').css('color',getColor('good'))
   }
 })
