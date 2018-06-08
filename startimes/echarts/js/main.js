@@ -8,20 +8,13 @@ $(document).ready(function(){
     if (item.groupid) {
       cache_groupids.push(item.groupid)
       groupidObjs[item.name] = item.groupid
-    }
-  })
-  // 获取丢包率节点的hostid集合
-  var pack_loss_host_list = [], pack_loss_group_list = []
-  pack_loss_probability.forEach(function(item) {
-    if (item.hostid !== undefined) {
-      pack_loss_host_list.push(item.hostid)
+      item.value = [0, 0]
     } else {
-      if (groupidObjs[item.fromName] !== undefined) {
-        pack_loss_group_list.push(groupidObjs[item.fromName])
-      }
+      item.value = [-1, -1]
     }
   })
-  task(cache_groupids, pack_loss_host_list, pack_loss_group_list)
+
+  task(cache_groupids, groupidObjs)
   /**
    * 下面是定时任务，将上述获取过程，写入定时任务
    * 默认是60秒请求一次
@@ -33,7 +26,7 @@ $(document).ready(function(){
    * 下面是各个获取数据的详细方法
    */
   // 总的任务
-  function task (cache_groupids, pack_loss_host_list, pack_loss_group_list) {
+  function task (cache_groupids, groupidObjs) {
     // 获取各个cache节点zabbix告警数
     getCacheZabbixError(cache_groupids)
     // 获取各个cache节点带宽负载
@@ -41,7 +34,16 @@ $(document).ready(function(){
       getCacheNetworkPersent(groupid)
     })
     // 获取各个监控点到亚马逊云S3的丢包率
-    getPackLoss(pack_loss_host_list, pack_loss_group_list)
+    pack_loss_probability.forEach(function(item) {
+      item.value = -1
+      if (item.hostid !== undefined) {
+        getPackLoss('hostids', item.hostid, item.fromName)
+      } else {
+        if (groupidObjs[item.fromName] !== undefined) {
+          getPackLoss('groupids', groupidObjs[item.fromName], item.fromName)
+        }
+      }
+    })
     // 获取南非上行站频道接收数据
     getRadarData('jieshou', groupid_ott, 'channel status')
     // 获取南非上行站频道转码数据
@@ -80,8 +82,7 @@ $(document).ready(function(){
         })
         cache_list.forEach(function(item) {
           var _key = 'g-' + item.groupid
-          if (_countObj[_key] === undefined) {
-          } else {
+          if (_countObj[_key] !== undefined) {
             item.value[0] = _countObj[_key]
           }
         })
@@ -143,51 +144,25 @@ $(document).ready(function(){
     })
   }
   // 丢包率
-  function getPackLoss (pack_loss_host_list, pack_loss_group_list) {
-    var _countObj = {}
-    zabbix_server.queryData('item.get',{
-      'hostids': pack_loss_host_list,
+  function getPackLoss (type, id , name) {
+    var zabbix_params = {
       'search': {
         'name': 'S3上传桶-LOSS'
       },
-      'output': ['hostid', 'name', 'lastvalue']
-    }, function(res) {
+      'output': ['name', 'lastvalue']
+    }
+    zabbix_params[type] = id
+    zabbix_server.queryData('item.get',zabbix_params, function(res) {
       if (res.result) {
+        var value = 0
         res.result.forEach(function(item) {
-          var _hostid = 'h-' + item.hostid
-          _countObj[_hostid] = parseInt(item.lastvalue)
-        })
-        pack_loss_probability.forEach(function(item) {
-          var _key = 'h-' + item.hostid
-          if (_countObj[_key] !== undefined) {
-            item.value = _countObj[_key]
+          if (parseInt(item.lastvalue) > value) {
+            value = parseInt(item.lastvalue)
           }
         })
-        var _option = myChart.getOption()
-        _option.series.forEach(function(item) {
-          if (item.name === '网络状态') {
-            item.data = convertLinesData(pack_loss_probability)
-          }
-        })
-        myChart.setOption(_option, true)
-      }
-    })
-    zabbix_server.queryData('item.get',{
-      'groupids': pack_loss_group_list,
-      'search': {
-        'name': 'S3上传桶-LOSS'
-      },
-      'output': ['hostid', 'name', 'lastvalue']
-    }, function(res) {
-      if (res.result) {
-        res.result.forEach(function(item) {
-          var _hostid = 'g-' + item.hostid
-          _countObj[_hostid] = parseInt(item.lastvalue)
-        })
         pack_loss_probability.forEach(function(item) {
-          var _key = 'g-' + item.hostid
-          if (_countObj[_key] !== undefined) {
-            item.value = _countObj[_key]
+          if (item.fromName === name) {
+            item.value = value
           }
         })
         var _option = myChart.getOption()
