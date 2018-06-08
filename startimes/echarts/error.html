@@ -4,19 +4,19 @@
 <head>
   <meta charset="utf-8">
   <title>告警列表</title>
-  <link rel="stylesheet" href="./css/error.css?version=1527755407240">
+  <link rel="stylesheet" href="./css/error.css?version=1528450098964">
 </head>
 
 <body>
   <div id="table"></div>
   <div class="echart title">告警分布</div>
   <div id="main"></div>
-  <script src="./js/jquery.min.js?version=1527755407240" charset="utf-8"></script>
-  <script src="./js/zabbix.js?version=1527755407240" charset="utf-8"></script>
-  <script src="./js/template-web.js?version=1527755407240" charset="utf-8"></script>
-  <script src="./js/moment.js?version=1527755407240" charset="utf-8"></script>
-  <script src="./js/config.js?version=1527755407240" charset="utf-8"></script>
-  <script src="./js/echarts.js?version=1527755407240" charset="utf-8"></script>
+  <script src="./js/jquery.min.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/zabbix.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/template-web.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/moment.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/config.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/echarts.js?version=1528450098964" charset="utf-8"></script>
   <script id="tableTpl" type="text/html">
     <div class="title">
       实时告警信息
@@ -97,6 +97,7 @@
             groupList = []
           for (var i = 0, resLen = result.length; i < resLen; i++) {
             var groupName = result[i].groups[0].name
+            console.log(groupName, result[i].description)
             if (error_group_list.indexOf(groupName) >= 0 || groupName.indexOf('CDN_') >= 0){
               switch (groupName) {
                 case '0701_AWS_研究院':
@@ -176,10 +177,8 @@
             errorList: errorList,
             len: len
           }))
-          var nameMaxW = $('#name').width() - 10,
-            desMaxW = $('#desc').width() - 10
-          $('.name').find('div').css('max-width', nameMaxW).addClass('con')
-          $('.desc').find('div').css('max-width', desMaxW).addClass('con')
+          $('.name').find('div').addClass('con')
+          $('.desc').find('div').addClass('con')
         }
       })
     }

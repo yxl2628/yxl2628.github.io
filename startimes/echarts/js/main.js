@@ -69,6 +69,7 @@ $(document).ready(function(){
       'groupids': groupids,
       'only_true': 1, // 仅返回最近处于问题状态的触发器
       'monitored': 1, //属于受监控主机的已启用触发器
+      'min_severity': 2,
       'active': 1, // 只返回属于受监控主机的启用的触发器
       'selectGroups': ['name'], // 同时查出所属的主机组信息
       'output': ['triggerid', 'groups', 'description', 'priority', 'value']
@@ -198,7 +199,7 @@ $(document).ready(function(){
     //     })
     //   }
     // })
-    var totalNetwork = 0, type = 'G'
+    var totalNetwork = 0, type = 'G', user_net = 250
     cache_list.forEach(function(item) {
       if (item.realValue != undefined) {
         totalNetwork += item.realValue
@@ -207,14 +208,14 @@ $(document).ready(function(){
     if (totalNetwork < 10000000) {
       totalNetwork = totalNetwork/1000
       type = 'K'
-      totalUser =  Math.ceil(totalNetwork/400)
+      totalUser =  Math.ceil(totalNetwork/user_net)
     }else if (totalNetwork < 1000000000) {
       totalNetwork = totalNetwork/1000000
       type = 'M'
-      totalUser =  Math.ceil(totalNetwork/0.4)
+      totalUser =  Math.ceil(totalNetwork/(user_net/1000))
     } else {
       totalNetwork = totalNetwork/1000000000
-      totalUser =  Math.ceil(totalNetwork*1000/0.4)
+      totalUser =  Math.ceil(totalNetwork*1000/(user_net/1000))
     }
     $('#user').html(template('ledTpl', {value: totalUser.toString()}))
     $('#networdUnit').text(type)
