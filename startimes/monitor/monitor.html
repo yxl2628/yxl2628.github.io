@@ -95,12 +95,21 @@
                   updateServiceStatus(boss_error, 'BOSS')
                 }
               })
-              zabbix_server.queryData('item.get', {
+              zabbix_server.queryData('application.get', {
                 'groupids': aws_groupids,
-                // 'application': ,
-                // 'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
+                'output': ['applicationid', 'name']
               }, function(res) {
-                console.log(res)
+                if (res.result !== undefined) {
+                  var applicationIds = []
+                  res.result.forEach(function(item) {
+                    if (item.name.search(/(\w)+_BOSS$/ig) >= 0) {
+                      applicationIds.push(item.applicationid)
+                    }
+                  })
+                  console.log(applicationIds)
+                }
+                // boss_error['AWS'] = res.result.length
+                // updateServiceStatus(boss_error, 'BOSS')
               })
             }
           })
