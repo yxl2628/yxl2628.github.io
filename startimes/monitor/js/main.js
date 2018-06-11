@@ -118,7 +118,6 @@ $(document).ready(function() {
           var _groupid = 'g-' + groupid
           if (item.hosts[0].name.indexOf('STR') >= 0) {
             if (item.key_.indexOf('enp3s0f1') >= 0 || item.key_.indexOf('p2p1') >= 0) {
-              console.log(item.key_, item.lastvalue)
               if (_countObj[_groupid] === undefined) {
                 _countObj[_groupid] = {
                   realValue: parseInt(item.lastvalue),
@@ -320,7 +319,6 @@ $(document).ready(function() {
         res.result.forEach(function(item) {
           if (item.name.indexOf('gslb.success.global.rate.monitor.view') >= 0) {
             success_persent = item.lastvalue * 100
-            // console.log(item.lastvalue, success_persent, success_persent.toFixed(2))
           } else if (item.name.indexOf('gslb.response.duration.monitor.view') >= 0) {
             response_time.push(parseInt(item.lastvalue))
           } else if (item.name.indexOf('gslb.qps.monitor.view') >= 0) {
@@ -390,14 +388,49 @@ $(document).ready(function() {
   }
   // 获取App数据
   function getAppData() {
-    $('#apponline').html(template('ledTpl', {
-      value: '7654'
-    }))
-    $('#appplay').text('99.99%').css('color', getColor('good'))
-    $('#apphome').text('99.99%').css('color', getColor('good'))
-    $('#applogin').text('99.99%').css('color', getColor('good'))
-    $('#appregister').text('99.99%').css('color', getColor('good'))
-    $('#apporder').text('99.99%').css('color', getColor('good'))
-    $('#apppay').text('99.99%').css('color', getColor('good'))
+    zabbix_server.queryData('item.get', {
+      'hostids': app_hostid,
+      'search': {
+        'key_': 'playing'
+      },
+      'output': ['name', 'key_', 'lastvalue']
+    }, function(res) {
+      if (res.result != undefined) {
+        res.result.forEach(function(item) {
+          console.log(item.name, item.lastvalue)
+          // 播放成功率
+          if (item.name === 'playing_play_success_all') {
+            $('#appplay').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // 首页打开成功率
+          if (item.name === 'playing_home_page_success_all') {
+            $('#apphome').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // 登录成功率
+          if (item.name === 'playing_user_login_success_all') {
+            $('#applogin').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // 注册转化成功率
+          if (item.name === 'playing_user_register_success_all') {
+            $('#appregister').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // 订到成功率
+          if (item.name === 'playing_order_success_all') {
+            $('#apporder').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // 支付成功率
+          if (item.name === 'playing_payment_success_all') {
+            $('#apppay').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+          }
+          // app在线用户数
+          if (item.name === 'playing_play_count_all') {
+            $('#apponline').html(template('ledTpl', {
+              value: parseInt(item.lastvalue).toString()
+            }))
+          }
+        })
+      }
+    })
+
   }
 })
