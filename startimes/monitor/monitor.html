@@ -50,7 +50,7 @@
             item.hasService.forEach(function(service) {
               item.service[service] = {
                 name: service,
-                status: 'good'
+                status: ''
               }
             })
           })
@@ -69,11 +69,13 @@
             if (res.result !== undefined) {
               res.result.forEach(function(item) {
                 if (item.name.search(/^海外_(\w)+_BOSS$/ig) >= 0) {
+                  var countryName = item.name.replace('海外_', '').replace('_BOSS', '')
+                  boss_error[countryName] = 0
                   boss_groupids.push(item.groupid)
                 }
               })
               zabbix_server.queryData('trigger.get', {
-                groupids: boss_groupids,
+                'groupids': boss_groupids,
                 'only_true': 1, // 仅返回最近处于问题状态的触发器
                 'monitored': 1, //属于受监控主机的已启用触发器
                 'min_severity': 2,
@@ -88,35 +90,24 @@
                 if (res.result !== undefined) {
                   res.result.forEach(function(item) {
                     var countryName = item.groups[0].name.replace('海外_', '').replace('_BOSS', '')
-                    if (boss_error[countryName] == undefined) {
-                      boss_error[countryName] = 0
-                    }
                     boss_error[countryName] += 1
                   })
                   updateServiceStatus(boss_error, 'BOSS')
                 }
               })
-              zabbix_server.queryData('trigger.get', {
-                groupids: boss_groupids,
-                'only_true': 1, // 仅返回最近处于问题状态的触发器
-                'monitored': 1, //属于受监控主机的已启用触发器
-                'min_severity': 2,
-                'active': 1, // 只返回属于受监控主机的启用的触发器
-                'selectHosts': ['name'], // 同时查出所属的主机信息
-                'selectGroups': ['name'], // 同时查出所属的主机组信息
-                'filter': {
-                  'value': '1'
-                },
-                'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
+              zabbix_server.queryData('item.get', {
+                'groupids': aws_groupids,
+                // 'application': ,
+                // 'output': ['description', 'hosts', 'groups', 'lastchange', 'priority']
               }, function(res) {
-
+                console.log(res)
               })
             }
           })
         }
         function updateServiceStatus(error_data, type) {
           for (var x in error_data) {
-            var className = error_data[x] > 5 ? 'bad' : 'well'
+            var className = error_data[x] == 0 ? 'good': error_data[x] > 5 ? 'bad' : 'well'
             $('#' + type + '-' + x).attr('class', 'status ' + className)
           }
         }
@@ -125,7 +116,7 @@
           var height = $first.height()
           $first.animate({
             marginTop: -height + 'px'
-          }, 500, function() {
+          }, 1000, function() {
           $first.css('marginTop', 0).appendTo(obj)
           })
         }
