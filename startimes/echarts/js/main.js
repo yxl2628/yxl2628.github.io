@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
   var zabbix_server = new $.jqzabbix()
   // 先登录获取zabbix的auth
   zabbix_server.userLogin()
@@ -22,14 +22,14 @@ $(document).ready(function(){
    * 下面是定时任务，将上述获取过程，写入定时任务
    * 默认是60秒请求一次
    */
-  setInterval(function(){
+  setInterval(function() {
     task(cache_groupids)
-  },60000)
+  }, 60000)
   /**
    * 下面是各个获取数据的详细方法
    */
   // 总的任务
-  function task (cache_groupids) {
+  function task(cache_groupids) {
     // 获取各个cache节点zabbix告警数
     getCacheZabbixError(cache_groupids)
     // 获取各个cache节点带宽负载
@@ -58,14 +58,14 @@ $(document).ready(function(){
     // 获取aws数据
     getAWSData(gslb_manage_hostid)
     // 获取总用户数、总带宽及合作运营商
-    setTimeout(function(){
+    setTimeout(function() {
       getAllUsers(cache_groupids)
-    },2000)
+    }, 2000)
     getAppData()
   }
   // 获取zabbix告警数
-  function getCacheZabbixError (groupids) {
-    zabbix_server.queryData('trigger.get',{
+  function getCacheZabbixError(groupids) {
+    zabbix_server.queryData('trigger.get', {
       'groupids': groupids,
       'only_true': 1, // 仅返回最近处于问题状态的触发器
       'monitored': 1, //属于受监控主机的已启用触发器
@@ -101,15 +101,14 @@ $(document).ready(function(){
     })
   }
   // 获取带宽
-  function getCacheNetworkPersent (groupid) {
-    zabbix_server.queryData('item.get',{
+  function getCacheNetworkPersent(groupid) {
+    zabbix_server.queryData('item.get', {
       'groupids': [groupid],
       'application': 'Network', // 只查询Network的应用集
       'selectGroups': ['name'], // 同时查出所属的主机组信息
       'selectHosts': ['name'], // 同时查出所属主机的信息
       'search': {
         'name': 'Outgoing',
-        'key_': 'enp3s0f1'
       },
       'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
     }, function(res) {
@@ -118,14 +117,17 @@ $(document).ready(function(){
         res.result.forEach(function(item) {
           var _groupid = 'g-' + groupid
           if (item.hosts[0].name.indexOf('STR') >= 0) {
-            if (_countObj[_groupid] === undefined) {
-              _countObj[_groupid] = {
-                realValue: parseInt(item.lastvalue),
-                totalValue: 10000000000
+            if (item.key_.indexOf('enp3s0f1') >= 0 || item.key_.indexOf('p2p1') >= 0) {
+              console.log(item.key_, item.lastvalue)
+              if (_countObj[_groupid] === undefined) {
+                _countObj[_groupid] = {
+                  realValue: parseInt(item.lastvalue),
+                  totalValue: 10000000000
+                }
+              } else {
+                _countObj[_groupid].realValue += parseInt(item.lastvalue)
+                _countObj[_groupid].totalValue += 10000000000
               }
-            } else {
-              _countObj[_groupid].realValue += parseInt(item.lastvalue)
-              _countObj[_groupid].totalValue += 10000000000
             }
           }
         })
@@ -134,7 +136,7 @@ $(document).ready(function(){
           if (_countObj[_key] !== undefined) {
             item.realValue = _countObj[_key].realValue
             item.totalValue = _countObj[_key].totalValue
-            item.value[1] = (item.realValue/item.totalValue*100).toFixed(0)
+            item.value[1] = (item.realValue / item.totalValue * 100).toFixed(0)
           }
         })
         var _option = myChart.getOption()
@@ -148,7 +150,7 @@ $(document).ready(function(){
     })
   }
   // 丢包率
-  function getPackLoss (type, id , name) {
+  function getPackLoss(type, id, name) {
     var zabbix_params = {
       'search': {
         'name': 'S3上传桶-LOSS'
@@ -156,7 +158,7 @@ $(document).ready(function(){
       'output': ['name', 'lastvalue']
     }
     zabbix_params[type] = id
-    zabbix_server.queryData('item.get',zabbix_params, function(res) {
+    zabbix_server.queryData('item.get', zabbix_params, function(res) {
       if (res.result) {
         var value = 0
         res.result.forEach(function(item) {
@@ -180,7 +182,7 @@ $(document).ready(function(){
     })
   }
   // 获取总用户数
-  function getAllUsers (cache_groupids) {
+  function getAllUsers(cache_groupids) {
     var totalUser = 0
     // zabbix_server.queryData('item.get',{
     //   'groupids': cache_groupids,
@@ -199,32 +201,40 @@ $(document).ready(function(){
     //     })
     //   }
     // })
-    var totalNetwork = 0, type = 'G', user_net = 250
+    var totalNetwork = 0,
+      type = 'G',
+      user_net = 250
     cache_list.forEach(function(item) {
       if (item.realValue != undefined) {
         totalNetwork += item.realValue
       }
     })
     if (totalNetwork < 10000000) {
-      totalNetwork = totalNetwork/1000
+      totalNetwork = totalNetwork / 1000
       type = 'K'
-      totalUser =  Math.ceil(totalNetwork/user_net)
-    }else if (totalNetwork < 1000000000) {
-      totalNetwork = totalNetwork/1000000
+      totalUser = Math.ceil(totalNetwork / user_net)
+    } else if (totalNetwork < 1000000000) {
+      totalNetwork = totalNetwork / 1000000
       type = 'M'
-      totalUser =  Math.ceil(totalNetwork/(user_net/1000))
+      totalUser = Math.ceil(totalNetwork / (user_net / 1000))
     } else {
-      totalNetwork = totalNetwork/1000000000
-      totalUser =  Math.ceil(totalNetwork*1000/(user_net/1000))
+      totalNetwork = totalNetwork / 1000000000
+      totalUser = Math.ceil(totalNetwork * 1000 / (user_net / 1000))
     }
-    $('#user').html(template('ledTpl', {value: totalUser.toString()}))
+    $('#user').html(template('ledTpl', {
+      value: totalUser.toString()
+    }))
     $('#networdUnit').text(type)
-    $('#network').html(template('ledTpl', {value: totalNetwork.toFixed(0)}))
-    $('#partner').html(template('ledTpl', {value: cache_list.length.toString()}))
+    $('#network').html(template('ledTpl', {
+      value: totalNetwork.toFixed(0)
+    }))
+    $('#partner').html(template('ledTpl', {
+      value: cache_list.length.toString()
+    }))
   }
   // 获取南非上行站频道监控
-  function getRadarData (id, groupid, application) {
-    zabbix_server.queryData('item.get',{
+  function getRadarData(id, groupid, application) {
+    zabbix_server.queryData('item.get', {
       'groupids': groupid,
       'application': application,
       'filter': {
@@ -232,7 +242,10 @@ $(document).ready(function(){
       },
       'output': ['lastvalue', 'name']
     }, function(res) {
-      var resData={}, total = 0, error = 0, totalUser = 0
+      var resData = {},
+        total = 0,
+        error = 0,
+        totalUser = 0
       if (res.result) {
         res.result.forEach(function(item) {
           var name = getName(item.name, id)
@@ -266,7 +279,7 @@ $(document).ready(function(){
           }
         }
 
-        $('#' + id).text((total-error) + '/' + total)
+        $('#' + id).text((total - error) + '/' + total)
         var colortype = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
         var path = serverPath
         if ($('#radar').html().indexOf('data-type="well"') >= 0) {
@@ -286,14 +299,14 @@ $(document).ready(function(){
           }
         })
         myChart.setOption(_option, true)
-        $('#' + id).css('color',getColor(colortype)).attr('data-type', colortype)
+        $('#' + id).css('color', getColor(colortype)).attr('data-type', colortype)
       }
     })
   }
   // 获取全局调度系统的指标
-  function getAWSData (gslb_manage_hostid) {
+  function getAWSData(gslb_manage_hostid) {
     var standardValue = 65000
-    zabbix_server.queryData('item.get',{
+    zabbix_server.queryData('item.get', {
       'hostids': gslb_manage_hostid,
       'search': {
         'key_': 'gslb'
@@ -302,8 +315,8 @@ $(document).ready(function(){
     }, function(res) {
       if (res.result) {
         var success_persent = 0,
-        response_time = [],
-        qps = 0
+          response_time = [],
+          qps = 0
         res.result.forEach(function(item) {
           if (item.name.indexOf('gslb.success.global.rate.monitor.view') >= 0) {
             success_persent = item.lastvalue * 100
@@ -314,13 +327,15 @@ $(document).ready(function(){
             qps += parseInt(item.lastvalue)
           }
         })
-        response_time.sort(function(a, b) {return a-b})
+        response_time.sort(function(a, b) {
+          return a - b
+        })
         $('#chenggonglv').text(success_persent.toFixed(2) + '%')
         $('#xiangyingshijian').text(response_time[0] + 'ms')
         $('#qps').text(qps)
-        $('#chenggonglv').css('color',getColor(success_persent > 99 ? 'good' : success_persent > 95 ? 'well' : 'bad'))
-        $('#xiangyingshijian').css('color',getColor(response_time[0] < 40 ? 'good' : response_time[0] < 50 ? 'well' : 'bad'))
-        $('#qps').css('color',getColor(qps < standardValue * 0.7 ? 'good' : qps < standardValue * 0.9 ? 'well' : 'bad'))
+        $('#chenggonglv').css('color', getColor(success_persent > 99 ? 'good' : success_persent > 95 ? 'well' : 'bad'))
+        $('#xiangyingshijian').css('color', getColor(response_time[0] < 40 ? 'good' : response_time[0] < 50 ? 'well' : 'bad'))
+        $('#qps').css('color', getColor(qps < standardValue * 0.7 ? 'good' : qps < standardValue * 0.9 ? 'well' : 'bad'))
       }
     })
 
@@ -340,7 +355,9 @@ $(document).ready(function(){
     }, function(res) {
       if (res.result) {
         var result = res.result
-        var group = {}, groupList = [], aws_error = 0
+        var group = {},
+          groupList = [],
+          aws_error = 0
         for (var i = 0, resLen = result.length; i < resLen; i++) {
           var groupName = result[i].groups[0].name
           if (groupName === '0701_AWS_研究院') {
@@ -372,13 +389,15 @@ $(document).ready(function(){
     })
   }
   // 获取App数据
-  function getAppData(){
-    $('#apponline').html(template('ledTpl', {value: '7654'}))
-    $('#appplay').text('99.99%').css('color',getColor('good'))
-    $('#apphome').text('99.99%').css('color',getColor('good'))
-    $('#applogin').text('99.99%').css('color',getColor('good'))
-    $('#appregister').text('99.99%').css('color',getColor('good'))
-    $('#apporder').text('99.99%').css('color',getColor('good'))
-    $('#apppay').text('99.99%').css('color',getColor('good'))
+  function getAppData() {
+    $('#apponline').html(template('ledTpl', {
+      value: '7654'
+    }))
+    $('#appplay').text('99.99%').css('color', getColor('good'))
+    $('#apphome').text('99.99%').css('color', getColor('good'))
+    $('#applogin').text('99.99%').css('color', getColor('good'))
+    $('#appregister').text('99.99%').css('color', getColor('good'))
+    $('#apporder').text('99.99%').css('color', getColor('good'))
+    $('#apppay').text('99.99%').css('color', getColor('good'))
   }
 })
