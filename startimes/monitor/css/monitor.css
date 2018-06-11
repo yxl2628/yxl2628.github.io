@@ -16,19 +16,20 @@ html, body {
 }
 .list {
   margin: 0;
-  padding: 0;
+  padding: 0 10px;
 }
 .list li {
   list-style: none;
   width: 100%;
-  text-align: center;
+  text-align: left;
   line-height: 40px;
 }
 .list div {
   display: inline-block;
+  text-align: center;
 }
 .list .icon {
-  width: 40px;
+  width: 35px;
   vertical-align: middle;
 }
 .list .icon img {
@@ -36,14 +37,14 @@ html, body {
   font-size: 0;
 }
 .list .name {
-  width: 80px;
+  width: 70px;
 }
 .list .time {
-  width:120px;
+  width:40px;
 }
 .list .service .status {
-  display: inline-block;
-  margin-right: 10px;
+  margin-right: 5px;
+  padding: 3px 6px;
   width: 80px;
   height: 30px;
   line-height: 30px;
