@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>从App获取到的数据为：</h1>
+    <div id="test"></div>
+    <script type="text/javascript">
+      var result = window.control.getAppEncryption()
+      document.getElementById('test').innerHTML = JSON.parse(result)
+    </script>
+  </body>
+</html>
