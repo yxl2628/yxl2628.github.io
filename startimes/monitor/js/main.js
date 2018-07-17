@@ -4,6 +4,14 @@ $(document).ready(function() {
   zabbix_server.userLogin()
   // 获取cache节点的groupid集合
   var cache_groupids = []
+  var networkStatistics = {
+    StarCDN: 0,
+    aws: 0,
+  };
+  var userStatistics = {
+      StarCDN: 0,
+      aws: 0,
+  };
   cache_list.forEach(function(item) {
     if (item.groupid) {
       cache_groupids.push(item.groupid)
@@ -23,6 +31,14 @@ $(document).ready(function() {
    * 默认是60秒请求一次
    */
   setInterval(function() {
+    cache_list.forEach(function(item) {
+      if (item.groupid) {
+        cache_groupids.push(item.groupid)
+        item.value = [0, 0]
+      } else {
+        item.value = [-1, -1]
+      }
+    })
     task(cache_groupids)
   }, 60000)
   /**
@@ -59,8 +75,19 @@ $(document).ready(function() {
     getAWSData(gslb_manage_hostid)
     // 获取总用户数、总带宽及合作运营商
     setTimeout(function() {
-      getAllUsers(cache_groupids)
+      getAllUsers(cache_groupids);
     }, 2000)
+
+    setTimeout(function() {
+      getStarCDNCacheNetworkBandwidth(cache_groupids);
+      getAWSCacheNetworkBandwidth([groupid_aws.toString()]);
+    }, 2000);
+
+    setTimeout(function() {
+      getStarCDNUsers(cache_groupids);
+      getAWSUsers([groupid_aws.toString()])
+    }, 2000);
+
     getAppData()
   }
   // 获取zabbix告警数
@@ -102,52 +129,250 @@ $(document).ready(function() {
   }
   // 获取带宽
   function getCacheNetworkPersent(groupid) {
-    zabbix_server.queryData('item.get', {
-      'groupids': [groupid],
-      'application': 'Network', // 只查询Network的应用集
-      'selectGroups': ['name'], // 同时查出所属的主机组信息
-      'selectHosts': ['name'], // 同时查出所属主机的信息
-      'search': {
-        'name': 'Outgoing',
-      },
-      'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
-    }, function(res) {
-      if (res.result) {
-        var _countObj = {}
-        res.result.forEach(function(item) {
-          var _groupid = 'g-' + groupid
-          if (item.hosts[0].name.indexOf('STR') >= 0) {
-            if (item.key_.indexOf('enp3s0f1') >= 0 || item.key_.indexOf('p2p1') >= 0) {
-              if (_countObj[_groupid] === undefined) {
-                _countObj[_groupid] = {
-                  realValue: parseInt(item.lastvalue),
-                  totalValue: 10000000000
-                }
-              } else {
-                _countObj[_groupid].realValue += parseInt(item.lastvalue)
-                _countObj[_groupid].totalValue += 10000000000
-              }
-            }
+      zabbix_server.queryData('item.get', {
+          'groupids': [groupid],
+          'application': 'Network', // 只查询Network的应用集
+          'selectGroups': ['name'], // 同时查出所属的主机组信息
+          'selectHosts': ['name'], // 同时查出所属主机的信息
+          'search': {
+              'name': 'Outgoing',
+          },
+          'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
+      }, function(res) {
+          if (res.result) {
+              var _countObj = {}
+              res.result.forEach(function(item) {
+                  var _groupid = 'g-' + groupid
+                  if (item.hosts[0].name.indexOf('STR') >= 0) {
+                      if (item.key_.indexOf('enp3s0f1') >= 0 || item.key_.indexOf('p2p1') >= 0) {
+                          // console.log('贷款异常错误排查：', item.hosts, item.key_, item.lastvalue)
+                          if (_countObj[_groupid] === undefined) {
+                              _countObj[_groupid] = {
+                                  realValue: parseInt(item.lastvalue),
+                                  totalValue: 10000000000
+                              }
+                          } else {
+                              _countObj[_groupid].realValue += parseInt(item.lastvalue)
+                              _countObj[_groupid].totalValue += 10000000000
+                          }
+                      }
+                  }
+              })
+              cache_list.forEach(function(item) {
+                  var _key = 'g-' + item.groupid
+                  if (_countObj[_key] !== undefined) {
+                      item.realValue = _countObj[_key].realValue
+                      item.totalValue = _countObj[_key].totalValue
+                      item.value[1] = (item.realValue / item.totalValue * 100).toFixed(0)
+                  }
+              })
+              var _option = myChart.getOption()
+              _option.series.forEach(function(item) {
+                  if (item.name === 'cache节点告警') {
+                      item.data = convertPonitData(cache_list)
+                  }
+              })
+              myChart.setOption(_option, true)
           }
-        })
-        cache_list.forEach(function(item) {
-          var _key = 'g-' + item.groupid
-          if (_countObj[_key] !== undefined) {
-            item.realValue = _countObj[_key].realValue
-            item.totalValue = _countObj[_key].totalValue
-            item.value[1] = (item.realValue / item.totalValue * 100).toFixed(0)
-          }
-        })
-        var _option = myChart.getOption()
-        _option.series.forEach(function(item) {
-          if (item.name === 'cache节点告警') {
-            item.data = convertPonitData(cache_list)
-          }
-        })
-        myChart.setOption(_option, true)
-      }
-    })
+      })
   }
+
+  // 获取StarCDN带宽
+  function getStarCDNCacheNetworkBandwidth(groupids) {
+      zabbix_server.queryData('item.get', {
+          'groupids': groupids,
+          'application': 'CDN-cache', // 只查询Network的应用集
+          'selectGroups': ['name'], // 同时查出所属的主机组信息
+          'selectHosts': ['name'], // 同时查出所属主机的信息
+          'search': {
+              'key_': 'cache.output.data.monitor',
+          },
+          'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
+      },  function (res) {
+          if (res.result) {
+              var type = 'G', _totalNetwork = 0, totalBandWidth = 0, cdnNetWorkPercent = 0, awsNetWorkPercent=0;
+              res.result.forEach(function(item) {
+                  if(item.lastvalue){
+                      _totalNetwork += parseInt(item.lastvalue);
+                  }
+              });
+              networkStatistics.StarCDN = _totalNetwork;
+
+              if (_totalNetwork < 10000000) { // 小于10M显示代为为K
+                _totalNetwork = Math.round(_totalNetwork / 1000);
+                type = 'K'
+              } else if (_totalNetwork < 1000000000) { // 小于1G显示代为为M
+                _totalNetwork = Math.round(_totalNetwork / 1000000);
+                type = 'M'
+              } else {
+                _totalNetwork = parseFloat(_totalNetwork / 1000000000).toFixed(2);
+                type = 'G';
+              }
+
+              $('#networdUnit').text(type);
+              $('#networkStar').html(template('ledTpl', {
+                  value: _totalNetwork.toString()
+              }));
+
+              totalBandWidth = parseInt(networkStatistics.StarCDN + networkStatistics.aws);
+              cdnNetWorkPercent = Math.round((networkStatistics.StarCDN)/totalBandWidth*100);
+              awsNetWorkPercent = Math.round(networkStatistics.aws/totalBandWidth*100);
+
+              var _type = 'G';
+
+              if (totalBandWidth < 10000000) { // 小于10M显示代为为K
+                  totalBandWidth = Math.round(totalBandWidth / 1000);
+                  _type = 'K'
+              } else if (totalBandWidth < 1000000000) { // 小于1G显示代为为M
+                  totalBandWidth = Math.round(totalBandWidth / 1000000);
+                  _type = 'M'
+              } else {
+                  totalBandWidth = parseFloat(totalBandWidth / 1000000000).toFixed(2);
+                  _type = 'G';
+              }
+
+              $('#totalBandWidth').text(totalBandWidth+' '+_type+'bps');
+              $('#cdnNetWorkPercent').text('占比:'+cdnNetWorkPercent+'%');
+              $('#awsNetWorkPercent').text(awsNetWorkPercent+'%')
+          }
+      })
+  }
+  // 获取AWS带宽
+  function getAWSCacheNetworkBandwidth(groupids) {
+      zabbix_server.queryData('item.get', {
+          'groupids': groupids,
+          //'application': 'awsRequestFind', // 只查询Network的应用集
+          'selectGroups': ['name'], // 同时查出所属的主机组信息
+          'selectHosts': ['name'], // 同时查出所属主机的信息
+          'search': {
+              'key_': 'cache.output.data.monitor',
+          },
+          'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
+      },  function (res) {
+          if (res.result) {
+              var type = 'G',
+                  _totalNetwork = 0, totalBandWidth = 0, cdnNetWorkPercent = 0, awsNetWorkPercent=0;
+              res.result.forEach(function(item) {
+                  if(item.lastvalue){
+                      _totalNetwork += parseInt(item.lastvalue);
+                  }
+              });
+              networkStatistics.aws = _totalNetwork;
+
+              if (_totalNetwork < 10000000) { // 小于10M显示代为为K
+                  _totalNetwork = Math.round(_totalNetwork / 1000);
+                  type = 'K'
+              } else if (_totalNetwork < 1000000000) { // 小于1G显示代为为M
+                  _totalNetwork = Math.round(_totalNetwork / 1000000);
+                  type = 'M'
+              } else {
+                  _totalNetwork = parseFloat(_totalNetwork / 1000000000).toFixed(2);
+                  type = 'G';
+              }
+
+              $('#networdUnit').text(type);
+              $('#networkAWS').html(template('ledTpl', {
+                  value: _totalNetwork.toString()
+              }));
+
+              totalBandWidth = parseInt(networkStatistics.StarCDN + networkStatistics.aws);
+              cdnNetWorkPercent = Math.round((networkStatistics.StarCDN)/totalBandWidth*100);
+              awsNetWorkPercent = Math.round(networkStatistics.aws/totalBandWidth*100);
+
+              var _type = 'G';
+
+              if (totalBandWidth < 10000000) { // 小于10M显示代为为K
+                  totalBandWidth = Math.round(totalBandWidth / 1000);
+                  _type = 'K'
+              } else if (totalBandWidth < 1000000000) { // 小于1G显示代为为M
+                  totalBandWidth = Math.round(totalBandWidth / 1000000);
+                  _type = 'M'
+              } else {
+                  totalBandWidth = parseFloat(totalBandWidth / 1000000000).toFixed(2);
+                  _type = 'G';
+              }
+
+              $('#totalBandWidth').text(totalBandWidth+' '+_type+'bps');
+              $('#cdnNetWorkPercent').text(cdnNetWorkPercent+'%');
+              $('#awsNetWorkPercent').text(awsNetWorkPercent+'%')
+          }
+      })
+  }
+
+  // 获取starCDN分钟请求数
+  function getStarCDNUsers(groupids) {
+      zabbix_server.queryData('item.get', {
+          'groupids': groupids,
+          'application': 'CDN-cache', // 只查询Network的应用集
+          'selectGroups': ['name'], // 同时查出所属的主机组信息
+          'selectHosts': ['name'], // 同时查出所属主机的信息
+          'search': {
+              'key_': 'cache.request.count.monitor',
+          },
+          'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
+      }, function(res) {
+          if (res.result) {
+              var _totalUser = 0, totalUser = 0, cdnUserPercent = 0, awsUserPercent= 0;
+              res.result.forEach(function(item) {
+                  if(item.lastvalue){
+                      _totalUser += parseInt(item.lastvalue);
+                  }
+              });
+              _totalUser = Math.round(_totalUser/20);
+
+              userStatistics.StarCDN = _totalUser;
+
+              $('#user_left').html(template('ledTpl', {
+                  value: _totalUser.toString()
+              }));
+
+              totalUser = parseInt(userStatistics.StarCDN) + parseInt(userStatistics.aws);
+              cdnUserPercent = Math.round((userStatistics.StarCDN)/totalUser*100);
+              awsUserPercent = Math.round((userStatistics.aws)/totalUser*100);
+
+              $('#totalUsers').text(totalUser);
+              $('#cdnUserPercent').text('占比:'+cdnUserPercent+'%');
+              $('#awsUserPercent').text(awsUserPercent+'%');
+          }
+      })
+  }
+  // 获取AWS分钟请求数
+  function getAWSUsers(groupids) {
+        zabbix_server.queryData('item.get', {
+            'groupids': groupids,
+            //'application': 'CDN-cache', // 只查询Network的应用集
+            'selectGroups': ['name'], // 同时查出所属的主机组信息
+            'selectHosts': ['name'], // 同时查出所属主机的信息
+            'search': {
+                'key_': 'cache.request.count.monitor',
+            },
+            'output': ['itemid', 'hosts', 'key_', 'name', 'lastvalue']
+        }, function(res) {
+            if (res.result) {
+                var _totalUser = 0, totalUser = 0, cdnUserPercent = 0, awsUserPercent= 0;
+                res.result.forEach(function(item) {
+                    if(item.lastvalue){
+                        _totalUser += parseInt(item.lastvalue);
+                    }
+                });
+                _totalUser = Math.round(_totalUser/20);
+
+                userStatistics.aws = _totalUser;
+                $('#user_right').html(template('ledTpl', {
+                    value: _totalUser.toString()
+                }));
+
+                totalUser = parseInt(userStatistics.StarCDN) + parseInt(userStatistics.aws);
+                cdnUserPercent = Math.round((userStatistics.StarCDN)/totalUser*100);
+                awsUserPercent = Math.round((userStatistics.aws)/totalUser*100);
+
+                $('#totalUsers').text(totalUser);
+                $('#cdnUserPercent').text(cdnUserPercent+'%');
+                $('#awsUserPercent').text(awsUserPercent+'%');
+            }
+        })
+    }
+
   // 丢包率
   function getPackLoss(type, id, name) {
     var zabbix_params = {
@@ -183,53 +408,108 @@ $(document).ready(function() {
   // 获取总用户数
   function getAllUsers(cache_groupids) {
     var totalUser = 0
-    // zabbix_server.queryData('item.get',{
-    //   'groupids': cache_groupids,
-    //   'search': {
-    //     'name': 'cache'
-    //   },
-    //   'output': ['name', 'lastvalue']
-    // }, function(res) {
-    //   if (res.result) {
-    //     totalUser = 0
-    //     res.result.forEach(function(item) {
-    //       if (item.name.indexOf('cache.demand.unique.count') >= 0 || item.name.indexOf('cache.live.unique.count') >= 0){
-    //         totalUser += parseInt(item.lastvalue)
-    //         $('#user').html(template('ledTpl', {value: totalUser.toString()}))
-    //       }
-    //     })
-    //   }
-    // })
     var totalNetwork = 0,
-      type = 'G',
-      user_net = 250
+      // type = 'G',
+      user_net = 250,
+      networkList = []
     cache_list.forEach(function(item) {
       if (item.realValue != undefined) {
         totalNetwork += item.realValue
+        if ( item.realValue >= 1000000) {
+          networkList.push({
+            name: item.name,
+            value: parseFloat(item.realValue / 1000000).toFixed(2)
+          })
+        }
       }
     })
-    if (totalNetwork < 10000000) {
-      totalNetwork = totalNetwork / 1000
-      type = 'K'
-      totalUser = Math.ceil(totalNetwork / user_net)
-    } else if (totalNetwork < 1000000000) {
-      totalNetwork = totalNetwork / 1000000
-      type = 'M'
-      totalUser = Math.ceil(totalNetwork / (user_net / 1000))
-    } else {
-      totalNetwork = totalNetwork / 1000000000
-      totalUser = Math.ceil(totalNetwork * 1000 / (user_net / 1000))
-    }
-    $('#user').html(template('ledTpl', {
-      value: totalUser.toString()
-    }))
-    $('#networdUnit').text(type)
-    $('#network').html(template('ledTpl', {
-      value: totalNetwork.toFixed(0)
-    }))
+
+    networkList = networkList.sort(function(a, b) {
+      return b.value - a.value
+    }).slice(0, 10).reverse()
+    // if (totalNetwork < 10000000) { // 小于10M显示代为为K
+    //   totalNetwork = Math.round(totalNetwork / 1000)
+    //   type = 'K'
+    //   totalUser = Math.round(totalNetwork / user_net)
+    // } else if (totalNetwork < 1000000000) { // 小于1G显示代为为M
+    //   totalNetwork = Math.round(totalNetwork / 1000000)
+    //   type = 'M'
+    //   totalUser = Math.round(totalNetwork / (user_net / 1000))
+    // } else {
+    //   totalNetwork = parseFloat(totalNetwork / 1000000000)
+    //   if (totalNetwork <= 999) {
+    //     totalNetwork = totalNetwork.toFixed(2)
+    //   } else {
+    //     totalNetwork = totalNetwork.toFixed(0)
+    //   }
+    //   type = 'G'
+    //   totalUser = Math.round(totalNetwork * 1000 / (user_net / 1000))
+    // }
+
+      totalNetwork = parseFloat(totalNetwork / 1000000000);
+      if (totalNetwork <= 999) {
+        totalNetwork = totalNetwork.toFixed(2)
+      } else {
+        totalNetwork = totalNetwork.toFixed(0)
+      }
+      // type = 'G'
+      //totalUser = Math.round(totalNetwork * 1000 / (user_net / 1000))
+
+    // $('#user_left').html(template('ledTpl', {
+    //   value: totalUser.toString()
+    // }))
+    // $('#user_right').html(template('ledTpl', {
+    //   value: totalUser.toString()
+    // }))
+    $('#instantBandwidth').text(totalNetwork);
+    // $('#networdUnit').text(type)
+    $('#networktop').text(networkList.length);
+    // $('#networkStar').html(template('ledTpl', {
+    //       // value: totalNetwork.toString()
+    //     value: '345.8'
+    //   }))
+    // $('#networkAWS').html(template('ledTpl', {
+    //     value: totalNetwork.toString()
+    // }))
+    //console.log('totalNetwork-----',totalNetwork);
+    top5Chart.setOption({
+      color: ['#30af81', '#d1d41a', '#73b9bc', '#7289ab', '#91ca8c', '#f49f42'],
+      grid: {
+        top: 10,
+        left: 0,
+        right: 180,
+        bottom: 10
+      },
+      yAxis: [{
+        type: 'category',
+        data: networkList.map(function(item) {
+          return item.name
+        })
+      }],
+      xAxis: [{
+        type: 'value',
+        splitLine: {
+          show: false
+        }
+      }],
+      series: [{
+        name: '占用带宽（Mbps）',
+        type: 'bar',
+        data: networkList,
+        label: {
+          normal: {
+            show: true,
+            formatter: '{b0} : {c0}Mbps',
+            color: '#b9b9b9',
+            position: 'right'
+          }
+        }
+      }]
+    }, true)
     $('#partner').html(template('ledTpl', {
       value: cache_list.length.toString()
     }))
+      //console.log('cache_list.length-----',cache_list.length);
   }
   // 获取南非上行站频道监控
   function getRadarData(id, groupid, application) {
@@ -237,7 +517,8 @@ $(document).ready(function() {
       'groupids': groupid,
       'application': application,
       'filter': {
-        'status': '0'
+        'status': '0',
+        'state': '0'
       },
       'output': ['lastvalue', 'name']
     }, function(res) {
@@ -280,25 +561,28 @@ $(document).ready(function() {
 
         $('#' + id).text((total - error) + '/' + total)
         var colortype = error < 1 ? 'good' : error < 10 ? 'well' : 'bad'
-        var path = serverPath
-        if ($('#radar').html().indexOf('data-type="well"') >= 0) {
-          path = serverBadPath
-        }
-        if ($('#radar').html().indexOf('data-type="bad"') >= 0) {
-          path = serverErrorPath
-        }
-        var _option = myChart.getOption()
-        _option.series.forEach(function(item) {
-          if (item.name === '地点') {
-            item.data.forEach(function(value) {
-              if (value.name === '上云站机房') {
-                value.symbol = path
-              }
-            })
-          }
-        })
-        myChart.setOption(_option, true)
         $('#' + id).css('color', getColor(colortype)).attr('data-type', colortype)
+
+        setTimeout(function() {
+          var path = serverPath
+          if ($('#radar').html().indexOf('data-type="well"') >= 0) {
+            path = serverBadPath
+          }
+          if ($('#radar').html().indexOf('data-type="bad"') >= 0) {
+            path = serverErrorPath
+          }
+          var _option = myChart.getOption()
+          _option.series.forEach(function(item) {
+            if (item.name === '地点') {
+              item.data.forEach(function(value) {
+                if (value.name === '上云站机房') {
+                  value.symbol = path
+                }
+              })
+            }
+          })
+          myChart.setOption(_option, true)
+        }, 500)
       }
     })
   }
@@ -313,12 +597,14 @@ $(document).ready(function() {
       'output': ['name', 'key_', 'lastvalue']
     }, function(res) {
       if (res.result) {
-        var success_persent = 0,
+        var success_persent = 0, success_persent_pic = 0,
           response_time = [],
           qps = 0
         res.result.forEach(function(item) {
           if (item.name.indexOf('gslb.success.global.rate.monitor.view') >= 0) {
             success_persent = item.lastvalue * 100
+          } if (item.name.indexOf('gslb.success.global.rate.monitor.pic') >= 0) {
+            success_persent_pic = item.lastvalue * 100
           } else if (item.name.indexOf('gslb.response.duration.monitor.view') >= 0) {
             response_time.push(parseInt(item.lastvalue))
           } else if (item.name.indexOf('gslb.qps.monitor.view') >= 0) {
@@ -329,9 +615,11 @@ $(document).ready(function() {
           return a - b
         })
         $('#chenggonglv').text(success_persent.toFixed(2) + '%')
+        $('#chenggonglv2').text(success_persent_pic.toFixed(2) + '%')
         $('#xiangyingshijian').text(response_time[0] + 'ms')
         $('#qps').text(qps)
         $('#chenggonglv').css('color', getColor(success_persent > 99 ? 'good' : success_persent > 95 ? 'well' : 'bad'))
+        $('#chenggonglv2').css('color', getColor(success_persent_pic > 99 ? 'good' : success_persent_pic > 95 ? 'well' : 'bad'))
         $('#xiangyingshijian').css('color', getColor(response_time[0] < 40 ? 'good' : response_time[0] < 50 ? 'well' : 'bad'))
         $('#qps').css('color', getColor(qps < standardValue * 0.7 ? 'good' : qps < standardValue * 0.9 ? 'well' : 'bad'))
       }
@@ -358,7 +646,7 @@ $(document).ready(function() {
           aws_error = 0
         for (var i = 0, resLen = result.length; i < resLen; i++) {
           var groupName = result[i].groups[0].name
-          if (groupName === '0701_AWS_研究院') {
+          if (groupName === '0701_AWS_研究院' || groupName === '研究院测试组') {
             aws_error += 1
             if (result[i].priority > 3) {
               aws_error += 6
@@ -397,36 +685,49 @@ $(document).ready(function() {
     }, function(res) {
       if (res.result != undefined) {
         res.result.forEach(function(item) {
-          console.log(item.name, item.lastvalue)
+          var appplay_val = item.lastvalue * 10000 / 100
+          var typeColor = getColor('good')
           // 播放成功率
           if (item.name === 'playing_play_success_all') {
-            $('#appplay').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+            if (appplay_val < 60) {
+              typeColor = getColor('bad')
+            }
+            $('#appplay').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 首页打开成功率
           if (item.name === 'playing_home_page_success_all') {
-            $('#apphome').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+            if (appplay_val < 90) {
+              typeColor = getColor('bad')
+            }
+            $('#apphome').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 登录成功率
           if (item.name === 'playing_user_login_success_all') {
-            $('#applogin').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+            if (appplay_val < 90) {
+              typeColor = getColor('bad')
+            }
+            $('#applogin').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 注册转化成功率
           if (item.name === 'playing_user_register_success_all') {
-            $('#appregister').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+            if (appplay_val < 80) {
+              typeColor = getColor('bad')
+            }
+            $('#appregister').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 订到成功率
           if (item.name === 'playing_order_success_all') {
-            $('#apporder').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
+            if (appplay_val < 60) {
+              typeColor = getColor('bad')
+            }
+            $('#apporder').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 支付成功率
           if (item.name === 'playing_payment_success_all') {
-            $('#apppay').text((item.lastvalue * 10000 / 100).toFixed(2) + '%').css('color', getColor('good'))
-          }
-          // app在线用户数
-          if (item.name === 'playing_play_count_all') {
-            $('#apponline').html(template('ledTpl', {
-              value: parseInt(item.lastvalue).toString()
-            }))
+            if (appplay_val < 60) {
+              typeColor = getColor('bad')
+            }
+            $('#apppay').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
         })
       }

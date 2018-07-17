@@ -4,19 +4,19 @@
 <head>
   <meta charset="utf-8">
   <title>告警列表</title>
-  <link rel="stylesheet" href="./css/error.css?version=1528450098964">
+  <link rel="stylesheet" href="./css/error.css?version=1528769604144">
 </head>
 
 <body>
   <div id="table"></div>
   <div class="echart title">告警分布</div>
   <div id="main"></div>
-  <script src="./js/jquery.min.js?version=1528450098964" charset="utf-8"></script>
-  <script src="./js/zabbix.js?version=1528450098964" charset="utf-8"></script>
-  <script src="./js/template-web.js?version=1528450098964" charset="utf-8"></script>
-  <script src="./js/moment.js?version=1528450098964" charset="utf-8"></script>
-  <script src="./js/config.js?version=1528450098964" charset="utf-8"></script>
-  <script src="./js/echarts.js?version=1528450098964" charset="utf-8"></script>
+  <script src="./js/jquery.min.js?version=1528769604144" charset="utf-8"></script>
+  <script src="./js/zabbix.js?version=1528769604144" charset="utf-8"></script>
+  <script src="./js/template-web.js?version=1528769604144" charset="utf-8"></script>
+  <script src="./js/moment.js?version=1528769604144" charset="utf-8"></script>
+  <script src="./js/config.js?version=1528769604144" charset="utf-8"></script>
+  <script src="./js/echarts.js?version=1528769604144" charset="utf-8"></script>
   <script id="tableTpl" type="text/html">
     <div class="title">
       实时告警信息
@@ -101,6 +101,9 @@
             if (error_group_list.indexOf(groupName) >= 0 || groupName.indexOf('CDN_') >= 0){
               switch (groupName) {
                 case '0701_AWS_研究院':
+                  groupName = 'AWS OTT后台'
+                  break;
+                case '研究院测试组':
                   groupName = 'AWS OTT后台'
                   break;
                 case '南非上云_OTT':
