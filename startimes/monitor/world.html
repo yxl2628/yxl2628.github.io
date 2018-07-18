@@ -142,7 +142,11 @@
           }
         })
         op.geo[0].regions = reg.concat(dthCountry)
-        myChart.setOption(op)
+        myChart.setOption(op, true)
+      } else {
+        var op = myChart.getOption()
+        op.geo[0].regions = regions
+        myChart.setOption(op, true)
       }
     })
   </script>
