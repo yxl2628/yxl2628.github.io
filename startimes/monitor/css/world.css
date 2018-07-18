@@ -11,6 +11,16 @@ html, body {
   height: 100%;
 }
 
+.main-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 80px;
+}
+.main-title img{
+  height: 100%;
+}
+
 .aws {
   position: absolute;
   box-sizing: border-box;
@@ -31,7 +41,7 @@ html, body {
   position: absolute;
   bottom: 5%;
   left: 5%;
-  width: 230px;
+  width: 240px;
 }
 
 .legend {
@@ -69,18 +79,32 @@ html, body {
   color: #aab3b9;
   font-size: 12px;
 }
+.total-item img{
+  height: 20px;
+  display: inline-block;
+  font-size: 0;
+  vertical-align: middle;
+  margin-right: 5px;
+}
 
-.total-item div {
+.total-item .img {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+}
+
+.total-item .title {
   display: inline-block;
   width: 90px;
 }
 
 .total-item span {
   display: inline-block;
-  width: 50px;
-  text-align: center;
+  width: 30px;
+  text-align: right;
   font-size: 16px;
   color: #16c2f9;
+  margin-right: 10px;
 }
 .legend {
   width: 100px;
