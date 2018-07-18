@@ -131,7 +131,7 @@ cdn = 'image://./img/world/cdn.png'
 // var lineColor = ['#6efa01', '#0da1ed', '#9c26b5', '#ffffff']
 var lineColor = ['#0da1ed', '#0da1ed', '#0da1ed', '#0da1ed']
 
-var dthCountryData = ['Senegal', 'Mali', 'Benin', 'Garner', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Gabon', 'Congo gold', 'Congo cloth', 'Sultan', 'Uganda', 'Kenya', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Zimbabwe', 'Mozambique', 'South Africa', 'societies',' societies', 'Mauritius',' Swaziland']
+var dthCountryData = ['Senegal', 'Mali', 'Guinea', 'Sierra Leone', 'Benin', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Sudan', 'Central African Rep.', 'Gabon', 'Congo', 'Dem. Rep. Congo', 'Uganda', 'Kenya', 'Rwanda', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Mozambique', 'South Africa', 'Lesotho', 'Swaziland', 'Madagascar', 'Zimbabwe', 'Mauritius']
 
 var coverData = function(data, name) {
   var res = []
@@ -189,11 +189,11 @@ var coverLines = function(name, x, y, color) {
 
   if (x instanceof Array) {
     for(var i=0,len=x.length;i<len;i++){
-      line.data.push([geoMap[x[i]],geoMap[y]])
+      line.data.push({name: y, coords: [geoMap[x[i]],geoMap[y]]})
     }
   } else {
     for(var i=0,len=y.length;i<len;i++){
-      line.data.push([geoMap[x], geoMap[y[i]]])
+      line.data.push({name: x, coords: [geoMap[x], geoMap[y[i]]]})
     }
   }
   if (name == 'VPN') {
@@ -203,6 +203,7 @@ var coverLines = function(name, x, y, color) {
     line.effect.symbol = 'pin'
     line.effect.symbolSize = 7
   }
+  console.log(line)
   return line
 }
 
@@ -394,6 +395,21 @@ var options = {
       data: [
         { name: '南非-上星节点', value: geoMap['南非-上星节点'] },
         { name: '斯洛文尼亚-上星节点', value: geoMap['斯洛文尼亚-上星节点'] }
+      ]
+    },
+    {
+      name: 'OTT',
+      type: 'scatter',
+      coordinateSystem: 'geo',
+      symbolSize: 5,
+      z: 10,
+      itemStyle: {
+        normal: {
+          color: lineColor[0]
+        }
+      },
+      data: [
+        { name: '南非-上星节点', value: geoMap['南非-上星节点'] }
       ]
     },
     {

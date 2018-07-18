@@ -72,7 +72,7 @@
     options.series.push(coverLines('DTT', 'E10A-卫星', ['几内亚-发射塔', '尼日利亚-发射塔', '喀麦隆-发射塔', '中非-发射塔', '刚果金-发射塔', '刚果布-发射塔', '乌干达-发射塔', '卢旺达-发射塔', '肯尼亚-发射塔', '布隆迪-发射塔', '坦桑尼亚-发射塔', '赞比亚-发射塔', '莫桑比克-发射塔', '马达-发射塔'], lineColor[1]))
     options.series.push(coverLines('OTT', 'E8WB-卫星', ['塞内加尔-CDN', '几内亚-CDN', '加纳-CDN', '科特迪瓦-CDN', '尼日利亚-CDN', '刚果金-CDN', '刚果布-CDN', '乌干达-CDN', '卢旺达-CDN', '肯尼亚-CDN', '布隆迪-CDN', '坦桑尼亚-CDN', '赞比亚-CDN', '莫桑比克-CDN', '南非-CDN', '马达-CDN'], lineColor[2]))
     options.series.push(coverLines('OTT', ['南非-上星站'], 'E8WB-卫星', lineColor[2]))
-    options.series.push(coverLines('OTT', ['南非-上星节点'], '爱尔兰-亚马逊云', lineColor[2]))
+    options.series.push(coverLines('OTT', '南非-上星节点', ['爱尔兰-亚马逊云', '南非-上星站'], lineColor[2]))
     options.series.push(coverLines('VPN', ['肯尼亚-路由', '尼日利亚-路由', '南非-路由', '北京-总部', '爱尔兰-亚马逊云', '乌干达-路由', '赞比亚-路由', '莫桑比克-路由'], 'Startimes-VPN', lineColor[3]))
     myChart.setOption(options)
     $(document).ready(function(){
@@ -122,8 +122,8 @@
           name: names[i]
         })
       }
+      var op = myChart.getOption()
       if (name === 'DTH') {
-        var op = myChart.getOption()
         var reg = op.geo[0].regions
         var dthCountry = dthCountryData.map(function(item){
           return {
@@ -144,8 +144,32 @@
         op.geo[0].regions = reg.concat(dthCountry)
         myChart.setOption(op, true)
       } else {
-        var op = myChart.getOption()
+
         op.geo[0].regions = regions
+        myChart.setOption(op, true)
+      }
+      if (name == 'ALL') {
+        op.series.map(function(item) {
+          if (item.type == 'lines') {
+            item.lineStyle.color = '#0da1ed'
+          }
+        })
+        myChart.setOption(op, true)
+      }
+      if (name == '节目中继') {
+        op.series.map(function(item) {
+          if (item.name == '节目中继' && item.type == 'lines' && item.data[0].name == '北京-总部') {
+            item.lineStyle.color = '#6efa01'
+          }
+        })
+        myChart.setOption(op, true)
+      }
+      if (name == 'OTT') {
+        op.series.map(function(item) {
+          if (item.name == 'OTT' && item.type == 'lines' && item.data[0].name == '南非-上星节点') {
+            item.lineStyle.color = '#6efa01'
+          }
+        })
         myChart.setOption(op, true)
       }
     })
