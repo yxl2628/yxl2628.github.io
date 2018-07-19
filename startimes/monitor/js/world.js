@@ -1,11 +1,11 @@
 var geoMap = {
   // 卫星
-  'E10A-卫星': [30, 59],
-  'E8WB-卫星': [60, 59],
-  'SES5-卫星': [90, 59],
+  'E10A-卫星': [30, 60],
+  'E8WB-卫星': [60, 60],
+  'SES5-卫星': [90, 60],
   // 北京总部
   '北京-总部': [116, 39.5],
-  '爱尔兰-亚马逊云': [-8, 55],
+  '爱尔兰-亚马逊云': [-6, 52],
   'Startimes-VPN': [80, -3],
   // 上星站
   '南非-上星站': [21, -30],
@@ -203,11 +203,25 @@ var coverLines = function(name, x, y, color) {
 
   if (x instanceof Array) {
     for(var i=0,len=x.length;i<len;i++){
-      line.data.push({name: y, coords: [geoMap[x[i]],geoMap[y]]})
+      var from = geoMap[x[i]], to = geoMap[y]
+      if (x[i].indexOf('卫星') >= 0) {
+        from = [from[0] - 2.5, from[1] - 2]
+      }
+      if (y.indexOf('卫星') >= 0) {
+        to = [to[0] - 2.5, to[1] - 2]
+      }
+      line.data.push({name: y, coords: [from, to]})
     }
   } else {
     for(var i=0,len=y.length;i<len;i++){
-      line.data.push({name: x, coords: [geoMap[x], geoMap[y[i]]]})
+      var from = geoMap[x], to = geoMap[y[i]]
+      if (x.indexOf('卫星') >= 0) {
+        from = [from[0] - 2.5, from[1] - 2]
+      }
+      if (y[i].indexOf('卫星') >= 0) {
+        to = [to[0] - 2.5, to[1] - 2]
+      }
+      line.data.push({name: x, coords: [from, to]})
     }
   }
   if (name == 'VPN') {
@@ -351,9 +365,9 @@ var options = {
         opacity: 1
       },
       data: [
-        { name: 'E10A-卫星', value: [geoMap['E10A-卫星'][0] + 2, geoMap['E10A-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E10A'), symbolSize: [120, 103] },
-        { name: 'E8WB-卫星', value: [geoMap['E8WB-卫星'][0] + 2, geoMap['E8WB-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E8WB'), symbolSize: [120, 103] },
-        { name: 'SES5-卫星', value: [geoMap['SES5-卫星'][0] + 2, geoMap['SES5-卫星'][1] + 3.5], symbol: wei.replace('wei', 'SES5'), symbolSize: [120, 103] }
+        { name: 'E10A-卫星', value: geoMap['E10A-卫星'], symbol: wei.replace('wei', 'E10A'), symbolSize: [120, 103] },
+        { name: 'E8WB-卫星', value: geoMap['E8WB-卫星'], symbol: wei.replace('wei', 'E8WB'), symbolSize: [120, 103] },
+        { name: 'SES5-卫星', value: geoMap['SES5-卫星'], symbol: wei.replace('wei', 'SES5'), symbolSize: [120, 103] }
       ]
     },
     {

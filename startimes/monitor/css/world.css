@@ -13,7 +13,7 @@ html, body {
 
 .main-title {
   position: absolute;
-  top: 0;
+  top: 20px;
   left: 0;
   height: 90px;
 }
@@ -24,16 +24,16 @@ html, body {
 .aws {
   position: absolute;
   box-sizing: border-box;
-  top: 12%;
-  left: 6%;
+  top: 18%;
+  left: 9%;
   width: 165px;
 }
 
 .startimes {
   position: absolute;
   box-sizing: border-box;
-  top: 16%;
-  right: 8%;
+  top: 17%;
+  right: 9%;
   width: 185px;
 }
 
@@ -46,8 +46,8 @@ html, body {
 
 .legend {
   position: absolute;
-  bottom: 10%;
-  right: 10%;
+  bottom: 8%;
+  right: 13%;
 }
 
 .aws-item, .startimes-item {
@@ -60,6 +60,10 @@ html, body {
   line-height: 1.6;
   color: #d4e1ea;
   margin-top: 5px;
+}
+
+.aws-item:nth-child(2n), .startimes-item:nth-child(2n) {
+  margin-left: -3px;
 }
 
 .startimes-item {

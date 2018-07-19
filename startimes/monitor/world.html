@@ -81,7 +81,7 @@
 
     $(document).ready(function(){
       var ses5Position = myChart.convertToPixel('geo', [geoMap['SES5-卫星'][0], geoMap['SES5-卫星'][1]])
-      var top = ses5Position[1] -84, left = ses5Position[0] - 40
+      var top = ses5Position[1] -52, left = ses5Position[0] - 60
       $('#ses5Img').attr('style', 'display:none;position:absolute;left:'+ left + 'px;top:' + top + 'px')
       $('.total-item').each(function(){
         $(this).find('span').html(worldCount[$(this).attr('data-name')])
