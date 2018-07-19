@@ -81,7 +81,7 @@ var geoMap = {
   '马达-CDN': [45.439, -23.966],
   // 路由
   '肯尼亚-路由': [40, -1.5],
-  '坦桑尼亚-路由': [8, 8],
+  '坦桑尼亚-路由': [34.5, -7.8],
   '乌干达-路由': [33.27, 1.537],
   '赞比亚-路由': [29.7, -14.349],
   '莫桑比克-路由': [38.18, -16.04],
@@ -144,8 +144,6 @@ build = 'image://./img/world/build.png'
 // var lineColor = ['#6efa01', '#0da1ed', '#9c26b5', '#ffffff']
 var lineColor = ['#0da1ed', '#0da1ed', '#0da1ed', '#0da1ed']
 
-var dthCountryData = ['Senegal', 'Mali', 'Guinea', 'Sierra Leone', 'Benin', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Sudan', 'Central African Rep.', 'Gabon', 'Congo', 'Dem. Rep. Congo', 'Uganda', 'Kenya', 'Rwanda', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Mozambique', 'South Africa', 'Lesotho', 'Swaziland', 'Madagascar', 'Zimbabwe', 'Mauritius']
-
 var coverData = function(data, name) {
   var res = []
   for(var x in data) {
@@ -171,7 +169,7 @@ var coverData = function(data, name) {
           res.push({ name: x, value: data[x], symbol: route, symbolSize: [20, 17] })
           break;
         case '拓展中':
-          res.push({ name: x, value: data[x], symbol: build, symbolSize: 50, label: {show: true, position: 'bottom', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
+          res.push({ name: x, value: data[x], symbol: build, symbolSize: 20, label: {show: true, position: 'bottom', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
           break;
       }
     }
@@ -284,7 +282,7 @@ var options = {
           borderColor: '#555555'
         },
         label: {
-          show: true,
+          show: false,
           color: '#fff',
           fontSize: 14
         }
@@ -320,19 +318,19 @@ var options = {
       id: 2,
       name: 'SES5卫星覆盖范围',
       map: 'ses5',
-      // zoom: 2.5,
-      // center: [48.5, 16],
-      // aspectScale: 1.1,
-      z: 3,
+      zoom: 0.65,
+      center: [49, 16],
+      aspectScale: 1.1,
+      z: 1,
       itemStyle: {
-        opacity: 1,
+        opacity: 0,
         borderWidth: 1,
-        color: '#fff',
+        color: '#0da1ed',
       },
       emphasis: {
         itemStyle: {
-          opacity: 1,
-          color: '#fff',
+          opacity: 0,
+          color: '#0da1ed',
           borderWidth: 1
         },
         label: {
