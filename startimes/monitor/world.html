@@ -58,9 +58,11 @@
   <script src="./js/jquery.min.js?version=1528769604144" charset="utf-8"></script>
   <script src="./js/echarts.js?version=1528769604144" charset="utf-8"></script>
   <script src="./map/world.js?version=1528769604144"></script>
+  <script src="./map/ses-5.js?version=1528769604144"></script>
   <script src="./js/world.js?version=1528769604144"></script>
   <script type="text/javascript">
     echarts.registerMap('world', worldMap)
+    echarts.registerMap('ses5', SES5Map)
     var myChart = echarts.init(document.getElementById('main'))
     options.series.push(coverLines('节目中继', '北京-总部', ['南非-上星节点','斯洛文尼亚-上星节点', '德国-上星站'], lineColor[0]))
     options.series.push(coverLines('节目中继', '南非-上星节点', ['南非-上星站','南非(第二颗)-上星站'], lineColor[0]))
@@ -111,7 +113,7 @@
         if (name === 'ALL') {
           type = 'legendSelect'
         } else {
-          if (name === names[i] || ['卫星', '总部', '亚马逊云'].indexOf(names[i]) >= 0) {
+          if (name === names[i] || ['卫星', '总部', '亚马逊云', '拓展中国家'].indexOf(names[i]) >= 0) {
             type = 'legendSelect'
           } else {
             type = 'legendUnSelect'

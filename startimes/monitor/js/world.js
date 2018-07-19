@@ -86,7 +86,19 @@ var geoMap = {
   '赞比亚-路由': [29.7, -14.349],
   '莫桑比克-路由': [38.18, -16.04],
   '尼日利亚-路由': [8, 8],
-  '南非-路由': [24, -28]
+  '南非-路由': [24, -28],
+  // 拓展中
+  '土耳其-拓展中': [35.2, 38.96],
+  '哈塞克斯坦-拓展中': [66.9, 48],
+  '巴基斯坦-拓展中': [69.34, 30.37],
+  '尼泊尔-拓展中': [84.12, 28.39],
+  '印度-拓展中': [78.96, 20.59],
+  '孟加拉-拓展中': [90.35, 23.68],
+  '缅甸-拓展中': [95.9, 21.9],
+  '柬埔寨-拓展中': [104.99, 12.56],
+  '马来西亚-拓展中': [101.97, 4.21],
+  '菲律宾-拓展中': [121.77, 12.87],
+  '萨摩亚-拓展中': [172.1, -13.75]
 }
 
 var worldCount = {
@@ -126,7 +138,8 @@ aws = 'image://./img/world/aws.png',
 dian = 'image://./img/world/dian.png',
 vpn = 'image://./img/world/vpn.png',
 route = 'image://./img/world/route.png',
-cdn = 'image://./img/world/cdn.png'
+cdn = 'image://./img/world/cdn.png',
+build = 'image://./img/world/build.png'
 
 // var lineColor = ['#6efa01', '#0da1ed', '#9c26b5', '#ffffff']
 var lineColor = ['#0da1ed', '#0da1ed', '#0da1ed', '#0da1ed']
@@ -156,6 +169,9 @@ var coverData = function(data, name) {
           break;
         case '路由':
           res.push({ name: x, value: data[x], symbol: route, symbolSize: [20, 17] })
+          break;
+        case '拓展中':
+          res.push({ name: x, value: data[x], symbol: build, symbolSize: 50, label: {show: true, position: 'bottom', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
           break;
       }
     }
@@ -203,11 +219,10 @@ var coverLines = function(name, x, y, color) {
     line.effect.symbol = 'pin'
     line.effect.symbolSize = 7
   }
-  console.log(line)
   return line
 }
 
-var ignoreCountry = ['Russia', 'Norway', 'Greenland', 'Australia', 'Sweden', 'Finland', 'Iceland', 'Kazakhstan', 'Mongolia', 'Canada',
+var ignoreCountry = ['Russia', 'Norway', 'Greenland', 'Australia', 'Sweden', 'Finland', 'Iceland', 'Mongolia', 'Canada',
  'United States', 'Mexico', 'Brazil', 'Cuba', 'Haiti','Guatemala', 'Belize', 'Nicaragua', 'Panama', 'Bahamas', 'Barbados', 'Dominica',
   'Honduras', 'Dominican Rep.', 'El Salvador', 'Costa Rica', 'Jamaica', 'Paraguay', 'Argentina', 'Bolivia', 'Chile', 'Colombia', 'Ecuador',
    'Guyana', 'Peru', 'Suriname', 'Uruguay', 'Venezuela', 'Puerto Rico', 'Trinidad and Tobago']
@@ -300,6 +315,31 @@ var options = {
         }
       },
       regions: regionsBg
+    },
+    {
+      id: 2,
+      name: 'SES5卫星覆盖范围',
+      map: 'ses5',
+      // zoom: 2.5,
+      // center: [48.5, 16],
+      // aspectScale: 1.1,
+      z: 3,
+      itemStyle: {
+        opacity: 1,
+        borderWidth: 1,
+        color: '#fff',
+      },
+      emphasis: {
+        itemStyle: {
+          opacity: 1,
+          color: '#fff',
+          borderWidth: 1
+        },
+        label: {
+          show: false
+        }
+      },
+      regions: regionsBg
     }
   ],
   series: [{
@@ -345,6 +385,14 @@ var options = {
       symbolSize: 30,
       z: 10,
       data: coverData(geoMap, '播控中心')
+    },
+    {
+      name: '拓展中国家',
+      type: 'scatter',
+      coordinateSystem: 'geo',
+      symbolSize: 30,
+      z: 10,
+      data: coverData(geoMap, '拓展中')
     },
     {
       name: 'DTT',
