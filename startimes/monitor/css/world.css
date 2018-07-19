@@ -14,8 +14,8 @@ html, body {
 .main-title {
   position: absolute;
   top: 20px;
-  left: 0;
-  height: 90px;
+  left: 30px;
+  height: 100px;
 }
 .main-title img{
   height: 100%;
@@ -24,30 +24,30 @@ html, body {
 .aws {
   position: absolute;
   box-sizing: border-box;
-  top: 18%;
-  left: 9%;
+  top: 19%;
+  left: 12%;
   width: 165px;
 }
 
 .startimes {
   position: absolute;
   box-sizing: border-box;
-  top: 17%;
-  right: 9%;
+  top: 16%;
+  right: 11%;
   width: 185px;
 }
 
 .total {
   position: absolute;
-  bottom: 8%;
-  left: 8%;
+  bottom: 9%;
+  left: 10%;
   width: 220px;
 }
 
 .legend {
   position: absolute;
-  bottom: 8%;
-  right: 13%;
+  bottom: 10%;
+  right: 15%;
 }
 
 .aws-item, .startimes-item {
@@ -112,13 +112,23 @@ html, body {
   margin-right: 10px;
 }
 .legend {
-  width: 100px;
+  width: 180px;
   overflow: hidden;
   font-size: 14px;
   color: #ffffff;
 }
+
+.legend-title img {
+  /* margin-left: 11%; */
+  width: 100%;
+  margin-bottom: 5px;
+}
+
 .legend-item{
   cursor: pointer;
+  margin-top: 3px;
+  background-color: #262626;
+  padding: 0 25px;
   line-height: 1.8;
 }
 .legend-item i {

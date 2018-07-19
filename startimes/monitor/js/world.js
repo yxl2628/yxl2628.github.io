@@ -1,8 +1,8 @@
 var geoMap = {
   // 卫星
-  'E10A-卫星': [30, 60],
-  'E8WB-卫星': [60, 60],
-  'SES5-卫星': [90, 60],
+  'E10A-卫星': [30, 61],
+  'E8WB-卫星': [60, 61],
+  'SES5-卫星': [90, 61],
   // 北京总部
   '北京-总部': [116, 39.5],
   '爱尔兰-亚马逊云': [-6, 52],
@@ -193,7 +193,7 @@ var coverLines = function(name, x, y, color) {
     lineStyle: {
       normal: {
         color: color,
-        width: 0.7,
+        width: 0.5,
         opacity: 1,
         curveness: 0
       }
@@ -278,8 +278,8 @@ var options = {
       id: 0,
       name: '非洲地图',
       map: 'world',
-      zoom: 2.5,
-      center: [50, 15],
+      zoom: 2.4,
+      center: [50, 13],
       aspectScale: 1.1,
       // roam: true,
       z: 2,
@@ -297,7 +297,7 @@ var options = {
           borderColor: '#555555'
         },
         label: {
-          show: true,
+          show: false,
           color: '#fff',
           fontSize: 14
         }
@@ -308,8 +308,8 @@ var options = {
       id: 1,
       name: '非洲地图-阴影',
       map: 'world',
-      zoom: 2.5,
-      center: [48.5, 16],
+      zoom: 2.4,
+      center: [48.5, 14],
       aspectScale: 1.1,
       z: 1,
       itemStyle: {
@@ -333,8 +333,8 @@ var options = {
       id: 2,
       name: 'SES5卫星覆盖范围',
       map: 'ses5',
-      zoom: 0.65,
-      center: [49, 16],
+      zoom: 0.63,
+      center: [49, 12],
       aspectScale: 1.1,
       z: 1,
       itemStyle: {
@@ -379,7 +379,7 @@ var options = {
       itemStyle: {
         opacity: 1
       },
-      data: [{ name: '北京-总部', value: geoMap['北京-总部'], symbol: startimes, symbolSize: 40, label: {show: true, position: 'top', formatter: '四达总部云平台', textStyle: {color: '#fff', fontSize: 12}} }]
+      data: [{ name: '北京-总部', value: geoMap['北京-总部'], symbol: startimes, symbolSize: 55, label: {show: true, position: 'top', formatter: '四达总部云平台', textStyle: {color: '#fff', fontSize: 12}} }]
     },
     {
       name: '亚马逊云',
@@ -390,7 +390,7 @@ var options = {
       itemStyle: {
         opacity: 1
       },
-      data: [{ name: '爱尔兰-亚马逊云', value: geoMap['爱尔兰-亚马逊云'], symbol: aws, symbolSize: 40, label: {show: true, position: 'top', formatter: '四达海外云平台', textStyle: {color: '#fff', fontSize: 12} }}]
+      data: [{ name: '爱尔兰-亚马逊云', value: geoMap['爱尔兰-亚马逊云'], symbol: aws, symbolSize: 55, label: {show: true, position: 'top', formatter: '四达海外云平台', textStyle: {color: '#fff', fontSize: 12} }}]
     },
     {
       name: 'VPN',
@@ -402,7 +402,7 @@ var options = {
         opacity: 1
       },
 
-      data: [{ name: 'Startimes-VPN', value: geoMap['Startimes-VPN'], symbol: vpn, symbolSize: [172, 104] }]
+      data: [{ name: 'Startimes-VPN', value: geoMap['Startimes-VPN'], symbol: vpn, symbolSize: [160, 115] }]
     },
     {
       name: '播控中心',
