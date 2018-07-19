@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Videojs-contrib-hls.js</title>
+    <link rel="stylesheet" href="../node_modules/video.js/dist/video-js.min.css">
+    <!--<script src="../node_modules/video.js/dist/video.min.js"></script>-->
+    <script src="../node_modules/video.js/dist/video.js"></script>
+    <script src="videojs_hls.bundle.js"></script>
+</head>
+<body>
+
+<video id="player" class="video-js vjs-default-skin" height="360" width="640" controls preload="none" autoplay>
+    <source src="rtsp://192.168.0.104:8554/live0.264" type="application/x-rtsp">
+</video>
+<script>
+    var player = videojs('#player',{"socket":"ws://192.168.0.104/ws/"});
+</script>
+</body>
+</html>

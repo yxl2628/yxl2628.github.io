@@ -4,7 +4,7 @@ var geoMap = {
   'E8WB-卫星': [50, 62],
   'SES5-卫星': [80, 62],
   // 北京总部
-  '北京-总部': [116, 41],
+  '北京-总部': [116, 39.5],
   '爱尔兰-亚马逊云': [-8, 55],
   'Startimes-VPN': [80, -3],
   // 上星站
@@ -98,7 +98,7 @@ var geoMap = {
   '柬埔寨-拓展中': [104.99, 12.56],
   '马来西亚-拓展中': [101.97, 4.21],
   '菲律宾-拓展中': [121.77, 12.87],
-  '萨摩亚-拓展中': [172.1, -13.75]
+  '萨摩亚-拓展中': [135, 5]
 }
 
 var worldCount = {
@@ -267,6 +267,7 @@ var options = {
       zoom: 2.5,
       center: [50, 15],
       aspectScale: 1.1,
+      // roam: true,
       z: 2,
       itemStyle: {
         opacity: 1,
@@ -282,7 +283,7 @@ var options = {
           borderColor: '#555555'
         },
         label: {
-          show: false,
+          show: true,
           color: '#fff',
           fontSize: 14
         }
@@ -346,10 +347,13 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
+      itemStyle: {
+        opacity: 1
+      },
       data: [
-        { name: 'E10A-卫星', value: [geoMap['E10A-卫星'][0] + 2, geoMap['E10A-卫星'][1] + 2.5], symbol: wei.replace('wei', 'E10A'), symbolSize: [60, 92] },
-        { name: 'E8WB-卫星', value: [geoMap['E8WB-卫星'][0] + 2, geoMap['E8WB-卫星'][1] + 2.5], symbol: wei.replace('wei', 'E8WB'), symbolSize: [60, 92] },
-        { name: 'SES5-卫星', value: [geoMap['SES5-卫星'][0] + 2, geoMap['SES5-卫星'][1] + 2.5], symbol: wei.replace('wei', 'SES5'), symbolSize: [60, 92] }
+        { name: 'E10A-卫星', value: [geoMap['E10A-卫星'][0] + 2, geoMap['E10A-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E10A'), symbolSize: [60, 92] },
+        { name: 'E8WB-卫星', value: [geoMap['E8WB-卫星'][0] + 2, geoMap['E8WB-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E8WB'), symbolSize: [60, 92] },
+        { name: 'SES5-卫星', value: [geoMap['SES5-卫星'][0] + 2, geoMap['SES5-卫星'][1] + 3.5], symbol: wei.replace('wei', 'SES5'), symbolSize: [60, 92] }
       ]
     },
     {
@@ -358,7 +362,10 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
-      data: [{ name: '北京-总部', value: geoMap['北京-总部'], symbol: startimes, symbolSize: 80 }]
+      itemStyle: {
+        opacity: 1
+      },
+      data: [{ name: '北京-总部', value: geoMap['北京-总部'], symbol: startimes, symbolSize: 40, label: {show: true, position: 'top', formatter: '四达总部云平台', textStyle: {color: '#fff', fontSize: 12}} }]
     },
     {
       name: '亚马逊云',
@@ -366,15 +373,22 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
-      data: [{ name: '爱尔兰-亚马逊云', value: geoMap['爱尔兰-亚马逊云'], symbol: aws, symbolSize: 80 }]
+      itemStyle: {
+        opacity: 1
+      },
+      data: [{ name: '爱尔兰-亚马逊云', value: geoMap['爱尔兰-亚马逊云'], symbol: aws, symbolSize: 40, label: {show: true, position: 'top', formatter: '四达海外云平台', textStyle: {color: '#fff', fontSize: 12} }}]
     },
     {
       name: 'VPN',
       type: 'scatter',
       coordinateSystem: 'geo',
       symbolSize: 30,
-      z: 5,
-      data: [{ name: 'Startimes-VPN', value: geoMap['Startimes-VPN'], symbol: vpn, symbolSize: 60 }]
+      z: 15,
+      itemStyle: {
+        opacity: 1
+      },
+
+      data: [{ name: 'Startimes-VPN', value: geoMap['Startimes-VPN'], symbol: vpn, symbolSize: [172, 104] }]
     },
     {
       name: '播控中心',
@@ -398,6 +412,9 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
+      itemStyle: {
+        opacity: 1
+      },
       data: coverData(geoMap, '发射塔')
     },
     {
@@ -425,6 +442,9 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
+      itemStyle: {
+        opacity: 1
+      },
       data: coverData(geoMap, '上星站')
     },
     {
@@ -464,6 +484,9 @@ var options = {
       coordinateSystem: 'geo',
       symbolSize: 30,
       z: 10,
+      itemStyle: {
+        opacity: 1
+      },
       data: [{ name: '南非-上星站', value: geoMap['南非-上星站'], symbol: xing, symbolSize: 30 }]
     },
     // {
@@ -498,7 +521,7 @@ var options = {
       type: 'scatter',
       coordinateSystem: 'geo',
       symbolSize: 30,
-      z: 10,
+      z: 8,
       data: coverData(geoMap, '路由')
     }
   ]
