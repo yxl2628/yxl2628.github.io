@@ -15,7 +15,7 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  height: 80px;
+  height: 90px;
 }
 .main-title img{
   height: 100%;
@@ -39,9 +39,9 @@ html, body {
 
 .total {
   position: absolute;
-  bottom: 5%;
-  left: 5%;
-  width: 240px;
+  bottom: 8%;
+  left: 8%;
+  width: 220px;
 }
 
 .legend {
@@ -67,14 +67,15 @@ html, body {
 }
 
 .total-title img {
-  width: 100%;
+  margin-left: 11%;
+  width: 78%;
   margin-bottom: 5px;
 }
 
 .total-item {
   margin-top: 3px;
   background-color: #262626;
-  padding: 0 30px;
+  padding: 0 25px;
   line-height: 1.8;
   color: #aab3b9;
   font-size: 12px;
@@ -95,7 +96,7 @@ html, body {
 
 .total-item .title {
   display: inline-block;
-  width: 90px;
+  width: 80px;
 }
 
 .total-item span {

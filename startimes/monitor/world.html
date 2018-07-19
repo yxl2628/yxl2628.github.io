@@ -10,6 +10,7 @@
 
 <body>
   <div id="main"></div>
+  <img id="ses5Img" src="./img/world/SES-5.gif" width="120px"/>
   <div class="main-title"><img src="./img/world/title.png" /></div>
   <div class="aws">
     <div class="aws-item">BOSS</div>
@@ -77,7 +78,11 @@
     options.series.push(coverLines('OTT', '南非-上星节点', ['爱尔兰-亚马逊云', '南非-上星站'], lineColor[2]))
     options.series.push(coverLines('VPN', ['肯尼亚-路由', '坦桑尼亚-路由', '尼日利亚-路由', '南非-路由', '北京-总部', '爱尔兰-亚马逊云', '乌干达-路由', '赞比亚-路由', '莫桑比克-路由'], 'Startimes-VPN', lineColor[3]))
     myChart.setOption(options)
+
     $(document).ready(function(){
+      var ses5Position = myChart.convertToPixel('geo', [geoMap['SES5-卫星'][0], geoMap['SES5-卫星'][1]])
+      var top = ses5Position[1] -84, left = ses5Position[0] - 40
+      $('#ses5Img').attr('style', 'display:none;position:absolute;left:'+ left + 'px;top:' + top + 'px')
       $('.total-item').each(function(){
         $(this).find('span').html(worldCount[$(this).attr('data-name')])
       })
@@ -130,11 +135,17 @@
         op.geo[2].itemStyle.opacity = 0.5
         op.geo[2].emphasis.itemStyle.opacity = 0.5
         myChart.setOption(op, true)
+        myChart.dispatchAction({
+          type: type,
+          name: '卫星'
+        })
+        $('#ses5Img').show()
       } else {
         op.geo[2].z = 1
         op.geo[2].itemStyle.opacity = 0
         op.geo[2].emphasis.itemStyle.opacity = 0
         myChart.setOption(op, true)
+        $('#ses5Img').hide()
       }
       if (name == 'ALL') {
         op.series.map(function(item) {

@@ -1,8 +1,8 @@
 var geoMap = {
   // 卫星
-  'E10A-卫星': [10, 62],
-  'E8WB-卫星': [50, 62],
-  'SES5-卫星': [80, 62],
+  'E10A-卫星': [30, 59],
+  'E8WB-卫星': [60, 59],
+  'SES5-卫星': [90, 59],
   // 北京总部
   '北京-总部': [116, 39.5],
   '爱尔兰-亚马逊云': [-8, 55],
@@ -169,7 +169,7 @@ var coverData = function(data, name) {
           res.push({ name: x, value: data[x], symbol: route, symbolSize: [20, 17] })
           break;
         case '拓展中':
-          res.push({ name: x, value: data[x], symbol: build, symbolSize: 20, label: {show: true, position: 'bottom', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
+          res.push({ name: x, value: data[x], symbol: build, symbolSize: 20, label: {show: true, position: 'right', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
           break;
       }
     }
@@ -351,9 +351,9 @@ var options = {
         opacity: 1
       },
       data: [
-        { name: 'E10A-卫星', value: [geoMap['E10A-卫星'][0] + 2, geoMap['E10A-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E10A'), symbolSize: [60, 92] },
-        { name: 'E8WB-卫星', value: [geoMap['E8WB-卫星'][0] + 2, geoMap['E8WB-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E8WB'), symbolSize: [60, 92] },
-        { name: 'SES5-卫星', value: [geoMap['SES5-卫星'][0] + 2, geoMap['SES5-卫星'][1] + 3.5], symbol: wei.replace('wei', 'SES5'), symbolSize: [60, 92] }
+        { name: 'E10A-卫星', value: [geoMap['E10A-卫星'][0] + 2, geoMap['E10A-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E10A'), symbolSize: [120, 103] },
+        { name: 'E8WB-卫星', value: [geoMap['E8WB-卫星'][0] + 2, geoMap['E8WB-卫星'][1] + 3.9], symbol: wei.replace('wei', 'E8WB'), symbolSize: [120, 103] },
+        { name: 'SES5-卫星', value: [geoMap['SES5-卫星'][0] + 2, geoMap['SES5-卫星'][1] + 3.5], symbol: wei.replace('wei', 'SES5'), symbolSize: [120, 103] }
       ]
     },
     {
