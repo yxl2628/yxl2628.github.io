@@ -141,3 +141,29 @@ html, body {
 .legend-item.checked i:before {
   content: "\e63e";
 }
+@media screen and (max-width: 1400px) {
+  .main-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+  }
+  .aws {
+    top: 18%;
+    left: 5%;
+  }
+
+  .startimes {
+    top: 12%;
+    right: 10%;
+  }
+  .total {
+    bottom: 5%;
+    left: 5%;
+  }
+
+  .legend {
+    bottom: 5%;
+    right: 10%;
+  }
+}

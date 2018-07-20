@@ -144,6 +144,9 @@ build = 'image://./img/world/build.png'
 // var lineColor = ['#6efa01', '#0da1ed', '#9c26b5', '#ffffff']
 var lineColor = ['#0da1ed', '#0da1ed', '#0da1ed', '#0da1ed']
 
+// var dthCountryData = ['Senegal', 'Mali', 'Guinea', 'Sierra Leone', 'Benin', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Sudan', 'Central African Rep.', 'Gabon', 'Congo', 'Dem. Rep. Congo', 'Uganda', 'Kenya', 'Rwanda', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Mozambique', 'South Africa', 'Lesotho', 'Swaziland', 'Madagascar', 'Zimbabwe', 'Mauritius']
+var dthCountryData = []
+
 var coverData = function(data, name) {
   var res = []
   for(var x in data) {
@@ -172,6 +175,9 @@ var coverData = function(data, name) {
           res.push({ name: x, value: data[x], symbol: build, symbolSize: 20, label: {show: true, position: 'right', formatter: function(param){return param.name.replace('-拓展中', '')}, textStyle: {color: '#fff', fontSize: 12}} })
           break;
       }
+    }
+    if (name == 'CDN节点' && type[1] == 'CDN') {
+      res.push({ name: x, value: data[x] })
     }
   }
   return res
@@ -205,10 +211,10 @@ var coverLines = function(name, x, y, color) {
     for(var i=0,len=x.length;i<len;i++){
       var from = geoMap[x[i]], to = geoMap[y]
       if (x[i].indexOf('卫星') >= 0) {
-        from = [from[0] - 2.5, from[1] - 2]
+        from = [from[0] - 2.5, from[1] - 2.3]
       }
       if (y.indexOf('卫星') >= 0) {
-        to = [to[0] - 2.5, to[1] - 2]
+        to = [to[0] - 2.5, to[1] - 2.3]
       }
       line.data.push({name: y, coords: [from, to]})
     }
@@ -216,10 +222,10 @@ var coverLines = function(name, x, y, color) {
     for(var i=0,len=y.length;i<len;i++){
       var from = geoMap[x], to = geoMap[y[i]]
       if (x.indexOf('卫星') >= 0) {
-        from = [from[0] - 2.5, from[1] - 2]
+        from = [from[0] - 2.5, from[1] - 2.3]
       }
       if (y[i].indexOf('卫星') >= 0) {
-        to = [to[0] - 2.5, to[1] - 2]
+        to = [to[0] - 2.5, to[1] - 2.3]
       }
       line.data.push({name: x, coords: [from, to]})
     }
@@ -238,7 +244,7 @@ var ignoreCountry = ['Russia', 'Norway', 'Greenland', 'Australia', 'Sweden', 'Fi
  'United States', 'Mexico', 'Brazil', 'Cuba', 'Haiti','Guatemala', 'Belize', 'Nicaragua', 'Panama', 'Bahamas', 'Barbados', 'Dominica',
   'Honduras', 'Dominican Rep.', 'El Salvador', 'Costa Rica', 'Jamaica', 'Paraguay', 'Argentina', 'Bolivia', 'Chile', 'Colombia', 'Ecuador',
    'Guyana', 'Peru', 'Suriname', 'Uruguay', 'Venezuela', 'Puerto Rico', 'Trinidad and Tobago']
-var regions= [].concat.apply([], ignoreCountry.map(function (item) {
+var regions= [].concat([], ignoreCountry.map(function (item) {
   return {
     name: item,
     itemStyle: {
@@ -253,8 +259,27 @@ var regions= [].concat.apply([], ignoreCountry.map(function (item) {
       }
     }
   }
+}), dthCountryData.map(function (item) {
+  // return {
+  //   name: item,
+  //   itemStyle: {
+  //     opacity: 1,
+  //     color: '#444444',
+  //     borderColor: '#222222'
+  //   },
+  //   emphasis: {
+  //     itemStyle: {
+  //       opacity: 1,
+  //       color: '#444444',
+  //       borderColor: '#222222'
+  //     },
+  //     label: {
+  //       show: false
+  //     }
+  //   }
+  // }
 }))
-var regionsBg= [].concat.apply([], ignoreCountry.map(function (item) {
+var regionsBg= [].concat(ignoreCountry.map(function (item) {
   return {
     name: item,
     itemStyle: {
@@ -292,9 +317,9 @@ var options = {
       emphasis: {
         itemStyle: {
           opacity: 1,
-          color: '#353535',
+          color: '#151515',
           borderWidth: 1,
-          borderColor: '#555555'
+          borderColor: '#222222'
         },
         label: {
           show: false,
@@ -503,25 +528,25 @@ var options = {
       },
       data: [{ name: '南非-上星站', value: geoMap['南非-上星站'], symbol: xing, symbolSize: 30 }]
     },
-    // {
-    //   name: 'OTT',
-    //   type: 'effectScatter',
-    //   coordinateSystem: 'geo',
-    //   z: 10,
-    //   symbolSize: 4,
-    //   showEffectOn: 'render',
-    //   itemStyle: {
-    //     normal: {
-    //       color: lineColor[2]
-    //     }
-    //   },
-    //   rippleEffect: {
-    //     period: 4,
-    //     scale: 8,
-    //     brushType: 'fill'
-    //   },
-    //   data: coverData(geoMap, 'CDN')
-    // },
+    {
+      name: 'OTT动画',
+      type: 'effectScatter',
+      coordinateSystem: 'geo',
+      z: 9,
+      symbolSize: 4,
+      showEffectOn: 'render',
+      itemStyle: {
+        normal: {
+          color: lineColor[2]
+        }
+      },
+      rippleEffect: {
+        period: 4,
+        scale: 15,
+        brushType: 'stroke'
+      },
+      data: coverData(geoMap, 'CDN节点')
+    },
     {
       name: 'OTT',
       type: 'scatter',
@@ -537,6 +562,21 @@ var options = {
       symbolSize: 30,
       z: 8,
       data: coverData(geoMap, '路由')
+    },
+    {
+      name: 'SES-5-label',
+      type: 'scatter',
+      coordinateSystem: 'geo',
+      geoIndex: 2,
+      symbolSize: 1,
+      z: 10,
+      label: {
+        show: true,
+        fontSize: 16,
+        formatter: '{@[2]}',
+        color: '#fff'
+      },
+      data: [{name: '国家', value: [25, -17,'覆盖国家：45 个']},{name: '人口', value: [25, -14,'覆盖人口：9.5 亿']}]
     }
   ]
 }

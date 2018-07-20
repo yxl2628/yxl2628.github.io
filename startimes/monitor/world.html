@@ -79,7 +79,14 @@
     options.series.push(coverLines('OTT', '南非-上星节点', ['爱尔兰-亚马逊云', '南非-上星站'], lineColor[2]))
     options.series.push(coverLines('VPN', ['肯尼亚-路由', '坦桑尼亚-路由', '尼日利亚-路由', '南非-路由', '北京-总部', '爱尔兰-亚马逊云', '乌干达-路由', '赞比亚-路由', '莫桑比克-路由'], 'Startimes-VPN', lineColor[3]))
     myChart.setOption(options)
-
+    myChart.dispatchAction({
+      type: 'legendUnSelect',
+      name: 'OTT动画'
+    })
+    myChart.dispatchAction({
+      type: 'legendUnSelect',
+      name: 'SES-5-label'
+    })
     $(document).ready(function(){
       var ses5Position = myChart.convertToPixel('geo', [geoMap['SES5-卫星'][0], geoMap['SES5-卫星'][1]])
       var top = ses5Position[1] -52, left = ses5Position[0] - 60
@@ -118,6 +125,9 @@
         var type = ''
         if (name === 'ALL') {
           type = 'legendSelect'
+          if (names[i] == 'OTT动画' || names[i] == 'SES-5-label') {
+            type = 'legendUnSelect'
+          }
         } else {
           if (name === names[i] || ['卫星', '总部', '亚马逊云', '拓展中国家'].indexOf(names[i]) >= 0) {
             type = 'legendSelect'
@@ -139,6 +149,10 @@
         myChart.dispatchAction({
           type: type,
           name: '卫星'
+        })
+        myChart.dispatchAction({
+          type: 'legendSelect',
+          name: 'SES-5-label'
         })
         $('#ses5Img').show()
       } else {
@@ -171,6 +185,10 @@
           }
         })
         myChart.setOption(op, true)
+        myChart.dispatchAction({
+          type: 'legendSelect',
+          name: 'OTT动画'
+        })
       }
     })
   </script>
