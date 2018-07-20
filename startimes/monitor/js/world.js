@@ -322,7 +322,7 @@ var options = {
           borderColor: '#333333'
         },
         label: {
-          show: false,
+          show: true,
           color: '#fff',
           fontSize: 14
         }
