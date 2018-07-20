@@ -38,7 +38,7 @@
   <script src="./static/hls.min.js"></script>
   <script src="./static/vue.js"></script>
   <div id="app" class="container-fluid">
-    <div class="row title">四达时代-视频监控平台</div>
+    <!-- <div class="row title">四达时代-视频监控平台</div> -->
     <div class="row" style="padding: 10px 0;">
       <div class="col-xs-12 col-md-12">
         <video id="video" controls autoplay></video>
@@ -58,18 +58,19 @@
         video.style.height = video.offsetWidth*9/16 + 'px';
       },
       mounted() {
-        const _this = this;
-        videoList.forEach(function(item, index) {
-          setTimeout(function(){
-            _this.captureImage(item,index)
-          },(index+1)*5000)
-          setInterval(function(){
-            setTimeout(function(){
-              _this.captureImage(item,index)
-            },(index+1)*5000)
-          },30000);
-        })
-        this.showMe(videoList[0])
+        var _this = this;
+        var id = window.location.href.split('?id=')[1]
+        // videoList.forEach(function(item, index) {
+        //   setTimeout(function(){
+        //     _this.captureImage(item,index)
+        //   },(index+1)*5000)
+        //   setInterval(function(){
+        //     setTimeout(function(){
+        //       _this.captureImage(item,index)
+        //     },(index+1)*5000)
+        //   },30000);
+        // })
+        this.showMe(videoList[id - 1])
       },
       methods: {
         showMe: function(item) {

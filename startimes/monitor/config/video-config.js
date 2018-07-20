@@ -18,14 +18,14 @@ var videoData = {
     //   name: '104',
     //   url: 'rtsp://192.168.0.104:8554/live0.264'
     // },
-    {
-      name: 'JIMJAM',
-      url: 'rtsp://admin:star1234@192.168.0.64:554/Streaming/Channels/101?transportmode=unicast'
-    },
     // {
-    //   name: 'IROKO1',
-    //   url: 'http://dtlb352a5ddfa.cloudfront.net/html/vod/IROKO1_91_CODEC_VIDEO_HEVC/live.m3u8'
+    //   name: 'JIMJAM',
+    //   url: 'rtsp://admin:star1234@192.168.0.64:554/Streaming/Channels/101?transportmode=unicast'
     // },
+    {
+      name: 'IROKO1',
+      url: 'http://192.168.32.65/video/ke/playlist.m3u8'
+    },
     // {
     //   name: 'ST PLUS',
     //   url: 'http://dtlb352a5ddfa.cloudfront.net/html/vod/ST_PLUS_89_CODEC_VIDEO_HEVC/live.m3u8'

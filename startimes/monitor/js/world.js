@@ -317,9 +317,9 @@ var options = {
       emphasis: {
         itemStyle: {
           opacity: 1,
-          color: '#151515',
+          color: '#222222',
           borderWidth: 1,
-          borderColor: '#222222'
+          borderColor: '#333333'
         },
         label: {
           show: false,
