@@ -33,35 +33,35 @@
             <p class="sassContentFirstList"><span id="bossSuccess"></span>/<span id="bossTotal"></span></p>
           </li>
           <li onclick="goto('http://52.31.253.254:8000/d/000000018/nginxri-zhi-jian-kong?orgId=1')">
-            <p>系统接入状态</p>
+            <p id="systemStatus">系统接入状态</p>
             <div class="sassLiContentFont">
               <p class="sassLiContentFont">系统请求数:<span id="systemTotal"></span></p>
               <p class="sassLiContentFont">请求错误率:<span id="systemPersent"></span>%</p>
             </div>
           </li>
           <li onclick="goto('http://52.31.253.254:8000/d/XEe6zkHiz/cazhi-ling-jian-kong?orgId=1')">
-            <p>CA指令状态</p>
+            <p id="caStatus">CA指令状态</p>
             <div class="sassLiContentFont">
               <p class="sassLiContentFont">堆积指令:<span id="caTotal"></span></p>
               <p class="sassLiContentFont">失败指令:<span id="caError"></span></p>
             </div>
           </li>
           <li onclick="goto('http://52.31.253.254:8000/d/n-EAGGOiz/duan-xin-xia-fa-jian-kong')">
-            <p>短信下发状态</p>
+            <p id="msgStatus">短信下发状态</p>
             <div class="sassLiContentFont">
               <p class="sassLiContentFont single">失败短信：<span id="msgError"></span></p>
             </div>
           </li>
           <li onclick="goto('http://52.31.253.254:8000/d/0WSA7Gdmk/zhi-fu-dui-lie-jian-kong')">
-            <p>支付状态</p>
+            <p id="payStatus">支付状态</p>
             <div class="sassLiContentFont">
               <p class="sassLiContentFont single">最近30分钟支付：<span id="payTotal"></span></p>
             </div>
           </li>
-          <li onclick="goto('')">
-            <p>营业状态</p>
+          <li onclick="goto('http://52.31.253.254:8000/d/0YjCC7Fik/bossying-ye-zhuang-tai?orgId=1')">
+            <p id="openStatus">营业状态</p>
             <div class="sassLiContentFont">
-              <p class="sassLiContentFont single">最近30分钟：???</p>
+              <p class="sassLiContentFont single">最近30分钟：<span id="openTotal"></span></p>
             </div>
           </li>
         </ul>
@@ -92,7 +92,7 @@
             <i class="iconfont icon-xiaoxiduilieMQ"></i>
             <p>消息队列</p>
           </li>
-          <li onclick="goto('')">
+          <li onclick="goto('http://52.31.253.254:8000/d/8iF4qnKik/xiao-xi-tong-zhi?orgId=1')">
             <i class="iconfont icon-xiaoxiguanli"></i>
             <p>消息通知</p>
           </li>
@@ -212,9 +212,30 @@
       getBossStatus()
       getInfluxDB()
       getCountryStatus()
+      getServiceStatus()
     }
 
     function getInfluxDB() {
+      // 系统请求数
+      influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE   time >= now() - 30m GROUP BY "httpcode" ', function(res) {
+        handelerInfluxDBValue('systemTotal', res.results[0].series)
+      })
+      // 错误率
+      influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE  "httpcode" = \'404\' AND time >= now() - 30m', function(a1) {
+        influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE  "httpcode" = \'500\' AND time >= now() - 30m', function(a2) {
+          influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE   time >= now() - 30m GROUP BY "httpcode" ', function(a3) {
+            var total404 = a1.results[0].series, total500 = a2.results[0].series, total = a3.results[0].series, result = {values:[['time', 0]]}
+            total404 = total404 === undefined ? 0 : total404[0].values[0][1]
+            total500 = total500 === undefined ? 0 : total500[0].values[0][1]
+            total = total === undefined ? 0 : total[0].values[0][1]
+            if (total != 0) {
+              var errorPersent = ((total404 + total500)/total)*100
+              result.values = [['time', parseInt(errorPersent*100)/100]]
+            }
+            handelerInfluxDBValue('systemPersent', [result])
+          })
+        })
+      })
       // 失败指令
       influxdb_server.queryData('SELECT last("VALUE") FROM "send_fail_equipment_instruction" WHERE time > now() - 30m GROUP BY "COMPANY_ID"', function(res) {
         handelerInfluxDBValue('caError', res.results[0].series)
@@ -227,23 +248,54 @@
       influxdb_server.queryData('SELECT last("VALUE")  FROM "send_message" WHERE time > now() - 30m GROUP BY "COMPANY_ID", "LAST_SEND_INFO"', function(res) {
         handelerInfluxDBValue('msgError', res.results[0].series)
       })
+      // 支付状态
+      influxdb_server.queryData('SELECT sum("VALUE") FROM "payer_transactions" WHERE ("STATUS" = \'成功\') AND time >= now() - 30m GROUP BY "COMPANY_CODE"', function(res) {
+        handelerInfluxDBValue('payTotal', res.results[0].series)
+      })
+      // 营业状态
+      influxdb_server.queryData('SELECT sum("VALUE") FROM "accept_sheets" WHERE ("STATUS" = \'已完工\') AND time >= now() - 30m GROUP BY "COMPANY_CODE"', function(res) {
+        handelerInfluxDBValue('openTotal', res.results[0].series)
+      })
     }
     function handelerInfluxDBValue(id, list) {
       var total = 0
-      list.forEach(function(serie) {
-        serie.values.forEach(function(val) {
-          total += val[1]
+      if (list !== undefined) {
+        list.forEach(function(serie) {
+          serie.values.forEach(function(val) {
+            total += val[1]
+          })
         })
-      })
+      }
+
       $('#' + id).text(total)
       var $parent = $('#' + id).parent()
-      if (value = 0) {
-        $parent.css('color', color[0])
-      } else if (value >0 && value < 5) {
-        $parent.css('color', color[1])
+
+      if (id == 'payTotal' || id == 'openTotal' || id == 'systemTotal') {
+        if (total < 0) {
+          $parent.css('color', color[2])
+        } else if (total >= 0 && total < 5) {
+          $parent.css('color', color[1])
+        } else {
+          $parent.css('color', color[0])
+        }
+      } else if (id == 'systemPersent') {
+        if (total < 1) {
+          $parent.css('color', color[0])
+        } else if (total >= 1 && total < 5) {
+          $parent.css('color', color[1])
+        } else {
+          $parent.css('color', color[2])
+        }
       } else {
-        $parent.css('color', color[2])
+        if (total == 0) {
+          $parent.css('color', color[0])
+        } else if (total > 0 && total < 5) {
+          $parent.css('color', color[1])
+        } else {
+          $parent.css('color', color[2])
+        }
       }
+
     }
     // 获取boss各项服务状态
     function getBossStatus() {
@@ -389,7 +441,6 @@
         if (item.uid != undefined) {
           grafana_server.queryData('dashboards/uid/' + item.uid, 'GET', null, function(res) {
             item.url = grafana_server.getOptions('url').replace('api/', res.meta.url)
-            console.log(item.url)
             item.id = res.dashboard.id
             grafana_server.queryData('alerts?dashboardId=' + item.id, 'GET', null, function(res) {
               item.status = 'good'
@@ -405,6 +456,24 @@
           item.status = 'none'
           $('#' + id).append(template('countryTpl', item))
         }
+      })
+    }
+
+    function getServiceStatus() {
+      serviceList.forEach(function(item) {
+        grafana_server.queryData('dashboards/uid/' + item.uid, 'GET', null, function(res) {
+          item.url = grafana_server.getOptions('url').replace('api/', res.meta.url)
+          item.id = res.dashboard.id
+          grafana_server.queryData('alerts?dashboardId=' + item.id, 'GET', null, function(res) {
+            var serviceColor = $('#' + item.name).css('color')
+            res.forEach(function(_val) {
+              if (_val.state != 'ok') {
+                serviceColor = color[2]
+              }
+            })
+            $('#' + item.name).css('color', serviceColor)
+          })
+        })
       })
     }
 

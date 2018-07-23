@@ -26,36 +26,36 @@ var geoMap = {
   '坦桑尼亚-上星站': [33.2, -3],
   '赞比亚-上星站': [30.827, -11.049],
   '莫桑比克-上星站': [33.31, -23.72],
-  //发射塔
-  '几内亚-发射塔': [-12, 10],
-  '尼日利亚-发射塔': [11, 9],
-  '喀麦隆-发射塔': [13.5, 5.12],
-  '中非-发射塔': [21, 8],
-  '刚果金-发射塔': [16, 0],
-  '刚果布-发射塔': [21, -0.2],
-  '乌干达-发射塔': [31.6, 2.55],
-  '卢旺达-发射塔': [29.4, -1.7],
-  '肯尼亚-发射塔': [37.44, 3.03],
-  '布隆迪-发射塔': [30.1, -5.1],
-  '坦桑尼亚-发射塔': [37, -6],
-  '赞比亚-发射塔': [24.52, -14.17],
-  '莫桑比克-发射塔': [39.199, -13.068],
-  '马达-发射塔': [46.84, -18.72],
-  //发射塔中心
-  '几内亚-发射塔中心': [-12, 10],
-  '尼日利亚-发射塔中心': [11, 9],
-  '喀麦隆-发射塔中心': [13.5, 5.12],
-  '中非-发射塔中心': [21, 8],
-  '刚果金-发射塔中心': [16, 0],
-  '刚果布-发射塔中心': [21, -0.2],
-  '乌干达-发射塔中心': [31.6, 2.55],
-  '卢旺达-发射塔中心': [29.4, -1.7],
-  '肯尼亚-发射塔中心': [37.44, 3.03],
-  '布隆迪-发射塔中心': [30.1, -5.1],
-  '坦桑尼亚-发射塔中心': [37, -6],
-  '赞比亚-发射塔中心': [24.52, -14.17],
-  '莫桑比克-发射塔中心': [39.199, -13.068],
-  '马达-发射塔中心': [46.84, -18.72],
+  //发射台
+  '几内亚-发射台': [-12, 10],
+  '尼日利亚-发射台': [11, 9],
+  '喀麦隆-发射台': [13.5, 5.12],
+  '中非-发射台': [21, 8],
+  '刚果金-发射台': [16, 0],
+  '刚果布-发射台': [21, -0.2],
+  '乌干达-发射台': [31.6, 2.55],
+  '卢旺达-发射台': [29.4, -1.7],
+  '肯尼亚-发射台': [37.44, 3.03],
+  '布隆迪-发射台': [30.1, -5.1],
+  '坦桑尼亚-发射台': [37, -6],
+  '赞比亚-发射台': [24.52, -14.17],
+  '莫桑比克-发射台': [39.199, -13.068],
+  '马达-发射台': [46.84, -18.72],
+  //发射台中心
+  '几内亚-发射台中心': [-12, 10],
+  '尼日利亚-发射台中心': [11, 9],
+  '喀麦隆-发射台中心': [13.5, 5.12],
+  '中非-发射台中心': [21, 8],
+  '刚果金-发射台中心': [16, 0],
+  '刚果布-发射台中心': [21, -0.2],
+  '乌干达-发射台中心': [31.6, 2.55],
+  '卢旺达-发射台中心': [29.4, -1.7],
+  '肯尼亚-发射台中心': [37.44, 3.03],
+  '布隆迪-发射台中心': [30.1, -5.1],
+  '坦桑尼亚-发射台中心': [37, -6],
+  '赞比亚-发射台中心': [24.52, -14.17],
+  '莫桑比克-发射台中心': [39.199, -13.068],
+  '马达-发射台中心': [46.84, -18.72],
   // 播控中心
   '北京-播控中心': [112, 39.36],
   '肯尼亚-播控中心': [40.42, 2],
@@ -112,20 +112,20 @@ var worldCount = {
   country: 45,
   person: 9.7,
   fst: {
-    '几内亚-发射塔': 2,
-    '尼日利亚-发射塔': 82,
-    '喀麦隆-发射塔': 2,
-    '中非-发射塔': 1,
-    '刚果金-发射塔': 4,
-    '刚果布-发射塔': 5,
-    '乌干达-发射塔': 8,
-    '卢旺达-发射塔': 6,
-    '肯尼亚-发射塔': 23,
-    '布隆迪-发射塔': 12,
-    '坦桑尼亚-发射塔': 19,
-    '赞比亚-发射塔': 72,
-    '莫桑比克-发射塔': 87,
-    '马达-发射塔': 1,
+    '几内亚-发射台': 2,
+    '尼日利亚-发射台': 82,
+    '喀麦隆-发射台': 2,
+    '中非-发射台': 1,
+    '刚果金-发射台': 4,
+    '刚果布-发射台': 5,
+    '乌干达-发射台': 8,
+    '卢旺达-发射台': 6,
+    '肯尼亚-发射台': 23,
+    '布隆迪-发射台': 12,
+    '坦桑尼亚-发射台': 19,
+    '赞比亚-发射台': 72,
+    '莫桑比克-发射台': 87,
+    '马达-发射台': 1,
   },
 }
 
@@ -144,8 +144,41 @@ build = 'image://./img/world/build.png'
 // var lineColor = ['#6efa01', '#0da1ed', '#9c26b5', '#ffffff']
 var lineColor = ['#0da1ed', '#0da1ed', '#0da1ed', '#0da1ed']
 
-// var dthCountryData = ['Senegal', 'Mali', 'Guinea', 'Sierra Leone', 'Benin', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Sudan', 'Central African Rep.', 'Gabon', 'Congo', 'Dem. Rep. Congo', 'Uganda', 'Kenya', 'Rwanda', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Mozambique', 'South Africa', 'Lesotho', 'Swaziland', 'Madagascar', 'Zimbabwe', 'Mauritius']
-var dthCountryData = []
+var dthCountryData = ['Senegal', 'Mali', 'Guinea', 'Sierra Leone', 'Benin', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Togo', 'Chad', 'Cameroon', 'Sudan', 'Central African Rep.', 'Gabon', 'Congo', 'Dem. Rep. Congo', 'Uganda', 'Kenya', 'Rwanda', 'Burundi', 'Tanzania', 'Malawi', 'Zambia', 'Mozambique', 'South Africa', 'Lesotho', 'Swaziland', 'Madagascar', 'Zimbabwe', 'Mauritius']
+// var dthCountryData = ['塞内加尔', '马里', '几内亚', '塞拉利昂', '贝宁', '科特迪瓦', '加纳', '尼日利亚', '多哥', '乍得', '喀麦隆', '苏丹', '中非', '加蓬', '刚果布', '刚果金', '乌干达', '肯尼亚', '卢旺达', '布隆迪', '坦桑尼亚', '马拉维', '赞比亚', '莫桑比克', '南非', '莱索托', '斯威士兰', '马达加斯加', '津巴布韦', '毛里求斯']
+
+var nameMap = {
+  'Senegal': '塞内加尔',
+  'Mali': '马里',
+  'Guinea': '几内亚',
+  'Sierra Leone': '塞拉利昂',
+  'Benin': '贝宁',
+  'Côte d\'Ivoire': '科特迪瓦',
+  'Ghana': '加纳',
+  'Nigeria': '尼日利亚',
+  'Togo': '多哥',
+  'Chad': '乍得',
+  'Cameroon': '喀麦隆',
+  'Sudan': '苏丹',
+  'Central African Rep.':'中非',
+  'Gabon': '加蓬',
+  'Congo': '刚果布',
+  'Dem. Rep. Congo': '刚果金',
+  'Uganda': '乌干达',
+  'Kenya': '肯尼亚',
+  'Rwanda': '卢旺达',
+  'Burundi': '布隆迪',
+  'Tanzania': '坦桑尼亚',
+  'Malawi': '马拉维',
+  'Zambia': '赞比亚',
+  'Mozambique': '莫桑比克',
+  'South Africa': '南非',
+  'Lesotho': '莱索托',
+  'Swaziland': '斯威士兰',
+  'Madagascar': '马达加斯加',
+  'Zimbabwe': '津巴布韦',
+  'Mauritius': '毛里求斯'
+}
 
 var coverData = function(data, name) {
   var res = []
@@ -156,8 +189,8 @@ var coverData = function(data, name) {
         case '上星站':
           res.push({ name: x, value: data[x], symbol: xing, symbolSize: 30 })
           break;
-        case '发射塔':
-          res.push({ name: x, value: data[x].concat(worldCount.fst[x]), symbol: ta, symbolSize: 60, label: {show: true, offset: [0, -21], formatter: '{@[2]}', textStyle: {color: '#fff', fontSize: 12}} })
+        case '发射台':
+          res.push({ name: x, value: data[x].concat(worldCount.fst[x]), symbol: ta, symbolSize: [20, 30], label: {show: true, offset: [0, -30], formatter: '{@[2]}', textStyle: {color: '#fff', fontSize: 12}} })
           break;
         case '播控中心':
           res.push({ name: x, value: data[x], symbol: bo, symbolSize: [27, 25] })
@@ -165,8 +198,8 @@ var coverData = function(data, name) {
         case 'CDN':
           res.push({ name: x, value: data[x], symbol: cdn, symbolSize: 15  })
           break;
-        case '发射塔中心':
-          res.push({ name: x, value: [data[x][0], data[x][1] + 0.6] })
+        case '发射台中心':
+          res.push({ name: x, value: [data[x][0], data[x][1] + 1.8] })
           break;
         case '路由':
           res.push({ name: x, value: data[x], symbol: route, symbolSize: [20, 17] })
@@ -259,25 +292,6 @@ var regions= [].concat([], ignoreCountry.map(function (item) {
       }
     }
   }
-}), dthCountryData.map(function (item) {
-  // return {
-  //   name: item,
-  //   itemStyle: {
-  //     opacity: 1,
-  //     color: '#444444',
-  //     borderColor: '#222222'
-  //   },
-  //   emphasis: {
-  //     itemStyle: {
-  //       opacity: 1,
-  //       color: '#444444',
-  //       borderColor: '#222222'
-  //     },
-  //     label: {
-  //       show: false
-  //     }
-  //   }
-  // }
 }))
 var regionsBg= [].concat(ignoreCountry.map(function (item) {
   return {
@@ -353,35 +367,10 @@ var options = {
         }
       },
       regions: regionsBg
-    },
-    {
-      id: 2,
-      name: 'SES5卫星覆盖范围',
-      map: 'ses5',
-      zoom: 0.63,
-      center: [49, 12],
-      aspectScale: 1.1,
-      z: 1,
-      itemStyle: {
-        opacity: 0,
-        borderWidth: 1,
-        color: '#0da1ed',
-      },
-      emphasis: {
-        itemStyle: {
-          opacity: 0,
-          color: '#0da1ed',
-          borderWidth: 1
-        },
-        label: {
-          show: false
-        }
-      },
-      regions: regionsBg
     }
   ],
   series: [{
-      name: '卫星',
+      name: 'E10A卫星',
       type: 'scatter',
       coordinateSystem: 'geo',
       symbolSize: 30,
@@ -389,12 +378,30 @@ var options = {
       itemStyle: {
         opacity: 1
       },
-      data: [
-        { name: 'E10A-卫星', value: geoMap['E10A-卫星'], symbol: wei.replace('wei', 'E10A'), symbolSize: [120, 103] },
-        { name: 'E8WB-卫星', value: geoMap['E8WB-卫星'], symbol: wei.replace('wei', 'E8WB'), symbolSize: [120, 103] },
-        { name: 'SES5-卫星', value: geoMap['SES5-卫星'], symbol: wei.replace('wei', 'SES5'), symbolSize: [120, 103] }
-      ]
+      data: [{ name: 'E10A-卫星', value: geoMap['E10A-卫星'], symbol: wei.replace('wei', 'E10A'), symbolSize: [120, 103] }]
     },
+    {
+        name: 'E8WB卫星',
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        symbolSize: 30,
+        z: 10,
+        itemStyle: {
+          opacity: 1
+        },
+        data: [{ name: 'E8WB-卫星', value: geoMap['E8WB-卫星'], symbol: wei.replace('wei', 'E8WB'), symbolSize: [120, 103] }]
+      },
+      {
+          name: 'SES5卫星',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          symbolSize: 30,
+          z: 10,
+          itemStyle: {
+            opacity: 1
+          },
+          data: [{ name: 'SES5-卫星', value: geoMap['SES5-卫星'], symbol: wei.replace('wei', 'SES5'), symbolSize: [120, 103] }]
+        },
     {
       name: '总部',
       type: 'scatter',
@@ -454,7 +461,7 @@ var options = {
       itemStyle: {
         opacity: 1
       },
-      data: coverData(geoMap, '发射塔')
+      data: coverData(geoMap, '发射台')
     },
     {
       name: 'DTT',
@@ -473,7 +480,7 @@ var options = {
         scale: 15,
         brushType: 'stroke'
       },
-      data: coverData(geoMap, '发射塔中心')
+      data: coverData(geoMap, '发射台中心')
     },
     {
       name: '节目中继',

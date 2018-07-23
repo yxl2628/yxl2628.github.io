@@ -31,7 +31,7 @@
     <div class="total-item" data-name="bo"><div class="img"><img src="./img/world/bo.png" /></div><div class="title">播控中心：</div><span>0</span>座</div>
     <div class="total-item" data-name="xing"><div class="img"><img src="./img/world/xing.png" /></div><div class="title">上星站：</div><span>0</span>座</div>
     <div class="total-item" data-name="cdn"><div class="img"><img src="./img/world/cdn.png" style="height:15px;"/></div><div class="title">CDN节点：</div><span>0</span>个</div>
-    <div class="total-item" data-name="ta"><div class="img"><img src="./img/world/ta-1.png" style="height:30px;"/></div><div class="title">发射塔：</div><span>0</span>座</div>
+    <div class="total-item" data-name="ta"><div class="img"><img src="./img/world/ta-1.png" style="height:30px;"/></div><div class="title">发射台：</div><span>0</span>座</div>
     <div class="total-item" data-name="live"><div class="img"><img src="./img/world/play.png" style="height:10px;"/></div><div class="title">直播频道：</div><span>0</span>套</div>
     <!-- <div class="total-item" data-name="country"><div>覆盖国家：</div><span>0</span>个</div>
     <div class="total-item" data-name="person"><div>覆盖人口：</div><span>0</span>亿</div> -->
@@ -72,8 +72,8 @@
     options.series.push(coverLines('节目中继', ['尼日利亚(阿布贾)-上星站', '尼日利亚(第三颗)-上星站', '喀麦隆-上星站', '刚果金-上星站', '乌干达-上星站', '肯尼亚-上星站', '布隆迪-上星站', '坦桑尼亚-上星站', '莫桑比克-上星站'], 'E10A-卫星', lineColor[0]))
     options.series.push(coverLines('节目中继', ['赞比亚-上星站', '斯洛文尼亚(第二颗)-上星站', '南非-上星站'], 'E8WB-卫星', lineColor[0]))
     options.series.push(coverLines('节目中继', ['尼日利亚(拉各斯)-上星站', '南非(第二颗)-上星站', '斯洛文尼亚-上星站', '德国-上星站'], 'SES5-卫星', lineColor[0]))
-    options.series.push(coverLines('DTT', 'E8WB-卫星', ['几内亚-发射塔', '尼日利亚-发射塔', '喀麦隆-发射塔', '中非-发射塔', '刚果金-发射塔', '刚果布-发射塔', '乌干达-发射塔', '卢旺达-发射塔', '肯尼亚-发射塔', '布隆迪-发射塔', '坦桑尼亚-发射塔', '赞比亚-发射塔', '莫桑比克-发射塔', '马达-发射塔'], lineColor[1]))
-    options.series.push(coverLines('DTT', 'E10A-卫星', ['几内亚-发射塔', '尼日利亚-发射塔', '喀麦隆-发射塔', '中非-发射塔', '刚果金-发射塔', '刚果布-发射塔', '乌干达-发射塔', '卢旺达-发射塔', '肯尼亚-发射塔', '布隆迪-发射塔', '坦桑尼亚-发射塔', '赞比亚-发射塔', '莫桑比克-发射塔', '马达-发射塔'], lineColor[1]))
+    options.series.push(coverLines('DTT', 'E8WB-卫星', ['几内亚-发射台', '尼日利亚-发射台', '喀麦隆-发射台', '中非-发射台', '刚果金-发射台', '刚果布-发射台', '乌干达-发射台', '卢旺达-发射台', '肯尼亚-发射台', '布隆迪-发射台', '坦桑尼亚-发射台', '赞比亚-发射台', '莫桑比克-发射台', '马达-发射台'], lineColor[1]))
+    options.series.push(coverLines('DTT', 'E10A-卫星', ['几内亚-发射台', '尼日利亚-发射台', '喀麦隆-发射台', '中非-发射台', '刚果金-发射台', '刚果布-发射台', '乌干达-发射台', '卢旺达-发射台', '肯尼亚-发射台', '布隆迪-发射台', '坦桑尼亚-发射台', '赞比亚-发射台', '莫桑比克-发射台', '马达-发射台'], lineColor[1]))
     options.series.push(coverLines('OTT', 'E8WB-卫星', ['塞内加尔-CDN', '几内亚-CDN', '加纳-CDN', '科特迪瓦-CDN', '尼日利亚-CDN', '刚果金-CDN', '刚果布-CDN', '乌干达-CDN', '卢旺达-CDN', '肯尼亚-CDN', '布隆迪-CDN', '坦桑尼亚-CDN', '赞比亚-CDN', '莫桑比克-CDN', '南非-CDN', '马达-CDN'], lineColor[2]))
     options.series.push(coverLines('OTT', ['南非-上星站'], 'E8WB-卫星', lineColor[2]))
     options.series.push(coverLines('OTT', '南非-上星节点', ['爱尔兰-亚马逊云', '南非-上星站'], lineColor[2]))
@@ -94,14 +94,6 @@
       $('.total-item').each(function(){
         $(this).find('span').html(worldCount[$(this).attr('data-name')])
       })
-      // $('.legend-item').each(function(index) {
-      //   var color = '#0da1ed'
-      //   if (index > 0) {
-      //     color = lineColor[index - 1]
-      //   }
-        // $(this).attr('style', 'color:' + color)
-        // $(this).find('.iconfont').attr('style', 'color:' + color)
-      // })
     })
     $('.legend-item').on('click', function(){
       var name = $(this).attr('data-name')
@@ -129,7 +121,7 @@
             type = 'legendUnSelect'
           }
         } else {
-          if (name === names[i] || ['卫星', '总部', '亚马逊云', '拓展中国家'].indexOf(names[i]) >= 0) {
+          if (name === names[i] || ['E10A卫星', 'E8WB卫星', 'SES5卫星', '总部', '亚马逊云', '拓展中国家'].indexOf(names[i]) >= 0) {
             type = 'legendSelect'
           } else {
             type = 'legendUnSelect'
@@ -142,13 +134,34 @@
       }
       var op = myChart.getOption()
       if (name === 'DTH') {
-        op.geo[2].z = 3
-        op.geo[2].itemStyle.opacity = 0.5
-        op.geo[2].emphasis.itemStyle.opacity = 0.5
+        var reg = op.geo[0].regions
+        reg.forEach(function(item) {
+          if (dthCountryData.indexOf(item.name) >= 0) {
+            item.itemStyle = {
+              color: lineColor[0]
+            }
+            item.emphasis = {
+              itemStyle: {
+                color: lineColor[0]
+              },
+              label: {
+                show: true
+              }
+            }
+          }
+        })
         myChart.setOption(op, true)
         myChart.dispatchAction({
-          type: type,
-          name: '卫星'
+          type: 'legendUnSelect',
+          name: 'E10A卫星'
+        })
+        myChart.dispatchAction({
+          type: 'legendUnSelect',
+          name: 'E8WB卫星'
+        })
+        myChart.dispatchAction({
+          type: 'legendUnSelect',
+          name: 'SES5卫星'
         })
         myChart.dispatchAction({
           type: 'legendSelect',
@@ -156,9 +169,7 @@
         })
         $('#ses5Img').show()
       } else {
-        op.geo[2].z = 1
-        op.geo[2].itemStyle.opacity = 0
-        op.geo[2].emphasis.itemStyle.opacity = 0
+        op.geo[0].regions = regions
         myChart.setOption(op, true)
         $('#ses5Img').hide()
       }
@@ -178,6 +189,12 @@
         })
         myChart.setOption(op, true)
       }
+      if (name === 'DTT') {
+        myChart.dispatchAction({
+          type: 'legendUnSelect',
+          name: 'SES5卫星'
+        })
+      }
       if (name == 'OTT') {
         op.series.map(function(item) {
           if (item.name == 'OTT' && item.type == 'lines' && item.data[0].name == '南非-上星节点') {
@@ -188,6 +205,14 @@
         myChart.dispatchAction({
           type: 'legendSelect',
           name: 'OTT动画'
+        })
+        myChart.dispatchAction({
+          type: 'legendUnSelect',
+          name: 'E10A卫星'
+        })
+        myChart.dispatchAction({
+          type: 'legendUnSelect',
+          name: 'SES5卫星'
         })
       }
     })

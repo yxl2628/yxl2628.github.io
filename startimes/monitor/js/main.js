@@ -26,6 +26,7 @@ $(document).ready(function() {
     })
   })
   task(cache_groupids)
+  setOTTLines()
   /**
    * 下面是定时任务，将上述获取过程，写入定时任务
    * 默认是60秒请求一次
@@ -89,6 +90,46 @@ $(document).ready(function() {
     }, 2000);
 
     getAppData()
+  }
+
+  //增加OTT上云站和卫星连线图
+  function setOTTLines(){
+    var _ott_option = myChart.getOption()
+    _ott_option.series.forEach(function(item) {
+
+      if (item.name === '上星站示意图') {
+        for (var i = 0, len = pack_loss_probability.length; i < len; i++) {
+          var dataItem = pack_loss_probability[i]
+          if (dataItem.fromName != '北京' && dataItem.fromName != '上云站机房') {
+            item.data.push({
+              name: '卫星-' + dataItem.fromName,
+              coords: [[geoCoordMap['卫星'][0] + 3, geoCoordMap['卫星'][1] - 3], geoCoordMap[dataItem.fromName]],
+              lineStyle: {
+                normal: {
+                  color: '#0da1ed',
+                  width: 1,
+                  opacity: 0.2,
+                  curveness: 0.2
+                }
+              }
+            })
+          }
+        }
+        item.data.push({
+          name: '上云站-卫星',
+          coords: [[ geoCoordMap['上云站'][0] + 1,  geoCoordMap['上云站'][1] - 1], [geoCoordMap['卫星'][0] + 3, geoCoordMap['卫星'][1] - 3]],
+          lineStyle: {
+            normal: {
+              color: '#6efa01',
+              width: 1,
+              opacity: 0.2,
+              curveness: 0.2
+            }
+          }
+        })
+      }
+    })
+    myChart.setOption(_ott_option, true)
   }
   // 获取zabbix告警数
   function getCacheZabbixError(groupids) {

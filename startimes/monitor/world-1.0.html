@@ -47,13 +47,13 @@
       '3-卫星': [90, 100],
       '北京-总部': [116, 39],
       '南非-上星站': [20, -30],
-      '南非-发射塔': [24, -28],
+      '南非-发射台': [24, -28],
       '南非-播控中心': [28, -29],
-      '尼日利亚-发射塔': [15, -7],
-      '肯尼亚-发射塔': [38, 0],
-      '坦桑-发射塔': [36, 10],
-      '赞比亚-发射塔': [28, -15],
-      '乌干达-发射塔': [33, 3],
+      '尼日利亚-发射台': [15, -7],
+      '肯尼亚-发射台': [38, 0],
+      '坦桑-发射台': [36, 10],
+      '赞比亚-发射台': [28, -15],
+      '乌干达-发射台': [33, 3],
       '爱尔兰-亚马逊云': [-7, 53],
       '中非-cdn': [20, 6],
       '几内亚-cdn': [20, -10],
@@ -84,7 +84,7 @@
               symbolSize: 20
             })
             break;
-          case '发射塔':
+          case '发射台':
             res.push({
               name: x,
               value: data[x],
@@ -221,9 +221,9 @@
         }
       },
     }
-    options.series.push(coverLines('1-卫星', ['尼日利亚-发射塔','肯尼亚-发射塔'], lineColor[3]))
-    options.series.push(coverLines('2-卫星', ['坦桑-发射塔', '南非-发射塔', '赞比亚-发射塔'], lineColor[3]))
-    options.series.push(coverLines('3-卫星', ['乌干达-发射塔'], lineColor[3]))
+    options.series.push(coverLines('1-卫星', ['尼日利亚-发射台','肯尼亚-发射台'], lineColor[3]))
+    options.series.push(coverLines('2-卫星', ['坦桑-发射台', '南非-发射台', '赞比亚-发射台'], lineColor[3]))
+    options.series.push(coverLines('3-卫星', ['乌干达-发射台'], lineColor[3]))
     options.series.push(coverLines(['北京-总部'], '南非-上星站', lineColor[1]))
     options.series.push(coverLines('南非-上星站', ['1-卫星', '2-卫星', '3-卫星'], lineColor[2]))
     options.series.push(coverLines(['中非-cdn','几内亚-cdn','马达-cdn','莫桑比克-cdn'], '爱尔兰-亚马逊云', lineColor[0]))

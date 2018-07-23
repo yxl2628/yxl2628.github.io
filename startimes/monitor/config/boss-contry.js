@@ -29,6 +29,7 @@ var eastAfrica = [
     name: '布隆迪',
     enName: 'Burundi',
     timezone: 'Africa/Maputo',
+    uid: 'R8EWifdmk'
   }
 ]
 var westAfrica = [
@@ -46,6 +47,7 @@ var westAfrica = [
     name: '几内亚',
     enName: 'Guinea',
     timezone: 'Africa/Abidjan',
+    uid: 'vj6WmfOiz'
   },
   {
     name: '科特迪瓦',
@@ -105,6 +107,7 @@ var southAfirca = [
     name: '马达',
     enName: 'Madagascar',
     timezone: 'Africa/Nairobi',
+    uid: '__dWmBdiz'
   },
   {
     name: '南非',
@@ -115,5 +118,28 @@ var southAfirca = [
     name: '博茨瓦纳',
     enName: 'Botswana',
     timezone: 'Africa/Maputo',
+  }
+]
+
+var serviceList = [
+  {
+    name: 'systemStatus',
+    uid: '000000018'
+  },
+  {
+    name: 'caStatus',
+    uid: 'XEe6zkHiz'
+  },
+  {
+    name: 'msgStatus',
+    uid: 'n-EAGGOiz'
+  },
+  {
+    name: 'payStatus',
+    uid: '0WSA7Gdmk'
+  },
+  {
+    name: 'openStatus',
+    uid: '0YjCC7Fik'
   }
 ]

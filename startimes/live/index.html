@@ -9,23 +9,27 @@
     video {
       width: 100%;
     }
+
     #app {
       max-width: 1170px;
       margin: 10px auto;
       background-color: #f6f6f6;
     }
+
     #app .row {
       text-align: center;
     }
-    .title{
+
+    .title {
       font-size: 16px;
       color: #286090;
       padding: 20px 0;
       background-color: #ffffff;
     }
-    @media (min-width: 992px){
-      .title{
-        font-size:26px;
+
+    @media (min-width: 992px) {
+      .title {
+        font-size: 26px;
       }
     }
   </style>
@@ -33,9 +37,8 @@
 
 <body>
   <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.3/polyfill.min.js"></script>
-  <script src="./list.js?v=1.1.1"></script>
+  <script src="./list.js?v=1.1.2"></script>
   <script src="./static/hls.min.js"></script>
-  <script src="./static/startimes.js"></script>
   <div id="app" class="container-fluid">
     <!-- <div class="row title">四达时代-视频监控平台</div> -->
     <div class="row" style="padding: 10px 0;">
@@ -45,75 +48,27 @@
     </div>
   </div>
   <script>
-    var app = new Vue({
-      el: '#app',
-      data() {
-        return {
-          list: videoList
-        }
-      },
-      created () {
-        var video = document.getElementById('video');
-        video.style.height = video.offsetWidth*9/16 + 'px';
-      },
-      mounted() {
-        var _this = this;
-        var id = window.location.href.split('?id=')[1]
-        // videoList.forEach(function(item, index) {
-        //   setTimeout(function(){
-        //     _this.captureImage(item,index)
-        //   },(index+1)*5000)
-        //   setInterval(function(){
-        //     setTimeout(function(){
-        //       _this.captureImage(item,index)
-        //     },(index+1)*5000)
-        //   },30000);
-        // })
-        this.showMe(videoList[id - 1])
-      },
-      methods: {
-        showMe: function(item) {
-          var video = document.getElementById('video');
-          if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource(item);
-            hls.attachMedia(video);
-          } else {
-            video.src = item;
-            video.play();
-          }
-        },
-        captureImage: function(item,index) {
-          // console.log('开始加载视频' + index)
-          var video = document.getElementById('video' + index);
-          var canvas = document.createElement("canvas");
-          var videoView = document.getElementById('viewVideo' + index);
-          var img = document.getElementById('img' + index);
-          var hls = null;
-          if (Hls.isSupported()) {
-            hls = new Hls();
-            hls.loadSource(item);
-            hls.attachMedia(video);
-          } else {
-            video.src = item;
-          }
-          video.onloadeddata = function(){
-            // console.log('视频' + index + '可以播放，开始截帧')
-            canvas.width = videoView.offsetWidth;
-            canvas.height = videoView.offsetWidth*9/16;
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            img.src = canvas.toDataURL("image/png");
-            if (Hls.isSupported()) {
-              hls.destroy()
-            }
-            video.pause();
-            video.src = null;
-            img.style.display = 'block';
-            video.style.display = 'none';
-          }
-        }
+    window.onload = function() {
+      var video = document.getElementById('video');
+      video.style.height = video.offsetWidth * 9 / 16 + 'px';
+      var id = window.location.href.split('?id=')[1]
+      if (id === undefined) {
+        alert('未获取到正确的视频id')
       }
-    });
+      showMe(videoList[id - 1])
+    }
+
+    function showMe(item) {
+      var video = document.getElementById('video');
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(item);
+        hls.attachMedia(video);
+      } else {
+        video.src = item;
+        video.play();
+      }
+    }
   </script>
 </body>
 
