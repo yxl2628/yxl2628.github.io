@@ -126,7 +126,7 @@
         </div>
         <div class="stat-item">
           <div class="title">在线终端</div>
-          <div class="num">541</div>
+          <div class="num" id="clientNum"></div>
         </div>
       </div>
       <div class="wrap-bg"></div>
@@ -256,6 +256,10 @@
       influxdb_server.queryData('SELECT sum("VALUE") FROM "accept_sheets" WHERE ("STATUS" = \'已完工\') AND time >= now() - 30m GROUP BY "COMPANY_CODE"', function(res) {
         handelerInfluxDBValue('openTotal', res.results[0].series)
       })
+      // 在线终端数
+      influxdb_server.queryData('SELECT sum("VALUE") FROM "login_users" WHERE ("TYPE" = \'Employee\' or "TYPE" = \'Partner Staff\') AND  time > now() - 30m', function(res) {
+        $('#clientNum').text(res.results[0].series[0].values[0][1])
+      })
     }
     function handelerInfluxDBValue(id, list) {
       var total = 0
@@ -270,7 +274,7 @@
       $('#' + id).text(total)
       var $parent = $('#' + id).parent()
 
-      if (id == 'payTotal' || id == 'openTotal' || id == 'systemTotal') {
+      if (['payTotal', 'openTotal','systemTotal'].indexOf(id) >= 0) {
         if (total < 0) {
           $parent.css('color', color[2])
         } else if (total >= 0 && total < 5) {
