@@ -188,11 +188,11 @@
       <div class="countryName">
         <div class="name">{{name}}</div>
       </div>
-      <div class="countryTime">
+      <div class="countryTime" id="{{enName}}Time">
         {{time}}
       </div>
       <div class="countryStatus">
-        <div class="light {{if status=='none'}}none{{else if status=='good'}}good{{else}}error{{/if}}-light"></div>
+        <div id="{{enName}}Status" class="light none-light"></div>
       </div>
     </div>
   </script>
@@ -224,13 +224,22 @@
       influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE  "httpcode" = \'404\' AND time >= now() - 30m', function(a1) {
         influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE  "httpcode" = \'500\' AND time >= now() - 30m', function(a2) {
           influxdb_server.queryData('SELECT last("number") FROM "boss-access" WHERE   time >= now() - 30m GROUP BY "httpcode" ', function(a3) {
-            var total404 = a1.results[0].series, total500 = a2.results[0].series, total = a3.results[0].series, result = {values:[['time', 0]]}
+            var total404 = a1.results[0].series,
+              total500 = a2.results[0].series,
+              total = a3.results[0].series,
+              result = {
+                values: [
+                  ['time', 0]
+                ]
+              }
             total404 = total404 === undefined ? 0 : total404[0].values[0][1]
             total500 = total500 === undefined ? 0 : total500[0].values[0][1]
             total = total === undefined ? 0 : total[0].values[0][1]
             if (total != 0) {
-              var errorPersent = ((total404 + total500)/total)*100
-              result.values = [['time', parseInt(errorPersent*100)/100]]
+              var errorPersent = ((total404 + total500) / total) * 100
+              result.values = [
+                ['time', parseInt(errorPersent * 100) / 100]
+              ]
             }
             handelerInfluxDBValue('systemPersent', [result])
           })
@@ -261,6 +270,7 @@
         $('#clientNum').text(res.results[0].series[0].values[0][1])
       })
     }
+
     function handelerInfluxDBValue(id, list) {
       var total = 0
       if (list !== undefined) {
@@ -274,7 +284,7 @@
       $('#' + id).text(total)
       var $parent = $('#' + id).parent()
 
-      if (['payTotal', 'openTotal','systemTotal'].indexOf(id) >= 0) {
+      if (['payTotal', 'openTotal', 'systemTotal'].indexOf(id) >= 0) {
         if (total < 0) {
           $parent.css('color', color[2])
         } else if (total >= 0 && total < 5) {
@@ -436,13 +446,20 @@
     }
 
     function handlerCountry(id, list) {
-      $('#' + id).html('')
+      if ($('#' + id).html()) {
+        list.forEach(function(item) {
+          if (item.name.split('').length <= 3) {
+            item.name = item.name.split('').join(' ')
+          }
+          item.time = moment().tz(item.timezone).format('HH:mm')
+          item.status = 'none'
+          $('#' + id).append(template('countryTpl', item))
+        })
+      }
       list.forEach(function(item) {
-        if (item.name.split('').length <= 3) {
-          item.name = item.name.split('').join(' ')
-        }
-        item.time = moment().tz(item.timezone).format('HH:mm')
+        $('#' + item.enName + 'Time').text(moment().tz(item.timezone).format('HH:mm'))
         if (item.uid != undefined) {
+          $('#' + item.uid).attr('class', 'light good-light')
           grafana_server.queryData('dashboards/uid/' + item.uid, 'GET', null, function(res) {
             item.url = grafana_server.getOptions('url').replace('api/', res.meta.url)
             item.id = res.dashboard.id
@@ -453,12 +470,10 @@
                   item.status = 'bad'
                 }
               })
-              $('#' + id).append(template('countryTpl', item))
+              console.log('#' + item.enName + 'Status', item.status)
+              $('#' + item.enName + 'Status').attr('class', 'light ' + item.status + '-light')
             })
           })
-        } else {
-          item.status = 'none'
-          $('#' + id).append(template('countryTpl', item))
         }
       })
     }
