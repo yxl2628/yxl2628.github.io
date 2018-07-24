@@ -2,7 +2,7 @@
 var geoCoordMap = {
   '北京': [50, 28],
   '亚马逊云': [-15, 38],
-  '卫星': [30, 38],
+  '卫星': [30, 41],
   '上云站': [17, -29],
   '上云站机房': [25, -32],
   '尼日利亚_MTN': [5.09765625,7.3624668655],
@@ -130,7 +130,7 @@ var convertLinesData = function(data) {
             color: getColor(type),
             width: 1,
             opacity: opacity,
-            curveness: 0
+            curveness: 0.2
           }
         }
       }
@@ -258,11 +258,16 @@ var awsErrorPath = 'image://./img/aws_ott-error.png'
 var chinaPath = 'image://./img/startimes_noc-good.png'
 var chinaBadPath = 'image://./img/startimes_noc-bad.png'
 var chinaErrorPath = 'image://./img/startimes_noc-error.png'
-var satellitePath = './img/wx-good.gif'
-var satelliteBadPath = './img/wx-bad.gif'
-var satelliteErrorPath = './img/wx-error.gif'
-var radarPath = './img/radar-good.gif'
-var radarBadPath = './img/radar-bad.gif'
+// var satellitePath = './img/wx-good.gif'
+var satellitePath = './img/world/wei.gif'
+// var satelliteBadPath = './img/wx-bad.gif'
+var satelliteBadPath = './img/world/wei.gif'
+// var satelliteErrorPath = './img/wx-error.gif'
+var satelliteErrorPath = './img/world/wei.gif'
+// var radarPath = './img/radar-good.gif'
+var radarPath = './img/world/xing.png'
+// var radarBadPath = './img/radar-bad.gif'
+var radarBadPath = './img/world/xing.png'
 var radarErrorPath = './img/radar-error.gif'
 var serverPath = 'image://./img/server-good.png'
 var serverBadPath = 'image://./img/server-bad.png'

@@ -103,7 +103,7 @@ $(document).ready(function() {
           if (dataItem.fromName != '北京' && dataItem.fromName != '上云站机房') {
             item.data.push({
               name: '卫星-' + dataItem.fromName,
-              coords: [[geoCoordMap['卫星'][0] + 3, geoCoordMap['卫星'][1] - 3], geoCoordMap[dataItem.fromName]],
+              coords: [[geoCoordMap['卫星'][0] + 1.8, geoCoordMap['卫星'][1] - 5.3], geoCoordMap[dataItem.fromName]],
               lineStyle: {
                 normal: {
                   color: '#0da1ed',
@@ -117,7 +117,7 @@ $(document).ready(function() {
         }
         item.data.push({
           name: '上云站-卫星',
-          coords: [[ geoCoordMap['上云站'][0] + 1,  geoCoordMap['上云站'][1] - 1], [geoCoordMap['卫星'][0] + 3, geoCoordMap['卫星'][1] - 3]],
+          coords: [[ geoCoordMap['上云站'][0] + 2.2,  geoCoordMap['上云站'][1] - 1], [geoCoordMap['卫星'][0] + 1.8, geoCoordMap['卫星'][1] - 5.3]],
           lineStyle: {
             normal: {
               color: '#6efa01',

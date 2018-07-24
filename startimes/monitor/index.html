@@ -199,8 +199,8 @@
     myChart.setOption(option, true)
     var satellitePx = myChart.convertToPixel('geo', geoCoordMap['卫星']),
     radarPix = myChart.convertToPixel('geo', geoCoordMap['上云站'])
-    var satelliteImg = '<img src="' + satellitePath +'" style="position:absolute;top:' + satellitePx[1] + 'px;left:' + satellitePx[0] + 'px;width:45px;height:45px;" />',
-    radarImg = '<img src="' + radarPath +'" style="position:absolute;top:' + radarPix[1] + 'px;left:' + radarPix[0] + 'px;width:45px;height:45px;" />'
+    var satelliteImg = '<img src="' + satellitePath +'" style="position:absolute;top:' + satellitePx[1] + 'px;left:' + satellitePx[0] + 'px;width:100px;height:86px;" />',
+    radarImg = '<img src="' + radarPath +'" style="position:absolute;top:' + radarPix[1] + 'px;left:' + radarPix[0] + 'px;width:35px;height:35px;" />'
     $('#main').after(satelliteImg).after(radarImg)
     myChart.on('click', function (params) {
       if (params.seriesType && (params.seriesType === 'effectScatter' || params.seriesType === 'scatter')) {
