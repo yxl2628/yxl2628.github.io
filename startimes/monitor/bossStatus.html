@@ -446,7 +446,7 @@
     }
 
     function handlerCountry(id, list) {
-      if ($('#' + id).html()) {
+      if ($('#' + id).html().trim() == '') {
         list.forEach(function(item) {
           if (item.name.split('').length <= 3) {
             item.name = item.name.split('').join(' ')
@@ -470,7 +470,6 @@
                   item.status = 'bad'
                 }
               })
-              console.log('#' + item.enName + 'Status', item.status)
               $('#' + item.enName + 'Status').attr('class', 'light ' + item.status + '-light')
             })
           })
