@@ -181,7 +181,7 @@
   </div>
   </div>
   <script id="countryTpl" type="text/html">
-    <div class="countryItem" onclick="goto('{{url}}')">
+    <div class="countryItem" id="{{enName}}Body" onclick="gotoCountry(this)" data-url="">
       <div class="countryImg">
         <img src="img/country/{{enName}}.jpg" alt="">
       </div>
@@ -470,6 +470,7 @@
                   item.status = 'bad'
                 }
               })
+              $('#' + item.enName + 'Body').attr('data-url', item.url)
               $('#' + item.enName + 'Status').attr('class', 'light ' + item.status + '-light')
             })
           })
@@ -499,6 +500,9 @@
       if (url !== undefined) {
         location.href = url
       }
+    }
+    function gotoCountry(e) {
+      location.href = $(e).attr('data-url')
     }
   </script>
 </body>
