@@ -109,7 +109,7 @@ $(document).ready(function() {
                   color: '#0da1ed',
                   width: 1,
                   opacity: 0.2,
-                  curveness: 0.2
+                  curveness: 0
                 }
               }
             })
@@ -123,7 +123,7 @@ $(document).ready(function() {
               color: '#6efa01',
               width: 1,
               opacity: 0.2,
-              curveness: 0.2
+              curveness: 0
             }
           }
         })

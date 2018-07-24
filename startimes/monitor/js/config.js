@@ -1,8 +1,8 @@
 //经纬度
 var geoCoordMap = {
-  '北京': [50, 38],
+  '北京': [50, 28],
   '亚马逊云': [-15, 38],
-  '卫星': [-25, 18],
+  '卫星': [30, 38],
   '上云站': [17, -29],
   '上云站机房': [25, -32],
   '尼日利亚_MTN': [5.09765625,7.3624668655],
@@ -130,7 +130,7 @@ var convertLinesData = function(data) {
             color: getColor(type),
             width: 1,
             opacity: opacity,
-            curveness: 0.2
+            curveness: 0
           }
         }
       }
