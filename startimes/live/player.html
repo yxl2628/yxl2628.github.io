@@ -5,13 +5,16 @@
   <meta charset="utf-8">
   <title>四达时代-视频监控平台</title>
   <style media="screen">
-    html, body {
+    html,
+    body {
       width: 100%;
       height: 100%;
       padding: 0;
       margin: 0;
       overflow: hidden;
+      background-color: #000;
     }
+
     video {
       width: 100%;
     }
@@ -19,39 +22,170 @@
     #app {
       width: 100%;
       height: 100%;
+      position: relative;
+    }
+
+    .mask {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0);
+      z-index: 999;
+    }
+
+    .mask .button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -25px;
+      margin-left: -90px;
+      width: 180px;
+      height: 50px;
+      border: 0;
+      background-color: #000;
+      color: #fff;
+      line-height: 50px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #app:hover .mask {
+      display: block;
+    }
+
+    #img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 888;
     }
   </style>
 </head>
 
 <body>
   <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-beta.3/polyfill.min.js"></script>
-  <script src="./static/list.js?v=1.1.2"></script>
+  <script src="./static/list.js?v=1.0.0"></script>
   <script src="./static/hls.min.js"></script>
   <div id="app">
     <video id="video" autoplay></video>
+    <img id="img" src="" width="100%" style="display:none" />
+    <div class="mask"><button class="button" id="ck_buts">全屏</button></div>
   </div>
   <script>
+    var id = getUrlKey('id')
+    var type = getUrlKey('type')
+    var hls = null
     window.onload = function() {
       var video = document.getElementById('video');
       video.style.width = document.body.offsetWidth + 'px';
       video.style.height = document.body.offsetHeight + 'px';
-      var id = window.location.href.split('?id=')[1]
+
       if (id === undefined) {
         alert('未获取到正确的视频id')
       }
-      showMe(videoList[id - 1])
+      showMe(videoList[id - 1], type)
+    }
+    // 判断是否全屏
+    function checkFull() {
+      var isFull = document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
+      if (isFull === undefined) {
+        isFull = false;
+      }
+      return isFull;
+    }
+    // 加载视频
+    function showMe(item, _type) {
+      if (item != undefined) {
+        // console.log('开始播放视频:' + id)
+        var video = document.getElementById('video')
+        var img = document.getElementById('img')
+        var url = _type == 'main' ? item.url : item.low
+        if (_type == 'main') {
+          img.style.display = 'none'
+          if (Hls.isSupported()) {
+            hls = new Hls();
+            hls.loadSource(url)
+            hls.attachMedia(video)
+          } else {
+            video.src = item
+            video.play()
+          }
+        } else {
+          if (Hls.isSupported()) {
+            hls = new Hls();
+            hls.loadSource(url)
+            hls.attachMedia(video)
+          } else {
+            video.src = item
+            video.play()
+          }
+        }
+      }
     }
 
-    function showMe(item) {
-      var video = document.getElementById('video');
-      if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource(item);
-        hls.attachMedia(video);
+    //停止
+    function stopVideo() {
+      // console.log('视频' + id + '停止播放')
+      if (Hls.isSupported() && hls) {
+        hls.destroy()
       } else {
-        video.src = item;
-        video.play();
+        video.src = null
+        video.pause()
       }
+    }
+    // 获取url参数
+    function getUrlKey(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+    //全屏功能
+    document.getElementById("ck_buts").onclick = function() {
+      var elem = document.getElementById("video");
+      elem.style.width = "100%";
+      elem.style.height = "100%";
+      elem.style.overflowY = "scroll";
+      requestFullScreen(elem); // 某个页面元素
+      //requestFullScreen(document.documentElement); // 整个网页
+    };
+
+    function requestFullScreen(element) {
+      // 判断各种浏览器，找到正确的方法
+      var requestMethod = element.requestFullScreen || //W3C
+        element.webkitRequestFullScreen || //FireFox
+        element.mozRequestFullScreen || //Chrome等
+        element.msRequestFullScreen; //IE11
+      if (requestMethod) {
+        requestMethod.call(element);
+      } else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
+    }
+    //退出全屏 判断浏览器种类
+    function exitFull() {
+      // 判断各种浏览器，找到正确的方法
+      var exitMethod = document.exitFullscreen || //W3C
+        document.mozCancelFullScreen || //FireFox
+        document.webkitExitFullscreen || //Chrome等
+        document.webkitExitFullscreen; //IE11
+      if (exitMethod) {
+        exitMethod.call(document);
+      } else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
+
     }
   </script>
 </body>
