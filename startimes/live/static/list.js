@@ -19,9 +19,9 @@ window.videoList = [
     url: 'http://192.168.32.167:8081/video/ke3/playlist.m3u8',
     low: 'http://192.168.32.167:8081/video/ke3/low/playlist.m3u8'
   },
-  {
-    name: '监控摄像头-肯尼亚5',
-    url: 'http://192.168.32.167:8081/video/ke4/playlist.m3u8',
-    low: 'http://192.168.32.167:8081/video/ke4/low/playlist.m3u8'
-  },
+  // {
+  //   name: '监控摄像头-肯尼亚5',
+  //   url: 'http://192.168.32.167:8081/video/ke4/playlist.m3u8',
+  //   low: 'http://192.168.32.167:8081/video/ke4/low/playlist.m3u8'
+  // },
 ]
