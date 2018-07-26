@@ -98,7 +98,7 @@
       <div id="videoList"></div>
     </div>
   </div>
-  <script src="./static/list.js?v=1.0.0"></script>
+  <script src="./static/list.js?v=1.0.1"></script>
   <script src="./static/template-web.js"></script>
   <script id="leftPlayerTpl" type="text/html">
     <div class="big-video">
@@ -137,8 +137,10 @@
   </script>
   <script type="text/javascript">
     window.onload = function () {
-      document.getElementById('left').innerHTML = template('leftPlayerTpl', {current: 1, idList: [2, 3, 4, 5, 6, 7]})
-      document.getElementById('center').innerHTML = template('centerPlayerTpl', {idList: [2, 3, 4, 5, 6, 7]})
+      var current = localStorage.getItem('current') || 1, idList = localStorage.getItem('idList') || [2, 3, 4, 5, 6, 7]
+      idList = typeof idList == 'string' ? idList.split(',') : idList
+      document.getElementById('left').innerHTML = template('leftPlayerTpl', {current: current, idList: idList})
+      document.getElementById('center').innerHTML = template('centerPlayerTpl', {idList: idList})
       document.getElementById('videoList').innerHTML = template('videoListTpl', {list: videoList})
     }
     // 窗口改变大小
@@ -173,6 +175,8 @@
           _idList.push(i)
         }
       }
+      localStorage.setItem('current', id)
+      localStorage.setItem('idList', _idList)
       document.getElementById('left').innerHTML = template('leftPlayerTpl', {current: id, idList: _idList})
       document.getElementById('center').innerHTML = template('centerPlayerTpl', {idList: _idList})
     }
