@@ -111,11 +111,17 @@
         var url = _type == 'main' ? item.url : item.low
         document.getElementById('title').innerText = item.name
         if (_type == 'main') {
+          var xhr = XHR()
+          xhr.open("get","./getHls/" + id,true)
+          xhr.send(null)
           img.style.display = 'none'
           if (Hls.isSupported()) {
             hls = new Hls();
             hls.loadSource(url)
             hls.attachMedia(video)
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+              video.play()
+            })
           } else {
             video.src = item
             video.play()
@@ -125,6 +131,9 @@
             hls = new Hls();
             hls.loadSource(url)
             hls.attachMedia(video)
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+              video.play()
+            })
           } else {
             video.src = item
             video.play()
@@ -191,6 +200,18 @@
         }
       }
 
+    }
+    function XHR() {
+        var xhr;
+        try {xhr = new XMLHttpRequest();}
+        catch(e) {
+            var IEXHRVers =["Msxml3.XMLHTTP","Msxml2.XMLHTTP","Microsoft.XMLHTTP"];
+            for (var i=0,len=IEXHRVers.length;i< len;i++) {
+                try {xhr = new ActiveXObject(IEXHRVers[i]);}
+                catch(e) {continue;}
+            }
+        }
+        return xhr;
     }
   </script>
 </body>
