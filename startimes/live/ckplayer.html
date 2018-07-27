@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style media="screen">
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript" src="ckplayer/ckplayer.js"></script>
+  <script src="./static/list.js?v=1.0.1"></script>
+  <div id="video" style="width:100%;height:100%;"></div>
+  <script type="text/javascript">
+    var id = getUrlKey('id')
+    var type = getUrlKey('type')
+    var videoObject = {
+      container: '#video',
+      variable: 'player',
+      autoplay: true,
+      video: ''
+    };
+    var player = new ckplayer(videoObject)
+
+    window.onload = function() {
+      var video = document.getElementById('video');
+      video.style.width = document.body.offsetWidth + 'px';
+      video.style.height = document.body.offsetHeight + 'px';
+
+      if (id === undefined) {
+        alert('未获取到正确的视频id')
+      }
+      var video = videoList[id - 1]
+      var url = type == 'main' ? video.rtmp : video.low
+      if (video != undefined) {
+        changeVideo(url)
+      }
+    }
+    // 修改播放地址
+    function changeVideo(videoUrl) {
+      if (player == null) {
+        return;
+      }
+
+      var newVideoObject = {
+        container: '#video', //容器的ID
+        variable: 'player',
+        autoplay: true, //是否自动播放
+        video: videoUrl
+      }
+      //判断是需要重新加载播放器还是直接换新地址
+
+      if (player.playerType == 'html5video') {
+        if (player.getFileExt(videoUrl) == '.flv' || player.getFileExt(videoUrl) == '.m3u8' || player.getFileExt(videoUrl) == '.f4v' || videoUrl.substr(0, 4) == 'rtmp') {
+          player.removeChild();
+
+          player = null;
+          player = new ckplayer();
+          player.embed(newVideoObject);
+        } else {
+          player.newVideo(newVideoObject);
+        }
+      } else {
+        if (player.getFileExt(videoUrl) == '.mp4' || player.getFileExt(videoUrl) == '.webm' || player.getFileExt(videoUrl) == '.ogg') {
+          player = null;
+          player = new ckplayer();
+          player.embed(newVideoObject);
+        } else {
+          player.newVideo(newVideoObject);
+        }
+      }
+    }
+    // 获取url参数
+    function getUrlKey(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+  </script>
+</body>
+
+</html>
