@@ -21,12 +21,14 @@
   <script src="./static/list.js?v=1.0.1"></script>
   <div id="video" style="width:100%;height:100%;"></div>
   <script type="text/javascript">
-    var id = getUrlKey('id')
-    var type = getUrlKey('type')
+    var param_id = getUrlKey('id')
+    var param_type = getUrlKey('type')
+    var param_video = null
     var videoObject = {
       container: '#video',
       variable: 'player',
       autoplay: true,
+      loaded: 'loadedHandler', //当播放器加载后执行的函数
       video: ''
     };
     var player = new ckplayer(videoObject)
@@ -36,14 +38,42 @@
       video.style.width = document.body.offsetWidth + 'px';
       video.style.height = document.body.offsetHeight + 'px';
 
-      if (id === undefined) {
+      if (param_id === undefined) {
         alert('未获取到正确的视频id')
       }
-      var video = videoList[id - 1]
-      var url = type == 'main' ? video.rtmp : video.low
-      if (video != undefined) {
+      param_video = videoList[param_id - 1]
+      if (param_video != undefined) {
+        var url = param_type == 'main' ? param_video.rtmp : param_video.low
         changeVideo(url)
       }
+    }
+
+    function loadedHandler() {
+      player.addListener('full', fullHandler)
+    }
+    function fullHandler(b) {
+    	if (b) {
+        if (param_video != undefined) {
+          console.log('视频：' + param_id + '全屏，播放高清视频：' + param_video.rtmp)
+          changeVideo(param_video.rtmp)
+          parent.changeOtherVideo(param_id, 'pause')
+        }
+      } else {
+        if (param_video != undefined) {
+          var change_url = param_type == 'main' ? param_video.rtmp : param_video.low
+          console.log('视频：' + param_id + '退出全屏，播放原始视频：' + change_url)
+          changeVideo(change_url)
+          parent.changeOtherVideo(param_id, 'play')
+        }
+      }
+    }
+    function stopVideo(){
+      console.log('视频：' + param_id + '停止播放')
+      player.videoPause()
+    }
+    function startVideo(){
+      console.log('视频：' + param_id + '开始播放')
+      player.videoPlay()
     }
     // 修改播放地址
     function changeVideo(videoUrl) {
@@ -55,6 +85,7 @@
         container: '#video', //容器的ID
         variable: 'player',
         autoplay: true, //是否自动播放
+        loaded: 'loadedHandler',
         video: videoUrl
       }
       //判断是需要重新加载播放器还是直接换新地址
