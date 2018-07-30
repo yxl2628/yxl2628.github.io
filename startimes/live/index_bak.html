@@ -102,30 +102,30 @@
   <script src="./static/template-web.js"></script>
   <script id="leftPlayerTpl" type="text/html">
     <div class="big-video">
-      <iframe src="./ckplayer.html?id={{current}}&type=main" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{current}}&type=main" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="horizontal-video">
-      <iframe src="./ckplayer.html?id={{idList[3]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[3]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="horizontal-video">
-      <iframe src="./ckplayer.html?id={{idList[4]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[4]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="horizontal-video">
-      <iframe src="./ckplayer.html?id={{idList[5]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[5]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
   </script>
   <script id="centerPlayerTpl" type="text/html">
     <div class="vertical-video">
-      <iframe src="./ckplayer.html?id={{idList[0]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[0]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="vertical-video">
-      <iframe src="./ckplayer.html?id={{idList[1]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[1]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="vertical-video">
-      <iframe src="./ckplayer.html?id={{idList[2]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[2]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
     <div class="vertical-video">
-      <iframe src="./ckplayer.html?id={{idList[6]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
+      <iframe src="./player.html?id={{idList[6]}}" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true" ></iframe>
     </div>
   </script>
   <script id="videoListTpl" type="text/html">
@@ -143,18 +143,28 @@
       document.getElementById('center').innerHTML = template('centerPlayerTpl', {idList: idList})
       document.getElementById('videoList').innerHTML = template('videoListTpl', {list: videoList})
     }
-    function changeOtherVideo(full_id , playOrPause) {
-      console.log('除了视频[' + full_id +']以外的关闭其他视频')
+    // 窗口改变大小
+    window.onresize = function() {
       var frames = document.getElementsByTagName('iframe')
+      var hasFull = false
       for(var i = 0; i< frames.length; i++) {
         var item = frames[i]
-        var param_id = item.contentWindow.param_id, param_type = item.contentWindow.param_type
-        if (param_id != full_id) {
-          if ( playOrPause == 'play') {
-            item.contentWindow.startVideo()
+        if (item.contentWindow.checkFull()) {
+          hasFull = true
+          break
+        }
+      }
+      for(var i = 0; i< frames.length; i++) {
+        var item = frames[i]
+        var id = item.contentWindow.id, type = item.contentWindow.type, isFull = item.contentWindow.checkFull()
+        if (hasFull) { // 存在全屏
+          if (isFull) {
+            item.contentWindow.showMe(videoList[id - 1], 'main')
           } else {
             item.contentWindow.stopVideo()
           }
+        } else { // 没有全屏
+          item.contentWindow.showMe(videoList[id - 1], type)
         }
       }
     }
