@@ -142,19 +142,26 @@
       document.getElementById('center').innerHTML = template('centerPlayerTpl', {idList: idList})
       document.getElementById('videoList').innerHTML = template('videoListTpl', {list: videoList})
     }
-    function changeOtherVideo(full_id , playOrPause) {
+    function stopOtherVideo(full_id) {
       console.log('除了视频[' + full_id +']以外的关闭其他视频')
       var frames = document.getElementsByTagName('iframe')
       for(var i = 0; i< frames.length; i++) {
         var item = frames[i]
         var param_id = item.contentWindow.param_id, param_type = item.contentWindow.param_type
         if (param_id != full_id) {
-          if ( playOrPause == 'play') {
-            item.contentWindow.startVideo()
-          } else {
-            item.contentWindow.stopVideo()
-          }
+          item.contentWindow.stopVideo()
         }
+      }
+    }
+
+
+    function startOtherVideo() {
+      console.log('退出全屏，播放所有的视频')
+      var frames = document.getElementsByTagName('iframe')
+      for(var j = 0; j < frames.length; j++) {
+        console.log(j)
+        var item = frames[j]
+        item.contentWindow.startVideo()
       }
     }
     function setMain(id) {

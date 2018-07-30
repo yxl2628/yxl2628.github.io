@@ -56,24 +56,28 @@
         if (param_video != undefined) {
           console.log('视频：' + param_id + '全屏，播放高清视频：' + param_video.rtmp)
           changeVideo(param_video.rtmp)
-          parent.changeOtherVideo(param_id, 'pause')
+          parent.stopOtherVideo(param_id)
         }
       } else {
         if (param_video != undefined) {
           var change_url = param_type == 'main' ? param_video.rtmp : param_video.low
           console.log('视频：' + param_id + '退出全屏，播放原始视频：' + change_url)
           changeVideo(change_url)
-          parent.changeOtherVideo(param_id, 'play')
+          parent.startOtherVideo(param_id, 'play')
         }
       }
     }
     function stopVideo(){
       console.log('视频：' + param_id + '停止播放')
       player.videoPause()
+      changeVideo('')
     }
     function startVideo(){
       console.log('视频：' + param_id + '开始播放')
-      player.videoPlay()
+      if (param_video != undefined) {
+        var change_url = param_type == 'main' ? param_video.rtmp : param_video.low
+        changeVideo(change_url)
+      }
     }
     // 修改播放地址
     function changeVideo(videoUrl) {
