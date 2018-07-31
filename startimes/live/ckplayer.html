@@ -93,7 +93,6 @@
         video: videoUrl
       }
       //判断是需要重新加载播放器还是直接换新地址
-
       if (player.playerType == 'html5video') {
         if (player.getFileExt(videoUrl) == '.flv' || player.getFileExt(videoUrl) == '.m3u8' || player.getFileExt(videoUrl) == '.f4v' || videoUrl.substr(0, 4) == 'rtmp') {
           player.removeChild();
