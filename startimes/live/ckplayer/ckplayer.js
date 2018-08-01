@@ -172,7 +172,7 @@ function ckplayerConfig() {
 			config: '', //调用配置函数名称
 			type: '', //视频格式
 			crossorigin: '', //设置html5视频的crossOrigin属性
-			crossdomain: '', //安全策略文件地址
+			crossdomain: 'http://' + window.location.hostname + ':8081/crossdomain.xml', //安全策略文件地址
 			unescape: false, //默认flashplayer里需要解码
 			mobileCkControls: false, //移动端h5显示控制栏
 			playbackrate: 1, //默认倍速

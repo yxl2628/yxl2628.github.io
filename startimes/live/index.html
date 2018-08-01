@@ -265,11 +265,11 @@
             hls[_idList[i]].loadSource(minVideoObj.low)
             hls[_idList[i]].attachMedia(minVideo)
             hls[_idList[i]].on(Hls.Events.MANIFEST_PARSED,function() {
-              video.play()
+              minVideo.play()
             })
           } else {
-            video.src = minVideoObj.low
-            video.play()
+            minVideo.src = minVideoObj.low
+            minVideo.play()
           }
         }
       }
