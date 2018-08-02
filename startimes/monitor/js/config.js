@@ -49,7 +49,7 @@ var cache_list = [
   {name: '乌干达_Africell', groupid: '60', url: 'http://10.0.224.100:3000/d/v-w1LoSik/cachezhan-dian-wu-gan-da-africell?refresh=1m&orgId=1'},
   {name: '科特迪瓦_MTN', groupid: '90', url: 'http://10.0.224.100:3000/d/3Sf4p1Iik/cachezhan-dian-ke-te-mtn?refresh=1m&orgId=1'},
   {name: '塞内加尔_Expresso', groupid: '78', url: 'http://10.0.224.100:3000/d/CAGDJkNik/cachezhan-dian-sai-nei-jia-er-expresso?refresh=1m&orgId=1'},
-  {name: '莫桑比克_Vodacom', groupid: '', url: ''},
+  {name: '莫桑比克_Vodacom', groupid: '79', url: 'http://10.0.224.100:3000/d/8NAGz6Kmz/cachezhan-dian-mo-sang-vodacom?refresh=1m&orgId=1'},
   {name: '刚果布_Airtel', groupid: '67', url: 'http://10.0.224.100:3000/d/Dn_sLoIik/cachezhan-dian-gang-guo-bu-airtel?refresh=1m&orgId=1'},
   {name: '卢旺达', groupid: '', url: ''},
   {name: '马达', groupid: '81', url: 'http://10.0.224.100:3000/d/SNGrmzdmk/cachezhan-dian-ma-da-orange'},
@@ -57,7 +57,7 @@ var cache_list = [
   {name: '刚果金_Vodacom', groupid: '', url: ''},
   {name: '刚果金_Orange', groupid: '', url: ''},
   {name: '喀麦隆', groupid: '', url: ''},
-  {name: '几内亚_MTN', groupid: '', url: 'http://10.0.224.100:3000/d/SlAoLoSmz/cachezhan-dian-ji-nei-ya-mtn?refresh=1m&orgId=1'},
+  {name: '几内亚_MTN', groupid: '86', url: 'http://10.0.224.100:3000/d/YIi0k6Kmk/cachezhan-dian-ji-nei-ya-mtn?refresh=1m&orgId=1'},
   {name: '布隆迪_LEO', groupid: '88', url: 'http://10.0.224.100:3000/d/oXbEYTSiz/cachezhan-dian-bu-long-di-leo?refresh=1m&orgId=1'}
 ]
 

@@ -742,20 +742,20 @@ $(document).ready(function() {
             }
             $('#apphome').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
-          // 登录成功率
-          if (item.name === 'playing_user_login_success_all') {
-            if (appplay_val < 90) {
-              typeColor = getColor('bad')
-            }
-            $('#applogin').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
-          }
+          // // 登录成功率
+          // if (item.name === 'playing_user_login_success_all') {
+          //   if (appplay_val < 90) {
+          //     typeColor = getColor('bad')
+          //   }
+          //   $('#applogin').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
+          // }
           // 注册转化成功率
-          if (item.name === 'playing_user_register_success_all') {
-            if (appplay_val < 80) {
-              typeColor = getColor('bad')
-            }
-            $('#appregister').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
-          }
+          // if (item.name === 'playing_user_register_success_all') {
+          //   if (appplay_val < 80) {
+          //     typeColor = getColor('bad')
+          //   }
+          //   $('#appregister').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
+          // }
           // 订到成功率
           if (item.name === 'playing_order_success_all') {
             if (appplay_val < 60) {
@@ -764,12 +764,12 @@ $(document).ready(function() {
             $('#apporder').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
           }
           // 支付成功率
-          if (item.name === 'playing_payment_success_all') {
-            if (appplay_val < 60) {
-              typeColor = getColor('bad')
-            }
-            $('#apppay').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
-          }
+          // if (item.name === 'playing_payment_success_all') {
+          //   if (appplay_val < 60) {
+          //     typeColor = getColor('bad')
+          //   }
+          //   $('#apppay').text(appplay_val.toFixed(2) + '%').css('color', typeColor)
+          // }
         })
       }
     })
