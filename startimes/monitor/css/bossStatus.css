@@ -213,7 +213,7 @@ body {
 .countryItem {
   display: flex;
   font-size: 14px;
-  margin: 8px auto;
+  margin: 5px auto;
   cursor: pointer;
 }
 
@@ -223,8 +223,8 @@ body {
 }
 
 .countryImg img {
-  height: 25px;
-  width: 80%;
+  width: 30px;
+  height: 20px;
   display: block;
   font-size: 0;
 }
