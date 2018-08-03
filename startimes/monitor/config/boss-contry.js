@@ -24,6 +24,7 @@ var eastAfrica = [
     name: '埃塞',
     enName: 'Ethiopia',
     timezone: 'Africa/Nairobi',
+    uid: 'zrjoweFmk'
   },
   {
     name: '布隆迪',
@@ -63,6 +64,18 @@ var westAfrica = [
     name: '马里',
     enName: 'Mali',
     timezone: 'Africa/Abidjan',
+    uid: '1brb_6Kmk'
+  },
+  {
+    name: '塞内加尔',
+    enName: 'Senegal',
+    timezone: 'Africa/Abidjan',
+    uid: 'lixSz3Oiz'
+  },
+  {
+    name: '利比里亚',
+    enName: 'Liberia',
+    timezone: 'Africa/Monrovia'
   }
 ]
 var centerAfrica = [
@@ -70,6 +83,7 @@ var centerAfrica = [
     name: '刚果金',
     enName: 'congo',
     timezone: 'Africa/Lagos',
+    uid: 'AI5g_eFmk'
   },
   {
     name: '刚果布',
