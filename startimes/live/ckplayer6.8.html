@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <title>ckplayer播放器</title>
+    <style media="screen">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #video {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="video"></div>
+  <script type="text/javascript" src="ckplayer6.8/ckplayer.js"></script>
+  <script src="./static/video-list.js?v=1.0.0"></script>
+  <script type="text/javascript">
+    var type = getUrlKey('type'), id = getUrlKey('id'), index = getUrlKey('index')
+    var width = document.body.offsetWidth, height = document.body.offsetHeight
+    var videoObj = videoList[id].list[index]
+    window.onload = function() {
+      var flashvars = {
+        f: videoObj[type], //视频地址
+        c: '0', // 是否读取文本配置,0不是，1是
+        lv: '1', // 是否是直播流，=1则锁定进度栏
+        p: '1', // 自动播放 0=默认暂停 1=默认播放 2=默认不加载视频
+        b: '0', // 是否允许和播放器进行交互，0=允许，1是不允许
+        loaded:'loadedHandler',//当播放器加载完成后发送该js函数loaded
+        wh: width + ':' + height,
+        my_url: encodeURIComponent(window.location.href) // 本页面地址
+      }
+      //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+      var params={bgcolor:'#000',allowFullScreen:true,allowScriptAccess:'always'}
+      // CKobject.embedSWF('ckplayer.swf地址[必需]','视频所在容器的ID[必需]','播放器的ID[必需]',
+      // '宽度[必需，支持具体值以及百分比]','高度[必需，支持具体值以及百分比]]',
+      // 初始化参数[必需],其它配置[非必需])
+      CKobject.embed('ckplayer6.8/ckplayer.swf','video','ckplayer_video','100%','100%',false,flashvars,params)
+    }
+    // 加载完成后执行
+    function loadedHandler(){
+      console.log('视频[' + videoObj.name + ']已经加载')
+      if (type == 'low') {
+        CKobject.getObjectById('ckplayer_video').changeFace(true)
+      }
+  	}
+    // 获取url参数
+    function getUrlKey(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+  </script>
+  </body>
+</html>

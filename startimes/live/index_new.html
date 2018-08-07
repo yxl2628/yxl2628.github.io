@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8">
+    <title>四达时代监控平台</title>
+    <link rel="stylesheet" href="static/index.css">
+    <style media="screen">
+      iframe {
+        background-color: #5f5f62;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <div class="main">
+        <iframe id="maxVideo" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+      </div>
+      <div class="other">
+        <div class="min">
+          <iframe id="minVideo1" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+        </div>
+        <div class="min">
+          <iframe id="minVideo2" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+        </div>
+        <div class="min">
+          <iframe id="minVideo3" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="header">
+        <div class="title">查看监控设备</div>
+        <div class="header-line"></div>
+        <div class="date">
+          <div class="date-week">
+            <div id="week"></div>
+            <div id="date"></div>
+          </div>
+          <div id="time" class="time"></div>
+        </div>
+      </div>
+      <div id="videoTree" class="video-list">
+      </div>
+      <div class="control">
+        摄像头控制
+      </div>
+    </div>
+    <script src="./static/video-list.js?v=1.0.0"></script>
+    <script src="./static/template-web.js"></script>
+    <script id="videoTreeTpl" type="text/html">
+      <ul class="country-list">
+        {{each list country key}}
+        <li class="country-item">
+          <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'">
+            <img class="country-flag" src="./static/country/{{country.enName}}.jpg" />
+            {{country.name}}
+          </div>
+          <ul class="camera-list">
+            {{each country.list camera}}
+            {{if key==currentCuntryId}}
+            <li class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="initVideoTree({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+            {{else}}
+            <li class="camera-name" onClick="javascript:location.href = location.pathname + '?id={{key}}&index={{$index}}'">{{camera.name}}</li>
+            {{/if}}
+            {{/each}}
+          </ul>
+        </li>
+        {{/each}}
+      </ul>
+    </script>
+    <script type="text/javascript">
+      var countryId = getUrlKey('id') || 1, videoIndex = getUrlKey('index') || 0
+      var currentVideoObj = videoList[countryId]
+      var currentVideoList = currentVideoObj.list
+      var maxIndex = 0, minVideoId = 1
+      if (currentVideoList != undefined) {
+        for (var i = 0; i < currentVideoList.length; i++) {
+          var ckplayerurl = './ckplayer6.8.html?id=' + countryId + '&index=' + i
+          if (i == maxIndex) {
+            document.getElementById('maxVideo').src = ckplayerurl + '&type=rtmp'
+          } else {
+            document.getElementById('minVideo' + minVideoId).src = ckplayerurl + '&type=low'
+            minVideoId++
+          }
+        }
+      }
+      getWeek()
+      getDate()
+      getTime()
+      initVideoTree(countryId, videoIndex)
+      setInterval(getTime, 10000)
+      function initVideoTree(currentCuntryId, currentIndex){
+        window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+        document.getElementById('videoTree').innerHTML = template('videoTreeTpl', {list: videoList, currentCuntryId: currentCuntryId, currentIndex: currentIndex})
+      }
+      // 获取url参数
+      function getUrlKey(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
+      }
+      // 获取星期
+      function getWeek() {
+        document.getElementById('week').innerText = '星期' + '日一二三四五六'.charAt(new Date().getDay())
+      }
+      // 获取日期
+      function getDate() {
+        var now = new Date()
+        var month = now.getMonth() + 1
+        var day = now.getDate()
+        month = month < 10 ? '0' + month : month
+        day = day < 10 ? '0' + day : day
+        document.getElementById('date').innerText = month + '.' + day
+      }
+      // 获取时间
+      function getTime() {
+        var now = new Date()
+        var hour = now.getHours()
+        var minute = now.getMinutes()
+        hour = hour < 10 ? '0' + hour : hour
+        minute = minute < 10 ? '0' + minute : minute
+        document.getElementById('time').innerText = hour + ' : ' + minute
+      }
+    </script>
+  </body>
+</html>

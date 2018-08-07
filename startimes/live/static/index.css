@@ -1,0 +1,132 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  display: flex;
+  background-color: #070924;
+}
+ul, ul li {
+  margin: 0;
+  padding: 0;
+}
+ul > li {
+  list-style: none;
+  line-height: 28px;
+}
+.left {
+  display: flex;
+  font-size: 0;
+  width: 75%;
+  height: 100%;
+}
+.right {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 14px;
+  width: 25%;
+  height: 100%;
+  color: #fff;
+}
+.main {
+  width: 75%;
+  height: 100%;
+}
+.other {
+  width: calc(25% - 10px);
+  margin-left: 10px;
+  height: 100%;
+}
+.min {
+  display: inline-block;
+  width: 100%;
+  height: calc((100% - 20px) / 3);
+}
+.min:not(:first-child) {
+  margin-top: 10px;
+}
+.header {
+  width: 100%;
+  height: 70px;
+  display: flex;
+}
+.title {
+  width: 39%;
+  line-height: 70px;
+  font-size: 22px;
+  font-weight: bold;
+  padding-left: 10px;
+}
+.header-line {
+  display: inline-block;
+  width: 1px;
+  height: 35px;
+  margin-top: 20px;
+  background-color: #61626d;
+}
+.date {
+  width: 60%;
+  padding-right: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.date-week {
+  line-height: 25px;
+  font-size: 18px;
+  padding-top: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-right: 15px;
+  text-align: center;
+}
+.time {
+  line-height: 70px;
+  font-size: 46px;
+  font-weight: bold;
+}
+.video-list {
+  background-color: #1d1c2c;
+  width: 100%;
+  height: 603px;
+  padding: 20px;
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, 0.6);
+}
+.country-item {
+  cursor: pointer;
+}
+.country-name {
+  font-size: 15px;
+}
+.country-name.active {
+  color: #fff;
+}
+.country-flag {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  line-height: 28px;
+  font-size: 0;
+  vertical-align: middle;
+}
+.camera-item {
+  cursor: pointer;
+}
+.camera-list {
+  margin-left: 40px;
+}
+.camera-name.active {
+  color: #fff;
+}
+.control {
+  background-color: #1d1c2c;
+  width: 100%;
+  height: calc(100% - 680px);
+  margin-top: 10px;
+}
+.arrow-down {
+
+}
