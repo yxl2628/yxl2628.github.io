@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>四达时代监控平台</title>
     <link rel="stylesheet" href="static/index.css">
+    <link rel="stylesheet" type="text/css" href="static/font/iconfont.css">
     <style media="screen">
       iframe {
         background-color: #5f5f62;
@@ -42,15 +43,16 @@
       <div id="videoTree" class="video-list">
       </div>
       <div class="control">
-        <div class="turnUp"></div>
-        <div class="turnDown"></div>
-        <div class="turnLeft"></div>
-        <div class="turnRight"></div>
-        <div class="zoomOut"></div>
-        <div class="zoomIn"></div>
+        <div class="turnUp" onmousedown="controlStart('TILT_UP')" onmouseup="controlEnd('TILT_UP')"><i class="iconfont icon-shang"></i></div>
+        <div class="turnDown" onmousedown="controlStart('TILT_DOWN')" onmouseup="controlEnd('TILT_DOWN')"><i class="iconfont icon-xia"></i></div>
+        <div class="turnLeft" onmousedown="controlStart('PAN_LEFT ')" onmouseup="controlEnd('PAN_LEFT ')"><i class="iconfont icon-zuo"></i></div>
+        <div class="turnRight" onmousedown="controlStart('PAN_RIGHT')" onmouseup="controlEnd('PAN_RIGHT')"><i class="iconfont icon-you"></i></div>
+        <div class="zoomIn" onmousedown="controlStart('ZOOM_IN')" onmouseup="controlEnd('ZOOM_IN')"><i class="iconfont icon-fangda"></i></div>
+        <div class="zoomOut" onmousedown="controlStart('ZOOM_OUT')" onmouseup="controlEnd('ZOOM_OUT')"><i class="iconfont icon-suoxiao"></i></div>
       </div>
     </div>
     <script src="./static/video-list.js?v=1.0.0"></script>
+    <script src="static/zepto.min.js" charset="utf-8"></script>
     <script src="./static/template-web.js"></script>
     <script id="videoTreeTpl" type="text/html">
       <ul class="country-list">
@@ -95,6 +97,7 @@
       initVideoTree(countryId, videoIndex)
       setInterval(getTime, 10000)
       function initVideoTree(currentCuntryId, currentIndex){
+        videoIndex = currentIndex
         window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
         document.getElementById('videoTree').innerHTML = template('videoTreeTpl', {list: videoList, currentCuntryId: currentCuntryId, currentIndex: currentIndex})
       }
@@ -126,6 +129,25 @@
         hour = hour < 10 ? '0' + hour : hour
         minute = minute < 10 ? '0' + minute : minute
         document.getElementById('time').innerText = hour + ' : ' + minute
+      }
+      // 发送按键请求
+      function controlStart(commandType){
+        var targetIp = currentVideoList[videoIndex].targetIp
+        $.post('http://' + baseURL + ':8084/controlStart', {
+          commandType: commandType,
+          targetIp: targetIp
+        }, function (res) {
+          console.log(res)
+        })
+      }
+      function controlEnd(commandType){
+        var targetIp = currentVideoList[videoIndex].targetIp
+        $.post('http://' + baseURL + ':8084/controlStart', {
+          commandType: commandType,
+          targetIp: targetIp
+        }, function (res) {
+          console.log(res)
+        })
       }
     </script>
   </body>
