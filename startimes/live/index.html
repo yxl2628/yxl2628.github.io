@@ -1,162 +1,235 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
-  <head>
-    <meta charset="utf-8">
-    <title>四达时代监控平台</title>
-    <link rel="stylesheet" href="static/index.css">
-    <link rel="stylesheet" type="text/css" href="static/font/iconfont.css">
-    <style media="screen">
-      iframe {
-        background-color: #5f5f62;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="left">
-      <div class="main">
-        <iframe id="maxVideo" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+
+<head>
+  <meta charset="utf-8">
+  <title>四达时代监控平台</title>
+  <link rel="stylesheet" href="static/index.css">
+  <link rel="stylesheet" type="text/css" href="static/font/iconfont.css">
+  <style media="screen">
+    iframe {
+      background-color: #5f5f62;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="left">
+    <div class="main">
+      <div id="maxVideo" class="video"></div>
+    </div>
+    <div class="other">
+      <div class="min">
+        <div id="minVideo1" class="video"></div>
       </div>
-      <div class="other">
-        <div class="min">
-          <iframe id="minVideo1" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
-        </div>
-        <div class="min">
-          <iframe id="minVideo2" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
-        </div>
-        <div class="min">
-          <iframe id="minVideo3" src="about:blank"  width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
-        </div>
+      <div class="min">
+        <div id="minVideo2" class="video"></div>
+      </div>
+      <div class="min">
+        <div id="minVideo3" class="video"></div>
       </div>
     </div>
-    <div class="right">
-      <div class="header">
-        <div class="title">查看监控设备</div>
-        <div class="header-line"></div>
-        <div class="date">
-          <div class="date-week">
-            <div id="week"></div>
-            <div id="date"></div>
-          </div>
-          <div id="time" class="time"></div>
+  </div>
+  <div class="right">
+    <div class="header">
+      <div class="title">查看监控设备</div>
+      <div class="header-line"></div>
+      <div class="date">
+        <div class="date-week">
+          <div id="week"></div>
+          <div id="date"></div>
         </div>
-      </div>
-      <div id="videoTree" class="video-list">
-      </div>
-      <div class="control">
-        <div class="turnUp" onmousedown="controlStart('TILT_UP')" onmouseup="controlEnd('TILT_UP')"><i class="iconfont icon-shang"></i></div>
-        <div class="turnDown" onmousedown="controlStart('TILT_DOWN')" onmouseup="controlEnd('TILT_DOWN')"><i class="iconfont icon-xia"></i></div>
-        <div class="turnLeft" onmousedown="controlStart('PAN_LEFT ')" onmouseup="controlEnd('PAN_LEFT ')"><i class="iconfont icon-zuo"></i></div>
-        <div class="turnRight" onmousedown="controlStart('PAN_RIGHT')" onmouseup="controlEnd('PAN_RIGHT')"><i class="iconfont icon-you"></i></div>
-        <div class="zoomIn" onmousedown="controlStart('ZOOM_IN')" onmouseup="controlEnd('ZOOM_IN')"><i class="iconfont icon-fangda"></i></div>
-        <div class="zoomOut" onmousedown="controlStart('ZOOM_OUT')" onmouseup="controlEnd('ZOOM_OUT')"><i class="iconfont icon-suoxiao"></i></div>
+        <div id="time" class="time"></div>
       </div>
     </div>
-    <script src="./static/video-list.js?v=1.0.0"></script>
-    <script src="static/zepto.min.js" charset="utf-8"></script>
-    <script src="./static/template-web.js"></script>
-    <script id="videoTreeTpl" type="text/html">
-      <ul class="country-list">
-        {{each list country key}}
-        <li class="country-item">
-          <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'">
-            <img class="country-flag" src="./static/country/{{country.enName}}.jpg" />
-            {{country.name}}
-          </div>
-          <ul class="camera-list">
-            {{each country.list camera}}
-            {{if key==currentCuntryId}}
-            <li class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="initVideoTree({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
-            {{else}}
-            <li class="camera-name" onClick="javascript:location.href = location.pathname + '?id={{key}}&index={{$index}}'">{{camera.name}}</li>
-            {{/if}}
-            {{/each}}
-          </ul>
-        </li>
-        {{/each}}
-      </ul>
-    </script>
-    <script type="text/javascript">
-      var countryId = getUrlKey('id') || 1, videoIndex = getUrlKey('index') || 0, minVideoId = 1
-      var currentVideoObj = videoList[countryId]
-      var currentVideoList = currentVideoObj.list
-      if (currentVideoList != undefined) {
-        initVideoPlayer()
-      }
-      getWeek()
-      getDate()
-      getTime()
-      initVideoTree(countryId, videoIndex)
-      setInterval(getTime, 10000)
-      // 初始化视频
-      function initVideoPlayer(){
-        for (var i = 0; i < currentVideoList.length; i++) {
-          var ckplayerurl = 'ckplayer6.8.html?id=' + countryId + '&index=' + i
-          if (i == videoIndex) {
-            document.getElementById('maxVideo').src = ckplayerurl + '&type=rtmp'
-          } else {
-            if (document.getElementById('minVideo' + minVideoId).src.indexOf(ckplayerurl + '&type=low') < 0) {
-              document.getElementById('minVideo' + minVideoId).src = ckplayerurl + '&type=low'
-            }
-            minVideoId++
-          }
+    <div id="videoTree" class="video-list">
+    </div>
+    <div class="control">
+      <div class="turnUp" data-type="TILT_UP"><i class="iconfont icon-shang"></i></div>
+      <div class="turnDown" data-type="TILT_DOWN"><i class="iconfont icon-xia"></i></div>
+      <div class="turnLeft" data-type="PAN_LEFT"><i class="iconfont icon-zuo"></i></div>
+      <div class="turnRight" data-type="PAN_RIGHT"><i class="iconfont icon-you"></i></div>
+      <div class="zoomIn" data-type="ZOOM_IN"><i class="iconfont icon-fangda"></i></div>
+      <div class="zoomOut" data-type="ZOOM_OUT"><i class="iconfont icon-suoxiao"></i></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="ckplayer/ckplayer.js"></script>
+  <script src="./static/video-list.js?v=1.0.0"></script>
+  <script src="static/jquery.min.js" charset="utf-8"></script>
+  <script src="./static/template-web.js"></script>
+  <script id="videoTreeTpl" type="text/html">
+    <ul class="country-list">
+      {{each list country key}}
+      <li class="country-item">
+        <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'">
+          <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
+        </div>
+        <ul class="camera-list">
+          {{each country.list camera}} {{if key==currentCuntryId}}
+          <li class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          {{else}}
+          <li class="camera-name" onClick="javascript:location.href = location.pathname + '?id={{key}}&index={{$index}}'">{{camera.name}}</li>
+          {{/if}} {{/each}}
+        </ul>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+  <script type="text/javascript">
+    var countryId = getUrlKey('id') || 1,
+      videoIndex = getUrlKey('index') || 0,
+      minVideoId = 1
+    var currentVideoObj = videoList[countryId]
+    var currentVideoList = currentVideoObj.list
+    var flashvars = {
+  		s: '0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
+      lv: '1', // 是否是直播流，=1则锁定进度栏
+      p: '1', // 自动播放 0=默认暂停 1=默认播放 2=默认不加载视频
+      b: '0', // 是否允许和播放器进行交互，0=允许，1是不允许
+      my_url: encodeURIComponent(window.location.href) // 本页面地址
+    }
+    //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always'}
+    if (currentVideoList != undefined) {
+      initVideoPlayer()
+    }
+    getWeek()
+    getDate()
+    getTime()
+    initVideoTree(countryId, videoIndex)
+    setInterval(getTime, 10000)
+    $(document).ready(function(){
+      $('.control > div').on('mousedown', function(){
+        controlPost('/start/', $(this).attr('data-type'))
+      })
+      $('.control > div').on('mouseup', function(){
+        controlPost('/end/', $(this).attr('data-type'))
+      })
+    })
+    // 初始化视频
+    function initVideoPlayer() {
+      for (var i = 0; i < currentVideoList.length; i++) {
+        var videoObj = currentVideoList[i]
+        if (i == videoIndex) {
+          var $videoDiv = $('#maxVideo')
+          flashvars.f = videoObj.rtmp
+          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
+          flashvars.loaded = 'loadedHandler' //当播放器加载完成后发送该js函数loaded
+          CKobject.embed('ckplayer/ckplayer.swf', 'maxVideo', 'ckplayer_maxVideo', '100%', '100%', false, flashvars, params)
+          $videoDiv.attr('url', videoObj.rtmp)
+        } else {
+          var $videoDiv = $('#minVideo' + minVideoId)
+          flashvars.f = videoObj.low
+          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
+          flashvars.loaded = 'loadedHandler' + minVideoId //当播放器加载完成后发送该js函数loaded
+          CKobject.embed('ckplayer/ckplayer.swf', 'minVideo' + minVideoId, 'ckplayer_minVideo' + minVideoId, '100%', '100%', false, flashvars, params)
+          $videoDiv.attr('url', videoObj.low)
+          minVideoId++
         }
-        minVideoId = 1
       }
-      // 初始化左侧树
-      function initVideoTree(currentCuntryId, currentIndex){
-        videoIndex = currentIndex
-        window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
-        document.getElementById('videoTree').innerHTML = template('videoTreeTpl', {list: videoList, currentCuntryId: currentCuntryId, currentIndex: currentIndex})
-        initVideoPlayer()
+      minVideoId = 1
+    }
+    // 更换大的视频
+    function changeMaxVideo(currentCuntryId, currentIndex){
+      videoIndex = currentIndex
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      for (var i = 0; i < currentVideoList.length; i++) {
+        var videoObj = currentVideoList[i]
+        if (i == currentIndex) {
+          CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->' + videoObj.rtmp + '}')
+          $('#maxVideo').attr('url', videoObj.rtmp)
+        } else {
+          if ($('#minVideo' + minVideoId).attr('url') != videoObj.low){
+            CKobject.getObjectById('ckplayer_minVideo' + minVideoId).newAddress('{f->' + videoObj.low + '}')
+            $('#minVideo' + minVideoId).attr('url', videoObj.low)
+          }
+          minVideoId++
+        }
       }
-      // 获取url参数
-      function getUrlKey(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg); //匹配目标参数
-        if (r != null) return unescape(r[2]);
-        return null; //返回参数值
-      }
-      // 获取星期
-      function getWeek() {
-        document.getElementById('week').innerText = '星期' + '日一二三四五六'.charAt(new Date().getDay())
-      }
-      // 获取日期
-      function getDate() {
-        var now = new Date()
-        var month = now.getMonth() + 1
-        var day = now.getDate()
-        month = month < 10 ? '0' + month : month
-        day = day < 10 ? '0' + day : day
-        document.getElementById('date').innerText = month + '.' + day
-      }
-      // 获取时间
-      function getTime() {
-        var now = new Date()
-        var hour = now.getHours()
-        var minute = now.getMinutes()
-        hour = hour < 10 ? '0' + hour : hour
-        minute = minute < 10 ? '0' + minute : minute
-        document.getElementById('time').innerText = hour + ' : ' + minute
-      }
-      // 发送按键请求
-      function controlStart(commandType){
-        var targetIp = currentVideoList[videoIndex].targetIp
-        $.post('http://' + baseURL + ':8084/controlStart', {
+      minVideoId = 1
+      initVideoTree(currentCuntryId, videoIndex)
+    }
+    // 初始化左侧树
+    function initVideoTree(currentCuntryId, currentIndex) {
+      videoIndex = currentIndex
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      $('#videoTree').html(template('videoTreeTpl', {
+        list: videoList,
+        currentCuntryId: currentCuntryId,
+        currentIndex: currentIndex
+      }))
+    }
+    // 加载完成后执行
+    function loadedHandler() {
+      console.log('视频(大)已经加载')
+      CKobject.getObjectById('ckplayer_video').addListener('fullScreen', 'fullScreenHandler')
+    }
+    // 加载完成后执行
+    function loadedHandler1() {
+      console.log('视频1已经加载')
+      CKobject.getObjectById('ckplayer_minVideo1').addListener('fullScreen', 'fullScreenHandler')
+    }
+    // 加载完成后执行
+    function loadedHandler2() {
+      console.log('视频2已经加载')
+      CKobject.getObjectById('ckplayer_minVideo2').addListener('fullScreen', 'fullScreenHandler')
+    }
+    // 加载完成后执行
+    function loadedHandler3() {
+      console.log('视频3已经加载')
+      CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler')
+    }
+    // 监听全屏事件
+    function fullScreenHandler(b) {
+      console.log('视频【' + videoObj.name + '】全屏，播放大码率视频，关闭其他视频')
+      CKobject.getObjectById('ckplayer_video').newAddress('{f->' + videoObj.rtmp + '}')
+    }
+    // 获取url参数
+    function getUrlKey(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return unescape(r[2]);
+      return null; //返回参数值
+    }
+    // 获取星期
+    function getWeek() {
+      $('#week').text('星期' + '日一二三四五六'.charAt(new Date().getDay()))
+    }
+    // 获取日期
+    function getDate() {
+      var now = new Date()
+      var month = now.getMonth() + 1
+      var day = now.getDate()
+      month = month < 10 ? '0' + month : month
+      day = day < 10 ? '0' + day : day
+      $('#date').text( month + '.' + day)
+    }
+    // 获取时间
+    function getTime() {
+      var now = new Date()
+      var hour = now.getHours()
+      var minute = now.getMinutes()
+      hour = hour < 10 ? '0' + hour : hour
+      minute = minute < 10 ? '0' + minute : minute
+      $('#time').text(hour + ' : ' + minute)
+    }
+    // 发送按键请求
+    function controlPost(method, commandType) {
+      var targetIp = currentVideoList[videoIndex].targetIp
+      $.ajax({
+        type : "POST",
+        url: 'http://' + baseURL + ':8888/monitorControl' + method,
+        data :JSON.stringify({
           commandType: commandType,
-          targetIp: targetIp
-        }, function (res) {
+          targetDVR: targetIp
+        }),
+        success: function(res) {
           console.log(res)
-        })
-      }
-      function controlEnd(commandType){
-        var targetIp = currentVideoList[videoIndex].targetIp
-        $.post('http://' + baseURL + ':8084/controlStart', {
-          commandType: commandType,
-          targetIp: targetIp
-        }, function (res) {
-          console.log(res)
-        })
-      }
-    </script>
-  </body>
+        }
+      })
+    }
+
+  </script>
+</body>
+
 </html>

@@ -42,5 +42,17 @@ var videoList = {
         low:  'http://' + baseURL + ':8083/live/livestream5.flv',
       }
     ]
+  },
+  '3': {
+    name: '四达时代测试',
+    enName: 'StarTimes',
+    list: [
+      {
+        name: '测试转向',
+        targetIp: '10.12.252.162',
+        rtmp:  'http://' + baseURL + ':8082/live/livestream9.flv',
+        low:  'http://' + baseURL + ':8082/live/livestream9.flv',
+      }
+    ]
   }
 }

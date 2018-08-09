@@ -1,117 +1,67 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
-
-<head>
-  <meta charset="utf-8">
-  <title></title>
-  <style media="screen">
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-  </style>
-</head>
-
-<body>
+  <head>
+    <meta charset="utf-8">
+    <title>ckplayer播放器</title>
+    <style media="screen">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #video {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="video"></div>
   <script type="text/javascript" src="ckplayer/ckplayer.js"></script>
-  <script src="./static/list.js?v=1.0.1"></script>
-  <div id="video" style="width:100%;height:100%;"></div>
+  <script src="./static/video-list.js?v=1.0.0"></script>
   <script type="text/javascript">
-    var param_id = getUrlKey('id')
-    var param_type = getUrlKey('type')
-    var param_video = null
-    var videoObject = {
-      container: '#video',
-      variable: 'player',
-      autoplay: true,
-      loaded: 'loadedHandler', //当播放器加载后执行的函数
-      video: ''
-    };
-    var player = new ckplayer(videoObject)
-
+    var type = getUrlKey('type'), id = getUrlKey('id'), index = getUrlKey('index')
+    var width = document.body.offsetWidth, height = document.body.offsetHeight
+    var videoObj = videoList[id].list[index]
     window.onload = function() {
-      var video = document.getElementById('video');
-      video.style.width = document.body.offsetWidth + 'px';
-      video.style.height = document.body.offsetHeight + 'px';
-
-      if (param_id === undefined) {
-        alert('未获取到正确的视频id')
+      var flashvars = {
+        f: videoObj[type], //视频地址
+        c: '0', // 是否读取文本配置,0不是，1是
+        lv: '1', // 是否是直播流，=1则锁定进度栏
+        p: '1', // 自动播放 0=默认暂停 1=默认播放 2=默认不加载视频
+        b: '0', // 是否允许和播放器进行交互，0=允许，1是不允许
+        loaded:'loadedHandler',//当播放器加载完成后发送该js函数loaded
+        wh: width + ':' + height,
+        my_url: encodeURIComponent(window.location.href) // 本页面地址
       }
-      param_video = videoList[param_id - 1]
-      if (param_video != undefined) {
-        var url = param_type == 'main' ? param_video.rtmp : param_video.low
-        changeVideo(url)
-      }
+      //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+      var params={bgcolor:'#000',allowFullScreen:true,allowScriptAccess:'always'}
+      // CKobject.embedSWF('ckplayer.swf地址[必需]','视频所在容器的ID[必需]','播放器的ID[必需]',
+      // '宽度[必需，支持具体值以及百分比]','高度[必需，支持具体值以及百分比]]',
+      // 初始化参数[必需],其它配置[非必需])
+      CKobject.embed('ckplayer/ckplayer.swf','video','ckplayer_video','100%','100%',false,flashvars,params)
     }
-
-    function loadedHandler() {
-      player.addListener('full', fullHandler)
+    // 加载完成后执行
+    function loadedHandler(){
+      console.log('视频[' + videoObj.name + ']已经加载')
+      CKobject.getObjectById('ckplayer_video').addListener('fullScreen','fullScreenHandler')
+      if (type == 'rtmp') {
+        CKobject.getObjectById('ckplayer_video').addListener('netStatus','videoHandler')
+      }
+  	}
+    // 监听全屏事件
+    function fullScreenHandler(b) {
+      console.log('视频【' + videoObj.name + '】全屏，播放大码率视频，关闭其他视频')
+      CKobject.getObjectById('ckplayer_video').newAddress('{f->' + videoObj.rtmp + '}')
     }
-    function fullHandler(b) {
-    	if (b) {
-        if (param_video != undefined) {
-          console.log('视频：' + param_id + '全屏，播放高清视频：' + param_video.rtmp)
-          changeVideo(param_video.rtmp)
-          parent.stopOtherVideo(param_id)
-        }
-      } else {
-        if (param_video != undefined) {
-          var change_url = param_type == 'main' ? param_video.rtmp : param_video.low
-          console.log('视频：' + param_id + '退出全屏，播放原始视频：' + change_url)
-          changeVideo(change_url)
-          parent.startOtherVideo(param_id, 'play')
-        }
-      }
-    }
-    function stopVideo(){
-      console.log('视频：' + param_id + '停止播放')
-      player.videoPause()
-      changeVideo('')
-    }
-    function startVideo(){
-      console.log('视频：' + param_id + '开始播放')
-      if (param_video != undefined) {
-        var change_url = param_type == 'main' ? param_video.rtmp : param_video.low
-        changeVideo(change_url)
-      }
-    }
-    // 修改播放地址
-    function changeVideo(videoUrl) {
-      if (player == null) {
-        return;
-      }
-
-      var newVideoObject = {
-        container: '#video', //容器的ID
-        variable: 'player',
-        autoplay: true, //是否自动播放
-        loaded: 'loadedHandler',
-        video: videoUrl
-      }
-      //判断是需要重新加载播放器还是直接换新地址
-      if (player.playerType == 'html5video') {
-        if (player.getFileExt(videoUrl) == '.flv' || player.getFileExt(videoUrl) == '.m3u8' || player.getFileExt(videoUrl) == '.f4v' || videoUrl.substr(0, 4) == 'rtmp') {
-          player.removeChild();
-
-          player = null;
-          player = new ckplayer();
-          player.embed(newVideoObject);
-        } else {
-          player.newVideo(newVideoObject);
-        }
-      } else {
-        if (player.getFileExt(videoUrl) == '.mp4' || player.getFileExt(videoUrl) == '.webm' || player.getFileExt(videoUrl) == '.ogg') {
-          player = null;
-          player = new ckplayer();
-          player.embed(newVideoObject);
-        } else {
-          player.newVideo(newVideoObject);
-        }
-      }
+    function videoHandler(s){
+      var now = new Date()
+      var status = CKobject.getObjectById('ckplayer_video').getStatus()
+      console.log('开始监听视频:',now.getMinutes() + ':' + now.getSeconds() + '.' + now.getMilliseconds(),s, status)
     }
     // 获取url参数
     function getUrlKey(name) {
@@ -121,6 +71,5 @@
       return null; //返回参数值
     }
   </script>
-</body>
-
+  </body>
 </html>
