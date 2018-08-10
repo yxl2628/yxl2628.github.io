@@ -19,7 +19,6 @@ ul > li {
   line-height: 28px;
 }
 .left {
-  position: relative;
   display: flex;
   font-size: 0;
   width: 75%;
@@ -49,6 +48,13 @@ ul > li {
 .mask-info img{
   margin-left: 15px;
 }
+.mask-info.min-info {
+  font-size: 12px;
+}
+.mask-info.min-info img{
+  margin-left: 8px;
+  width: 30px;
+}
 .right {
   display: inline-block;
   margin-left: 10px;
@@ -58,6 +64,7 @@ ul > li {
   color: #fff;
 }
 .main {
+  position: relative;
   width: 75%;
   height: 100%;
 }
@@ -67,6 +74,7 @@ ul > li {
   height: 100%;
 }
 .min {
+  position: relative;
   display: inline-block;
   width: 100%;
   height: calc((100% - 20px) / 3);

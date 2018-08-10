@@ -17,20 +17,29 @@
   <div class="left">
     <div class="main">
       <div id="maxVideo" class="video"></div>
+      <div id="loading" class="mask">
+        <div id="info" class="mask-info">网络连接中<img src="static/loading.gif" /></div>
+      </div>
     </div>
     <div class="other">
       <div class="min">
         <div id="minVideo1" class="video"></div>
+        <div id="loading1" class="mask">
+          <div id="info1" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
       </div>
       <div class="min">
         <div id="minVideo2" class="video"></div>
+        <div id="loading2" class="mask">
+          <div id="info2" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
       </div>
       <div class="min">
         <div id="minVideo3" class="video"></div>
+        <div id="loading3" class="mask">
+          <div id="info3" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
       </div>
-    </div>
-    <div id="loading" class="mask">
-      <div id="info" class="mask-info">网络连接中<img src="static/loading.gif" /></div>
     </div>
   </div>
   <div class="right">
@@ -93,9 +102,7 @@
     }
     //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
     var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always'}
-    var $loadingDiv = $('#loading'), $info = $('#info')
     $(document).ready(function(){
-      // $info.html(currentVideoObj.name + '信号切换中<img src="static/loading.gif" />' )
       if (currentVideoList != undefined) {
         initVideoPlayer(videoIndex)
       }
@@ -120,6 +127,13 @@
     function initVideoPlayer(currentIndex) {
       for (var i = 0; i < currentVideoList.length; i++) {
         var videoObj = currentVideoList[i]
+        if (i == 0) {
+          $('#loading').show()
+          $('#info').html('网络连接中<img src="static/loading.gif" />')
+        } else {
+          $('#loading' + i).show()
+          $('#info' + i).html('网络连接中<img src="static/loading.gif" />')
+        }
         if (i == currentIndex) {
           var $videoDiv = $('#maxVideo')
           flashvars.f = videoObj.rtmp
@@ -141,8 +155,6 @@
     }
     // 更换大的视频
     function changeMaxVideo(currentCuntryId, currentIndex){
-      $loadingDiv.show()
-      $info.html('网络连接中<img src="static/loading.gif" />')
       videoIndex = currentIndex
       window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
       initVideoPlayer(currentIndex)
@@ -163,42 +175,21 @@
       CKobject.getObjectById('ckplayer_maxVideo').addListener('fullScreen', 'fullScreenHandler')
       CKobject.getObjectById('ckplayer_maxVideo').addListener('netStatus','videoHandler')
     }
-    function videoHandler(s){
-      switch (s) {
-        case 'NetConnection.Connect.Success':
-          $info.html('网络连接中<img src="static/loading.gif" />')
-          break;
-        case 'NetStream.Play.Start':
-          $info.html('网络连接成功<img src="static/loading.gif" />')
-          break;
-        case 'NetStream.Unpause.Notify':
-          $info.html('视频加载中<img src="static/loading.gif" />')
-          break;
-        case 'NetStream.Buffer.Full':
-          $loadingDiv.hide()
-          CKobject.getObjectById('ckplayer_maxVideo').removeListener('netStatus','videoHandler')
-          break;
-        case 'NetStream.Play.StreamNotFound':
-          $info.text('视频连接失败')
-          setTimeout(function(){
-            CKobject.getObjectById('ckplayer_maxVideo').removeListener('netStatus','videoHandler')
-          },1000)
-          break;
-        default:
-          console.log(s)
-      }
-  	}
+
     // 加载完成后执行
     function loadedHandler1() {
       CKobject.getObjectById('ckplayer_minVideo1').addListener('fullScreen', 'fullScreenHandler1')
+      CKobject.getObjectById('ckplayer_minVideo1').addListener('netStatus','videoHandler1')
     }
     // 加载完成后执行
     function loadedHandler2() {
       CKobject.getObjectById('ckplayer_minVideo2').addListener('fullScreen', 'fullScreenHandler2')
+      CKobject.getObjectById('ckplayer_minVideo2').addListener('netStatus','videoHandler2')
     }
     // 加载完成后执行
     function loadedHandler3() {
       CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler3')
+      CKobject.getObjectById('ckplayer_minVideo3').addListener('netStatus','videoHandler3')
     }
     // 监听全屏事件
     function fullScreenHandler(b) {
@@ -230,6 +221,48 @@
         closeOtherVideo(3)
       } else {
         initVideoPlayer(videoIndex)
+      }
+    }
+    // 监听视频流
+    function videoHandler(s){
+      handlerVideoStatus(s, '')
+  	}
+    // 监听视频流
+    function videoHandler1(s){
+      handlerVideoStatus(s, '1')
+  	}
+    // 监听视频流
+    function videoHandler2(s){
+      handlerVideoStatus(s, '2')
+  	}
+    // 监听视频流
+    function videoHandler3(s){
+      handlerVideoStatus(s, '3')
+  	}
+    // 解析视频流
+    function handlerVideoStatus(s, id) {
+      var $loading = $('#loading' + id),$info = $('#info' + id)
+      var ckpayerId = !id? 'maxVideo' : ('minVideo' + i)
+      switch (s) {
+        case 'NetConnection.Connect.Success':
+          $info.html('网络连接中<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Play.Start':
+          $info.html('网络连接成功<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Unpause.Notify':
+          $info.html('视频加载中<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Buffer.Full':
+          $loading.hide()
+          CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
+          break;
+        case 'NetStream.Play.StreamNotFound':
+          $info.text('视频连接失败')
+          setTimeout(function(){
+            CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
+          },1000)
+          break;
       }
     }
     // 关闭视频
