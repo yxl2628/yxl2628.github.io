@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ckplayer>
-	<style>		
+	<style>
 		<controlbar>background.png</controlbar>
 		<!--
 		控制栏背景图片
@@ -208,8 +208,8 @@
 		<pr_clock2>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}[$Time] / {/font}{font color='#CFCFCF' face='Microsoft YaHei,微软雅黑' size='14'}[$TimeAll][$Timewait]{/font}</pr_clock2>
 		<!--
 		这里显示播放时间和总时间，[$Time]会被替换成已播放时间，[$TimeAll]会被替换成总时间
-		[$Timewait]参数会被替换成在默认不加载的时候并且没有设置各段视频的时间和字节的时候显示pr_clockwait的值 
-		ck.pr_clock和ck.pr_clock2配合使用可以同时在二个不同的位置显示已播放时间和总时间 
+		[$Timewait]参数会被替换成在默认不加载的时候并且没有设置各段视频的时间和字节的时候显示pr_clockwait的值
+		ck.pr_clock和ck.pr_clock2配合使用可以同时在二个不同的位置显示已播放时间和总时间
 		-->
 		<pm_timestyle>1</pm_timestyle>
 		<!--
@@ -223,7 +223,7 @@
 			3、水平偏移量
 			4、垂直偏移量
 		-->
-		<pm_vol>2,2,-160,-20,60,5,10,10</pm_vol>
+		<pm_vol>2,2,-110,-20,60,5,10,10</pm_vol>
 		<!--
 		音量调节框的坐标
 			1、水平对齐方式，0是左，1是中，2是右
@@ -235,7 +235,7 @@
 			7、拖动按钮的宽度
 			8、拖动按钮的高度
 		-->
-		<pm_sound>2,2,-195,-35</pm_sound>
+		<pm_sound>2,2,-145,-35</pm_sound>
 		<!--
 		静音和取消静音的坐标
 			1、水平对齐方式，0是左，1是中，2是右
@@ -265,7 +265,7 @@
 			1、没有暂停广告时水平对齐方式，0是左，1是中，2是右
 			2、没有暂停广告时垂直对齐方式，0是上，1是中，2是下
 			3、没有暂停广告时水平偏移量
-			4、没有暂停广告时垂直偏移量 
+			4、没有暂停广告时垂直偏移量
 			5、宽度
 			6、高度
 			7、有暂停广告时水平对齐方式，0是左，1是中，2是右
@@ -282,7 +282,7 @@
 			4、播放器最小高度
 			3，4二个值主要是控制不让播放器上各元素错位
 		-->
-		<pm_video>0,0,0,41,0xffdd00,0,0,0,0,0</pm_video>
+		<pm_video>0,0,0,0,0xffdd00,0,0,0,0,0</pm_video>
 		<!--
 		视频固定区域
 			1、控制栏未隐藏时左边预留宽
@@ -332,11 +332,11 @@
 			4、进度颜色
 			5、进度颜色的透明度
 		-->
-		<cpt>partingline.png,2,2,-82,-35,0,1</cpt>
+		<!-- <cpt>partingline.png,2,2,-82,-35,0,1</cpt> -->
 		<!--
 		间隔线，用来隔开设置插件和音量调节框
 		-->
-		<cpt>cksetup.swf,2,2,-76,-35,2,1</cpt>
+		<!-- <cpt>cksetup.swf,2,2,-76,-35,2,1</cpt> -->
 		<!--
 		设置插件
 		-->
