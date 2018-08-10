@@ -8,26 +8,26 @@ var videoList = {
       {
         name: '播控中心-肯尼亚',
         targetIp: '10.12.252.160',
-        rtmp:  'http://' + baseURL + ':8082/live/livestream1.flv',
-        low:  'http://' + baseURL + ':8082/live/livestream5.flv',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream5.flv',
       },
       {
         name: '监控室-肯尼亚',
         targetIp: '10.12.252.161',
-        rtmp:  'http://' + baseURL + ':8082/live/livestream2.flv',
-        low:  'http://' + baseURL + ':8082/live/livestream6.flv',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream2.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream6.flv',
       },
       {
         name: '户外-肯尼亚',
         targetIp: '10.12.252.163',
-        rtmp:  'http://' + baseURL + ':8082/live/livestream3.flv',
-        low:  'http://' + baseURL + ':8082/live/livestream7.flv',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream3.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream7.flv',
       },
       {
         name: '机房-肯尼亚',
         targetIp: '10.12.252.164',
-        rtmp:  'http://' + baseURL + ':8082/live/livestream4.flv',
-        low:  'http://' + baseURL + ':8082/live/livestream8.flv',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream4.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream8.flv',
       }
     ]
   },
@@ -50,8 +50,8 @@ var videoList = {
       {
         name: '测试转向',
         targetIp: '10.12.252.162',
-        rtmp:  'http://' + baseURL + ':8082/live/livestream9.flv',
-        low:  'http://' + baseURL + ':8082/live/livestream9.flv',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream9.flv',
       }
     ]
   }

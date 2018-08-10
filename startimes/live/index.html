@@ -99,11 +99,28 @@
     initVideoTree(countryId, videoIndex)
     setInterval(getTime, 10000)
     $(document).ready(function(){
+      var time = 0
       $('.control > div').on('mousedown', function(){
-        controlPost('/start/', $(this).attr('data-type'))
+        controlPost('/start/', $(this).attr('data-type'), function(res) {
+          console.log('start', res)
+          if (res == 'success') {
+            time = new Date().getTime()
+          }
+        })
       })
       $('.control > div').on('mouseup', function(){
-        controlPost('/end/', $(this).attr('data-type'))
+        var _this = this
+        if (time > 0 && (new Date().getTime() - time > 1000)) {
+          controlPost('/stop/', $(_this).attr('data-type'), function(res) {
+            time = 0
+          })
+        } else {
+          setTimeout(function(){
+            controlPost('/stop/', $(_this).attr('data-type'), function(res) {
+              time = 0
+            })
+          }, 1000)
+        }
       })
     })
     // 初始化视频
@@ -214,17 +231,17 @@
       $('#time').text(hour + ' : ' + minute)
     }
     // 发送按键请求
-    function controlPost(method, commandType) {
+    function controlPost(method, commandType, success) {
       var targetIp = currentVideoList[videoIndex].targetIp
       $.ajax({
         type : "POST",
-        url: 'http://' + baseURL + ':8888/monitorControl' + method,
+        url: 'http://' + baseURL + ':8000/monitorControl' + method,
         data :JSON.stringify({
           commandType: commandType,
           targetDVR: targetIp
         }),
         success: function(res) {
-          console.log(res)
+          success && success(res)
         }
       })
     }
