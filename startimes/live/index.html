@@ -57,12 +57,21 @@
     <div id="videoTree" class="video-list">
     </div>
     <div class="control">
-      <div class="turnUp" data-type="TILT_UP"><i class="iconfont icon-shang"></i></div>
-      <div class="turnDown" data-type="TILT_DOWN"><i class="iconfont icon-xia"></i></div>
-      <div class="turnLeft" data-type="PAN_LEFT"><i class="iconfont icon-zuo"></i></div>
-      <div class="turnRight" data-type="PAN_RIGHT"><i class="iconfont icon-you"></i></div>
-      <div class="zoomIn" data-type="ZOOM_IN"><i class="iconfont icon-fangda"></i></div>
-      <div class="zoomOut" data-type="ZOOM_OUT"><i class="iconfont icon-suoxiao"></i></div>
+      <div class="controler-direction">
+        <div class="outter-circle">
+          <div class="direction control-btn" data-type="TILT_UP">·</div>
+          <div class="direction control-btn" data-type="PAN_RIGHT">·</div>
+          <div class="direction control-btn" data-type="PAN_LEFT">·</div>
+          <div class="direction control-btn" data-type="TILT_DOWN">·</div>
+        </div>
+          <div class="inner-circle"></div>
+      </div>
+      <div class="controler-zoom">
+        <div class="zoom control-btn" data-type="ZOOM_IN">+</div>
+        <div class="zoom">缩放</div>
+        <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
+      </div>
+      <div class="controler-setting"></div>
     </div>
   </div>
   <script type="text/javascript" src="ckplayer/ckplayer.js"></script>
@@ -111,12 +120,12 @@
       getTime()
       initVideoTree(countryId, videoIndex)
       setInterval(getTime, 10000)
-      $('.control > div').on('mousedown', function(){
+      $('.control-btn').on('mousedown', function(){
         controlPost('/start/', $(this).attr('data-type'), function(res) {
           console.log('start', res)
         })
       })
-      $('.control > div').on('mouseup', function(){
+      $('.control-btn').on('mouseup', function(){
         var _this = this
         controlPost('/stop/', $(_this).attr('data-type'), function(res) {
           console.log('stop', res)

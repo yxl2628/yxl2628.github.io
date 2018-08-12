@@ -166,48 +166,66 @@ ul > li {
   height: calc(33.333% - 5px);
   margin-top: 10px;
 }
-.control .iconfont {
-  line-height: 60px;
-  font-size: 26px;
-}
-.turnUp, .turnDown, .turnLeft, .turnRight, .zoomOut, .zoomIn {
+.controler-direction {
   position: absolute;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid #5c5b67;
-  cursor: pointer;
+  width: 8rem;
+  height: 8rem;
+  top: 50%;
+  margin-top: -4rem;
+  left: 15%;
+}
+.controler-direction .outter-circle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  overflow: hidden;
+  transform-origin: center;
+  transform: rotate(45deg);
+  border: 1px solid #fff;
+}
+.controler-direction .direction {
+  float: left;
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
   text-align: center;
-  line-height: 60px;
+  font-size: 20px;
+  cursor: pointer;
 }
-/* .turnUp:hover, .turnDown:hover, .turnLeft:hover, .turnRight:hover, .zoomOut:hover, .zoomIn:hover {
-  border: 2px solid #3191d9;
-} */
-.turnUp:active, .turnDown:active, .turnLeft:active, .turnRight:active, .zoomOut:active, .zoomIn:active {
-  border: 2px solid #3191d9;
-  color: #3191d9;
+.controler-direction .inner-circle {
+  position: absolute;
+  top: 27.5%;
+  left: 27.5%;
+  width: 45%;
+  height: 45%;
+  border: 1px solid #fff;
+  border-radius: 100%;
 }
-.turnUp {
-  top: 20%;
-  left: 25%;
-}
-.turnDown {
-  top: 60%;
-  left: 25%;
-}
-.turnLeft {
-  top: 40%;
-  left: 10%;
-}
-.turnRight {
-  top: 40%;
-  left: 40%;
-}
-.zoomIn {
-  top: 20%;
+.controler-zoom {
+  position: absolute;
+  top: 30%;
   left: 70%;
+  width: 2rem;
+  height: 6.6rem;
+  text-align: center;
+  line-height: 2.2rem;
 }
-.zoomOut {
-  top: 60%;
-  left: 70%;
+.zoom:nth-child(1) {
+  border-radius: 50% 50% 0 0;
+  border: 1px solid #fff;
+  border-bottom: 0;
+  cursor: pointer;
+}
+.zoom:nth-child(2) {
+  border: 1px solid #fff;
+  border-top: 0;
+  border-bottom: 0;
+  font-size: 12px;
+}
+.zoom:nth-child(3) {
+  border-radius: 0 0 50% 50%;
+  border: 1px solid #fff;
+  border-top: 0;
+  cursor: pointer;
 }
