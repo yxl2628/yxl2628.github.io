@@ -18,6 +18,8 @@
     <div class="main">
       <div id="maxVideo" class="video"></div>
       <div id="loading" class="mask">
+        <img src="static/loading-mask.png" class="loading-mask"/>
+        <img src="static/loading-body.png" class="loading-body"/>
         <div id="info" class="mask-info">网络连接中<img src="static/loading.gif" /></div>
       </div>
     </div>
@@ -25,18 +27,24 @@
       <div class="min">
         <div id="minVideo1" class="video"></div>
         <div id="loading1" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
           <div id="info1" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
         </div>
       </div>
       <div class="min">
         <div id="minVideo2" class="video"></div>
         <div id="loading2" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
           <div id="info2" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
         </div>
       </div>
       <div class="min">
         <div id="minVideo3" class="video"></div>
         <div id="loading3" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
           <div id="info3" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
         </div>
       </div>
@@ -71,7 +79,18 @@
         <div class="zoom">缩放</div>
         <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
       </div>
-      <div class="controler-setting"></div>
+      <div class="controler-setting">
+        <i class="iconfont icon-settings"></i>
+        <ul class="controler-speed">
+          <li data-speed="1">1倍</li>
+          <li data-speed="2">2倍</li>
+          <li data-speed="3">3倍</li>
+          <li data-speed="4" class="active">4倍</li>
+          <li data-speed="5">5倍</li>
+          <li data-speed="6">6倍</li>
+          <li data-speed="7">7倍</li>
+        </ul>
+      </div>
     </div>
   </div>
   <script type="text/javascript" src="ckplayer/ckplayer.js"></script>
@@ -87,7 +106,7 @@
         </div>
         <ul class="camera-list">
           {{each country.list camera}} {{if key==currentCuntryId}}
-          <li class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
           {{else}}
           <li class="camera-name" onClick="javascript:location.href = location.pathname + '?id={{key}}&index={{$index}}'">{{camera.name}}</li>
           {{/if}} {{/each}}
@@ -119,7 +138,9 @@
       getDate()
       getTime()
       initVideoTree(countryId, videoIndex)
+      getCameraStatus(countryId)
       setInterval(getTime, 10000)
+      setInterval(getCameraStatus, 600000)
       $('.control-btn').on('mousedown', function(){
         controlPost('/start/', $(this).attr('data-type'), function(res) {
           console.log('start', res)
@@ -129,6 +150,15 @@
         var _this = this
         controlPost('/stop/', $(_this).attr('data-type'), function(res) {
           console.log('stop', res)
+        })
+      })
+      $('.controler-speed > li').on('click', function() {
+        var _this = this
+        $(this).addClass('active')
+        $('.controler-speed > li').each(function(){
+          if(this != _this) {
+            $(this).removeClass('active')
+          }
         })
       })
     })
@@ -178,6 +208,21 @@
         currentCuntryId: currentCuntryId,
         currentIndex: currentIndex
       }))
+    }
+    // 获取视频状态
+    function getCameraStatus() {
+      for (var i = 0; i < currentVideoList.length; i++) {
+        $.ajax({
+          type : "POST",
+          url: 'http://' + baseURL + ':8000/status/',
+          data :JSON.stringify({
+            targetDVR: currentVideoList[i].targetIp
+          }),
+          success: function(res) {
+            console.log('status:', res)
+          }
+        })
+      }
     }
     // 加载完成后执行
     function loadedHandler() {
@@ -319,12 +364,14 @@
     // 发送按键请求
     function controlPost(method, commandType, success) {
       var targetIp = currentVideoList[videoIndex].targetIp
+      var speed = $('.controler-speed > li.active').attr('data-speed')
       $.ajax({
         type : "POST",
         url: 'http://' + baseURL + ':8000/monitorControl' + method,
         data :JSON.stringify({
           commandType: commandType,
-          targetDVR: targetIp
+          targetDVR: targetIp,
+          speed: speed
         }),
         success: function(res) {
           success && success(res)
