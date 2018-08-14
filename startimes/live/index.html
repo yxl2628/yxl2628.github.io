@@ -278,41 +278,39 @@
     // 监听全屏事件
     function fullScreenHandler(b) {
       if (b) {
-        closeOtherVideo(0)
-      } else {
-        initVideoPlayer(videoIndex)
+        openMaxVideo(0)
       }
     }
     // 监听全屏事件
     function fullScreenHandler1(b) {
       if (b) {
-        closeOtherVideo(1)
+        openMaxVideo(0)
       } else {
-        initVideoPlayer(videoIndex)
+        // initVideoPlayer(videoIndex)
       }
     }
     // 监听全屏事件
     function fullScreenHandler2(b) {
       if (b) {
-        closeOtherVideo(2)
+        openMaxVideo(1)
       } else {
-        initVideoPlayer(videoIndex)
+        // initVideoPlayer(videoIndex)
       }
     }
     // 监听全屏事件
     function fullScreenHandler3(b) {
       if (b) {
-        closeOtherVideo(3)
+        openMaxVideo(2)
       } else {
-        initVideoPlayer(videoIndex)
+        // initVideoPlayer(videoIndex)
       }
     }
     // 监听全屏事件
     function fullScreenHandler4(b) {
       if (b) {
-        closeOtherVideo(4)
+        openMaxVideo(3)
       } else {
-        initVideoPlayer(videoIndex)
+        // initVideoPlayer(videoIndex)
       }
     }
     // 监听视频流
@@ -363,17 +361,24 @@
       }
     }
     // 关闭视频
-    function closeOtherVideo(index) {
-      for (var i = 0; i < currentVideoList.length; i++) {
-        var ckpayerId = i == 0 ? 'maxVideo' : ('minVideo' + i)
-        if (i != index) {
-          CKobject.getObjectById('ckplayer_' + ckpayerId).videoClear()
-        } else {
-          if (index != 0) {
-            CKobject.getObjectById('ckplayer_' + ckpayerId).newAddress('{f->' + currentVideoList[i].rtmp + '}')
-          }
-        }
+    function openMaxVideo(index) {
+      // index=0时，不需要做其它操作
+      if (index > 0) {
+        // 主视频停止播放
+        CKobject.getObjectById('ckplayer_maxVideo').videoClear()
+        // 小视频切换成大码率
+        CKobject.getObjectById('ckplayer_minVideo' + (index + 1)).newAddress('{f->' + currentVideoList[index].rtmp + '}')
       }
+      // for (var i = 0; i < currentVideoList.length; i++) {
+      //   var ckpayerId = i == 0 ? 'maxVideo' : ('minVideo' + i)
+      //   if (i != index) {
+      //     CKobject.getObjectById('ckplayer_' + ckpayerId).videoClear()
+      //   } else {
+      //     if (index != 0) {
+      //       CKobject.getObjectById('ckplayer_' + ckpayerId).newAddress('{f->' + currentVideoList[i].rtmp + '}')
+      //     }
+      //   }
+      // }
     }
     // 获取url参数
     function getUrlKey(name) {
