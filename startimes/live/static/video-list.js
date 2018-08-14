@@ -1,5 +1,5 @@
 var baseURL = window.location.hostname
-// baseURL = '192.168.32.167'
+baseURL = baseURL == '127.0.0.1' ? '192.168.32.167' : baseURL
 var videoList = {
   '1': {
     name: '肯尼亚',
