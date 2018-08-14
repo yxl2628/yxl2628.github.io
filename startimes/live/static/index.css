@@ -118,6 +118,7 @@ ul > li {
   height: 100%;
 }
 .other {
+  position: relative;
   width: calc(25% - 10px);
   margin-left: 10px;
   height: 100%;
@@ -127,16 +128,20 @@ ul > li {
   display: inline-block;
   width: 100%;
   height: calc((100% - 20px) / 3);
+  margin-bottom: 10px;
+}
+.min-hide {
+  position:absolute;
+  top:0;
+  right: 0;
+  z-index: -1;
 }
 .video {
   background-color: #000;
   width: 100%;
   height: 100%;
 }
-.min:not(:first-child) {
-  margin-top: 10px;
-}
-.header {
+/* .header {
   width: 100%;
   height: 70px;
   display: flex;
@@ -147,8 +152,8 @@ ul > li {
   font-size: 22px;
   font-weight: bold;
   padding-left: 10px;
-}
-.header-line {
+} */
+/* .header-line {
   display: inline-block;
   width: 1px;
   height: 35px;
@@ -173,11 +178,12 @@ ul > li {
   line-height: 70px;
   font-size: 46px;
   font-weight: bold;
-}
+} */
 .video-list {
   background-color: #1d1c2c;
   width: 100%;
-  height: calc(66.666% - 75px);
+  /* height: calc(66.666% - 75px); */
+  height: 66.6666%;
   padding: 30px 50px;
   box-sizing: border-box;
   color: rgba(255, 255, 255, 0.5);
@@ -207,6 +213,10 @@ ul > li {
 }
 .camera-name.active {
   color: #fff;
+}
+.camera-name.no-link {
+  cursor: default;
+
 }
 .control {
   position: relative;
@@ -250,28 +260,28 @@ ul > li {
   outline: 1px solid #333146;
 }
 .controler-direction .direction:nth-child(1):active {
-  background: -webkit-linear-gradient(left top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(left top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(left top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(left top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(left top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(left top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(left top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(left top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
 }
 .controler-direction .direction:nth-child(2):active {
-  background: -webkit-linear-gradient(right top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(right top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(right top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(right top, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(right top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(right top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(right top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(right top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
 }
 .controler-direction .direction:nth-child(3):active {
-  background: -webkit-linear-gradient(left bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(left bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(left bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(left bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(left bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(left bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(left bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(left bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
 }
 .controler-direction .direction:nth-child(4):active {
-  background: -webkit-linear-gradient(right bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(right bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(right bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(right bottom, rgba(110, 109, 123, 0.5), rgba(110, 109, 123, 0.15), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(right bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(right bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(right bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(right bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.4), rgba(110, 109, 123, 0.1));
 }
 .controler-direction .inner-circle {
   position: absolute;
@@ -316,16 +326,16 @@ ul > li {
   font-size: 20px;
 }
 .zoom:nth-child(1):active {
-  background: -webkit-linear-gradient(top, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(top, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(top, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(top, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(top, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
 }
 .zoom:nth-child(3):active {
-  background: -webkit-linear-gradient(bottom, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: -o-linear-gradient(bottom, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: -moz-linear-gradient(bottom, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
-  background: linear-gradient(bottom, rgba(110, 109, 123, 0.2), rgba(110, 109, 123, 0.1));
+  background: -webkit-linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: -o-linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: -moz-linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
+  background: linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
 }
 @media (min-width:1400px) {
   .controler-direction {

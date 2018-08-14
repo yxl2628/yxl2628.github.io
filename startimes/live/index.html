@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="other">
-      <div class="min">
+      <div class="min min-hide">
         <div id="minVideo1" class="video"></div>
         <div id="loading1" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
@@ -48,10 +48,18 @@
           <div id="info3" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
         </div>
       </div>
+      <div class="min">
+        <div id="minVideo4" class="video"></div>
+        <div id="loading4" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
+          <div id="info4" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="right">
-    <div class="header">
+    <!-- <div class="header">
       <div class="title">查看监控设备</div>
       <div class="header-line"></div>
       <div class="date">
@@ -61,7 +69,7 @@
         </div>
         <div id="time" class="time"></div>
       </div>
-    </div>
+    </div> -->
     <div id="videoTree" class="video-list">
     </div>
     <div class="control">
@@ -106,9 +114,9 @@
         </div>
         <ul class="camera-list">
           {{each country.list camera}} {{if key==currentCuntryId}}
-          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active no-link{{/if}}" {{if $index != currentIndex}}onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})"{{/if}}>{{camera.name}}</li>
           {{else}}
-          <li class="camera-name" onClick="javascript:location.href = location.pathname + '?id={{key}}&index={{$index}}'">{{camera.name}}</li>
+          <li class="camera-name no-link">{{camera.name}}</li>
           {{/if}} {{/each}}
         </ul>
       </li>
@@ -134,9 +142,9 @@
       if (currentVideoList != undefined) {
         initVideoPlayer(videoIndex)
       }
-      getWeek()
-      getDate()
-      getTime()
+      // getWeek()
+      // getDate()
+      // getTime()
       initVideoTree(countryId, videoIndex)
       getCameraStatus(countryId)
       setInterval(getTime, 10000)
@@ -166,29 +174,28 @@
     function initVideoPlayer(currentIndex) {
       for (var i = 0; i < currentVideoList.length; i++) {
         var videoObj = currentVideoList[i]
-        if (i == 0) {
-          $('#loading').show()
-          $('#info').html('网络连接中<img src="static/loading.gif" />')
-        } else {
-          $('#loading' + i).show()
-          $('#info' + i).html('网络连接中<img src="static/loading.gif" />')
-        }
+        var $minVideoDiv = $('#minVideo' + minVideoId)
+        $('#loading').show()
+        $('#info').html('网络连接中<img src="static/loading.gif" />')
         if (i == currentIndex) {
           var $videoDiv = $('#maxVideo')
+          $minVideoDiv.parent().addClass('min-hide')
           flashvars.f = videoObj.rtmp
           flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
           flashvars.loaded = 'loadedHandler' //当播放器加载完成后发送该js函数loaded
           CKobject.embed('ckplayer/ckplayer.swf', 'maxVideo', 'ckplayer_maxVideo', '100%', '100%', false, flashvars, params)
           $videoDiv.attr('url', videoObj.rtmp)
         } else {
-          var $videoDiv = $('#minVideo' + minVideoId)
-          flashvars.f = videoObj.low
-          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
-          flashvars.loaded = 'loadedHandler' + minVideoId //当播放器加载完成后发送该js函数loaded
-          CKobject.embed('ckplayer/ckplayer.swf', 'minVideo' + minVideoId, 'ckplayer_minVideo' + minVideoId, '100%', '100%', false, flashvars, params)
-          $videoDiv.attr('url', videoObj.low)
-          minVideoId++
+          $minVideoDiv.parent().removeClass('min-hide')
         }
+        $('#loading' + minVideoId).show()
+        $('#info' + minVideoId).html('网络连接中<img src="static/loading.gif" />')
+        flashvars.f = videoObj.low
+        flashvars.wh = $minVideoDiv.width() + ':' + $minVideoDiv.height()
+        flashvars.loaded = 'loadedHandler' + minVideoId //当播放器加载完成后发送该js函数loaded
+        CKobject.embed('ckplayer/ckplayer.swf', 'minVideo' + minVideoId, 'ckplayer_minVideo' + minVideoId, '100%', '100%', false, flashvars, params)
+        $minVideoDiv.attr('url', videoObj.low)
+        minVideoId++
       }
       minVideoId = 1
     }
@@ -196,7 +203,25 @@
     function changeMaxVideo(currentCuntryId, currentIndex){
       videoIndex = currentIndex
       window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
-      initVideoPlayer(currentIndex)
+      $('#loading').show()
+      $('#info').html('网络连接中<img src="static/loading.gif" />')
+      for (var i = 0; i < 4; i++) {
+        var videoObj = currentVideoList[i]
+        var $minVideoDiv = $('#minVideo' + minVideoId)
+        if (i == currentIndex) {
+          var $videoDiv = $('#maxVideo')
+          $minVideoDiv.parent().addClass('min-hide')
+          flashvars.f = videoObj.rtmp
+          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
+          flashvars.loaded = 'loadedHandler' //当播放器加载完成后发送该js函数loaded
+          CKobject.embed('ckplayer/ckplayer.swf', 'maxVideo', 'ckplayer_maxVideo', '100%', '100%', false, flashvars, params)
+          $videoDiv.attr('url', videoObj.rtmp)
+        } else {
+          $minVideoDiv.parent().removeClass('min-hide')
+        }
+        minVideoId++
+      }
+      minVideoId = 1
       initVideoTree(currentCuntryId, currentIndex)
     }
     // 初始化左侧树
@@ -245,6 +270,11 @@
       CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler3')
       CKobject.getObjectById('ckplayer_minVideo3').addListener('netStatus','videoHandler3')
     }
+    // 加载完成后执行
+    function loadedHandler4() {
+      CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
+      CKobject.getObjectById('ckplayer_minVideo4').addListener('netStatus','videoHandler4')
+    }
     // 监听全屏事件
     function fullScreenHandler(b) {
       if (b) {
@@ -277,6 +307,14 @@
         initVideoPlayer(videoIndex)
       }
     }
+    // 监听全屏事件
+    function fullScreenHandler4(b) {
+      if (b) {
+        closeOtherVideo(4)
+      } else {
+        initVideoPlayer(videoIndex)
+      }
+    }
     // 监听视频流
     function videoHandler(s){
       handlerVideoStatus(s, '')
@@ -293,10 +331,15 @@
     function videoHandler3(s){
       handlerVideoStatus(s, '3')
   	}
+    // 监听视频流
+    function videoHandler4(s){
+      handlerVideoStatus(s, '4')
+  	}
     // 解析视频流
     function handlerVideoStatus(s, id) {
+      console.log(id, s)
       var $loading = $('#loading' + id),$info = $('#info' + id)
-      var ckpayerId = !id? 'maxVideo' : ('minVideo' + i)
+      var ckpayerId = !id? 'maxVideo' : ('minVideo' + id)
       switch (s) {
         case 'NetConnection.Connect.Success':
           $info.html('网络连接中<img src="static/loading.gif" />')
