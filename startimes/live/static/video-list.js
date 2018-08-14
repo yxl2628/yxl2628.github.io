@@ -44,6 +44,30 @@ var videoList = {
     ]
   },
   '3': {
+    name: '尼日利亚',
+    enName: 'Nigeria',
+    list: [
+      {
+        name: 'Noc监控',
+        targetIp: '10.4.252.162',
+        rtmp:  'http://' + baseURL + ':8085/live/livestream1.flv',
+        low:  'http://' + baseURL + ':8085/live/livestream4.flv',
+      },
+      {
+        name: '数据机房',
+        targetIp: '10.4.252.163',
+        rtmp:  'http://' + baseURL + ':8085/live/livestream2.flv',
+        low:  'http://' + baseURL + ':8085/live/livestream5.flv',
+      },
+      {
+        name: '室外发射台',
+        targetIp: '10.4.252.164',
+        rtmp:  'http://' + baseURL + ':8085/live/livestream3.flv',
+        low:  'http://' + baseURL + ':8085/live/livestream6.flv',
+      }
+    ]
+  },
+  '4': {
     name: '四达时代测试',
     enName: 'StarTimes',
     list: [
