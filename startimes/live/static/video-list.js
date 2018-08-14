@@ -6,25 +6,25 @@ var videoList = {
     enName: 'Kenya',
     list: [
       {
-        name: '播控中心-肯尼亚',
+        name: '播控中心',
         targetIp: '10.12.252.160',
         rtmp:  'http://' + baseURL + ':8084/live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/live/livestream5.flv',
       },
       {
-        name: '监控室-肯尼亚',
+        name: '监控室',
         targetIp: '10.12.252.161',
         rtmp:  'http://' + baseURL + ':8084/live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/live/livestream6.flv',
       },
       {
-        name: '户外-肯尼亚',
+        name: '户外',
         targetIp: '10.12.252.163',
         rtmp:  'http://' + baseURL + ':8084/live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/live/livestream7.flv',
       },
       {
-        name: '机房-肯尼亚',
+        name: '机房',
         targetIp: '10.12.252.164',
         rtmp:  'http://' + baseURL + ':8084/live/livestream4.flv',
         low:  'http://' + baseURL + ':8084/live/livestream8.flv',
