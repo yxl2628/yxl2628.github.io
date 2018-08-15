@@ -1,5 +1,5 @@
 var baseURL = window.location.hostname
-baseURL = baseURL == '127.0.0.1' ? '192.168.32.167' : baseURL
+baseURL = (baseURL == '127.0.0.1' || baseURL == '192.168.20.61') ? '192.168.32.167' : baseURL
 var videoList = {
   '1': {
     name: '肯尼亚',
@@ -74,6 +74,12 @@ var videoList = {
       {
         name: '测试转向',
         targetIp: '10.12.252.162',
+        rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
+        low:  'http://' + baseURL + ':8084/live/livestream9.flv',
+      },
+      {
+        name: '北京总部-测试转向',
+        targetIp: '192.168.20.147',
         rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
         low:  'http://' + baseURL + ':8084/live/livestream9.flv',
       }

@@ -394,7 +394,7 @@ ul > li {
   margin: 0;
   padding: 0;
   cursor: pointer;
-  line-height: 2.2;
+  line-height: 2;
   color: rgba(255, 255, 255, 0.5);
 }
 .controler-setting .controler-speed li.active{
