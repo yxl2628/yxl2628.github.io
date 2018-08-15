@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="dialog-header">自助诊疗</div>
-  <div class="dialog-body" style="background: url('../static/bg-1.jpg');padding:0;">
+  <div class="dialog-body" :style="bg">
     <div id="dialog" class="dialog">
       <template v-for="item in resultList">
         <div v-if="item.action == 'response' ||  item.action == 'upload_image'" class="message me">
@@ -36,6 +36,7 @@
 </template>
 <script>
 import { getInquiryRecord } from '../../service'
+import backgroundImg from '../../assets/bg-1.jpg'
 
 let timeout = null
 
@@ -44,7 +45,11 @@ export default {
     return {
       debug: true,
       errorMessage: '',
-      resultList: []
+      resultList: [],
+      bg: {
+        background: 'url(' + backgroundImg + ')',
+        padding: 0
+      }
     }
   },
   mounted() {
