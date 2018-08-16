@@ -10,24 +10,32 @@ var videoList = {
         targetIp: '10.12.252.160',
         rtmp:  'http://' + baseURL + ':8084/live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/live/livestream5.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '监控室',
         targetIp: '10.12.252.161',
         rtmp:  'http://' + baseURL + ':8084/live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '户外',
         targetIp: '10.12.252.163',
         rtmp:  'http://' + baseURL + ':8084/live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/live/livestream7.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '机房',
         targetIp: '10.12.252.164',
         rtmp:  'http://' + baseURL + ':8084/live/livestream4.flv',
         low:  'http://' + baseURL + ':8084/live/livestream8.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }
     ]
   },
@@ -40,6 +48,8 @@ var videoList = {
         targetIp: '127.0.0.1',
         rtmp:  'http://' + baseURL + ':8083/live/livestream1.flv',
         low:  'http://' + baseURL + ':8083/live/livestream5.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }
     ]
   },
@@ -52,18 +62,24 @@ var videoList = {
         targetIp: '10.4.252.162',
         rtmp:  'http://' + baseURL + ':8085/live/livestream1.flv',
         low:  'http://' + baseURL + ':8085/live/livestream4.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '数据机房',
         targetIp: '10.4.252.163',
         rtmp:  'http://' + baseURL + ':8085/live/livestream2.flv',
         low:  'http://' + baseURL + ':8085/live/livestream5.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '室外发射台',
         targetIp: '10.4.252.164',
         rtmp:  'http://' + baseURL + ':8085/live/livestream3.flv',
         low:  'http://' + baseURL + ':8085/live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }
     ]
   },
@@ -76,12 +92,16 @@ var videoList = {
         targetIp: '10.12.252.162',
         rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
         low:  'http://' + baseURL + ':8084/live/livestream9.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '北京总部-测试转向',
         targetIp: '192.168.20.147',
         rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
         low:  'http://' + baseURL + ':8084/live/livestream9.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }
     ]
   }
