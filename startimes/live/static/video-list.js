@@ -6,100 +6,64 @@ var videoList = {
     enName: 'Kenya',
     list: [
       {
-        name: '播控中心',
+        name: '营业厅',
         targetIp: '10.12.252.160',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream1.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream5.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+        rtmp:  'http://' + baseURL + ':8084/ken_live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/ken_live/livestream5.flv',
+        rtsp: 'rtsp://' + baseURL + ':5555/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-5'
       },
       {
-        name: '监控室',
+        name: '客服中心',
         targetIp: '10.12.252.161',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream2.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream6.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+        rtmp:  'http://' + baseURL + ':8084/ken_live/livestream2.flv',
+        low:  'http://' + baseURL + ':8084/ken_live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + ':5555/proxyStream-2',
+        rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-6'
       },
       {
-        name: '户外',
+        name: '播控中心',
+        targetIp: '10.12.252.162',
+        rtmp:  'http://' + baseURL + ':8084/ken_live/livestream3.flv',
+        low:  'http://' + baseURL + ':8084/ken_live/livestream7.flv',
+        rtsp: 'rtsp://' + baseURL + ':5555/proxyStream-3',
+        rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-7'
+      },
+      {
+        name: '户外酒店',
         targetIp: '10.12.252.163',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream3.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream7.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      },
-      {
-        name: '机房',
-        targetIp: '10.12.252.164',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream4.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream8.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+        rtmp:  'http://' + baseURL + ':8084/ken_live/livestream4.flv',
+        low:  'http://' + baseURL + ':8084/ken_live/livestream8.flv',
+        rtsp: 'rtsp://' + baseURL + ':5555/proxyStream-4',
+        rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-8'
       }
     ]
   },
   '2': {
-    name: '莫桑比克',
-    enName: 'Mozambique',
-    list: [
-      {
-        name: '播控中心-莫桑比克',
-        targetIp: '127.0.0.1',
-        rtmp:  'http://' + baseURL + ':8083/live/livestream1.flv',
-        low:  'http://' + baseURL + ':8083/live/livestream5.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      }
-    ]
-  },
-  '3': {
     name: '尼日利亚',
     enName: 'Nigeria',
     list: [
       {
         name: 'Noc监控',
         targetIp: '10.4.252.162',
-        rtmp:  'http://' + baseURL + ':8085/live/livestream1.flv',
-        low:  'http://' + baseURL + ':8085/live/livestream4.flv',
+        rtmp:  'http://' + baseURL + ':8084/abj_live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/abj_live/livestream4.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '数据机房',
         targetIp: '10.4.252.163',
-        rtmp:  'http://' + baseURL + ':8085/live/livestream2.flv',
-        low:  'http://' + baseURL + ':8085/live/livestream5.flv',
+        rtmp:  'http://' + baseURL + ':8084/abj_live/livestream2.flv',
+        low:  'http://' + baseURL + ':8084/abj_live/livestream5.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
         name: '室外发射台',
         targetIp: '10.4.252.164',
-        rtmp:  'http://' + baseURL + ':8085/live/livestream3.flv',
-        low:  'http://' + baseURL + ':8085/live/livestream6.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      }
-    ]
-  },
-  '4': {
-    name: '四达时代测试',
-    enName: 'StarTimes',
-    list: [
-      {
-        name: '测试转向',
-        targetIp: '10.12.252.162',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream9.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      },
-      {
-        name: '北京总部-测试转向',
-        targetIp: '192.168.20.147',
-        rtmp:  'http://' + baseURL + ':8084/live/livestream9.flv',
-        low:  'http://' + baseURL + ':8084/live/livestream9.flv',
+        rtmp:  'http://' + baseURL + ':8084/abj_live/livestream3.flv',
+        low:  'http://' + baseURL + ':8084/abj_live/livestream6.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }

@@ -7,47 +7,64 @@
   <title>四达时代监控平台</title>
   <link rel="stylesheet" href="static/index.css?version=1534236357784">
   <link rel="stylesheet" type="text/css" href="static/font/iconfont.css?version=1534236357784">
-  <style media="screen">
-    .min-hide {
-      display: none;
-    }
-    .test {
-      position: absolute;
-      top: 30%;
-      left: 20%;
-      z-index: 9999;
-    }
-  </style>
 </head>
 
 <body>
   <div class="left">
     <div class="main">
       <div id="maxVideo" class="video">
-        <OBJECT ID="EasyPlayerOcx" WIDTH="100%" HEIGHT="100%" CLASSID="CLSID:1EE1C648-F4A9-42F9-9AA7-2C8E3AF7B7FD">
-          <param name="wmode" value="opaque">
-        </OBJECT>
+        <object ID="vlc" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+          <param name="autostart" value="true" />
+          <param name="allowfullscreen" value="true" />
+          <param name="loop" value="false" />
+          <param name="mute" value="true" />
+          <param name="controls" value="false" />
+        </object>
       </div>
     </div>
     <div class="other">
       <div class="min min-hide">
         <div id="minVideo1" class="video">
-          <OBJECT ID="EasyPlayerOcx1" WIDTH="100%" HEIGHT="100%" CLASSID="CLSID:1EE1C648-F4A9-42F9-9AA7-2C8E3AF7B7FD"></OBJECT>
+          <OBJECT ID="vlc1" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
         </div>
       </div>
       <div class="min">
         <div id="minVideo2" class="video">
-          <OBJECT ID="EasyPlayerOcx2" WIDTH="100%" HEIGHT="100%" CLASSID="CLSID:1EE1C648-F4A9-42F9-9AA7-2C8E3AF7B7FD"></OBJECT>
+          <OBJECT ID="vlc2" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
         </div>
       </div>
       <div class="min">
         <div id="minVideo3" class="video">
-          <OBJECT ID="EasyPlayerOcx3" WIDTH="100%" HEIGHT="100%" CLASSID="CLSID:1EE1C648-F4A9-42F9-9AA7-2C8E3AF7B7FD"></OBJECT>
+          <OBJECT ID="vlc3" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
         </div>
       </div>
       <div class="min">
         <div id="minVideo4" class="video">
-          <OBJECT ID="EasyPlayerOcx4" WIDTH="100%" HEIGHT="100%" CLASSID="CLSID:1EE1C648-F4A9-42F9-9AA7-2C8E3AF7B7FD"></OBJECT>
+          <OBJECT ID="vlc4" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
         </div>
       </div>
     </div>
@@ -151,18 +168,18 @@
       for (var i = 0; i < currentVideoList.length; i++) {
         var videoObj = currentVideoList[i]
         if (i == currentIndex) {
-          var videoPlayer = document.getElementById('EasyPlayerOcx')
           $('#minVideo' + minVideoId).parent().addClass('min-hide')
-          videoPlayer.Start(videoObj.rtsp, rendertype, name, password, harddecode,rtpovertcp)
-          videoPlayer.Config(cache, playsound, showtoscale, showsatic)
-          videoPlayer.SetOSD(1, 255, 0, 0, 255, 100, 100, 1000, 150, "")
+          var videoPlayer = document.getElementById('vlc')
+          videoPlayer.video.aspectRatio = videoPlayer.offsetWidth + ':' + videoPlayer.offsetHeight
+          videoPlayer.playlist.add(videoObj.rtsp)
+          videoPlayer.playlist.play()
         } else {
           $('#minVideo' + minVideoId).parent().removeClass('min-hide')
         }
-        var minVideoPlayer = document.getElementById('EasyPlayerOcx' + minVideoId)
-        minVideoPlayer.Start(videoObj.rtspLow, rendertype, name, password, harddecode,rtpovertcp)
-        minVideoPlayer.Config(cache, playsound, showtoscale, 0)
-        minVideoPlayer.SetOSD(1, 255, 0, 0, 255, 100, 100, 1000, 150, "")
+        var minVideoPlayer = document.getElementById('vlc' + minVideoId)
+        minVideoPlayer.video.aspectRatio = minVideoPlayer.offsetWidth + ':' + minVideoPlayer.offsetHeight
+        minVideoPlayer.playlist.add(videoObj.rtspLow)
+        minVideoPlayer.playlist.play()
         minVideoId++
       }
       minVideoId = 1
@@ -170,21 +187,7 @@
     // 更换大的视频
     function changeMaxVideo(currentCuntryId, currentIndex){
       videoIndex = currentIndex
-      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
-      for (var i = 0; i < 4; i++) {
-        var videoObj = currentVideoList[i]
-        if (i == currentIndex) {
-          var videoPlayer = document.getElementById('EasyPlayerOcx')
-          $('#minVideo' + minVideoId).parent().addClass('min-hide')
-          videoPlayer.Start(videoObj.rtsp, rendertype, name, password, harddecode,rtpovertcp)
-          videoPlayer.Config(cache, playsound, showtoscale, showsatic)
-          videoPlayer.SetOSD(1, 255, 0, 0, 255, 100, 100, 1000, 150, "")
-        } else {
-          $('#minVideo' + minVideoId).parent().removeClass('min-hide')
-        }
-        minVideoId++
-      }
-      minVideoId = 1
+      console.log('更换更大的视频：', currentCuntryId, currentIndex)
       initVideoTree(currentCuntryId, currentIndex)
     }
     // 初始化左侧树

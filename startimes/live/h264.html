@@ -89,6 +89,7 @@
   <script src="./static/video-list.js?version=1534236357784.0.0"></script>
   <script src="static/jquery.min.js?version=1534236357784" charset="utf-8"></script>
   <script src="./static/template-web.js?version=1534236357784"></script>
+  <script src="./static/utils.js?version=1534236357784"></script>
   <script id="videoTreeTpl" type="text/html">
     <ul class="country-list">
       {{each list country key}}
@@ -374,30 +375,6 @@
         // 小视频切换为小码率
         CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
       }
-    }
-    // 获取url参数
-    function getUrlKey(name) {
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-      var r = window.location.search.substr(1).match(reg); //匹配目标参数
-      if (r != null) return unescape(r[2]);
-      return null; //返回参数值
-    }
-    // 发送按键请求
-    function controlPost(method, commandType, success) {
-      var targetIp = currentVideoList[videoIndex].targetIp
-      var speed = $('.controler-speed > li.active').attr('data-speed')
-      $.ajax({
-        type : "POST",
-        url: 'http://' + baseURL + ':8000/monitorControl' + method,
-        data :JSON.stringify({
-          commandType: commandType,
-          targetDVR: targetIp,
-          speed: speed
-        }),
-        success: function(res) {
-          success && success(res)
-        }
-      })
     }
   </script>
 </body>
