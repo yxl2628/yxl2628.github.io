@@ -14,7 +14,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-5'
       },
       {
-        name: '客服中心',
+        name: '呼叫中心',
         targetIp: '10.12.252.161',
         rtmp:  'http://' + baseURL + ':8084/ken_live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/ken_live/livestream6.flv',
@@ -22,7 +22,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-6'
       },
       {
-        name: '播控中心',
+        name: '办公室',
         targetIp: '10.12.252.162',
         rtmp:  'http://' + baseURL + ':8084/ken_live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/ken_live/livestream7.flv',
@@ -30,7 +30,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + ':5555/proxyStream-7'
       },
       {
-        name: '户外酒店',
+        name: '外景',
         targetIp: '10.12.252.163',
         rtmp:  'http://' + baseURL + ':8084/ken_live/livestream4.flv',
         low:  'http://' + baseURL + ':8084/ken_live/livestream8.flv',
@@ -64,6 +64,20 @@ var videoList = {
         targetIp: '10.4.252.164',
         rtmp:  'http://' + baseURL + ':8084/abj_live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/abj_live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      }
+    ]
+  },
+  '3': {
+    name: '莫桑比克',
+    enName: 'Mozambique',
+    list: [
+      {
+        name: '播控中心',
+        targetIp: '10.2.252.160',
+        rtmp:  'http://' + baseURL + ':8084/ms_live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/ms_live/livestream1.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }

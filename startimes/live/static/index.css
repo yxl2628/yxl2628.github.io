@@ -233,10 +233,10 @@ ul > li {
 }
 .controler-direction {
   position: absolute;
-  width: 8rem;
-  height: 8rem;
+  width: 10rem;
+  height: 10rem;
   top: 50%;
-  margin-top: -4rem;
+  margin-top: -5rem;
   left: 15%;
 }
 .controler-direction .outter-circle {
@@ -251,9 +251,9 @@ ul > li {
 }
 .controler-direction .direction {
   float: left;
-  width: 4rem;
-  height: 4rem;
-  line-height: 4rem;
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
   text-align: center;
   font-size: 20px;
   cursor: pointer;
@@ -297,12 +297,12 @@ ul > li {
 }
 .controler-zoom {
   position: absolute;
-  top: 30%;
+  top: 33%;
   left: 70%;
-  width: 2rem;
-  height: 6.6rem;
+  width: 2.5rem;
+  height: 7.5rem;
   text-align: center;
-  line-height: 2.2rem;
+  line-height: 2.5rem;
 }
 .zoom:nth-child(1) {
   border-radius: 50% 50% 0 0;
@@ -336,28 +336,6 @@ ul > li {
   background: -o-linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
   background: -moz-linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
   background: linear-gradient(bottom, rgba(110, 109, 123, 0.6), rgba(110, 109, 123, 0.1));
-}
-@media (min-width:1400px) {
-  .controler-direction {
-    position: absolute;
-    width: 10rem;
-    height: 10rem;
-    top: 50%;
-    margin-top: -5rem;
-    left: 15%;
-  }
-  .controler-direction .direction {
-    width: 5rem;
-    height: 5rem;
-    line-height: 5rem;
-  }
-  .controler-zoom {
-    top: 33%;
-    width: 2.5rem;
-    height: 7.5rem;
-    text-align: center;
-    line-height: 2.5rem;
-  }
 }
 .controler-setting {
   position: absolute;
@@ -405,4 +383,48 @@ ul > li {
 }
 .controler-setting .iconfont:hover + .controler-speed{
   display: block;
+}
+@media (max-width:1400px) {
+  .title {
+    font-size: 18px;
+  }
+  .date-week {
+    font-size: 20px;
+  }
+  .time {
+    font-size: 22px;
+  }
+  .controler-direction {
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+    top: 50%;
+    margin-top: -4rem;
+    left: 15%;
+  }
+  .controler-direction .direction {
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+  }
+  .controler-zoom {
+    top: 30%;
+    left: 70%;
+    width: 2rem;
+    height: 6.6rem;
+    text-align: center;
+    line-height: 2.2rem;
+  }
+  .controler-setting {
+    top: 10px;
+    right: 20px;
+  }
+  .controler-setting .controler-speed {
+    font-size: 12px;
+    right: 30px;
+    width: 30px;
+    margin: 0;
+    padding: 5px 10px 5px 20px;
+    background-color: #1d1c2c;
+  }
 }
