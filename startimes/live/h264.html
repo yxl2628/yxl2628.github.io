@@ -54,6 +54,17 @@
     </div>
   </div>
   <div class="right">
+    <div class="header">
+      <div class="title">查看监控设备</div>
+      <div class="header-line"></div>
+      <div class="date">
+        <div class="date-week">
+          <div id="week"></div>
+          <div id="date"></div>
+        </div>
+        <div id="time" class="time"></div>
+      </div>
+    </div>
     <div id="videoTree" class="video-list">
     </div>
     <div class="control">
@@ -93,8 +104,10 @@
   <script id="videoTreeTpl" type="text/html">
     <ul class="country-list">
       {{each list country key}}
+      {{if key==currentCuntryId}}
       <li class="country-item">
-        <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'">
+        <!-- <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'"> -->
+        <div class="country-name active no-link">
           <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
         </div>
         <ul class="camera-list">
@@ -105,6 +118,7 @@
           {{/if}} {{/each}}
         </ul>
       </li>
+      {{/if}}
       {{/each}}
     </ul>
   </script>
@@ -129,6 +143,11 @@
       }
       initVideoTree(countryId, videoIndex)
       getCameraStatus(countryId)
+      getWeek()
+      getDate()
+      getTime()
+      getCameraStatus(countryId)
+      setInterval(getTime, 10000)
       setInterval(getCameraStatus, 600000)
       $('.control-btn').on('mousedown', function(){
         controlPost('/start/', $(this).attr('data-type'), function(res) {
