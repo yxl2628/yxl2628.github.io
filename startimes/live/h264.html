@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+  <meta charset="utf-8">
+  <title>四达时代监控平台</title>
+  <link rel="stylesheet" href="static/index.css?version=1534236357784">
+  <link rel="stylesheet" type="text/css" href="static/font/iconfont.css?version=1534236357784">
+  <style media="screen">
+    .controler-direction {
+      transform: scale(0.7, 1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="left">
+    <div class="main">
+      <div id="maxVideo" class="video"></div>
+      <div id="loading" class="mask">
+        <img src="static/loading-mask.png" class="loading-mask"/>
+        <img src="static/loading-body.png" class="loading-body"/>
+        <div id="info" class="mask-info">网络连接中<img src="static/loading.gif" /></div>
+      </div>
+    </div>
+    <div class="other">
+      <div class="min min-hide">
+        <div id="minVideo1" class="video"></div>
+        <div class="overflow"></div>
+        <div id="loading1" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
+          <div id="info1" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo2" class="video"></div>
+        <div class="overflow"></div>
+        <div id="loading2" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
+          <div id="info2" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo3" class="video"></div>
+        <div class="overflow"></div>
+        <div id="loading3" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
+          <div id="info3" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo4" class="video"></div>
+        <div class="overflow"></div>
+        <div id="loading4" class="mask">
+          <img src="static/loading-mask.png" class="loading-mask min-loading"/>
+          <img src="static/loading-body.png" class="loading-body min-loading"/>
+          <div id="info4" class="mask-info min-info">网络连接中<img src="static/loading.gif" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="header">
+      <div class="title">查看监控设备</div>
+      <div class="header-line"></div>
+      <div class="date">
+        <div class="date-week">
+          <div id="week"></div>
+          <div id="date"></div>
+        </div>
+        <div id="time" class="time"></div>
+      </div>
+    </div>
+    <div id="videoTree" class="video-list">
+    </div>
+    <div class="control">
+      <div class="controler-direction">
+        <div class="outter-circle">
+          <div class="direction control-btn" data-type="TILT_UP">·</div>
+          <div class="direction control-btn" data-type="PAN_RIGHT">·</div>
+          <div class="direction control-btn" data-type="PAN_LEFT">·</div>
+          <div class="direction control-btn" data-type="TILT_DOWN">·</div>
+        </div>
+          <div class="inner-circle"></div>
+      </div>
+      <div class="controler-zoom">
+        <div class="zoom control-btn" data-type="ZOOM_IN">+</div>
+        <div class="zoom">缩放</div>
+        <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
+      </div>
+      <div class="controler-setting">
+        <i class="iconfont icon-settings"></i>
+        <ul class="controler-speed">
+          <li data-speed="1">1倍</li>
+          <li data-speed="2">2倍</li>
+          <li data-speed="3">3倍</li>
+          <li data-speed="4" class="active">4倍</li>
+          <li data-speed="5">5倍</li>
+          <li data-speed="6">6倍</li>
+          <li data-speed="7">7倍</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1534236357784"></script>
+  <script src="./static/video-list.js?version=1534236357784.0.0"></script>
+  <script src="static/jquery.min.js?version=1534236357784" charset="utf-8"></script>
+  <script src="./static/template-web.js?version=1534236357784"></script>
+  <script src="./static/utils.js?version=1534236357784"></script>
+  <script id="videoTreeTpl" type="text/html">
+    <ul class="country-list">
+      {{each list country key}}
+      {{if key==currentCuntryId}}
+      <li class="country-item">
+        <!-- <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'"> -->
+        <div class="country-name active no-link">
+          <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
+        </div>
+        <ul class="camera-list">
+          {{each country.list camera}}
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          {{/each}}
+        </ul>
+      </li>
+      {{/if}}
+      {{/each}}
+    </ul>
+  </script>
+  <script type="text/javascript">
+    var countryId = getUrlKey('id') || 1,
+      videoIndex = getUrlKey('index') || 0,
+      minVideoId = 1, fullId = -1
+    var currentVideoObj = videoList[countryId]
+    var currentVideoList = currentVideoObj.list
+    var flashvars = {
+  		s: '0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
+      lv: '1', // 是否是直播流，=1则锁定进度栏
+      p: '1', // 自动播放 0=默认暂停 1=默认播放 2=默认不加载视频
+      b: '0', // 是否允许和播放器进行交互，0=允许，1是不允许
+      v: '100' // 音量，取值范围0-100，该值只是设置默认音量，用户可以通过键盘操作音量大于100
+    }
+    //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always'}
+    $(document).ready(function(){
+      if (currentVideoList != undefined) {
+        initVideoPlayer(videoIndex)
+      }
+      initVideoTree(countryId, videoIndex)
+      getCameraStatus(countryId)
+      getWeek()
+      getDate()
+      getTime()
+      getCameraStatus(countryId)
+      setInterval(getTime, 10000)
+      setInterval(getCameraStatus, 600000)
+      $('.control-btn').on('mousedown', function(){
+        controlPost('/start/', $(this).attr('data-type'), function(res) {
+          console.log('start', res)
+        })
+      })
+      $('.control-btn').on('mouseup', function(){
+        var _this = this
+        controlPost('/stop/', $(_this).attr('data-type'), function(res) {
+          console.log('stop', res)
+        })
+      })
+      $('.controler-speed > li').on('click', function() {
+        var _this = this
+        $(this).addClass('active')
+        $('.controler-speed > li').each(function(){
+          if(this != _this) {
+            $(this).removeClass('active')
+          }
+        })
+      })
+    })
+    // 初始化视频
+    function initVideoPlayer(currentIndex) {
+      videoIndex = currentIndex
+      for (var i = 0; i < currentVideoList.length; i++) {
+        var videoObj = currentVideoList[i]
+        var $minVideoDiv = $('#minVideo' + minVideoId)
+        $('#loading').show()
+        $('#info').html('网络连接中<img src="static/loading.gif" />')
+        if (i == currentIndex) {
+          var $videoDiv = $('#maxVideo')
+          $minVideoDiv.parent().addClass('min-hide')
+          flashvars.f = videoObj.rtmp
+          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
+          flashvars.loaded = 'loadedHandler' //当播放器加载完成后发送该js函数loaded
+          CKobject.embed('ckplayer/ckplayer.swf', 'maxVideo', 'ckplayer_maxVideo', '100%', '100%', false, flashvars, params)
+          $videoDiv.attr('url', videoObj.rtmp)
+        } else {
+          $minVideoDiv.parent().removeClass('min-hide')
+        }
+        $('#loading' + minVideoId).show()
+        $('#info' + minVideoId).html('网络连接中<img src="static/loading.gif" />')
+        flashvars.f = videoObj.low
+        flashvars.wh = $minVideoDiv.width() + ':' + $minVideoDiv.height()
+        flashvars.loaded = 'loadedHandler' + minVideoId //当播放器加载完成后发送该js函数loaded
+        CKobject.embed('ckplayer/ckplayer.swf', 'minVideo' + minVideoId, 'ckplayer_minVideo' + minVideoId, '100%', '100%', false, flashvars, params)
+        $minVideoDiv.attr('url', videoObj.low)
+        minVideoId++
+      }
+      minVideoId = 1
+    }
+    // 更换大的视频
+    function changeMaxVideo(currentCuntryId, currentIndex){
+      videoIndex = currentIndex
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      $('#loading').show()
+      $('#info').html('网络连接中<img src="static/loading.gif" />')
+      for (var i = 0; i < 4; i++) {
+        var videoObj = currentVideoList[i]
+        var $minVideoDiv = $('#minVideo' + minVideoId)
+        if (i == currentIndex) {
+          var $videoDiv = $('#maxVideo')
+          $minVideoDiv.parent().addClass('min-hide')
+          flashvars.f = videoObj.rtmp
+          flashvars.wh = $videoDiv.width() + ':' + $videoDiv.height()
+          flashvars.loaded = 'loadedHandler' //当播放器加载完成后发送该js函数loaded
+          CKobject.embed('ckplayer/ckplayer.swf', 'maxVideo', 'ckplayer_maxVideo', '100%', '100%', false, flashvars, params)
+          $videoDiv.attr('url', videoObj.rtmp)
+        } else {
+          $minVideoDiv.parent().removeClass('min-hide')
+        }
+        minVideoId++
+      }
+      minVideoId = 1
+      initVideoTree(currentCuntryId, currentIndex)
+    }
+    // 初始化左侧树
+    function initVideoTree(currentCuntryId, currentIndex) {
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      $('#videoTree').html(template('videoTreeTpl', {
+        list: videoList,
+        currentCuntryId: currentCuntryId,
+        currentIndex: currentIndex
+      }))
+    }
+    // 获取视频状态
+    function getCameraStatus() {
+      for (var i = 0; i < currentVideoList.length; i++) {
+        // $.ajax({
+        //   type : "POST",
+        //   url: 'http://' + baseURL + ':8000/status/',
+        //   data :JSON.stringify({
+        //     targetDVR: currentVideoList[i].targetIp
+        //   }),
+        //   success: function(res) {
+        //     console.log('status:', res)
+        //   }
+        // })
+      }
+    }
+    // 加载完成后执行
+    function loadedHandler() {
+      CKobject.getObjectById('ckplayer_maxVideo').addListener('fullScreen', 'fullScreenHandler')
+      CKobject.getObjectById('ckplayer_maxVideo').addListener('netStatus','videoHandler')
+    }
+
+    // 加载完成后执行
+    function loadedHandler1() {
+      // CKobject.getObjectById('ckplayer_minVideo1').addListener('fullScreen', 'fullScreenHandler1')
+      CKobject.getObjectById('ckplayer_minVideo1').addListener('netStatus','videoHandler1')
+    }
+    // 加载完成后执行
+    function loadedHandler2() {
+      // CKobject.getObjectById('ckplayer_minVideo2').addListener('fullScreen', 'fullScreenHandler2')
+      CKobject.getObjectById('ckplayer_minVideo2').addListener('netStatus','videoHandler2')
+    }
+    // 加载完成后执行
+    function loadedHandler3() {
+      // CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler3')
+      CKobject.getObjectById('ckplayer_minVideo3').addListener('netStatus','videoHandler3')
+    }
+    // 加载完成后执行
+    function loadedHandler4() {
+      // CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
+      CKobject.getObjectById('ckplayer_minVideo4').addListener('netStatus','videoHandler4')
+    }
+    // 监听全屏事件
+    function fullScreenHandler(b) {
+      if (b) {
+        fullId = 0
+        openMaxVideo(fullId)
+      } else {
+        if (fullId == 0) {
+          fullId = -1
+          reOpenMinVideo(0)
+        }
+      }
+    }
+    // // 监听全屏事件
+    // function fullScreenHandler1(b) {
+    //   if (b) {
+    //     fullId = 1
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 1) {
+    //       fullId = -1
+    //       reOpenMinVideo(1)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler2(b) {
+    //   if (b) {
+    //     fullId = 2
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 2) {
+    //       fullId = -1
+    //       reOpenMinVideo(2)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler3(b) {
+    //   if (b) {
+    //     fullId = 3
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 3) {
+    //       fullId = -1
+    //       reOpenMinVideo(3)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler4(b) {
+    //   if (b) {
+    //     fullId = 4
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 4) {
+    //       fullId = -1
+    //       reOpenMinVideo(4)
+    //     }
+    //   }
+    // }
+    // 监听视频流
+    function videoHandler(s){
+      handlerVideoStatus(s, '')
+  	}
+    // 监听视频流
+    function videoHandler1(s){
+      handlerVideoStatus(s, '1')
+  	}
+    // 监听视频流
+    function videoHandler2(s){
+      handlerVideoStatus(s, '2')
+  	}
+    // 监听视频流
+    function videoHandler3(s){
+      handlerVideoStatus(s, '3')
+  	}
+    // 监听视频流
+    function videoHandler4(s){
+      handlerVideoStatus(s, '4')
+  	}
+    // 解析视频流
+    function handlerVideoStatus(s, id) {
+      var $loading = $('#loading' + id),$info = $('#info' + id)
+      var ckpayerId = !id? 'maxVideo' : ('minVideo' + id)
+      switch (s) {
+        case 'NetConnection.Connect.Success':
+          $info.html('网络连接中<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Play.Start':
+          $info.html('网络连接成功<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Unpause.Notify':
+          $info.html('视频加载中<img src="static/loading.gif" />')
+          break;
+        case 'NetStream.Buffer.Full':
+          $loading.hide()
+          CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
+          break;
+        case 'NetStream.Play.StreamNotFound':
+          $info.text('视频连接失败')
+          setTimeout(function(){
+            CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
+          },1000)
+          break;
+      }
+    }
+    // 关闭视频
+    function openMaxVideo(index) {
+      // index=0时，尝试将视频改为铺满全屏
+      if (index == 0) {
+        console.log((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
+      }
+      // if (index > 0) {
+      //   // 主视频切换为小码率
+      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->}')
+      //   // 小视频切换成大码率
+      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].rtmp + '}')
+      // }
+    }
+    function reOpenMinVideo(index) {
+      if (index == 0) {
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100, 100)
+      }
+      // if (index > 0) {
+      //   console.log('{f->' + currentVideoList[videoIndex].rtmp + '}')
+      //   // 打视频切换为大码率
+      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->' + currentVideoList[videoIndex].rtmp + '}')
+      //   // 小视频切换为小码率
+      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
+      // }
+    }
+  </script>
+</body>
+
+</html>

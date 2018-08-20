@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="header">自助诊疗</div>
-  <div class="body" style="background: url('../static/bg.jpg');">
+  <div class="body" :style="bg">
     <div class="content">
       <div class="row clearfix">
         <div class="label">患者选择</div>
@@ -70,6 +70,7 @@
 import { getUrlKey, getNowFormatDate } from '../../utils/utils'
 import { addCase, getInquiryRecord } from '../../service'
 import QRCode from 'qrcode'
+import backgroundImg from '../../assets/bg.jpg'
 
 let timeout = null
 
@@ -93,7 +94,10 @@ export default {
       birthdateCurrent: 'year',
       qrcode: false,
       qrcodeResult: '等待连接',
-      codeDataUrl: ''
+      codeDataUrl: '',
+      bg: {
+        background: 'url(' + backgroundImg + ')'
+      }
     }
   },
   created() {

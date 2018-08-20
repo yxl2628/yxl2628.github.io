@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="ie-comp" />
+  <title>四达时代监控平台</title>
+  <link rel="stylesheet" href="static/index.css?version=1534236357784">
+  <link rel="stylesheet" type="text/css" href="static/font/iconfont.css?version=1534236357784">
+</head>
+
+<body>
+  <div class="left">
+    <div class="main">
+      <div id="maxVideo" class="video">
+        <object ID="vlc" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+          <param name="autostart" value="true" />
+          <param name="allowfullscreen" value="true" />
+          <param name="loop" value="false" />
+          <param name="mute" value="true" />
+          <param name="controls" value="false" />
+        </object>
+      </div>
+    </div>
+    <div class="other">
+      <div class="min min-hide">
+        <div id="minVideo1" class="video">
+          <OBJECT ID="vlc1" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo2" class="video">
+          <OBJECT ID="vlc2" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo3" class="video">
+          <OBJECT ID="vlc3" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
+        </div>
+      </div>
+      <div class="min">
+        <div id="minVideo4" class="video">
+          <OBJECT ID="vlc4" WIDTH="100%" HEIGHT="100%" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" codebase="http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab">
+            <param name="autostart" value="true" />
+            <param name="allowfullscreen" value="true" />
+            <param name="loop" value="false" />
+            <param name="mute" value="true" />
+            <param name="controls" value="false" />
+          </OBJECT>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div id="videoTree" class="video-list">
+    </div>
+    <div class="control">
+      <div class="controler-direction">
+        <div class="outter-circle">
+          <div class="direction control-btn" data-type="TILT_UP">·</div>
+          <div class="direction control-btn" data-type="PAN_RIGHT">·</div>
+          <div class="direction control-btn" data-type="PAN_LEFT">·</div>
+          <div class="direction control-btn" data-type="TILT_DOWN">·</div>
+        </div>
+          <div class="inner-circle"></div>
+      </div>
+      <div class="controler-zoom">
+        <div class="zoom control-btn" data-type="ZOOM_IN">+</div>
+        <div class="zoom">缩放</div>
+        <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
+      </div>
+      <div class="controler-setting">
+        <i class="iconfont icon-settings"></i>
+        <ul class="controler-speed">
+          <li data-speed="1">1倍</li>
+          <li data-speed="2">2倍</li>
+          <li data-speed="3">3倍</li>
+          <li data-speed="4" class="active">4倍</li>
+          <li data-speed="5">5倍</li>
+          <li data-speed="6">6倍</li>
+          <li data-speed="7">7倍</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1534236357784"></script>
+  <script src="./static/video-list.js?version=1534236357784.0.0"></script>
+  <script src="static/jquery.min.js?version=1534236357784" charset="utf-8"></script>
+  <script src="./static/template-web.js?version=1534236357784"></script>
+  <script src="./static/utils.js?version=1534236357784"></script>
+  <script id="videoTreeTpl" type="text/html">
+    <ul class="country-list">
+      {{each list country key}}
+      <li class="country-item">
+        <!-- <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'"> -->
+        <div class="country-name active no-link">
+          <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
+        </div>
+        <ul class="camera-list">
+          {{each country.list camera}}
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          {{/each}}
+        </ul>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+  <script type="text/javascript">
+    var countryId = getUrlKey('id') || 1,
+      videoIndex = getUrlKey('index') || 0,
+      minVideoId = 1, fullId = -1
+      // 缓存、是否播放声音、按比例显示、是否显示码率信息
+      var cache = 3, playsound = 0, showtoscale = 0, showsatic = 1
+      // 渲染、用户名、密码、硬件解码、使用tcp
+			var rendertype = 0, name = '', password = '', harddecode = 0, rtpovertcp = 1
+    var currentVideoObj = videoList[countryId]
+    var currentVideoList = currentVideoObj.list
+    $(document).ready(function(){
+      if (currentVideoList != undefined) {
+        initVideoPlayer(videoIndex)
+      }
+      initVideoTree(countryId, videoIndex)
+      getCameraStatus(countryId)
+      setInterval(getCameraStatus, 600000)
+      $('.control-btn').on('mousedown', function(){
+        controlPost('/start/', $(this).attr('data-type'), function(res) {
+          console.log('start', res)
+        })
+      })
+      $('.control-btn').on('mouseup', function(){
+        var _this = this
+        controlPost('/stop/', $(_this).attr('data-type'), function(res) {
+          console.log('stop', res)
+        })
+      })
+      $('.controler-speed > li').on('click', function() {
+        var _this = this
+        $(this).addClass('active')
+        $('.controler-speed > li').each(function(){
+          if(this != _this) {
+            $(this).removeClass('active')
+          }
+        })
+      })
+    })
+    // 初始化视频
+    function initVideoPlayer(currentIndex) {
+      videoIndex = currentIndex
+      for (var i = 0; i < currentVideoList.length; i++) {
+        var videoObj = currentVideoList[i]
+        if (i == currentIndex) {
+          $('#minVideo' + minVideoId).parent().addClass('min-hide')
+          var videoPlayer = document.getElementById('vlc')
+          videoPlayer.video.aspectRatio = videoPlayer.offsetWidth + ':' + videoPlayer.offsetHeight
+          videoPlayer.playlist.add(videoObj.rtsp)
+          videoPlayer.playlist.play()
+        } else {
+          $('#minVideo' + minVideoId).parent().removeClass('min-hide')
+        }
+        var minVideoPlayer = document.getElementById('vlc' + minVideoId)
+        minVideoPlayer.video.aspectRatio = minVideoPlayer.offsetWidth + ':' + minVideoPlayer.offsetHeight
+        minVideoPlayer.playlist.add(videoObj.rtspLow)
+        minVideoPlayer.playlist.play()
+        minVideoId++
+      }
+      minVideoId = 1
+    }
+    // 更换大的视频
+    function changeMaxVideo(currentCuntryId, currentIndex){
+      videoIndex = currentIndex
+      console.log('更换更大的视频：', currentCuntryId, currentIndex)
+      initVideoTree(currentCuntryId, currentIndex)
+    }
+    // 初始化左侧树
+    function initVideoTree(currentCuntryId, currentIndex) {
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      $('#videoTree').html(template('videoTreeTpl', {
+        list: videoList,
+        currentCuntryId: currentCuntryId,
+        currentIndex: currentIndex
+      }))
+    }
+    // 获取视频状态
+    function getCameraStatus() {
+      for (var i = 0; i < currentVideoList.length; i++) {
+        // $.ajax({
+        //   type : "POST",
+        //   url: 'http://' + baseURL + ':8000/status/',
+        //   data :JSON.stringify({
+        //     targetDVR: currentVideoList[i].targetIp
+        //   }),
+        //   success: function(res) {
+        //     console.log('status:', res)
+        //   }
+        // })
+      }
+    }
+  </script>
+</body>
+
+</html>
