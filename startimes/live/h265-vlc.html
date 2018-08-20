@@ -110,15 +110,14 @@
     <ul class="country-list">
       {{each list country key}}
       <li class="country-item">
-        <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'">
+        <!-- <div class="country-name {{if key==currentCuntryId}}active{{/if}}" onClick="javascript:location.href = location.pathname + '?id={{key}}'"> -->
+        <div class="country-name active no-link">
           <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
         </div>
         <ul class="camera-list">
-          {{each country.list camera}} {{if key==currentCuntryId}}
-          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active no-link{{/if}}" {{if $index != currentIndex}}onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})"{{/if}}>{{camera.name}}</li>
-          {{else}}
-          <li class="camera-name no-link">{{camera.name}}</li>
-          {{/if}} {{/each}}
+          {{each country.list camera}}
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          {{/each}}
         </ul>
       </li>
       {{/each}}

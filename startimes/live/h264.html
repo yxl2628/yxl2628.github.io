@@ -6,6 +6,11 @@
   <title>四达时代监控平台</title>
   <link rel="stylesheet" href="static/index.css?version=1534236357784">
   <link rel="stylesheet" type="text/css" href="static/font/iconfont.css?version=1534236357784">
+  <style media="screen">
+    .controler-direction {
+      transform: scale(0.7, 1);
+    }
+  </style>
 </head>
 
 <body>
@@ -21,6 +26,7 @@
     <div class="other">
       <div class="min min-hide">
         <div id="minVideo1" class="video"></div>
+        <div class="overflow"></div>
         <div id="loading1" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -29,6 +35,7 @@
       </div>
       <div class="min">
         <div id="minVideo2" class="video"></div>
+        <div class="overflow"></div>
         <div id="loading2" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -37,6 +44,7 @@
       </div>
       <div class="min">
         <div id="minVideo3" class="video"></div>
+        <div class="overflow"></div>
         <div id="loading3" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -45,6 +53,7 @@
       </div>
       <div class="min">
         <div id="minVideo4" class="video"></div>
+        <div class="overflow"></div>
         <div id="loading4" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -111,11 +120,9 @@
           <img class="country-flag" src="./static/country/{{country.enName}}.jpg" /> {{country.name}}
         </div>
         <ul class="camera-list">
-          {{each country.list camera}} {{if key==currentCuntryId}}
-          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active no-link{{/if}}" {{if $index != currentIndex}}onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})"{{/if}}>{{camera.name}}</li>
-          {{else}}
-          <li class="camera-name no-link">{{camera.name}}</li>
-          {{/if}} {{/each}}
+          {{each country.list camera}}
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          {{/each}}
         </ul>
       </li>
       {{/if}}
@@ -257,22 +264,22 @@
 
     // 加载完成后执行
     function loadedHandler1() {
-      CKobject.getObjectById('ckplayer_minVideo1').addListener('fullScreen', 'fullScreenHandler1')
+      // CKobject.getObjectById('ckplayer_minVideo1').addListener('fullScreen', 'fullScreenHandler1')
       CKobject.getObjectById('ckplayer_minVideo1').addListener('netStatus','videoHandler1')
     }
     // 加载完成后执行
     function loadedHandler2() {
-      CKobject.getObjectById('ckplayer_minVideo2').addListener('fullScreen', 'fullScreenHandler2')
+      // CKobject.getObjectById('ckplayer_minVideo2').addListener('fullScreen', 'fullScreenHandler2')
       CKobject.getObjectById('ckplayer_minVideo2').addListener('netStatus','videoHandler2')
     }
     // 加载完成后执行
     function loadedHandler3() {
-      CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler3')
+      // CKobject.getObjectById('ckplayer_minVideo3').addListener('fullScreen', 'fullScreenHandler3')
       CKobject.getObjectById('ckplayer_minVideo3').addListener('netStatus','videoHandler3')
     }
     // 加载完成后执行
     function loadedHandler4() {
-      CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
+      // CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
       CKobject.getObjectById('ckplayer_minVideo4').addListener('netStatus','videoHandler4')
     }
     // 监听全屏事件
@@ -280,56 +287,61 @@
       if (b) {
         fullId = 0
         openMaxVideo(fullId)
-      }
-    }
-    // 监听全屏事件
-    function fullScreenHandler1(b) {
-      if (b) {
-        fullId = 1
-        openMaxVideo(fullId)
       } else {
-        if (fullId == 1) {
+        if (fullId == 0) {
           fullId = -1
-          reOpenMinVideo(1)
+          reOpenMinVideo(0)
         }
       }
     }
-    // 监听全屏事件
-    function fullScreenHandler2(b) {
-      if (b) {
-        fullId = 2
-        openMaxVideo(fullId)
-      } else {
-        if (fullId == 2) {
-          fullId = -1
-          reOpenMinVideo(2)
-        }
-      }
-    }
-    // 监听全屏事件
-    function fullScreenHandler3(b) {
-      if (b) {
-        fullId = 3
-        openMaxVideo(fullId)
-      } else {
-        if (fullId == 3) {
-          fullId = -1
-          reOpenMinVideo(3)
-        }
-      }
-    }
-    // 监听全屏事件
-    function fullScreenHandler4(b) {
-      if (b) {
-        fullId = 4
-        openMaxVideo(fullId)
-      } else {
-        if (fullId == 4) {
-          fullId = -1
-          reOpenMinVideo(4)
-        }
-      }
-    }
+    // // 监听全屏事件
+    // function fullScreenHandler1(b) {
+    //   if (b) {
+    //     fullId = 1
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 1) {
+    //       fullId = -1
+    //       reOpenMinVideo(1)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler2(b) {
+    //   if (b) {
+    //     fullId = 2
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 2) {
+    //       fullId = -1
+    //       reOpenMinVideo(2)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler3(b) {
+    //   if (b) {
+    //     fullId = 3
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 3) {
+    //       fullId = -1
+    //       reOpenMinVideo(3)
+    //     }
+    //   }
+    // }
+    // // 监听全屏事件
+    // function fullScreenHandler4(b) {
+    //   if (b) {
+    //     fullId = 4
+    //     openMaxVideo(fullId)
+    //   } else {
+    //     if (fullId == 4) {
+    //       fullId = -1
+    //       reOpenMinVideo(4)
+    //     }
+    //   }
+    // }
     // 监听视频流
     function videoHandler(s){
       handlerVideoStatus(s, '')
@@ -378,22 +390,29 @@
     }
     // 关闭视频
     function openMaxVideo(index) {
-      // index=0时，不需要做其它操作
-      if (index > 0) {
-        // 主视频切换为小码率
-        CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->}')
-        // 小视频切换成大码率
-        CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].rtmp + '}')
+      // index=0时，尝试将视频改为铺满全屏
+      if (index == 0) {
+        console.log((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
       }
+      // if (index > 0) {
+      //   // 主视频切换为小码率
+      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->}')
+      //   // 小视频切换成大码率
+      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].rtmp + '}')
+      // }
     }
     function reOpenMinVideo(index) {
-      if (index > 0) {
-        console.log('{f->' + currentVideoList[videoIndex].rtmp + '}')
-        // 打视频切换为大码率
-        CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->' + currentVideoList[videoIndex].rtmp + '}')
-        // 小视频切换为小码率
-        CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
+      if (index == 0) {
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100, 100)
       }
+      // if (index > 0) {
+      //   console.log('{f->' + currentVideoList[videoIndex].rtmp + '}')
+      //   // 打视频切换为大码率
+      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->' + currentVideoList[videoIndex].rtmp + '}')
+      //   // 小视频切换为小码率
+      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
+      // }
     }
   </script>
 </body>
