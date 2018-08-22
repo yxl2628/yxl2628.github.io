@@ -21,7 +21,7 @@ ul > li {
 .left {
   display: flex;
   font-size: 0;
-  width: 80%;
+  width: calc(100% - 250px);
   height: 100%;
 }
 .overflow {
@@ -118,7 +118,7 @@ ul > li {
   display: inline-block;
   margin-left: 10px;
   font-size: 14px;
-  width: 20%;
+  width: 250px;
   height: 100%;
   color: #fff;
 }
@@ -173,7 +173,7 @@ ul > li {
   background-color: #61626d;
 }
 .date {
-  width: 54%;
+  width: 100%;
   padding-right: 10px;
   display: flex;
   justify-content: flex-end;
@@ -196,7 +196,7 @@ ul > li {
   width: 100%;
   height: calc(66.666% - 75px);
   /* height: 66.6666%; */
-  padding: 30px 50px;
+  padding: 20px 30px;
   box-sizing: border-box;
   color: rgba(255, 255, 255, 0.5);
 }
@@ -249,7 +249,7 @@ ul > li {
   height: 10rem;
   top: 50%;
   margin-top: -5rem;
-  left: 15%;
+  left: 2%;
 }
 .controler-direction .outter-circle {
   position: relative;

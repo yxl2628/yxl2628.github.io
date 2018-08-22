@@ -65,8 +65,6 @@
   </div>
   <div class="right">
     <div class="header">
-      <div class="title">查看监控设备</div>
-      <div class="header-line"></div>
       <div class="date">
         <div class="date-week">
           <div id="week"></div>
@@ -235,6 +233,9 @@
     }
     // 初始化左侧树
     function initVideoTree(currentCuntryId, currentIndex) {
+      if (currentCuntryId == '3') {
+        $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
+      }
       window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
       $('#videoTree').html(template('videoTreeTpl', {
         list: videoList,
