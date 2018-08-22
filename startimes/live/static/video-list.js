@@ -76,7 +76,7 @@ var videoList = {
       {
         name: '室外发射台',
         targetIp: '10.6.203.13',
-        rtmp:  'http://' + baseURL + ':8084/zt_live/livestream1.flv',
+        rtmp:  'http://' + baseURL + ':8084/nf_live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream5.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
@@ -84,7 +84,7 @@ var videoList = {
       {
         name: '播控中心',
         targetIp: '10.6.203.14',
-        rtmp:  'http://' + baseURL + ':8084/zt_live/livestream1.flv',
+        rtmp:  'http://' + baseURL + ':8084/nf_live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream6.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
@@ -92,7 +92,7 @@ var videoList = {
       {
         name: '数据机房1',
         targetIp: '10.6.203.15',
-        rtmp:  'http://' + baseURL + ':8084/zt_live/livestream1.flv',
+        rtmp:  'http://' + baseURL + ':8084/nf_live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream7.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
@@ -100,7 +100,7 @@ var videoList = {
       {
         name: '数据机房2',
         targetIp: '10.6.203.16',
-        rtmp:  'http://' + baseURL + ':8084/zt_live/livestream1.flv',
+        rtmp:  'http://' + baseURL + ':8084/nf_live/livestream4.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream8.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'

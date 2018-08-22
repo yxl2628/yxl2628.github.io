@@ -18,11 +18,6 @@
   <div class="left">
     <div class="main">
       <div id="maxVideo" class="video"></div>
-      <div class="overflow">
-        <div class="fullscreen">
-          <i class="iconfont icon-quanping" onclick="fullScreen(this)"></i>
-        </div>
-      </div>
       <div id="loading" class="mask">
         <img src="static/loading-mask.png" class="loading-mask"/>
         <img src="static/loading-body.png" class="loading-body"/>
@@ -32,8 +27,7 @@
     <div class="other">
       <div class="min min-hide">
         <div id="minVideo1" class="video"></div>
-        <div class="overflow">
-        </div>
+        <div class="overflow"></div>
         <div id="loading1" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -239,9 +233,9 @@
     }
     // 初始化左侧树
     function initVideoTree(currentCuntryId, currentIndex) {
-      // if (currentCuntryId == '3') {
-      //   $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
-      // }
+      if (currentCuntryId == '3') {
+        $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
+      }
       window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
       $('#videoTree').html(template('videoTreeTpl', {
         list: videoList,
@@ -266,7 +260,7 @@
     }
     // 加载完成后执行
     function loadedHandler() {
-      // CKobject.getObjectById('ckplayer_maxVideo').addListener('fullScreen', 'fullScreenHandler')
+      CKobject.getObjectById('ckplayer_maxVideo').addListener('fullScreen', 'fullScreenHandler')
       CKobject.getObjectById('ckplayer_maxVideo').addListener('netStatus','videoHandler')
     }
 
@@ -290,18 +284,18 @@
       // CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
       CKobject.getObjectById('ckplayer_minVideo4').addListener('netStatus','videoHandler4')
     }
-    // // 监听全屏事件
-    // function fullScreenHandler(b) {
-    //   if (b) {
-    //     fullId = 0
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 0) {
-    //       fullId = -1
-    //       reOpenMinVideo(0)
-    //     }
-    //   }
-    // }
+    // 监听全屏事件
+    function fullScreenHandler(b) {
+      if (b) {
+        fullId = 0
+        openMaxVideo(fullId)
+      } else {
+        if (fullId == 0) {
+          fullId = -1
+          reOpenMinVideo(0)
+        }
+      }
+    }
     // // 监听全屏事件
     // function fullScreenHandler1(b) {
     //   if (b) {
@@ -400,6 +394,7 @@
     function openMaxVideo(index) {
       // index=0时，尝试将视频改为铺满全屏
       if (index == 0) {
+        console.log((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
         CKobject.getObjectById('ckplayer_maxVideo').videoWAndH((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
       }
       // if (index > 0) {
@@ -420,17 +415,6 @@
       //   // 小视频切换为小码率
       //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
       // }
-    }
-    function fullScreen(e) {
-      if ($(e).hasClass('icon-quanping')) {
-        $(e).removeClass('icon-quanping').addClass('icon-quxiaoquanping')
-        $('.main').attr('style', 'width:100%')
-        $('.other').hide()
-      } else {
-        $(e).removeClass('icon-quxiaoquanping').addClass('icon-quanping')
-        $('.main').attr('style', 'width:75%')
-        $('.other').show()
-      }
     }
   </script>
 </body>
