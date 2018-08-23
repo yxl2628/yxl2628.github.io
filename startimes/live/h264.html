@@ -146,7 +146,7 @@
     var countryId = getUrlKey('id') || 1,
       videoIndex = getUrlKey('index') || 0,
       bitrate = getUrlKey('bitrate') || false,
-      minVideoId = 1, fullId = -1
+      minVideoId = 1, fullId = -1, bitrateTask = null
     var currentVideoObj = videoList[countryId]
     var currentVideoList = currentVideoObj.list
     var flashvars = {
@@ -403,8 +403,8 @@
           },1000)
           break;
       }
-      if (bitrate) {
-        setInterval(function () {
+      if (bitrate && !bitrateTask) {
+        bitrateTask = setInterval(function () {
           var current = CKobject.getObjectById('ckplayer_' + ckpayerId).getStatus().speed * 2/100000
           if(isNaN(current)){
             current = '0.00'

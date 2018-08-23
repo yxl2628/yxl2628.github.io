@@ -107,6 +107,20 @@ var videoList = {
       }
     ]
   },
+  '88': {
+    name: '北京总部',
+    enName: 'StarTimes',
+    list: [
+      {
+        name: '总部NOC',
+        targetIp: '192.168.5.70',
+        rtmp:  'http://' + baseURL + ':8084//zb_live/livestream1.flv',
+        low:  '',
+        rtsp: '',
+        rtspLow: ''
+      }
+    ]
+  },
   '99': {
     name: '中铁建测试',
     enName: 'SouthAfrica',
