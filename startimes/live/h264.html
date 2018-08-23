@@ -239,9 +239,9 @@
     }
     // 初始化左侧树
     function initVideoTree(currentCuntryId, currentIndex) {
-      // if (currentCuntryId == '3') {
-      //   $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
-      // }
+       if (currentCuntryId == '99') {
+         $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
+       }
       window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
       $('#videoTree').html(template('videoTreeTpl', {
         list: videoList,
