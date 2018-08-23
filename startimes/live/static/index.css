@@ -37,8 +37,15 @@ ul > li {
 .overflow:hover .fullscreen {
   display: block;
 }
+.bitrate {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 26px;
+  color: red;
+}
 .fullscreen {
-  /* display: none; */
+  display: none;
   position: absolute;
   bottom: 0;
   left: 0;

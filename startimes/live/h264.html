@@ -19,6 +19,7 @@
     <div class="main">
       <div id="maxVideo" class="video"></div>
       <div class="overflow">
+        <div id="bitrate" class="bitrate"></div>
         <div class="fullscreen">
           <i class="iconfont icon-quanping" onclick="fullScreen(this)"></i>
         </div>
@@ -33,6 +34,7 @@
       <div class="min min-hide">
         <div id="minVideo1" class="video"></div>
         <div class="overflow">
+          <div id="bitrate1" class="bitrate"></div>
         </div>
         <div id="loading1" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
@@ -42,7 +44,9 @@
       </div>
       <div class="min">
         <div id="minVideo2" class="video"></div>
-        <div class="overflow"></div>
+        <div class="overflow">
+          <div id="bitrate2" class="bitrate"></div>
+        </div>
         <div id="loading2" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -51,7 +55,9 @@
       </div>
       <div class="min">
         <div id="minVideo3" class="video"></div>
-        <div class="overflow"></div>
+        <div class="overflow">
+          <div id="bitrate3" class="bitrate"></div>
+        </div>
         <div id="loading3" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -60,7 +66,9 @@
       </div>
       <div class="min">
         <div id="minVideo4" class="video"></div>
-        <div class="overflow"></div>
+        <div class="overflow">
+          <div id="bitrate4" class="bitrate"></div>
+        </div>
         <div id="loading4" class="mask">
           <img src="static/loading-mask.png" class="loading-mask min-loading"/>
           <img src="static/loading-body.png" class="loading-body min-loading"/>
@@ -137,6 +145,7 @@
   <script type="text/javascript">
     var countryId = getUrlKey('id') || 1,
       videoIndex = getUrlKey('index') || 0,
+      bitrate = getUrlKey('bitrate') || false,
       minVideoId = 1, fullId = -1
     var currentVideoObj = videoList[countryId]
     var currentVideoList = currentVideoObj.list
@@ -215,7 +224,7 @@
     // 更换大的视频
     function changeMaxVideo(currentCuntryId, currentIndex){
       videoIndex = currentIndex
-      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex + '&bitrate=' + bitrate)
       $('#loading').show()
       $('#info').html('网络连接中<img src="static/loading.gif" />')
       for (var i = 0; i < 4; i++) {
@@ -242,7 +251,7 @@
        if (currentCuntryId == '99') {
          $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
        }
-      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex)
+      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex + '&bitrate=' + bitrate)
       $('#videoTree').html(template('videoTreeTpl', {
         list: videoList,
         currentCuntryId: currentCuntryId,
@@ -386,7 +395,6 @@
           break;
         case 'NetStream.Buffer.Full':
           $loading.hide()
-          CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
           break;
         case 'NetStream.Play.StreamNotFound':
           $info.text('视频连接失败')
@@ -394,6 +402,15 @@
             CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
           },1000)
           break;
+      }
+      if (bitrate) {
+        setInterval(function () {
+          var current = CKobject.getObjectById('ckplayer_' + ckpayerId).getStatus().speed * 2/100000
+          if(isNaN(current)){
+            current = '0.00'
+          }
+          $('#bitrate' + id).text(current.toFixed('2') + 'mbps')
+        }, 1000)
       }
     }
     // 关闭视频
@@ -423,10 +440,13 @@
     }
     function fullScreen(e) {
       if ($(e).hasClass('icon-quanping')) {
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100/0.75, 100)
+        var originalWidth = $('#maxVideo').width()
         $(e).removeClass('icon-quanping').addClass('icon-quxiaoquanping')
         $('.main').attr('style', 'width:100%')
         $('.other').hide()
       } else {
+        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100, 100)
         $(e).removeClass('icon-quxiaoquanping').addClass('icon-quanping')
         $('.main').attr('style', 'width:75%')
         $('.other').show()
