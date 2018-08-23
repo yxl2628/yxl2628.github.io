@@ -116,7 +116,7 @@ var videoList = {
         targetIp: '192.168.5.70',
         rtmp:  'http://' + baseURL + ':8084//zb_live/livestream1.flv',
         low:  '',
-        rtsp: '',
+        rtsp: 'rtsp://192.168.32.167:9999/proxyStream',
         rtspLow: ''
       }
     ]

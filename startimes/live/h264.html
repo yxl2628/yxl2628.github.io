@@ -395,22 +395,23 @@
           break;
         case 'NetStream.Buffer.Full':
           $loading.hide()
+          if (bitrate && !bitrateTask) {
+            bitrateTask = setInterval(function () {
+              var current = CKobject.getObjectById('ckplayer_maxVideo').getStatus().speed * 2/100000
+              if(isNaN(current)){
+                current = '0.00'
+              }
+              current = parseFloat(current)
+              $('#bitrate').text(Math.round(current*100)/100 + 'mbps')
+            }, 1000)
+          }
           break;
         case 'NetStream.Play.StreamNotFound':
           $info.text('视频连接失败')
           setTimeout(function(){
             CKobject.getObjectById('ckplayer_' + ckpayerId).removeListener('netStatus','videoHandler' + id)
-          },1000)
+          },250)
           break;
-      }
-      if (bitrate && !bitrateTask) {
-        bitrateTask = setInterval(function () {
-          var current = CKobject.getObjectById('ckplayer_' + ckpayerId).getStatus().speed * 2/100000
-          if(isNaN(current)){
-            current = '0.00'
-          }
-          $('#bitrate' + id).text(current.toFixed('2') + 'mbps')
-        }, 1000)
       }
     }
     // 关闭视频
