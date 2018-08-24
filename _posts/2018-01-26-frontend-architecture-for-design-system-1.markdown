@@ -2,6 +2,7 @@
 layout: post
 title: 前端架构设计-学习笔记(一)
 date: 2018-1-26 12:06:43
+tags: 架构设计
 ---
 
 ### 响应式网站(responsive web design)

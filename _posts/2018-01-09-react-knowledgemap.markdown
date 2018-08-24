@@ -2,6 +2,7 @@
 layout: post
 title: react知识详解
 date: 2018-1-9 08:51:49
+tags: webpack
 ---
 
 # reactjs
@@ -32,7 +33,7 @@ date: 2018-1-9 08:51:49
   - [React组件](https://github.com/yxl2628/reactjs/blob/master/docs/basic/React_Component.md)【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/component)】
   - [React多组件嵌套](https://github.com/yxl2628/reactjs/blob/master/docs/basic/React_Component.md#多嵌套组件) 【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/multiple_component)】
   - [生命周期](https://github.com/yxl2628/reactjs/blob/master/docs/basic/React_Lifecycle.md)【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/lifecycle)】
-- React属性与事件  
+- React属性与事件
   - [State属性](https://github.com/yxl2628/reactjs/blob/master/docs/props&state/react_state.md) 【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/state)】
   - [props属性](https://github.com/yxl2628/reactjs/blob/master/docs/props&state/react_props.md) 【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/props)】
   - [可复用组件](https://github.com/yxl2628/reactjs/blob/master/docs/props&state/reusable_components.md) 【[查看示例代码](https://github.com/yxl2628/reactjs/blob/master/code/reusable_components)】
