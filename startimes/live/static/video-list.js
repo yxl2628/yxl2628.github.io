@@ -126,18 +126,18 @@ var videoList = {
     enName: 'Uganda',
     list: [
       {
-        name: '会议室',
-        targetIp: '10.10.252.162',
-        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream1.flv',
-        low:  'http://' + baseURL + ':8084/wgd_live/livestream5.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      },
-      {
         name: '营业厅',
         targetIp: '10.10.252.163',
         rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/wgd_live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      },
+      {
+        name: '会议室',
+        targetIp: '10.10.252.162',
+        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/wgd_live/livestream5.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
