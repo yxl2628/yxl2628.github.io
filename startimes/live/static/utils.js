@@ -44,7 +44,7 @@ function getTime() {
   minute = minute < 10 ? '0' + minute : minute
   $('#time').text(hour + ' : ' + minute)
 }
-// 跳转
+// 跳转地址
 function goto(id, bitrate, countryShow) {
   var link = location.pathname + '?id=' + id + '&index=0'
   if (bitrate){
@@ -54,4 +54,31 @@ function goto(id, bitrate, countryShow) {
      link += '&countryShow=' + countryShow
   }
   location.href = link
+}
+// 获取视频状态
+function getCameraStatus() {
+  for (var i = 0; i < currentVideoList.length; i++) {
+    statusPost(i)
+  }
+}
+function statusPost(index) {
+  $.ajax({
+    type : "POST",
+    url: 'http://' + baseURL + ':8083/status/',
+    data :JSON.stringify({
+      targetDVR: currentVideoList[index].targetIp
+    }),
+    success: function(res) {
+      if (res == 'online') {
+        console.log('#status' + index)
+        $('#status' + index).css('color', '#30af81')
+      }
+      if (res == 'offline') {
+        $('#status' + index).css('color', '#ff1d04')
+      }
+      if (res == 'nonspport') {
+        $('#status' + index).css('color', '#d1d41a')
+      }
+    }
+  })
 }

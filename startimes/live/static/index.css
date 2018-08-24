@@ -237,6 +237,7 @@ ul > li {
 .country-name.active {
   color: #fff;
 }
+
 .country-flag {
   margin-right: 10px;
   width: 20px;
@@ -251,12 +252,19 @@ ul > li {
 .camera-list {
   margin-left: 40px;
 }
+.camera-name {
+  display: flex;
+  align-items: flex-end;
+}
 .camera-name.active {
   color: #fff;
 }
 .country-name.no-link, .camera-name.no-link {
   cursor: default;
-
+}
+.icon-qiakoujiankongshexiangtou {
+  margin-right: 10px;
+  font-size: 18px;
 }
 .control {
   position: relative;
@@ -383,6 +391,7 @@ ul > li {
   right: 30px;
 }
 .controler-setting .iconfont {
+  margin-right: 10px;
   font-size: 30px;
   color: #5c5c68;
   cursor: pointer;
@@ -391,11 +400,16 @@ ul > li {
   display: none;
   position: absolute;
   top: 0;
-  right: 50px;
+  right: 75px;
   width: 40px;
   margin: 0;
   padding: 10px 10px 10px 30px;
   background-color: #1d1c2c;
+}
+.nowSpeed {
+  color: #5c5c68;
+  display: flex;
+  line-height: 30px;
 }
 .controler-setting .controler-speed::after{
   content: ' ';
@@ -421,7 +435,7 @@ ul > li {
 .controler-setting .controler-speed:hover{
   display: block;
 }
-.controler-setting .iconfont:hover + .controler-speed{
+.controler-setting .nowSpeed:hover + .controler-speed{
   display: block;
 }
 @media (max-width:1400px) {

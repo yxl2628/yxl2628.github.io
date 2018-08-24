@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="renderer" content="ie-comp">
   <title>四达时代监控平台</title>
-  <link rel="stylesheet" href="static/index.css?version=1534834004046">
-  <link rel="stylesheet" type="text/css" href="static/font/iconfont.css?version=1534834004046">
+  <link rel="stylesheet" href="static/index.css?version=1535082878147">
+  <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_265237_4z9hcbyuo4j.css">
   <style media="screen">
     .controler-direction {
       transform: scale(0.7, 1);
@@ -105,7 +105,7 @@
         <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
       </div>
       <div class="controler-setting">
-        <i class="iconfont icon-settings"></i>
+        <div class="nowSpeed"><i class="iconfont icon-settings"></i><span id="speed">4</span>倍</div>
         <ul class="controler-speed">
           <li data-speed="1">1倍</li>
           <li data-speed="2">2倍</li>
@@ -118,11 +118,11 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1534834004046"></script>
-  <script src="./static/video-list.js?version=1534834004046.0.0"></script>
-  <script src="static/jquery.min.js?version=1534834004046" charset="utf-8"></script>
-  <script src="./static/template-web.js?version=1534834004046"></script>
-  <script src="./static/utils.js?version=1534834004046"></script>
+  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1535082878147"></script>
+  <script src="./static/video-list.js?version=1535082878147.0.0"></script>
+  <script src="static/jquery.min.js?version=1535082878147" charset="utf-8"></script>
+  <script src="./static/template-web.js?version=1535082878147"></script>
+  <script src="./static/utils.js?version=1535082878147"></script>
   <script id="videoTreeTpl" type="text/html">
     <ul class="country-list">
       {{each list country key}}
@@ -134,7 +134,7 @@
         </div>
         <ul class="camera-list">
           {{each country.list camera}}
-          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})">{{camera.name}}</li>
+          <li id="{{currentCuntryId}}-{{$index}}" class="camera-name {{if $index == currentIndex}}active{{/if}}" onClick="changeMaxVideo({{currentCuntryId}}, {{$index}})"><i id="status{{$index}}" class="iconfont icon-qiakoujiankongshexiangtou"></i>{{camera.name}}</li>
           {{/each}}
         </ul>
       </li>
@@ -192,6 +192,7 @@
       $('.controler-speed > li').on('click', function() {
         var _this = this
         $(this).addClass('active')
+        $('#speed').text($(this).attr('data-speed'))
         $('.controler-speed > li').each(function(){
           if(this != _this) {
             $(this).removeClass('active')
@@ -283,21 +284,6 @@
         countryShow: countryShow
       }))
     }
-    // 获取视频状态
-    function getCameraStatus() {
-      for (var i = 0; i < currentVideoList.length; i++) {
-        // $.ajax({
-        //   type : "POST",
-        //   url: 'http://' + baseURL + ':8000/status/',
-        //   data :JSON.stringify({
-        //     targetDVR: currentVideoList[i].targetIp
-        //   }),
-        //   success: function(res) {
-        //     console.log('status:', res)
-        //   }
-        // })
-      }
-    }
     // 加载完成后执行
     function loadedHandler() {
       // CKobject.getObjectById('ckplayer_maxVideo').addListener('fullScreen', 'fullScreenHandler')
@@ -324,66 +310,6 @@
       // CKobject.getObjectById('ckplayer_minVideo4').addListener('fullScreen', 'fullScreenHandler4')
       CKobject.getObjectById('ckplayer_minVideo4').addListener('netStatus','videoHandler4')
     }
-    // // 监听全屏事件
-    // function fullScreenHandler(b) {
-    //   if (b) {
-    //     fullId = 0
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 0) {
-    //       fullId = -1
-    //       reOpenMinVideo(0)
-    //     }
-    //   }
-    // }
-    // // 监听全屏事件
-    // function fullScreenHandler1(b) {
-    //   if (b) {
-    //     fullId = 1
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 1) {
-    //       fullId = -1
-    //       reOpenMinVideo(1)
-    //     }
-    //   }
-    // }
-    // // 监听全屏事件
-    // function fullScreenHandler2(b) {
-    //   if (b) {
-    //     fullId = 2
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 2) {
-    //       fullId = -1
-    //       reOpenMinVideo(2)
-    //     }
-    //   }
-    // }
-    // // 监听全屏事件
-    // function fullScreenHandler3(b) {
-    //   if (b) {
-    //     fullId = 3
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 3) {
-    //       fullId = -1
-    //       reOpenMinVideo(3)
-    //     }
-    //   }
-    // }
-    // // 监听全屏事件
-    // function fullScreenHandler4(b) {
-    //   if (b) {
-    //     fullId = 4
-    //     openMaxVideo(fullId)
-    //   } else {
-    //     if (fullId == 4) {
-    //       fullId = -1
-    //       reOpenMinVideo(4)
-    //     }
-    //   }
-    // }
     // 监听视频流
     function videoHandler(s){
       handlerVideoStatus(s, '')
@@ -422,12 +348,21 @@
           $loading.hide()
           if (bitrate && !bitrateTask) {
             bitrateTask = setInterval(function () {
-              var current = CKobject.getObjectById('ckplayer_maxVideo').getStatus().speed * 2/100000
-              if(isNaN(current)){
-                current = '0.00'
-              }
-              current = parseFloat(current)
+              var current = CKobject.getObjectById('ckplayer_maxVideo').getStatus().speed * 2/100000,
+              current1 = CKobject.getObjectById('ckplayer_minVideo1').getStatus().speed * 2/100000,
+              current2 = CKobject.getObjectById('ckplayer_minVideo2').getStatus().speed * 2/100000,
+              current3 = CKobject.getObjectById('ckplayer_minVideo3').getStatus().speed * 2/100000,
+              current4 = CKobject.getObjectById('ckplayer_minVideo4').getStatus().speed * 2/100000
+              current = isNaN(current) ? '0.00' :parseFloat(current)
               $('#bitrate').text(Math.round(current*100)/100 + 'mbps')
+              current1 = isNaN(current1) ? '0.00' :parseFloat(current1)
+              $('#bitrate1').text(Math.round(current1*100)/100 + 'mbps')
+              current2 = isNaN(current2) ? '0.00' :parseFloat(current2)
+              $('#bitrate2').text(Math.round(current2*100)/100 + 'mbps')
+              current3 = isNaN(current3) ? '0.00' :parseFloat(current3)
+              $('#bitrate3').text(Math.round(current3*100)/100 + 'mbps')
+              current4 = isNaN(current4) ? '0.00' :parseFloat(current4)
+              $('#bitrate4').text(Math.round(current4*100)/100 + 'mbps')
             }, 1000)
           }
           break;
@@ -439,31 +374,7 @@
           break;
       }
     }
-    // 关闭视频
-    function openMaxVideo(index) {
-      // index=0时，尝试将视频改为铺满全屏
-      if (index == 0) {
-        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH((document.body.offsetWidth*100/$('#maxVideo').width()), 100)
-      }
-      // if (index > 0) {
-      //   // 主视频切换为小码率
-      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->}')
-      //   // 小视频切换成大码率
-      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].rtmp + '}')
-      // }
-    }
-    function reOpenMinVideo(index) {
-      if (index == 0) {
-        CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100, 100)
-      }
-      // if (index > 0) {
-      //   console.log('{f->' + currentVideoList[videoIndex].rtmp + '}')
-      //   // 打视频切换为大码率
-      //   CKobject.getObjectById('ckplayer_maxVideo').newAddress('{f->' + currentVideoList[videoIndex].rtmp + '}')
-      //   // 小视频切换为小码率
-      //   CKobject.getObjectById('ckplayer_minVideo' + index).newAddress('{f->' + currentVideoList[index - 1].low + '}')
-      // }
-    }
+    // 全屏
     function fullScreen(e) {
       if ($(e).hasClass('icon-quanping')) {
         CKobject.getObjectById('ckplayer_maxVideo').videoWAndH(100/0.75, 100)
