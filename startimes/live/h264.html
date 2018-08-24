@@ -139,6 +139,13 @@
         </ul>
       </li>
       {{/if}}
+      {{if countryShow && key!=currentCuntryId}}
+        <li class="country-item">
+          <div class="country-name" onClick="goto({{key}}, {{bitrate}}, {{countryShow}})">
+            <img class="country-flag" src="./static/country/{{country.enName}}.jpg"/> {{country.name}}
+          </div>
+        </li>
+      {{/if}}
       {{/each}}
     </ul>
   </script>
@@ -146,6 +153,7 @@
     var countryId = getUrlKey('id') || 1,
       videoIndex = getUrlKey('index') || 0,
       bitrate = getUrlKey('bitrate') || false,
+      countryShow = getUrlKey('countryShow') || false,
       minVideoId = 1, fullId = -1, bitrateTask = null
     var currentVideoObj = videoList[countryId]
     var currentVideoList = currentVideoObj.list
@@ -224,7 +232,14 @@
     // 更换大的视频
     function changeMaxVideo(currentCuntryId, currentIndex){
       videoIndex = currentIndex
-      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex + '&bitrate=' + bitrate)
+      var link = location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex
+      if (bitrate){
+         link += '&bitrate=' + bitrate
+      }
+      if (countryShow){
+         link += '&countryShow=' + countryShow
+      }
+      window.history.pushState({}, 0, link)
       $('#loading').show()
       $('#info').html('网络连接中<img src="static/loading.gif" />')
       for (var i = 0; i < 4; i++) {
@@ -251,11 +266,21 @@
        if (currentCuntryId == '99') {
          $.get('http://' + baseURL + ':8083/startShell/' + currentIndex + '/')
        }
-      window.history.pushState({}, 0, location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex + '&bitrate=' + bitrate)
-      $('#videoTree').html(template('videoTreeTpl', {
+       var link = location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex + '&bitrate=' + bitrate
+       var link = location.pathname + '?id=' + currentCuntryId + '&index=' + currentIndex
+       if (bitrate){
+          link += '&bitrate=' + bitrate
+       }
+       if (countryShow){
+          link += '&countryShow=' + countryShow
+       }
+       window.history.pushState({}, 0, link)
+       $('#videoTree').html(template('videoTreeTpl', {
         list: videoList,
         currentCuntryId: currentCuntryId,
-        currentIndex: currentIndex
+        currentIndex: currentIndex,
+        bitrate: bitrate,
+        countryShow: countryShow
       }))
     }
     // 获取视频状态

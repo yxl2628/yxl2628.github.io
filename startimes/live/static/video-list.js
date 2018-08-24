@@ -107,6 +107,44 @@ var videoList = {
       }
     ]
   },
+  '4': {
+    name: '乌干达',
+    enName: 'Uganda',
+    list: [
+      {
+        name: '一楼会议室',
+        targetIp: '10.10.252.162',
+        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream1.flv',
+        low:  'http://' + baseURL + ':8084/wgd_live/livestream5.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      },
+      {
+        name: '营业厅',
+        targetIp: '10.10.252.163',
+        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream2.flv',
+        low:  'http://' + baseURL + ':8084/wgd_live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      },
+      {
+        name: '呼叫中心',
+        targetIp: '10.10.252.164',
+        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream3.flv',
+        low:  'http://' + baseURL + ':8084/wgd_live/livestream7.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      },
+      {
+        name: '大楼正门',
+        targetIp: '10.10.252.165',
+        rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream4.flv',
+        low:  'http://' + baseURL + ':8084/wgd_live/livestream8.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      }
+    ]
+  },
   '88': {
     name: '北京总部',
     enName: 'StarTimes',

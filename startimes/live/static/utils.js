@@ -44,3 +44,14 @@ function getTime() {
   minute = minute < 10 ? '0' + minute : minute
   $('#time').text(hour + ' : ' + minute)
 }
+// 跳转
+function goto(id, bitrate, countryShow) {
+  var link = location.pathname + '?id=' + id + '&index=0'
+  if (bitrate){
+     link += '&bitrate=' + bitrate
+  }
+  if (countryShow){
+     link += '&countryShow=' + countryShow
+  }
+  location.href = link
+}
