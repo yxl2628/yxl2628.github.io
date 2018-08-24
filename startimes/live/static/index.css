@@ -397,14 +397,18 @@ ul > li {
   cursor: pointer;
 }
 .controler-setting .controler-speed {
-  display: none;
+  transition: opacity 1s;
+  opacity: 0;
   position: absolute;
-  top: 0;
-  right: 75px;
+  top: -5px;
+  right: 85px;
   width: 40px;
   margin: 0;
-  padding: 10px 10px 10px 30px;
+  padding: 10px 20px 10px 30px;
   background-color: #1d1c2c;
+}
+.controler-setting .controler-speed:hover {
+  opacity: 1;
 }
 .nowSpeed {
   color: #5c5c68;
@@ -436,7 +440,7 @@ ul > li {
   display: block;
 }
 .controler-setting .nowSpeed:hover + .controler-speed{
-  display: block;
+  opacity: 1;
 }
 @media (max-width:1400px) {
   .title {

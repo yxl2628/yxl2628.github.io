@@ -1,0 +1,26 @@
+---
+layout: post
+title: webpack学习-入门篇
+date: 2018-1-9 08:51:49
+---
+
+# webpack学习
+通过本篇讲解，可以先搭建出来一个可以运行的webpack工程，但是设计到具体的每一项的配置说明，后面再陆续添加详解
+
+### 1.初始化一个工程
+通过 `npm init` 来初始化一个工程，初始化成功后，应该可以看到package.json这个文件，也可以拷贝下面的代码，自己新建一个package.json
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "node -v"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1"
+  }
+}
+```
+
+### 2.安装webpack
+通过 `npm install webpack --save-dev` 或者 `yarn add webpack -D` 安装webpack到你的工程下

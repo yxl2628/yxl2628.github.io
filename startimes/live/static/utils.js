@@ -70,7 +70,6 @@ function statusPost(index) {
     }),
     success: function(res) {
       if (res == 'online') {
-        console.log('#status' + index)
         $('#status' + index).css('color', '#30af81')
       }
       if (res == 'offline') {

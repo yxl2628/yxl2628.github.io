@@ -20,7 +20,7 @@ var videoList = {
     enName: 'SouthAfrica',
     list: [
       {
-        name: '室外发射台',
+        name: '天线阵列',
         targetIp: '10.6.203.13',
         rtmp:  'http://' + baseURL + ':8084/nf_live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream5.flv',
@@ -36,7 +36,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
-        name: '数据机房1',
+        name: '呼叫中心',
         targetIp: '10.6.203.15',
         rtmp:  'http://' + baseURL + ':8084/nf_live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream7.flv',
@@ -44,7 +44,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
-        name: '数据机房2',
+        name: '会议室',
         targetIp: '10.6.203.16',
         rtmp:  'http://' + baseURL + ':8084/nf_live/livestream4.flv',
         low:  'http://' + baseURL + ':8084/nf_live/livestream8.flv',
@@ -96,7 +96,7 @@ var videoList = {
     enName: 'Nigeria',
     list: [
       {
-        name: 'Noc监控',
+        name: '播控中心',
         targetIp: '10.4.252.162',
         rtmp:  'http://' + baseURL + ':8084/abj_live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/abj_live/livestream4.flv',
@@ -126,7 +126,7 @@ var videoList = {
     enName: 'Uganda',
     list: [
       {
-        name: '一楼会议室',
+        name: '会议室',
         targetIp: '10.10.252.162',
         rtmp:  'http://' + baseURL + ':8084/wgd_live/livestream1.flv',
         low:  'http://' + baseURL + ':8084/wgd_live/livestream5.flv',
@@ -172,7 +172,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
-        name: '播控中心',
+        name: '机房',
         targetIp: '10.8.252.162',
         rtmp:  'http://' + baseURL + ':8084/ts_live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/ts_live/livestream6.flv',
@@ -180,7 +180,7 @@ var videoList = {
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
       {
-        name: '机房',
+        name: '播控中心',
         targetIp: '10.8.252.163',
         rtmp:  'http://' + baseURL + ':8084/ts_live/livestream3.flv',
         low:  'http://' + baseURL + ':8084/ts_live/livestream7.flv',

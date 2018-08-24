@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="renderer" content="ie-comp">
   <title>四达时代监控平台</title>
-  <link rel="stylesheet" href="static/index.css?version=1535082878147">
-  <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_265237_4z9hcbyuo4j.css">
+  <link rel="stylesheet" href="static/index.css?version=1535093144136">
+  <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_265237_4z9hcbyuo4j.css?version=1535093144136">
   <style media="screen">
     .controler-direction {
       transform: scale(0.7, 1);
@@ -105,24 +105,24 @@
         <div class="zoom control-btn" data-type="ZOOM_OUT">-</div>
       </div>
       <div class="controler-setting">
-        <div class="nowSpeed"><i class="iconfont icon-settings"></i><span id="speed">4</span>倍</div>
+        <div class="nowSpeed"><i class="iconfont icon-settings"></i><span id="speed">4</span>倍速</div>
         <ul class="controler-speed">
-          <li data-speed="1">1倍</li>
-          <li data-speed="2">2倍</li>
-          <li data-speed="3">3倍</li>
-          <li data-speed="4" class="active">4倍</li>
-          <li data-speed="5">5倍</li>
-          <li data-speed="6">6倍</li>
-          <li data-speed="7">7倍</li>
+          <li data-speed="1">1倍速</li>
+          <li data-speed="2">2倍速</li>
+          <li data-speed="3">3倍速</li>
+          <li data-speed="4" class="active">4倍速</li>
+          <li data-speed="5">5倍速</li>
+          <li data-speed="6">6倍速</li>
+          <li data-speed="7">7倍速</li>
         </ul>
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1535082878147"></script>
-  <script src="./static/video-list.js?version=1535082878147.0.0"></script>
-  <script src="static/jquery.min.js?version=1535082878147" charset="utf-8"></script>
-  <script src="./static/template-web.js?version=1535082878147"></script>
-  <script src="./static/utils.js?version=1535082878147"></script>
+  <script type="text/javascript" src="ckplayer/ckplayer.js?version=1535093144136"></script>
+  <script src="./static/video-list.js?version=1535093144136.0.0"></script>
+  <script src="static/jquery.min.js?version=1535093144136" charset="utf-8"></script>
+  <script src="./static/template-web.js?version=1535093144136"></script>
+  <script src="./static/utils.js?version=1535093144136"></script>
   <script id="videoTreeTpl" type="text/html">
     <ul class="country-list">
       {{each list country key}}
@@ -175,9 +175,9 @@
       getWeek()
       getDate()
       getTime()
-      getCameraStatus(countryId)
       setInterval(getTime, 10000)
-      setInterval(getCameraStatus, 600000)
+      setInterval(getCameraStatus, 10000)
+
       $('.control-btn').on('mousedown', function(){
         controlPost('/start/', $(this).attr('data-type'), function(res) {
           console.log('start', res)
@@ -283,6 +283,7 @@
         bitrate: bitrate,
         countryShow: countryShow
       }))
+      getCameraStatus(countryId)
     }
     // 加载完成后执行
     function loadedHandler() {
