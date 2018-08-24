@@ -2,7 +2,7 @@
 layout: post
 title: react知识详解
 date: 2018-1-9 08:51:49
-tags: webpack
+tags: reactjs
 ---
 
 # reactjs
