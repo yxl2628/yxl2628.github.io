@@ -62,7 +62,7 @@ const greeter = require('./Greeter.js')
 document.querySelector("#root").appendChild(greeter())
 ```
 
-### 定义一个webpack.config.js配置文件
+### 4.定义一个webpack.config.js配置文件
 我们在工程下新建一个webpack.config.js文件，用来存放配置代码，目前主要的配置是入口文件路径和打包后文件的存放路径
 ```javascript
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
 }
 ```
 
-### 见证结果
+### 5.见证结果
 在中断中运行 `npm start` 来看下运行结果吧
 > 当前使用webpack版本为4.17.1，首次运行的时候，提示需要安装webpack-cli，只要按照提示安装上即可
 
