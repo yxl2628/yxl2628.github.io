@@ -155,6 +155,7 @@ ass 和 Less 之类的预处理器是对原生CSS的拓展，它们允许你使�
 - Stylus Loader
 除了上述loader，我们还有一个非常实用的处理平台PostCSS，它可以帮助你实现更多的功能，比如：自动添加适应不同浏览器的css前缀：
 1. 首先安装postcss-loader 和 autoprefixer（自动添加前缀的插件）
+运行 `yarn add postcss-loader autoprefixer -D`
 2. 增加postcss.config.js
 ```javascript
 module.exports = {
