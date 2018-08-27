@@ -132,20 +132,20 @@ module.exports = {
 ```
 3. 将样式应用到Greeter组件中
 ```javascript
- import React, {Component} from 'react'
- import styles from './Greeter.css'
+import React, {Component} from 'react'
+import styles from './Greeter.css'
 
- class Greeter extends Component{
-   render() {
-     return (
-       <div className={styles.root}>
-         Hi there and greetings from JSON!
-       </div>
-     )
-   }
+class Greeter extends Component{
+ render() {
+   return (
+     <div className={styles.root}>
+       Hi there and greetings from JSON!
+     </div>
+   )
  }
+}
 
- export default Greeter
+export default Greeter
 ```
 4. 运行npm start 或 npm run dev看一下吧，如何？相同类名也不会造成污染了。
 
