@@ -7,11 +7,6 @@
   <title>四达时代监控平台</title>
   <link rel="stylesheet" href="static/index.css?version=1535093144136">
   <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_265237_4z9hcbyuo4j.css?version=1535093144136">
-  <style media="screen">
-    .controler-direction {
-      transform: scale(0.7, 1);
-    }
-  </style>
 </head>
 
 <body>
@@ -349,21 +344,26 @@
           $loading.hide()
           if (bitrate && !bitrateTask) {
             bitrateTask = setInterval(function () {
-              var current = CKobject.getObjectById('ckplayer_maxVideo').getStatus().speed * 2/100000,
-              current1 = CKobject.getObjectById('ckplayer_minVideo1').getStatus().speed * 2/100000,
-              current2 = CKobject.getObjectById('ckplayer_minVideo2').getStatus().speed * 2/100000,
-              current3 = CKobject.getObjectById('ckplayer_minVideo3').getStatus().speed * 2/100000,
-              current4 = CKobject.getObjectById('ckplayer_minVideo4').getStatus().speed * 2/100000
-              current = isNaN(current) ? '0.00' :parseFloat(current)
-              $('#bitrate').text(Math.round(current*100)/100 + 'mbps')
-              current1 = isNaN(current1) ? '0.00' :parseFloat(current1)
-              $('#bitrate1').text(Math.round(current1*100)/100 + 'mbps')
-              current2 = isNaN(current2) ? '0.00' :parseFloat(current2)
-              $('#bitrate2').text(Math.round(current2*100)/100 + 'mbps')
-              current3 = isNaN(current3) ? '0.00' :parseFloat(current3)
-              $('#bitrate3').text(Math.round(current3*100)/100 + 'mbps')
-              current4 = isNaN(current4) ? '0.00' :parseFloat(current4)
-              $('#bitrate4').text(Math.round(current4*100)/100 + 'mbps')
+              var maxVideoPlayer = CKobject.getObjectById('ckplayer_maxVideo'),
+              ckplayer_minVideoPlayer1 = CKobject.getObjectById('ckplayer_minVideo1'),
+              ckplayer_minVideoPlayer2 = CKobject.getObjectById('ckplayer_minVideo2'),
+              ckplayer_minVideoPlayer3 = CKobject.getObjectById('ckplayer_minVideo3'),
+              ckplayer_minVideoPlayer4 = CKobject.getObjectById('ckplayer_minVideo4')
+              var current = maxVideoPlayer.getStatus().speed * 2/100000,
+              current1 = ckplayer_minVideoPlayer1 ? ckplayer_minVideoPlayer1.getStatus().speed * 2/100000 : 'Error',
+              current2 = ckplayer_minVideoPlayer2 ? ckplayer_minVideoPlayer2.getStatus().speed * 2/100000 : 'Error',
+              current3 = ckplayer_minVideoPlayer3 ? ckplayer_minVideoPlayer3.getStatus().speed * 2/100000 : 'Error',
+              current4 = ckplayer_minVideoPlayer4 ? ckplayer_minVideoPlayer4.getStatus().speed * 2/100000 : 'Error'
+              current = isNaN(current) ? '' : (Math.round(parseFloat(current)*100)/100 + 'mbps')
+              $('#bitrate').text(current)
+              current1 = isNaN(current1) ? '' : (Math.round(parseFloat(current1)*100)/100 + 'mbps')
+              $('#bitrate1').text(current1)
+              current2 = isNaN(current2) ? '' : (Math.round(parseFloat(current2)*100)/100 + 'mbps')
+              $('#bitrate2').text(current2)
+              current3 = isNaN(current3) ? '' : (Math.round(parseFloat(current3)*100)/100 + 'mbps')
+              $('#bitrate3').text(current3)
+              current4 = isNaN(current4) ? '' : (Math.round(parseFloat(current4)*100)/100 + 'mbps')
+              $('#bitrate4').text(current4)
             }, 1000)
           }
           break;
