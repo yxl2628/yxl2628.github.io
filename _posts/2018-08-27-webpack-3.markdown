@@ -64,14 +64,14 @@ class Greeter extends Component{
     )
   }
 }
-
 export default Greeter
 ```
 修改main.js，使用ES6的模块定义来渲染Greeter模块
+```javascript
 import React from 'react'
 import {render} from 'react-dom'
 import Greeter from './Greeter'
 
 render(<Greeter />, document.getElementById('root'))
-
+```
 ### 6.运行npm start 或者 npm run dev来查看新的应用吧
