@@ -97,3 +97,22 @@ module.exports = {
 
 通过浏览器打开index.hmtl，查看一下是否打包成功：
 显示： Hi there and greetings!
+
+### 6.关于npm start
+- 正常的webpack启动命令其实是：`node_modules/.bin/webpack app/main.js public/bundle.js` (webpack非全局安装的情况)
+- 我们通过webpack.config.js，免去了后面参数的输入，减少不方便以及容易出错的地方
+- npm可以引导任务执行，对npm进行配置后，可以在命令行中使用简单的npm start命令来代替繁琐的命令，可以在package.json中，对scripts对象进行相关配置，配置如下：
+```json
+{
+  "private": true,
+  "version": "2.14.0",
+  "scripts": {
+    "start": "webpack" // 修改的是这里，JSON文件不支持注释，引用时请清除
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
+```
+> 指的一提的是，npm start 是scripts脚本里面，特殊的一种表现，如果你的命令不是 start 或 多余一个，那么，正确的命令格式应该是：npm run start，后面我们会用到，启动开发模式：npm run dev 打包构建 npm run build
