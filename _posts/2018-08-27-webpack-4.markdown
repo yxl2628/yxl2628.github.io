@@ -7,8 +7,8 @@ tags: webpack
 Webpack有一个不可不说的优点，它把所有的文件都都当做模块处理，JavaScript代码，CSS和fonts以及图片等等通过合适的loader都可以被处理
 ### CSS
 webpack提供两个工具处理样式表，css-loader 和 style-loader，二者处理的任务不同，css-loader使你能够使用类似@import 和 url(...)的方法实现 require()的功能,style-loader将所有的计算后的样式加入页面中，二者组合在一起使你能够把样式表嵌入webpack打包后的JS文件中
-1. 安装，运行`yarn add style-loader css-loader -D`
-2. 配置webpack.config.js：
+- 安装，运行`yarn add style-loader css-loader -D`
+- 配置webpack.config.js：
 
 ```javascript
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
 }
 ```
 > 注意这里对同一个文件引入多个loader的方法
-3. 增加一个main.css文件
+- 增加一个main.css文件
 
 ```css
 html {
@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6, p, ul {
 }
 ```
 
-4. 我们这里例子中用到的webpack只有单一的入口，其它的模块需要通过 import, require, url等与入口文件建立其关联，为了让webpack能找到”main.css“文件，我们把它导入”main.js “中，如下：
+- 我们这里例子中用到的webpack只有单一的入口，其它的模块需要通过 import, require, url等与入口文件建立其关联，为了让webpack能找到”main.css“文件，我们把它导入”main.js “中，如下：
 
 ```javascript
 import React from 'react'
@@ -85,7 +85,7 @@ render(<Greeter />, document.getElementById('root'))
 
 ### CSS mouidule
 CSS modules的技术意在把JS的模块化思想带入CSS中来，通过CSS模块，所有的类名，动画名默认都只作用于当前模块。Webpack对CSS模块化提供了非常好的支持，只需要在CSS loader中进行简单配置即可，然后就可以直接把CSS的类名传递到组件的代码中，这样做有效避免了全局污染
-1. 具体修改webpack.config.js如下：
+- 具体修改webpack.config.js如下：
 
 ```javascript
 module.exports = {
@@ -126,7 +126,7 @@ module.exports = {
   }
 }
 ```
-2. 在src下新建一个Greeter.css的文件来进行测试
+- 在src下新建一个Greeter.css的文件来进行测试
 
 ```css
 .root {
@@ -136,7 +136,7 @@ module.exports = {
 }
 ```
 
-3. 将样式应用到Greeter组件中
+- 将样式应用到Greeter组件中
 
 ```javascript
 import React, {Component} from 'react'
@@ -155,7 +155,7 @@ class Greeter extends Component{
 export default Greeter
 ```
 
-4. 运行npm start 或 npm run dev看一下吧，如何？相同类名也不会造成污染了。
+- 运行npm start 或 npm run dev看一下吧，如何？相同类名也不会造成污染了。
 
 ### CSS 预处理器
 ass 和 Less 之类的预处理器是对原生CSS的拓展，它们允许你使用类似于variables, nesting, mixins, inheritance等不存在于CSS中的特性来写CSS，CSS预处理器可以这些特殊类型的语句转化为浏览器可识别的CSS语句，比较常用的css预处理loaders是：
@@ -163,9 +163,9 @@ ass 和 Less 之类的预处理器是对原生CSS的拓展，它们允许你使�
 - Sass Loader
 - Stylus Loader
 除了上述loader，我们还有一个非常实用的处理平台PostCSS，它可以帮助你实现更多的功能，比如：自动添加适应不同浏览器的css前缀：
-1. 首先安装postcss-loader 和 autoprefixer（自动添加前缀的插件）
+- 首先安装postcss-loader 和 autoprefixer（自动添加前缀的插件）
 运行 `yarn add postcss-loader autoprefixer -D`
-2. 增加postcss.config.js
+- 增加postcss.config.js
 
 ```javascript
 module.exports = {
@@ -174,7 +174,7 @@ module.exports = {
     ]
 }
 ```
-3. 增加webpack.config.js
+- 增加webpack.config.js
 
 ```javascript
 module.exports = {
