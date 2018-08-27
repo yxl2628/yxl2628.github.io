@@ -96,6 +96,14 @@ var videoList = {
     enName: 'Nigeria',
     list: [
       {
+        name: '室外发射台',
+        targetIp: '10.4.252.164',
+        rtmp:  'http://' + baseURL + ':8084/abj_live/livestream3.flv',
+        low:  'http://' + baseURL + ':8084/abj_live/livestream6.flv',
+        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      },
+      {
         name: '播控中心',
         targetIp: '10.4.252.162',
         rtmp:  'http://' + baseURL + ':8084/abj_live/livestream1.flv',
@@ -108,14 +116,6 @@ var videoList = {
         targetIp: '10.4.252.163',
         rtmp:  'http://' + baseURL + ':8084/abj_live/livestream2.flv',
         low:  'http://' + baseURL + ':8084/abj_live/livestream5.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      },
-      {
-        name: '室外发射台',
-        targetIp: '10.4.252.164',
-        rtmp:  'http://' + baseURL + ':8084/abj_live/livestream3.flv',
-        low:  'http://' + baseURL + ':8084/abj_live/livestream6.flv',
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       }
@@ -187,14 +187,14 @@ var videoList = {
         rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
         rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
       },
-      {
-        name: '营业厅',
-        targetIp: '10.8.252.164',
-        rtmp:  'http://' + baseURL + ':8084/ts_live/livestream4.flv',
-        low:  'http://' + baseURL + ':8084/ts_live/livestream8.flv',
-        rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
-        rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
-      }
+      // {
+      //   name: '营业厅',
+      //   targetIp: '10.8.252.164',
+      //   rtmp:  'http://' + baseURL + ':8084/ts_live/livestream4.flv',
+      //   low:  'http://' + baseURL + ':8084/ts_live/livestream8.flv',
+      //   rtsp: 'rtsp://' + baseURL + '/proxyStream-1',
+      //   rtspLow: 'rtsp://' + baseURL + '/proxyStream-1'
+      // }
     ]
   }
 }
