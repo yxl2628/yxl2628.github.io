@@ -399,10 +399,10 @@ export default {
 .code-result {
   position: absolute;
   text-align: center;
+  width: 100%;
   top: 50%;
-  left: 50%;
+  left: 0;
   margin-top: -190px;
-  margin-left: -48px;
 }
 #code {
   position: absolute;
