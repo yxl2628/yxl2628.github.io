@@ -93,7 +93,7 @@ export default {
       maxDay: 31,
       birthdateCurrent: 'year',
       qrcode: false,
-      qrcodeResult: '等待连接',
+      qrcodeResult: '请用爱迪智医APP扫描同步',
       codeDataUrl: '',
       bg: {
         background: 'url(' + backgroundImg + ')'
