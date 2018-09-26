@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <div class="dialog-header">自助诊疗</div>
+  <div class="dialog-header">智慧自诊</div>
   <div class="dialog-body" style="background: url('../static/bg-1.jpg');padding:0;">
     <div id="dialog" class="dialog">
       <span class="label">请求次数：</span>

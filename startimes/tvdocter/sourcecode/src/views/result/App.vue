@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <div class="dialog-header">自助诊疗</div>
+  <div class="dialog-header">智慧自诊</div>
   <div class="dialog-body" :style="bg">
     <div id="dialog" class="dialog">
       <template v-for="item in resultList">

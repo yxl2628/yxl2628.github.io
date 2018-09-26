@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <div class="header">自助诊疗</div>
+  <div class="header">智慧自诊</div>
   <div class="body" :style="bg">
     <div class="content">
       <div class="row clearfix">
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="button" :class="{active:current=='button'}">开始诊断</div>
+        <div class="button" :class="{active:current=='button'}">开始</div>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
         <ul class="content">
           <li v-for="n in 5" v-html="(month - 6 + n) > 0 ? (month - 6 + n) : ''"></li>
           <li class="active" v-html="month"></li>
-          <li v-for="n in 5" v-html="(month + n) <= 12 ? (month + n) : ''"></li>
+          <li v-for="n in 5" v-html="(month + n) <= maxMonth ? (month + n) : ''"></li>
         </ul>
       </div>
       <div class="day">
@@ -88,12 +88,13 @@ export default {
       list: ['type', 'sex', 'birthdate', 'button'],
       year: now.getFullYear(),
       month: now.getMonth() + 1,
-      day: now.getDay(),
+      day: now.getDate(),
       maxYear: now.getFullYear(),
-      maxDay: 31,
+      maxMonth: now.getMonth() + 1,
+      maxDay: now.getDate(),
       birthdateCurrent: 'year',
       qrcode: false,
-      qrcodeResult: '请用爱迪智医APP扫描同步',
+      qrcodeResult: window.title,
       codeDataUrl: '',
       bg: {
         background: 'url(' + backgroundImg + ')'
@@ -210,11 +211,35 @@ export default {
       switch (this.birthdateCurrent) {
         case 'year':
           this.year = this.year - 1
+          if (this.year !== now.getFullYear()) {
+            this.maxMonth = 12
+          } else {
+            this.maxMonth = now.getMonth() + 1
+            if (this.month > this.maxMonth) {
+              this.month = this.maxMonth
+            }
+          }
+          if (this.year === now.getFullYear() && this.month === now.getMonth() + 1) {
+            this.maxDay = now.getDate()
+            if (this.day > this.maxDay) {
+              this.day = this.maxDay
+            }
+          } else {
+            this.maxDay = this.getMonthLength(this.birthdate)
+          }
           break
         case 'month':
           this.month = this.month > 1 ? this.month - 1 : this.month
           this.maxDay = new Date(this.year, this.month, 0).getDate()
           this.day = this.day > this.maxDay ? this.maxDay : this.day
+          if (this.year === now.getFullYear() && this.month === now.getMonth() + 1) {
+            this.maxDay = now.getDate()
+            if (this.day > this.maxDay) {
+              this.day = this.maxDay
+            }
+          } else {
+            this.maxDay = this.getMonthLength(this.birthdate)
+          }
           break
         case 'day':
           this.day = this.day > 1 ? this.day - 1 : this.day
@@ -225,11 +250,35 @@ export default {
       switch (this.birthdateCurrent) {
         case 'year':
           this.year = this.year < this.maxYear ? this.year + 1 : this.year
+          if (this.year !== now.getFullYear()) {
+            this.maxMonth = 12
+          } else {
+            this.maxMonth = now.getMonth() + 1
+            if (this.month > this.maxMonth) {
+              this.month = this.maxMonth
+            }
+          }
+          if (this.year === now.getFullYear() && this.month === now.getMonth() + 1) {
+            this.maxDay = now.getDate()
+            if (this.day > this.maxDay) {
+              this.day = this.maxDay
+            }
+          } else {
+            this.maxDay = this.getMonthLength(this.birthdate)
+          }
           break
         case 'month':
-          this.month = this.month < 12 ? this.month + 1 : this.month
+          this.month = this.month < this.maxMonth ? this.month + 1 : this.month
           this.maxDay = new Date(this.year, this.month, 0).getDate()
           this.day = this.day > this.maxDay ? this.maxDay : this.day
+          if (this.year === now.getFullYear() && this.month === now.getMonth() + 1) {
+            this.maxDay = now.getDate()
+            if (this.day > this.maxDay) {
+              this.day = this.maxDay
+            }
+          } else {
+            this.maxDay = this.getMonthLength(this.birthdate)
+          }
           break
         case 'day':
           this.day = this.day < this.maxDay ? this.day + 1 : this.day
@@ -272,6 +321,13 @@ export default {
         clearInterval(timeout)
         _this.qrcode = false
       }, 300000)
+    },
+    getMonthLength: function (date) {
+      let d = new Date(date)
+      d.setMonth(d.getMonth() + 1)
+      d.setDate('1')
+      d.setDate(d.getDate() - 1)
+      return d.getDate()
     }
   }
 }
