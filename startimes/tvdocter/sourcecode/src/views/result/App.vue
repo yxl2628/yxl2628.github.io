@@ -71,28 +71,26 @@ export default {
     getResult: function () {
       var _this = this
       timeout = setInterval(function () {
-        if (_this.debug) {
-          _this.errorMessage.push(JSON.stringify({
-            sessionid: _this.sessionid,
-            casecode: _this.casecode,
-            localDate: _this.localDate
-          }))
-        }
         getInquiryRecord({
           sessionid: _this.sessionid,
           casecode: _this.casecode,
           localDate: _this.localDate
         }, function (result) {
           var res = typeof result === 'string' ? JSON.parse(result) : result
-          if (_this.debug) {
-            _this.errorMessage.push(JSON.stringify(res))
-          }
           // 返回结果为正常
           if (res.responseCode === '0') {
             // 只有是finish状态，才进行问答信息解析
             if (res.data.finish === 'finish') {
               // 如果问答信息不为空，则进行解析渲染
               if (res.data.InquiryList.length > 0) {
+                if (_this.debug) {
+                  _this.errorMessage.push(JSON.stringify({
+                    sessionid: _this.sessionid,
+                    casecode: _this.casecode,
+                    localDate: _this.localDate
+                  }))
+                  _this.errorMessage.push(JSON.stringify(res))
+                }
                 for (let i = 0; i < res.data.InquiryList.length; i++) {
                   const itemResult = res.data.InquiryList[i]
                   if (itemResult.action === 'conclusion') {
@@ -104,6 +102,15 @@ export default {
               }
               // 将返回的localDate更新
               _this.localDate = res.data.localDate
+            } else {
+              if (_this.debug) {
+                _this.errorMessage.push(JSON.stringify({
+                  sessionid: _this.sessionid,
+                  casecode: _this.casecode,
+                  localDate: _this.localDate
+                }))
+                _this.errorMessage.push(JSON.stringify(res))
+              }
             }
           } else {
             _this.errorMessage.push('请求结果返回错误，结果为：' + JSON.stringify(res))
@@ -111,7 +118,7 @@ export default {
         }, function (err) {
           _this.errorMessage.push('请求服务器错误，错误日志为：' + err)
         })
-      }, 3000)
+      }, _this.debug ? 10000 : 3000)
     }
   }
 }
