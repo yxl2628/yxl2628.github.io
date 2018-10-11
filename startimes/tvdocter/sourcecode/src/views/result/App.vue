@@ -43,7 +43,7 @@ let timeout = null
 export default {
   data() {
     return {
-      debug: true,
+      debug: window.debug,
       errorMessage: '',
       resultList: [],
       bg: {
@@ -56,6 +56,7 @@ export default {
     this.sessionid = localStorage.getItem('sessionid')
     this.casecode = localStorage.getItem('casecode')
     this.localDate = ''
+    this.errorMessage = '当前服务器后台：' + window.baseUrl
     this.getResult()
   },
   updated() {
@@ -66,12 +67,22 @@ export default {
     getResult: function () {
       var _this = this
       timeout = setInterval(function () {
+        if (_this.debug) {
+          _this.errorMessage = JSON.stringify({
+            sessionid: _this.sessionid,
+            casecode: _this.casecode,
+            localDate: _this.localDate
+          })
+        }
         getInquiryRecord({
           sessionid: _this.sessionid,
           casecode: _this.casecode,
           localDate: _this.localDate
         }, function (result) {
           var res = typeof result === 'string' ? JSON.parse(result) : result
+          if (_this.debug) {
+            _this.errorMessage = JSON.stringify(res)
+          }
           // 返回结果为正常
           if (res.responseCode === '0') {
             // 只有是finish状态，才进行问答信息解析

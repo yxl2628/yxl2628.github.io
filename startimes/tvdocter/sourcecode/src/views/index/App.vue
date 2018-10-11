@@ -78,7 +78,7 @@ const now = new Date()
 export default {
   data() {
     return {
-      debug: true,
+      debug: window.debug,
       errorMessage: '',
       type: 0,
       sex: 0,
@@ -107,6 +107,7 @@ export default {
     const dayShow = this.day < 10 ? ('0' + this.day) : this.day
     this.birthdate = this.year + '-' + monthShow + '-' + dayShow
     this.sid = getUrlKey('sid')
+    this.errorMessage = '当前服务器后台：' + window.baseUrl
     // 绑定按键
     document.onkeydown = function(e) {
       _this.changeKey(e.which)
@@ -156,6 +157,14 @@ export default {
             this.now = 'birthdate'
           } else if (this.now === 'main' && this.current === 'button') {
             const _this = this
+            if (this.debug) {
+              this.errorMessage = JSON.stringify({
+                sid: this.sid,
+                sex: this.sex,
+                birthdate: this.birthdate,
+                type: this.type
+              })
+            }
             addCase({
               sid: this.sid,
               sex: this.sex,
@@ -163,6 +172,9 @@ export default {
               type: this.type
             }, function(result) {
               const res = typeof result === 'string' ? JSON.parse(result) : result
+              if (_this.debug) {
+                _this.errorMessage = JSON.stringify(res)
+              }
               if (res.responseCode === '0') {
                 localStorage.setItem('casecode', res.data.casecode)
                 localStorage.setItem('sessionid', res.data.sessionid)
@@ -299,12 +311,22 @@ export default {
       const casecode = localStorage.getItem('casecode')
       const _this = this
       timeout = setInterval(function() {
+        if (_this.debug) {
+          _this.errorMessage = JSON.stringify({
+            sessionid: sessionid,
+            casecode: casecode,
+            localDate: ''
+          })
+        }
         getInquiryRecord({
           sessionid,
           casecode,
           localDate: ''
         }, function(result) {
           const res = typeof result === 'string' ? JSON.parse(result) : result
+          if (_this.debug) {
+            _this.errorMessage = JSON.stringify(res)
+          }
           if (res.responseCode === '0') {
             if (res.data.finish === 'star' || res.data.finish === 'finish') {
               _this.qrcodeResult = '设备已连接'
