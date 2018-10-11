@@ -29,7 +29,7 @@
       </template>
     </div>
   </div>
-  <div v-if="debug" v-show="errorMessage" class="error">
+  <div v-if="debug" v-show="errorMessage" id="errorDialog" class="error">
     {{ errorMessage }}
   </div>
 </div>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       debug: window.debug,
-      errorMessage: '',
+      errorMessage: [],
       resultList: [],
       bg: {
         background: 'url(' + backgroundImg + ')',
@@ -56,23 +56,27 @@ export default {
     this.sessionid = localStorage.getItem('sessionid')
     this.casecode = localStorage.getItem('casecode')
     this.localDate = ''
-    this.errorMessage = '当前服务器后台：' + window.baseUrl
+    this.errorMessage.push('当前服务器后台：' + window.baseUrl)
     this.getResult()
   },
   updated() {
     const dialog = document.getElementById('dialog')
     dialog.scrollTop = dialog.scrollHeight
+    if (this.debug) {
+      var errorDialog = document.getElementById('errorDialog')
+      errorDialog.scrollTop = errorDialog.scrollHeight
+    }
   },
   methods: {
     getResult: function () {
       var _this = this
       timeout = setInterval(function () {
         if (_this.debug) {
-          _this.errorMessage = JSON.stringify({
+          _this.errorMessage.push(JSON.stringify({
             sessionid: _this.sessionid,
             casecode: _this.casecode,
             localDate: _this.localDate
-          })
+          }))
         }
         getInquiryRecord({
           sessionid: _this.sessionid,
@@ -81,7 +85,7 @@ export default {
         }, function (result) {
           var res = typeof result === 'string' ? JSON.parse(result) : result
           if (_this.debug) {
-            _this.errorMessage = JSON.stringify(res)
+            _this.errorMessage.push(JSON.stringify(res))
           }
           // 返回结果为正常
           if (res.responseCode === '0') {
@@ -102,10 +106,10 @@ export default {
               _this.localDate = res.data.localDate
             }
           } else {
-            _this.errorMessage = '请求结果返回错误，结果为：' + JSON.stringify(res)
+            _this.errorMessage.push('请求结果返回错误，结果为：' + JSON.stringify(res))
           }
         }, function (err) {
-          _this.errorMessage = '请求服务器错误，错误日志为：' + err
+          _this.errorMessage.push('请求服务器错误，错误日志为：' + err)
         })
       }, 3000)
     }
