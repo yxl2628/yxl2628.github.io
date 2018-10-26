@@ -389,8 +389,8 @@ export default {
   padding-right: 55px;
 }
 .row .input .value{
-  width: 100px;
-  font-size: 16px;
+  width: 150px;
+  font-size: 24px;
   text-align: center;
 }
 .row .input .value.active{
