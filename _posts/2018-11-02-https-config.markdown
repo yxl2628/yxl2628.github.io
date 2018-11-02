@@ -37,7 +37,7 @@ http
   #keepalive_timeout  0;
   keepalive_timeout 65;
 
-  # gzip
+  # gzip（服务器端开启gip压缩）
   gzip on;
   gzip_buffers 32 4k;
   gzip_comp_level 6;
@@ -45,12 +45,14 @@ http
   gzip_types text/css text/xml application/javascript;
   gzip_vary on;
 
+  # 监听80端口，让http访问自动跳转到https
   server
   {
     listen 80;
     server_name www.xxxx.com;
     rewrite ^(.*) https://$server_name$1 permanent;
   }
+  # 443端口，即https默认端口，配置一般不变，只需要改动ssl_certificate和ssl_certificate_key即可
   server
   {
     listen 443;
@@ -72,6 +74,7 @@ http
       root html;
       index index.html index.htm;
     }
+    # 虚拟路径映射，用于将静态数据隔离出部署文件
     location /alias
     {
       if ( $request_method = OPTIONS )
@@ -100,6 +103,7 @@ http
     {
       add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
     }
+    # 代理转发到其它应用服务器，比如tomcat
     location /proxy
     {
       if ( $request_method = OPTIONS )
