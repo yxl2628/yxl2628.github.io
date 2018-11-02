@@ -5,7 +5,7 @@ date: 2018-11-2 11:35:56
 tags: ngnix
 ---
 
-# reactjs
+# nginx
 最近所有互联网网站开始统一将http转为https，那么该如何配置nginx呢？
 
 ### nginx 配置
