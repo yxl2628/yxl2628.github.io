@@ -14,7 +14,7 @@ tags: ngnix
 `yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel`
 
 ### 下载nginx安装包
-```shell
+```
 //创建一个文件夹
 cd /usr/local
 mkdir nginx
