@@ -46,6 +46,8 @@ cd /usr/local/nginx
 ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_realip_module
 //make编译
 make
+//测试是否成功
+/usr/local/nginx/sbin/nginx -t
 ```
 > 注意，千万不要在make install了
 
