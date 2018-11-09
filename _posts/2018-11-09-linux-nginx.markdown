@@ -6,12 +6,12 @@ tags: ngnix
 ---
 
 ### 安装依赖
-`yum install gcc`
-`yum install pcre-devel`
-`yum install zlib zlib-devel`
-`yum install openssl openssl-devel`
+```yum install gcc```
+```yum install pcre-devel```
+```yum install zlib zlib-devel```
+```yum install openssl openssl-devel```
 或者同时安装
-`yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel`
+```yum -y install gcc zlib zlib-devel pcre-devel openssl openssl-devel```
 
 ### 下载nginx安装包
 ```
