@@ -54,6 +54,10 @@ cd /usr/local/nginx
 ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_realip_module
 //make编译
 make
+//备份原来的nginx
+cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak
+// 拷贝新的nginx
+cp objs/nginx /usr/local/nginx/sbin/nginx
 //测试是否成功
 /usr/local/nginx/sbin/nginx -t
 ```
