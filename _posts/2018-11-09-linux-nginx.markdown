@@ -21,19 +21,22 @@ mkdir nginx
 cd nginx
 //下载tar包
 wget http://nginx.org/download/nginx-1.13.7.tar.gz
-tar -xvf nginx-1.13.7.tar.g
+tar -xvf nginx-1.13.7.tar.gz
 ```
 
-###安装nginx
+### 安装nginx
 ```
 //进入nginx目录
-cd /usr/local/nginx
+cd /usr/local/nginx/
+cd nginx-1.13.7
 //执行命令
 ./configure
 //执行make命令
 make
 //执行make install命令
 make install
+//测试是否成功
+/usr/local/nginx/sbin/nginx -t
 ```
 
 ### 重新编译，增加ssl模块
