@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux下安装nginx
-date: 2018年11月9日13:43:30
+date: 2018-11-9 14:00:53
 tags: ngnix
 ---
 
