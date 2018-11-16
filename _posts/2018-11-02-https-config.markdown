@@ -75,7 +75,7 @@ http
       index index.html index.htm;
     }
     # 虚拟路径映射，用于将静态数据隔离出部署文件
-    location /alias
+    location ^~ /alias
     {
       if ( $request_method = OPTIONS )
       {
