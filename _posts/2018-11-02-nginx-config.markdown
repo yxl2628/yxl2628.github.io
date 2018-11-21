@@ -5,7 +5,6 @@ date: 2018-11-2 11:35:56
 tags: ngnix
 ---
 
-# nginx 配置问价说明
 ```
 #运行用户，默认即是nginx，可以不进行设置
 user nginx;
