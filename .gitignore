@@ -35,3 +35,6 @@ Temporary Items
 .apdisk
 build.sh
 startimes/*/*.zip
+
+#other
+**/node_modules
