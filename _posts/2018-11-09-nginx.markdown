@@ -58,7 +58,7 @@ make install
 #### 增加ssl模块
 ```
 //进入nginx目录
-cd /usr/local/nginx
+cd /usr/local/nginx/nginx-1.13.7
 //查看nginx版本机器参数
 /usr/local/nginx/sbin/nginx -V
 //重新编译
