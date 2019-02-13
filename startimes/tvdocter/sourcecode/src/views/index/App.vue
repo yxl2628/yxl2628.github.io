@@ -237,7 +237,7 @@ export default {
               this.day = this.maxDay
             }
           } else {
-            this.maxDay = this.getMonthLength(this.birthdate)
+            // this.maxDay = this.getMonthLength(this.birthdate)
           }
           break
         case 'month':
@@ -250,7 +250,7 @@ export default {
               this.day = this.maxDay
             }
           } else {
-            this.maxDay = this.getMonthLength(this.birthdate)
+            // this.maxDay = this.getMonthLength(this.birthdate)
           }
           break
         case 'day':
@@ -276,7 +276,7 @@ export default {
               this.day = this.maxDay
             }
           } else {
-            this.maxDay = this.getMonthLength(this.birthdate)
+            // this.maxDay = this.getMonthLength(this.birthdate)
           }
           break
         case 'month':
@@ -289,7 +289,7 @@ export default {
               this.day = this.maxDay
             }
           } else {
-            this.maxDay = this.getMonthLength(this.birthdate)
+            // this.maxDay = this.getMonthLength(this.birthdate)
           }
           break
         case 'day':
