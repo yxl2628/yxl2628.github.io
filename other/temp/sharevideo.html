@@ -104,6 +104,8 @@
         video.setAttribute('src', url)
         video.setAttribute('poster', url + '.jpg')
       })
+      video.setAttribute('src', url)
+      video.setAttribute('poster', url + '.jpg')
       document.getElementById('play').addEventListener('touchstart', function() {
         video.play()
       }, false)
