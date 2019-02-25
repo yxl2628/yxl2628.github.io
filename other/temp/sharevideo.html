@@ -86,9 +86,9 @@
   </div>
   <div class="video">
     <video id="video"></video>
-    <div id="playDiv" class="play">
+    <!-- <div id="playDiv" class="play">
       <img id="play" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAwCAYAAACsVQxYAAAEX0lEQVRoQ92bzWtjVRjGn+e2JRnUftzmpgi2abUbqagDbhwdVyI6blyJGwVdC+JCBKcdEHUxbQf82DgjDIjgtC7EEez4AV3IpP+AVRlt2pnEr2l70zatNWmb+8iJpjpS20k6uT3JhZC7OO/7Pu+Pc9+cc3NeogZXe3t7gi0tPRB7IHU7ZEJgD6h2ClGBEVJRCRGQUUrm+5ayFEk5kgUJeVIFgXlKBRF5illQ6UC4AgQZBk4a2Epns9mfbmQqrMZZW1v8juZm9InslYJeh+wTkYCQIHlbNT5vhI2EKwQui5ojOBMIs462UhsbG6nV1VW/khi7gnHd+P1w8DCJfgl9AHtJdFcSwJaxklYIzAhMScGPAi81oTjp+/7PO2ncEYwb63qR0Esgb7UlsVrpUIC3tzb/eDWXy2X/HeMaMB0d8bvZxA9JDNRKiI1+JS0hwFPZ7PyXZX3bYFzPe5Jwxm0UHpamYoAnlv2r5028EpjOzs474TR/F5YAi+P8vong3tzCwkwJjOvFkwSPWCw4NGmCktmF+QfpuvFH2MQvQotcB4ECBA/R9brOEni2DvSGJlEBztL14imCt4cWtS4C6Td2el1rAG4KS++xxx7FxeQUcrlcWCGrimPAqCrLKo3Of/Ix7hoYwCuDQxgf/6hKL7U3OxAwDxz56wfwm+lpDA6eQHJqqvaZVhjhQMGUtU5MXMDxoRPIZDIVyq/dcCvAlNM7OTyC02fes6L+WAXGAFpZWbGi/lgHpjx7LiaTGBk5dWD1x1owZUDnzo1hePRU6PXHejDlx+vd02dCrT91AaY8e9LpNE6OjIay/qkrMGHWn7oEUwY0PDIK86nFVZdgzD7L1BzzqdWeq+7AjI2Nl+pMrVfJdQPG7KeGh0dDW9dYD8Y8KmYnbmZKmJfVYExhrWUd2Q20lWAmLnyO44NDNa8jdQNmevrbEhAb3s9YMWMOqo5YPWMOso5YCcaGOmIVmDdefw3mVaYNdcQqMGGuRfYTK/Tiux+xYdrSjcUzB3k8LMxkK4lFN9b1GYljlRg1+lhBs+ZP/RcIvNnoyVaSnzl+xtbWVrclcugXAJFKjBt5rIqbA6WDQx1e1zsO8HwjJ3vduUkf+Ivzz5TP4EU7Y/EpkIev20EDDhRwOdgsHF5eXl7ePpxoHqnmSHSS4D0NmPOeKQnwGWwd9X3/ezP42nO+nnezGzhv0cFze3pqoAGSvlZx8+mlpaV0Oa0dD0C3xWL3NdF5meDjAA41EIN/UpFWAXyqAO9ns/Nf/TfHPXsJOjzvKIF+iL2E6R9AH4TeOloUrguYpZQS8IOEuQC8tOJfndx1r7Sf2dDqef3NRfbBKTVbJBzTdFFqtmAPiZ79+K7ANg8pAzAjKg3TaCHNBQ5SBSm1vrj4awW+tofuOWOqcVq22W7PCZhwHHUDTqukCIGo9HdrDhGFuYeiAB1ReQqmFacAKg9zTxYo5QGsk/IRMLPFIF3M5zNra2sL+9H4f7Z/AstYGVilwmqPAAAAAElFTkSuQmCC" onClick="" />
-    </div>
+    </div> -->
   </div>
   <script type="text/javascript">
     function getQueryString(name) {
@@ -102,18 +102,18 @@
       var video = document.getElementById('video')
       video.setAttribute('src', url)
       video.setAttribute('poster', url + '.jpg')
-      document.getElementById('play').addEventListener('touchstart', function() {
-        video.play()
-      }, false)
-      video.addEventListener('touchstart', function() {
-        video.pause()
-      }, false)
-      video.addEventListener('play', function() {
-        document.getElementById('playDiv').style.display = 'none'
-      }, false)
-      video.addEventListener('pause', function() {
-        document.getElementById('playDiv').style.display = 'block'
-      }, false)
+      // document.getElementById('play').addEventListener('touchstart', function() {
+      //   video.play()
+      // }, false)
+      // video.addEventListener('touchstart', function() {
+      //   video.pause()
+      // }, false)
+      // video.addEventListener('play', function() {
+      //   document.getElementById('playDiv').style.display = 'none'
+      // }, false)
+      // video.addEventListener('pause', function() {
+      //   document.getElementById('playDiv').style.display = 'block'
+      // }, false)
       document.getElementById('downloadApp').addEventListener('touchstart', function() {
         location.href = 'https://mobao.beanji.com/app/dlredirect.html'
       }, false)
