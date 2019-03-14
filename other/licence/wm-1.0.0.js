@@ -1,1 +1,1 @@
-window.wm_licence = '2019-03-13'
+var wm_licence = '2019-03-13'
