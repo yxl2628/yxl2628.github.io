@@ -119,6 +119,8 @@ http
       add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers, Authorization';
       add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
       proxy_pass http://127.0.0.1:8080/tomcat/api;
+      # 注：nginx默认转发配置为：$http_host；不会改变请求头的值，这种情况下，静态文件是无法访问的，会导致404；需要加上这个配置，才能让nginx代理转发静态文件资源
+      proxy_set_header Host $proxy_host;
     }
   }
 
