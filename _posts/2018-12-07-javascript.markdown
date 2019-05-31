@@ -24,3 +24,7 @@ function GetQueryString(param) {
   }
 }
 ```
+- 当前浏览器兼容Promise方案
+  1. 可以引入`<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.2.5/polyfill.js"></script>`,但是缺点是：无论浏览器是否支持，都全量引入了，对已经支持Promise的用户来说，是一种带宽和流量的浪费
+  2. 追求极致性能的话，可以选择按需引入<https://github.com/zloirock/core-js/tree/v2/modules>下的文件
+  3. 在线补丁：最流行的：<https://polyfill.io/v3/>,引入方式为：`<script src="https://polyfill.io/v3/polyfill.min.js?features=default%2CPromise"></script>` 以及阿里CBU团队基于此搭建的alicdn：`<script src="https://polyfill.alicdn.com/polyfill.min.js?features=Promise"></script>`
