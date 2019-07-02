@@ -2,7 +2,7 @@
 layout: post
 title: centos下安装shadowsockes
 date: 2019-5-21 12:36:29
-tags: javascript three.js
+tags: linux vpn
 ---
 ```shell
 # yum -y install wget
