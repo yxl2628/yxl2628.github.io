@@ -10,5 +10,5 @@
 ### [自动化运维的演示](https://demo.yangxl.cn/ai-operation/)
 > 写了一个用来演示未来自动化智能运维的demo，如果有什么不足，请多多指教
 
-### Vue版的抽奖大转盘(https://demo.yangxl.cn/lottery/)
+### [Vue版的抽奖大转盘](https://demo.yangxl.cn/lottery/)
 > 找了挺多demo，大部分都是基于jquery版本的，所以自己写了一版基于Vue的
