@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>xiaolong's demo</title>
+  <link rel="stylesheet" href="static/css/element-ui.css">
+  <style>
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-around;
+    }
+    .box-card {
+      width: 30%;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="list">
+      <el-card v-for="(item, index) in list" :key="index" class="box-card">
+        <div slot="header" class="clearfix">
+          <span>{{item.name}}</span>
+          <el-button style="float: right; padding: 3px 0" type="text" @click="goto(item.url)">查看详情</el-button>
+        </div>
+        <div class="text item">
+          {{item.desc}}
+        </div>
+      </el-card>
+    </div>
+  </div>
+  <script src="static/js/vue.js"></script>
+  <script src="static/js/element-ui.js"></script>
+  <script>
+    new Vue({
+      el: '#root',
+      data() {
+        return {
+          list: [
+            {
+              name: '个人简历',
+              desc: '网上看到有特别炫的个人简历，自己fork了一个，用来装装门面',
+              url: '/resume/'
+            },
+            {
+              name: '图片播放器',
+              desc: '用jquery实现的图片播放器，可以拖拽进度条，可以查看缩略图（ps：想不起来从哪魔改过来的了）',
+              url: '/image-player/'
+            },
+            {
+              name: '自动化运维的演示',
+              desc: '写了一个用来演示未来自动化智能运维的demo，如果有什么不足，请多多指教',
+              url: '/ai-operation/'
+            },
+            {
+              name: 'Vue版的抽奖大转盘',
+              desc: '找了挺多demo，大部分都是基于jquery版本的，所以自己写了一版基于Vue的',
+              url: '/lottery/'
+            }
+          ]
+        }
+      },
+      methods: {
+        goto(url) {
+          window.location.href = url;
+        }
+      }
+    })
+  </script>
+</body>
+</html>
