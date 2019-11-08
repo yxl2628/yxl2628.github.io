@@ -51,7 +51,7 @@
           result: null
         }
       },
-      created() {
+      mounted() {
         // 用来切换转盘背景灯，没想到更好的方法，但是总感觉应该会有css方法来做这个，唉，学艺不精
         setInterval(() => {
           this.bg = !this.bg;
@@ -135,7 +135,6 @@
                 .vertical_resolution * imgMaxWidth / item.img.horizontal_resolution);
             }
             ctx.restore(); //很关键，还原画板的状态到上一个save()状态之前
-            console.log(ctx)
           }
         },
         lottery() {
