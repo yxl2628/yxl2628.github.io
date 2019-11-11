@@ -3,16 +3,16 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi "><meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <title>转盘大抽奖 for Vue</title>
+  <title>转盘大抽奖 By Vue</title>
   <link rel="shortcut icon" href="https://www.yangxl.cn/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
   <div id="root">
-    <div class="body">
+    <div class="title">转盘大抽奖 By Vue</div>
+    <div class="body" :style="`transform: scale(${scale})`">
       <div class="bg">
         <img v-show="bg" class="bg1" src="./image/bg1.png" alt="" />
         <img v-show="!bg" class="bg2" src="./image/bg2.png" alt="" />
@@ -44,6 +44,7 @@
       data() {
         return {
           bg: true,
+          scale: 1,
           list: [],
           wheelDeg: 0,
           rolling: false,
@@ -56,6 +57,11 @@
         setInterval(() => {
           this.bg = !this.bg;
         }, 1000);
+        var maxW = document.body.offsetWidth;
+        // 兼容适配移动端
+        if (maxW < 500) {
+          this.scale = maxW / 500;
+        }
         this.getLottery();
       },
       methods: {
