@@ -1,0 +1,16 @@
+[
+  {
+    "avatar": "/demo/avatar01.jpg",
+    "name": "张燕",
+    "position": "物业经理",
+    "area": "安康一区",
+    "sign": "08:40"
+  },
+  {
+    "avatar": "/demo/avatar02.jpg",
+    "name": "张也",
+    "position": "物业经理",
+    "area": "安康二区",
+    "sign": "08:43"
+  }
+]

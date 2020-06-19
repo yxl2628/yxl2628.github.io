@@ -1,0 +1,32 @@
+{
+  "total": {
+    "local": 9293,
+    "migrant": 2773
+  },
+  "age": {
+    "60+": 623,
+    "50-60": 1203,
+    "40-50": 3250,
+    "30-40": 2031,
+    "20-30": 2333,
+    "20-": 2626
+  },
+  "special": {
+    "aloneElder": 32,
+    "leftChildren": 10,
+    "destitute": 23,
+    "five": 28,
+    "labour": 12
+  },
+  "nation": {
+    "han": 10282,
+    "man": 335,
+    "hui": 233,
+    "menggu": 25,
+    "other": 1191
+  },
+  "gender": {
+    "male": 6084,
+    "female": 5982
+  }
+}

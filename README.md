@@ -12,3 +12,6 @@
 
 ### [Vue版的抽奖大转盘](https://demo.yangxl.cn/lottery/)
 > 找了挺多demo，大部分都是基于jquery版本的，所以自己写了一版基于Vue的
+
+### [基于ReactHooks的智慧社区大屏](https://demo.yangxl.cn/demo/community/001/)
+> 看了react的hooks，基于此，做了一个智慧社区的大屏展示demo

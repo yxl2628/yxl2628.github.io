@@ -1,0 +1,14 @@
+[
+  {
+    "name": "安康一区",
+    "playUrl": "rtsp://admin:startimes123@192.168.5.70:554/Streaming/Channels/103?transportmode=unicast"
+  },
+  {
+    "name": "安康二区",
+    "playUrl": "rtsp://admin:startimes123@192.168.5.70:554/Streaming/Channels/103?transportmode=unicast"
+  },
+  {
+    "name": "安康三区",
+    "playUrl": "rtsp://admin:startimes123@192.168.5.70:554/Streaming/Channels/103?transportmode=unicast"
+  }
+]
