@@ -1,0 +1,207 @@
+{
+  "code": 200,
+  "message": "成功",
+  "data": {
+    "id": "5b347a5348b76d00015c93d9",
+    "name": "蒋士云",
+    "summary": "<div>蒋士云，江南名媛， 外交家蔣履福之女， 1932年嫁給贝祖诒。</div>\n",
+    "imageId": "5b347a5348b76d00015c93da",
+    "imageUrl": "//pic.allhistory.com/T1uHDTBXKT1RCvBVdK.jpeg?ch=313&cw=359&cx=0&cy=0",
+    "itemWeight": 0.0,
+    "itemTag": null,
+    "disambiguation": "",
+    "relations": null,
+    "relatedPoint": 1,
+    "typePaths": [{
+      "name": "社会生活/社会人物",
+      "id": "2958"
+    }],
+    "categoryProp": 1,
+    "birth": null,
+    "death": null,
+    "relationList": [{
+      "id": "591065bc55b542257a03719a",
+      "name": "张学良",
+      "summary": "<p><b>张学良</b>（1901年6月3日－2001年10月15日<span id=\"noteTag-cite_ref-sup\"><sup class=\"sup-note\" note-id=\"note-1\">[注]</sup></span>），字<b>汉卿</b>，号<b>毅庵</b>，乳名<b>小六子</b>，真正小名<b>双喜</b><sup class=\"sup-reference\" ref-id=\"ref-1\">[1]</sup>，中国国民党<a data-id=\"591063bf55b542257a0341d7\" data-type=\"entry\" href=\"/detail/591063bf55b542257a0341d7\" target=\"_blank\">陆军</a><a data-id=\"592415b155b54278ac002890\" data-type=\"entry\" href=\"/detail/592415b155b54278ac002890\" target=\"_blank\">一级上将</a><sup class=\"sup-reference\" ref-id=\"ref-2\">[2]</sup>。中国<a data-id=\"5910687055b542257a03b1ed\" data-type=\"entry\" href=\"/detail/5910687055b542257a03b1ed\" target=\"_blank\">奉天省</a>（今<a data-id=\"591059cb55b542257a02517a\" data-type=\"entry\" href=\"/detail/591059cb55b542257a02517a\" target=\"_blank\">辽宁省</a>）<a data-id=\"591042e455b542257a002b23\" data-type=\"entry\" href=\"/detail/591042e455b542257a002b23\" target=\"_blank\">海城</a>人<sup class=\"sup-reference\" ref-id=\"ref-3\">[3]</sup>。生于<a data-id=\"591042f755b542257a002cca\" data-type=\"entry\" href=\"/detail/591042f755b542257a002cca\" target=\"_blank\">台安县</a>桑林，人称&ldquo;<b>少帅</b>&rdquo;，<a data-id=\"5924182755b54278ac004425\" data-type=\"entry\" href=\"/detail/5924182755b54278ac004425\" target=\"_blank\">奉系</a><a data-id=\"592415fb55b54278ac002c26\" data-type=\"entry\" href=\"/detail/592415fb55b54278ac002c26\" target=\"_blank\">军阀</a>领袖<a data-id=\"5910567d55b542257a020182\" data-type=\"entry\" href=\"/detail/5910567d55b542257a020182\" target=\"_blank\">张作霖</a>长子，&ldquo;<a data-id=\"5924171e55b54278ac0038c9\" data-type=\"entry\" href=\"/detail/5924171e55b54278ac0038c9\" target=\"_blank\">民国四公子</a>&rdquo;之一，享嵩寿100岁<sup class=\"sup-reference\" ref-id=\"ref-4\">[4]</sup>。</p>\n\n<p>1936年12月12日，<a data-id=\"5924150255b54278ac0020df\" data-type=\"entry\" href=\"/detail/5924150255b54278ac0020df\" target=\"_blank\">西安事变</a>爆发<sup class=\"sup-reference\" ref-id=\"ref-4\">[4]</sup>。张遭<a data-id=\"57ebd8df0bd1beb43a8b4567\" data-type=\"entry\" href=\"/detail/57ebd8df0bd1beb43a8b4567\" target=\"_blank\">蒋中正</a>、<a data-id=\"591065be55b542257a0371be\" data-type=\"entry\" href=\"/detail/591065be55b542257a0371be\" target=\"_blank\">蒋经国</a>父子<a data-id=\"592415b555b54278ac0028b9\" data-type=\"entry\" href=\"/detail/592415b555b54278ac0028b9\" target=\"_blank\">软禁</a>长达50余年，直到1990年，张才获得自由。张学良在台湾期间，先后曾居住于<a data-id=\"5910567255b542257a020096\" data-type=\"entry\" href=\"/detail/5910567255b542257a020096\" target=\"_blank\">高雄</a>寿山、<a data-id=\"5910567255b542257a020096\" data-type=\"entry\" href=\"/detail/5910567255b542257a020096\" target=\"_blank\">高雄</a><a data-id=\"5924150355b54278ac0020e9\" data-type=\"entry\" href=\"/detail/5924150355b54278ac0020e9\" target=\"_blank\">西子湾</a>、新竹五峰乡<a data-id=\"59241aaa55b54278ac0061d4\" data-type=\"entry\" href=\"/detail/59241aaa55b54278ac0061d4\" target=\"_blank\">清泉部落</a>。</p>\n",
+      "imageId": "599f99621bc9226fdf6069e7",
+      "imageUrl": "//pic.allhistory.com/T1rKWvBCWT1RCvBVdK.jpg",
+      "itemWeight": 2.0091193,
+      "itemTag": null,
+      "disambiguation": "政府人物",
+      "relations": {
+        "direction": "<->",
+        "id": "5cb539ec2a99a600018b0feb",
+        "relation": "年轻时的恋人",
+        "relationDesc": "蒋士云1912年生于<a href=\"/detail/591059b555b542257a024ffe\" data-id=\"591059b555b542257a024ffe\" target=\"_blank\">苏州</a>，祖父在<a href=\"/detail/591059b955b542257a025033\" data-id=\"591059b955b542257a025033\" target=\"_blank\">无锡</a>经商，父亲是外交官蒋履福，因在家中排行第四，人称之为“蒋四小姐”。蒋士云青春美貌，且娴熟于英语和法语，是京城和苏沪的交际名媛。在外交总长的宴会上，她结识了张学良，成为张学良的“蒋四小姐”，而当她得知张学良还有一位“赵四小姐”时，毅然离开他前去了欧洲求学。",
+        "relationType": "LOVE",
+        "relationTypeGroup": "HUMAN_HUMAN",
+        "relationWeight": 68,
+        "relationId": "5cb539ec2a99a600018b0feb",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "军事/军事人物/将领及首脑",
+        "id": "2969"
+      }],
+      "categoryProp": null,
+      "birth": {
+        "startTime": "1901-06-03 00:00:00",
+        "timeDesc": "",
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "death": {
+        "startTime": "2001-10-15 00:00:00",
+        "timeDesc": "",
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "5b34592648b76d00015c93b7",
+      "name": "贝祖贻",
+      "summary": "<div>贝祖贻（1893&mdash;1982年）字淞荪，江苏吴县人，1907年进苏州东吴大学，1911年考入唐山工业专门学校（即唐山交通大学，现西南交通大学）。1913年肄业，任汉冶萍公司上海办事处统计部会计，1914年任中国银行总管理处总帐室会计，次年调任中国银行广东分行营业主任，后为副经理、经理。1918年任香港分行经理。1927年任上海分行经理及总行外汇部主任，打破了外国人垄断中国外汇汇兑局面。</div>\n",
+      "imageId": "5b34592648b76d00015c93b8",
+      "imageUrl": "//pic.allhistory.com/T1zfJvBvWv1RCvBVdK.jpeg?ch=199&cw=199&cx=165&cy=3",
+      "itemWeight": 0.6869,
+      "itemTag": null,
+      "disambiguation": "",
+      "relations": {
+        "direction": "<-",
+        "id": "5cb53b473ae20d00018014bc",
+        "relation": "二婚妻子",
+        "relationDesc": "中年丧妻的贝祖诒非常忧郁，为了让他调整状态，银行派他去欧洲旅行，在法国他意外邂逅了外交家蒋履福的女儿蒋士云。尽管两家门当户对，且贝祖诒已有几个孩子，这段感情还是遭到蒋士云父母的反对，但蒋士云坚定不移，父母最后妥协。1932年春，贝祖诒和蒋士云在巴黎举行了隆重的婚礼，同年40岁的贝祖诒成为中国银行副行长。</div>",
+        "relationType": "LOVE",
+        "relationTypeGroup": "HUMAN_HUMAN",
+        "relationWeight": 56,
+        "relationId": "5cb53b473ae20d00018014bc",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "社会生活/社会人物",
+        "id": "2958"
+      }],
+      "categoryProp": null,
+      "birth": {
+        "startTime": "1893-00-00 00:00:00",
+        "timeDesc": null,
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "death": {
+        "startTime": "1982-00-00 00:00:00",
+        "timeDesc": null,
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "5910412c55b542257a00044a",
+      "name": "贝聿铭",
+      "summary": "<p><b>贝聿铭</b>（<a data-id=\"5910637e55b542257a033c36\" data-type=\"entry\" href=\"/detail/5910637e55b542257a033c36\" target=\"_blank\">英文</a>名：<span>Ieoh Ming Pei</span>；署名：<span>I. M. Pei</span>；1917年4月26日<span class=\"useeditintro\">－2019年5月16日</span>），<a data-id=\"59104c2d55b542257a010e8c\" data-type=\"entry\" href=\"/detail/59104c2d55b542257a010e8c\" target=\"_blank\">美籍华人</a><a data-id=\"592413c155b54278ac00123e\" data-type=\"entry\" href=\"/detail/592413c155b54278ac00123e\" target=\"_blank\">建筑师</a>，1983年<a data-id=\"591053e155b542257a01c416\" data-type=\"entry\" href=\"/detail/591053e155b542257a01c416\" target=\"_blank\">普利策克奖</a>得主，被誉为&ldquo;<a data-id=\"59241ba055b54278ac006e63\" data-type=\"entry\" href=\"/detail/59241ba055b54278ac006e63\" target=\"_blank\">现代主义建筑</a>的最后大师&rdquo;（<span>the last master of high modernist architecture</span>）。</p>\n\n<p>贝聿铭为<a data-id=\"591059b555b542257a024ffe\" data-type=\"entry\" href=\"/detail/591059b555b542257a024ffe\" target=\"_blank\">苏州</a>望族之后（满族人），出生于<a data-id=\"57eb64f60bd1beac1f8b4567\" data-type=\"entry\" href=\"/detail/57eb64f60bd1beac1f8b4567\" target=\"_blank\">中国</a><a data-id=\"59104bec55b542257a0108c5\" data-type=\"entry\" href=\"/detail/59104bec55b542257a0108c5\" target=\"_blank\">广东省</a><a data-id=\"591059b555b542257a025000\" data-type=\"entry\" href=\"/detail/591059b555b542257a025000\" target=\"_blank\">广州市</a>。贝聿铭作品以公共建筑、文教建筑为主，被归类为<a data-id=\"59241ba055b54278ac006e63\" data-type=\"entry\" href=\"/detail/59241ba055b54278ac006e63\" target=\"_blank\">现代主义建筑</a>，善用钢材、混凝土、玻璃与石材，代表作品有<a data-id=\"5910434855b542257a0033b6\" data-type=\"entry\" href=\"/detail/5910434855b542257a0033b6\" target=\"_blank\">华盛顿特区</a><a data-id=\"591069f755b542257a03d6ef\" data-type=\"entry\" href=\"/detail/591069f755b542257a03d6ef\" target=\"_blank\">国家艺廊东厢</a>、巴黎<a data-id=\"5832658005c3fb2f7fed4b96\" data-type=\"entry\" href=\"/detail/5832658005c3fb2f7fed4b96\" target=\"_blank\">卢浮宫</a>扩建工程、香港<a data-id=\"5919453e55b5421554003c84\" data-type=\"entry\" href=\"/detail/5919453e55b5421554003c84\" target=\"_blank\">中国银行大厦</a>、<a data-id=\"57eb9ed80bd1bebe2f8b4567\" data-type=\"entry\" href=\"/detail/57eb9ed80bd1bebe2f8b4567\" target=\"_blank\">东海大学</a><a data-id=\"5910571b55b542257a020fd7\" data-type=\"entry\" href=\"/detail/5910571b55b542257a020fd7\" target=\"_blank\">路思义教堂</a>，近期作品有<a data-id=\"58f8855c55b54258e7002cd1\" data-type=\"entry\" href=\"/detail/58f8855c55b54258e7002cd1\" target=\"_blank\">卡塔尔</a><a data-id=\"5924427255b54278ac021a27\" data-type=\"entry\" href=\"/detail/5924427255b54278ac021a27\" target=\"_blank\">多哈<span>伊斯兰</span>艺术博物馆</a>和<a data-id=\"5910561055b542257a01f761\" data-type=\"entry\" href=\"/detail/5910561055b542257a01f761\" target=\"_blank\">中国驻美国大使馆</a>。</p>\n\n<p>2019年5月16日，贝聿铭在美国纽约逝世，享年102岁。</p>\n",
+      "imageId": "5b6d49732a99a60001ae37f0",
+      "imageUrl": "//pic.allhistory.com/T1sL_vBjAv1RCvBVdK.jpeg?ch=284&cw=284&cx=104&cy=185",
+      "itemWeight": 2.5319982,
+      "itemTag": null,
+      "disambiguation": "建筑师",
+      "relations": {
+        "direction": "<->",
+        "id": "5dccc379d47fa20001cc37eb",
+        "relation": "继亲",
+        "relationDesc": "<a href=\"/detail/5910412c55b542257a00044a\" data-id=\"5910412c55b542257a00044a\" target=\"_blank\">贝聿铭</a>的生母庄氏在他13岁时就因病去世了。1931年，贝聿铭的父亲<a href=\"/detail/5b34592648b76d00015c93b7\" data-id=\"5b34592648b76d00015c93b7\" target=\"_blank\">贝祖贻</a>迎娶了蒋士云，蒋士云由此成为他的<a href=\"/detail/5ad44e600ab7340001473c8d\" data-id=\"5ad44e600ab7340001473c8d\" target=\"_blank\">继母</a>。",
+        "relationType": "FAMILY",
+        "relationTypeGroup": "HUMAN_HUMAN",
+        "relationWeight": 21,
+        "relationId": "5dccc379d47fa20001cc37eb",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "文化/其他/人物",
+        "id": "1128"
+      }],
+      "categoryProp": null,
+      "birth": {
+        "startTime": "1917-04-26 00:00:00",
+        "timeDesc": "",
+        "endTime": "",
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "death": null,
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }],
+    "priorRelationTypes": ["TEACH", "FAMILY", "LOVE"],
+    "workType": null,
+    "workIds": null,
+    "auditing": false
+  },
+  "traceReqId": null
+}

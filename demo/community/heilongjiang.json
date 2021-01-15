@@ -1,0 +1,33 @@
+{
+  "id": "7020181217000001",
+  "name": "学府经典小区",
+  "layout": {
+    "left": {
+      "weather": {
+        "name": "今日天气",
+        "city": "哈尔滨"
+      },
+      "duty": {
+        "name": "今日带班值班"
+      },
+      "order": {
+        "name": "工单"
+      }
+    },
+    "center": {
+      "imgMap": {
+        "url": "/demo/community/heilongjiang/map.jpg",
+        "floor": "floor"
+      },
+      "monitor": true
+    },
+    "right": {
+      "house": {
+        "name": "房屋数量"
+      },
+      "property": {
+        "name": "物业管理概览"
+      }
+    }
+  }
+}

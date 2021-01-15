@@ -1,0 +1,27 @@
+[
+  {
+    "name": "一岗",
+    "playUrl": "rtsp://192.168.32.167:3333/proxyStream-5"
+  }, {
+    "name": "二岗",
+    "playUrl": "rtsp://192.168.32.167:3333/proxyStream-6"
+  }, {
+    "name": "三岗",
+    "playUrl": "rtsp://192.168.32.167:3333/proxyStream-8"
+  }, { 
+    "name": "四岗",
+    "playUrl": "rtsp://192.168.32.167:3333/proxyStream-7"
+  }, {
+    "name": "五岗",
+    "playUrl": "rtsp://192.168.32.167:3341/proxyStream-6"
+  }, {
+    "name": "六岗",
+    "playUrl": "rtsp://192.168.32.167:3341/proxyStream-5"
+  }, {
+    "name": "七岗",
+    "playUrl": "rtsp://192.168.32.167:3341/proxyStream-7"
+  }, {
+    "name": "八岗",
+    "playUrl": "rtsp://192.168.32.167:3341/proxyStream-8"
+  }
+]

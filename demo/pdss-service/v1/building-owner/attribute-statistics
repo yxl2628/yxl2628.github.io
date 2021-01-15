@@ -1,0 +1,43 @@
+{
+  "totle_count": 13772,
+  "building_owner_attribute_result_list": [{
+    "attribute_type": "EDUCATION",
+    "value_count_list": [{
+      "value": "硕士及以上",
+      "count": 284
+    }, {
+      "value": "本科",
+      "count": 3675
+    }, {
+      "value": "专科",
+      "count": 4046
+    }, {
+      "value": "高中",
+      "count": 2852
+    }, {
+      "value": "中专及以下",
+      "count": 2915
+    }]
+  }, {
+    "attribute_type": "SITUATION",
+    "value_count_list": [{
+      "value": "空巢老人",
+      "count": 34
+    }, {
+      "value": "留守儿童",
+      "count": 1
+    }, {
+      "value": "特殊人员",
+      "count": 11
+    }, {
+      "value": "困难人员",
+      "count": 38
+    }]
+  }, {
+    "attribute_type": "REGISTER",
+    "value_count_list": [{
+      "value": "长治",
+      "count": 6081
+    }]
+  }]
+}

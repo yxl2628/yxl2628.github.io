@@ -1,0 +1,365 @@
+{
+  "code": 200,
+  "message": "成功",
+  "data": {
+    "id": "591065bc55b542257a03719a",
+    "name": "张学良",
+    "summary": "<p><b>张学良</b>（1901年6月3日－2001年10月15日<span id=\"noteTag-cite_ref-sup\"><sup class=\"sup-note\" note-id=\"note-1\">[注]</sup></span>），字<b>汉卿</b>，号<b>毅庵</b>，乳名<b>小六子</b>，真正小名<b>双喜</b><sup class=\"sup-reference\" ref-id=\"ref-1\">[1]</sup>，中国国民党<a data-id=\"591063bf55b542257a0341d7\" data-type=\"entry\" href=\"/detail/591063bf55b542257a0341d7\" target=\"_blank\">陆军</a><a data-id=\"592415b155b54278ac002890\" data-type=\"entry\" href=\"/detail/592415b155b54278ac002890\" target=\"_blank\">一级上将</a><sup class=\"sup-reference\" ref-id=\"ref-2\">[2]</sup>。中国<a data-id=\"5910687055b542257a03b1ed\" data-type=\"entry\" href=\"/detail/5910687055b542257a03b1ed\" target=\"_blank\">奉天省</a>（今<a data-id=\"591059cb55b542257a02517a\" data-type=\"entry\" href=\"/detail/591059cb55b542257a02517a\" target=\"_blank\">辽宁省</a>）<a data-id=\"591042e455b542257a002b23\" data-type=\"entry\" href=\"/detail/591042e455b542257a002b23\" target=\"_blank\">海城</a>人<sup class=\"sup-reference\" ref-id=\"ref-3\">[3]</sup>。生于<a data-id=\"591042f755b542257a002cca\" data-type=\"entry\" href=\"/detail/591042f755b542257a002cca\" target=\"_blank\">台安县</a>桑林，人称&ldquo;<b>少帅</b>&rdquo;，<a data-id=\"5924182755b54278ac004425\" data-type=\"entry\" href=\"/detail/5924182755b54278ac004425\" target=\"_blank\">奉系</a><a data-id=\"592415fb55b54278ac002c26\" data-type=\"entry\" href=\"/detail/592415fb55b54278ac002c26\" target=\"_blank\">军阀</a>领袖<a data-id=\"5910567d55b542257a020182\" data-type=\"entry\" href=\"/detail/5910567d55b542257a020182\" target=\"_blank\">张作霖</a>长子，&ldquo;<a data-id=\"5924171e55b54278ac0038c9\" data-type=\"entry\" href=\"/detail/5924171e55b54278ac0038c9\" target=\"_blank\">民国四公子</a>&rdquo;之一，享嵩寿100岁<sup class=\"sup-reference\" ref-id=\"ref-4\">[4]</sup>。</p>\n\n<p>1936年12月12日，<a data-id=\"5924150255b54278ac0020df\" data-type=\"entry\" href=\"/detail/5924150255b54278ac0020df\" target=\"_blank\">西安事变</a>爆发<sup class=\"sup-reference\" ref-id=\"ref-4\">[4]</sup>。张遭<a data-id=\"57ebd8df0bd1beb43a8b4567\" data-type=\"entry\" href=\"/detail/57ebd8df0bd1beb43a8b4567\" target=\"_blank\">蒋中正</a>、<a data-id=\"591065be55b542257a0371be\" data-type=\"entry\" href=\"/detail/591065be55b542257a0371be\" target=\"_blank\">蒋经国</a>父子<a data-id=\"592415b555b54278ac0028b9\" data-type=\"entry\" href=\"/detail/592415b555b54278ac0028b9\" target=\"_blank\">软禁</a>长达50余年，直到1990年，张才获得自由。张学良在台湾期间，先后曾居住于<a data-id=\"5910567255b542257a020096\" data-type=\"entry\" href=\"/detail/5910567255b542257a020096\" target=\"_blank\">高雄</a>寿山、<a data-id=\"5910567255b542257a020096\" data-type=\"entry\" href=\"/detail/5910567255b542257a020096\" target=\"_blank\">高雄</a><a data-id=\"5924150355b54278ac0020e9\" data-type=\"entry\" href=\"/detail/5924150355b54278ac0020e9\" target=\"_blank\">西子湾</a>、新竹五峰乡<a data-id=\"59241aaa55b54278ac0061d4\" data-type=\"entry\" href=\"/detail/59241aaa55b54278ac0061d4\" target=\"_blank\">清泉部落</a>。</p>\n",
+    "imageId": "599f99621bc9226fdf6069e7",
+    "imageUrl": "//pic.allhistory.com/T1rKWvBCWT1RCvBVdK.jpg",
+    "itemWeight": 0.0,
+    "itemTag": null,
+    "disambiguation": "政府人物",
+    "relations": null,
+    "relatedPoint": 1,
+    "typePaths": [{
+      "name": "军事/军事人物/将领及首脑",
+      "id": "2969"
+    }],
+    "categoryProp": 1,
+    "birth": {
+      "startTime": "1901-06-03 00:00:00",
+      "timeDesc": "",
+      "endTime": null,
+      "startAccuracy": "0",
+      "startNote": "",
+      "endAccuracy": "0",
+      "endNote": ""
+    },
+    "death": {
+      "startTime": "2001-10-15 00:00:00",
+      "timeDesc": "",
+      "endTime": null,
+      "startAccuracy": "0",
+      "startNote": "",
+      "endAccuracy": "0",
+      "endNote": ""
+    },
+    "relationList": [{
+      "id": "57ebd8df0bd1beb43a8b4567",
+      "name": "蒋介石",
+      "summary": "<p><strong>蒋介石</strong>（1887年10月31日－1975年4月5日），幼名瑞元、谱名周泰、学名志清，后改名中正，字介石。浙江奉化人，是近代中国著名政治人物及军事家，历任黄埔军校校长、国民革命军总司令、国民政府主席、行政院院长、国民政府军事委员会委员长、中华民国特级上将、中国国民党总裁、三民主义青年团团长、<a data-id=\"57eb63f20bd1bef91d8b4567\" href=\"/detail/57eb63f20bd1bef91d8b4567\" target=\"_blank\">第二次世界大战</a>同盟国中国战区最高统帅、<a data-id=\"5910543755b542257a01cba6\" href=\"/detail/5910543755b542257a01cba6\" target=\"_blank\">中华民国</a>总统等职。&nbsp;</p>\n\n<p>1975年4月5日，在台北<a data-id=\"58f8857f55b54258e7003029\" href=\"/detail/58f8857f55b54258e7003029\" target=\"_blank\">士林官邸</a>逝世。&nbsp;</p>\n\n<p>蒋介石是中国近现代史上的一个关键人物，他的政治生涯对中国近现代史的进程产生过极为重要的影响。</p>\n",
+      "imageId": "5d9f1e393ae20d00017a9211",
+      "imageUrl": "//pic.allhistory.com/T1xzxCBmD_1RCvBVdK.jpeg?ch=570&cw=570&cx=0&cy=1",
+      "imageList": ["../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg", "../6.jpg"],
+      "videoList": [{
+        "poster": "../1.jpg",
+        "url": "../1.mp4"
+      }, {
+        "poster": "../2.jpg",
+        "url": "../2.mp4"
+      }, {
+        "poster": "../3.jpg",
+        "url": "../3.mp4"
+      }],
+      "itemWeight": 2.6213984,
+      "itemTag": null,
+      "disambiguation": "",
+      "relations": {
+        "direction": "<->",
+        "id": "5b9756fc2a99a60001979231",
+        "relation": "同事",
+        "relationDesc": "<div><span style=\"font-weight: lighter;\">在</span><a href=\"/detail/5910567d55b542257a020182\" target=\"_blank\">张作霖</a><span style=\"font-weight: lighter;\">被日本人害死之后，</span><a href=\"/detail/591065bc55b542257a03719a\" data-id=\"591065bc55b542257a03719a\" target=\"_blank\">张学良</a><span style=\"font-weight: lighter;\">做出了“</span><a href=\"/detail/5924183d55b54278ac004512\" target=\"_blank\">东北易帜</a><span style=\"font-weight: lighter;\">”的决定，</span>归顺国民政府，最终选择归顺<a href=\"/detail/57ebd8df0bd1beb43a8b4567\" data-id=\"57ebd8df0bd1beb43a8b4567\" target=\"_blank\">蒋介石</a>。1936年，张学良与<a href=\"/detail/591065bf55b542257a0371c1\" data-id=\"591065bf55b542257a0371c1\" target=\"_blank\">杨虎城</a>兵谏蒋介石，共同逼蒋联共抗日，即<a href=\"/detail/5924150255b54278ac0020df\" data-id=\"5924150255b54278ac0020df\" target=\"_blank\">西安事变</a>。西安事变后，张学良遭蒋介石父子长期软禁。</div>",
+        "relationType": "CAREER",
+        "relationTypeGroup": "HUMAN_HUMAN",
+        "relationWeight": 94,
+        "relationId": "5b9756fc2a99a60001979231",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "政治/政治人物/其他",
+        "id": "2915"
+      }],
+      "categoryProp": null,
+      "birth": {
+        "startTime": "1887-10-31 00:00:00",
+        "timeDesc": "",
+        "endTime": "",
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "death": {
+        "startTime": "1975-04-05 00:00:00",
+        "timeDesc": "",
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "5924a75155b54278ac05f6bb",
+      "name": "持松法师",
+      "summary": "<p><b>持松法师</b>（1894年8月13日－1972年11月16日<sup class=\"sup-reference\" ref-id=\"ref-1\">[1]</sup>），法名<b>密林</b>，自号<b>师奘</b>沙门，其密法上师赐灌顶号<b>人入金刚</b><sup class=\"sup-reference\" ref-id=\"ref-2\">[2]</sup>，知名<a data-id=\"57c39acd0bd1be226ea0bda3\" data-type=\"entry\" href=\"/detail/57c39acd0bd1be226ea0bda3\" target=\"_blank\">佛教</a>僧侣。其学通显密，著作等身，以赴<a data-id=\"57c3f8010bd1be6b05a0bda3\" data-type=\"entry\" href=\"/detail/57c3f8010bd1be6b05a0bda3\" target=\"_blank\">日本</a>学<a data-id=\"5924279455b54278ac0107b1\" data-type=\"entry\" href=\"/detail/5924279455b54278ac0107b1\" target=\"_blank\">东密</a>、<a data-id=\"592412c455b54278ac000363\" data-type=\"entry\" href=\"/detail/592412c455b54278ac000363\" target=\"_blank\">台密</a>法，返华复兴<a data-id=\"59243c6155b54278ac01dc8a\" data-type=\"entry\" href=\"/detail/59243c6155b54278ac01dc8a\" target=\"_blank\">唐密</a>著称，世称显密圆融大宗师、唐密复兴初祖、贤密初祖。一说持松法师后已证果修得即身成佛，佛号&ldquo;松华如来&rdquo;。<sup class=\"sup-reference\" ref-id=\"ref-3\">[3]</sup>&nbsp;</p>\n",
+      "imageId": "599f9ac71bc9226fdf61a235",
+      "imageUrl": "//pic.allhistory.com/T15oDvByZT1RCvBVdK.jpg",
+      "imageList": ["../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg", "../6.jpg"],
+      "videoList": [{
+        "poster": "../1.jpg",
+        "url": "../1.mp4"
+      }, {
+        "poster": "../2.jpg",
+        "url": "../2.mp4"
+      }, {
+        "poster": "../3.jpg",
+        "url": "../3.mp4"
+      }],
+      "itemWeight": 0.37803075,
+      "itemTag": null,
+      "disambiguation": "",
+      "relations": {
+        "direction": "->",
+        "id": "5b6153082a99a6000155bfcb",
+        "relation": "结识",
+        "relationDesc": "<div><a href=\"/detail/5910543755b542257a01cba6\" target=\"_blank\" style=\"font-weight: lighter;\">民国</a>十八年（1929年）夏，佛教大护法朱子桥居士，请<a href=\"/detail/5924a75155b54278ac05f6bb\" target=\"_blank\">持松法师</a>到<a href=\"/detail/591059cb55b542257a02517a\" target=\"_blank\">辽宁</a>作“仁王法会”。法会开始之日，东三省保安总司令<a href=\"/detail/591065bc55b542257a03719a\" target=\"_blank\">张学良</a>，偕<a href=\"/detail/591059cb55b542257a02517a\" target=\"_blank\">辽宁省</a>主席<a href=\"/detail/59244a5755b54278ac0280e8\" target=\"_blank\">翟文选</a>等人，入坛护摩受戒。</div>",
+        "relationType": "CAREER",
+        "relationTypeGroup": null,
+        "relationWeight": 95,
+        "relationId": "5b6153082a99a6000155bfcb",
+        "time": {
+          "startTime": "1929-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [{
+          "type": "Point",
+          "coordinates": [122.995546882879, 40.9975196952698]
+        }],
+        "positionDesc": "辽宁省",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "宗教/宗教人物/佛教人物",
+        "id": "2887"
+      }],
+      "categoryProp": null,
+      "birth": {
+        "startTime": "1894-08-13 00:00:00",
+        "timeDesc": null,
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "death": {
+        "startTime": "1972-11-16 00:00:00",
+        "timeDesc": null,
+        "endTime": null,
+        "startAccuracy": "0",
+        "startNote": "",
+        "endAccuracy": "0",
+        "endNote": ""
+      },
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "5b347a5348b76d00015c93d9",
+      "name": "蒋士云",
+      "summary": "<div>蒋士云，江南名媛， 外交家蔣履福之女， 1932年嫁給贝祖诒。</div>\n",
+      "imageId": "5b347a5348b76d00015c93da",
+      "imageUrl": "//pic.allhistory.com/T1uHDTBXKT1RCvBVdK.jpeg?ch=313&cw=359&cx=0&cy=0",
+      "imageList": ["../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg", "../6.jpg"],
+      "videoList": [{
+        "poster": "../1.jpg",
+        "url": "../1.mp4"
+      }, {
+        "poster": "../2.jpg",
+        "url": "../2.mp4"
+      }, {
+        "poster": "../3.jpg",
+        "url": "../3.mp4"
+      }],
+      "itemWeight": 0.6869,
+      "itemTag": null,
+      "disambiguation": "",
+      "relations": {
+        "direction": "<->",
+        "id": "5cb539ec2a99a600018b0feb",
+        "relation": "年轻时的恋人",
+        "relationDesc": "蒋士云1912年生于<a href=\"/detail/591059b555b542257a024ffe\" data-id=\"591059b555b542257a024ffe\" target=\"_blank\">苏州</a>，祖父在<a href=\"/detail/591059b955b542257a025033\" data-id=\"591059b955b542257a025033\" target=\"_blank\">无锡</a>经商，父亲是外交官蒋履福，因在家中排行第四，人称之为“蒋四小姐”。蒋士云青春美貌，且娴熟于英语和法语，是京城和苏沪的交际名媛。在外交总长的宴会上，她结识了张学良，成为张学良的“蒋四小姐”，而当她得知张学良还有一位“赵四小姐”时，毅然离开他前去了欧洲求学。",
+        "relationType": "LOVE",
+        "relationTypeGroup": "HUMAN_HUMAN",
+        "relationWeight": 47,
+        "relationId": "5cb539ec2a99a600018b0feb",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_HUMAN",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "社会生活/社会人物",
+        "id": "2958"
+      }],
+      "categoryProp": null,
+      "birth": null,
+      "death": null,
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "5924150255b54278ac0020df",
+      "name": "西安事变",
+      "summary": "<p><strong>西安事变</strong>，发生于1936年12月12日，所以又称&ldquo;双十二事变&rdquo;。<a data-id=\"591065bc55b542257a03719a\" href=\"/detail/591065bc55b542257a03719a\" target=\"_blank\">张学良</a>和<a data-id=\"591065bf55b542257a0371c1\" href=\"/detail/591065bf55b542257a0371c1\" target=\"_blank\">杨虎城</a>为了达到劝谏<a data-id=\"57ebd8df0bd1beb43a8b4567\" href=\"/detail/57ebd8df0bd1beb43a8b4567\" target=\"_blank\">蒋介石</a>改变&ldquo;攘外必先安内&rdquo;的既定国策，停止内战，一致抗日的目的，在西安发动&ldquo;兵谏&rdquo;。同月25日，在中共中央和周恩来主导下，以蒋介石接受&ldquo;停止内战，联共抗日&rdquo;的主张而和平解决。</p>\n\n<p>西安事变的和平解决为抗日民族统一战线的建立准备了必要的前提，成为由国内战争走向抗日民族战争的转折点。</p>\n",
+      "imageId": "599f9b041bc9226fdf61d604",
+      "imageUrl": "//pic.allhistory.com/T1NkCvByKT1RCvBVdK.JPG",
+      "imageList": ["../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg", "../6.jpg"],
+      "videoList": [{
+        "poster": "../1.jpg",
+        "url": "../1.mp4"
+      }, {
+        "poster": "../2.jpg",
+        "url": "../2.mp4"
+      }, {
+        "poster": "../3.jpg",
+        "url": "../3.mp4"
+      }],
+      "itemWeight": 1.9656537,
+      "itemTag": null,
+      "disambiguation": "民国时期张学良和杨虎城发动的兵谏",
+      "relations": {
+        "direction": "->",
+        "id": "5bd82b962a99a60001910f03",
+        "relation": "主导",
+        "relationDesc": "",
+        "relationType": "INFLUENCE",
+        "relationTypeGroup": null,
+        "relationWeight": 15,
+        "relationId": "5bd82b962a99a60001910f03",
+        "time": {
+          "startTime": "0000-00-00 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_EVENT",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "政治/政治事件/斗争政变革命",
+        "id": "2911"
+      }],
+      "categoryProp": null,
+      "birth": null,
+      "death": null,
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }, {
+      "id": "591049b355b542257a00d7fc",
+      "name": "九一八事变",
+      "summary": "<p><strong>九&middot;一八事变</strong>，又称奉天事变、柳条湖事件。是1931年9月18日夜日本在中国东北蓄意制造并发动的一场侵华战争，是日本帝国主义侵华的开端。</p>\n\n<p>1931年9月18日夜，在日本<a href=\"https://baike.baidu.com/item/%E5%85%B3%E4%B8%9C%E5%86%9B/9847\" target=\"_blank\">关东军</a>安排下，铁道&ldquo;守备队&rdquo;炸毁<a href=\"https://baike.baidu.com/item/%E6%B2%88%E9%98%B3/13034\" target=\"_blank\">沈阳</a><a href=\"https://baike.baidu.com/item/%E6%9F%B3%E6%9D%A1%E6%B9%96/15521987\" target=\"_blank\">柳条湖</a>附近的<a href=\"https://baike.baidu.com/item/%E5%8D%97%E6%BB%A1%E9%93%81%E8%B7%AF\" target=\"_blank\">南满铁路</a>路轨（沙俄修建，后被日本所占），并栽赃嫁祸于中国军队。日军以此为借口，炮轰沈阳<a href=\"https://baike.baidu.com/item/%E5%8C%97%E5%A4%A7%E8%90%A5/8928040\" target=\"_blank\">北大营</a>，是为&ldquo;九一八事变&rdquo;。次日，日军侵占<a href=\"https://baike.baidu.com/item/%E6%B2%88%E9%98%B3/13034\" target=\"_blank\">沈阳</a>，又陆续侵占了<a href=\"https://baike.baidu.com/item/%E4%B8%9C%E5%8C%97%E4%B8%89%E7%9C%81/1939750\" target=\"_blank\">东北三省</a>。1932年2月，东北全境沦陷。此后，日本在中国东北建立了伪&ldquo;满洲国&rdquo;傀儡政权，开始了对东北人民长达14年之久的奴役和殖民统治。</p>\n\n<p>&ldquo;九&middot;一八事变&rdquo;是<a href=\"https://baike.baidu.com/item/%E6%97%A5%E6%9C%AC/111617\" target=\"_blank\">日本</a><a href=\"https://baike.baidu.com/item/%E5%B8%9D%E5%9B%BD%E4%B8%BB%E4%B9%89/1106449\" target=\"_blank\">帝国主义</a>长期以来推行对华侵略扩张政策的必然的结果，也是企图把中国变为其独占的<a href=\"https://baike.baidu.com/item/%E6%AE%96%E6%B0%91%E5%9C%B0/85011\" target=\"_blank\">殖民地</a>而采取的重要步骤。它同时标志着世界<a href=\"https://baike.baidu.com/item/%E5%8F%8D%E6%B3%95%E8%A5%BF%E6%96%AF%E6%88%98%E4%BA%89/7051713\" target=\"_blank\">反法西斯战争</a>的开始，揭开了<a href=\"https://baike.baidu.com/item/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%B8%96%E7%95%8C%E5%A4%A7%E6%88%98/174090\" target=\"_blank\">第二次世界大战</a>东方战场的序幕。</p>\n",
+      "imageId": "599f97eb1bc9226fdf5ede96",
+      "imageUrl": "//pic.allhistory.com/T1MOxvBC_T1RCvBVdK.jpg",
+      "imageList": ["../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg", "../6.jpg"],
+      "videoList": [{
+        "poster": "../1.jpg",
+        "url": "../1.mp4"
+      }, {
+        "poster": "../2.jpg",
+        "url": "../2.mp4"
+      }, {
+        "poster": "../3.jpg",
+        "url": "../3.mp4"
+      }],
+      "itemWeight": 2.2432027,
+      "itemTag": null,
+      "disambiguation": "",
+      "relations": {
+        "direction": "->",
+        "id": "5f2e5120d47fa2000162a9fd",
+        "relation": "亲历",
+        "relationDesc": "日本关东军发动震惊中外的“九一八”事变，驻守北大营的一万多名东北军将士因遵循张学良的严令没有抵抗，实行“不抵抗政策”。",
+        "relationType": "EXPERIENCE",
+        "relationTypeGroup": "HUMAN_NONHUMAN",
+        "relationWeight": 44,
+        "relationId": "5f2e5120d47fa2000162a9fd",
+        "time": {
+          "startTime": "1931-09-18 00:00:00",
+          "timeDesc": "",
+          "endTime": "",
+          "startAccuracy": null,
+          "startNote": "",
+          "endAccuracy": null,
+          "endNote": ""
+        },
+        "position": [],
+        "positionDesc": "",
+        "properties": null,
+        "relationCategoryGroup": "HUMAN_EVENT",
+        "scoreMachine": null
+      },
+      "relatedPoint": 1,
+      "typePaths": [{
+        "name": "军事/军事事件/战争战役",
+        "id": "2979"
+      }],
+      "categoryProp": null,
+      "birth": null,
+      "death": null,
+      "relationList": null,
+      "priorRelationTypes": null,
+      "workType": null,
+      "workIds": null,
+      "auditing": false
+    }],
+    "priorRelationTypes": ["EXPERIENCE", "ENEMY", "CAREER", "ACHIEVEMENT", "LOVE", "INFLUENCE"],
+    "workType": null,
+    "workIds": null,
+    "auditing": false
+  },
+  "traceReqId": null
+}

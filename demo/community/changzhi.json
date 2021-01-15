@@ -1,0 +1,33 @@
+{
+  "id": "2021011255240082",
+  "name": "东街街道安康智慧社区",
+  "layout": {
+    "left": {
+      "weather": {
+        "name": "今日天气",
+        "city": "长治"
+      },
+      "duty": {
+        "name": "今日带班值班"
+      },
+      "order": {
+        "name": "工单"
+      }
+    },
+    "center": {
+      "imgMap": {
+        "url": "/demo/community/changzhi/map.jpg",
+        "floor": "floor"
+      },
+      "monitor": true
+    },
+    "right": {
+      "house": {
+        "name": "房屋数量"
+      },
+      "people": {
+        "name": "总人口"
+      }
+    }
+  }
+}

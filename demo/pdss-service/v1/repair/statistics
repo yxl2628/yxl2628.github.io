@@ -1,0 +1,12 @@
+{
+  "repair_statistics_state_list": [{
+    "state": "TO_BE_PROCESSED",
+    "count": 0
+  }, {
+    "state": "PROCESSING",
+    "count": 0
+  }, {
+    "state": "COMPLETED",
+    "count": 0
+  }]
+}

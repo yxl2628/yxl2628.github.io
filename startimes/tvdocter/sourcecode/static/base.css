@@ -1,0 +1,36 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  background-color: #ededed;
+  font-size: 24px;
+  color: #ffffff;
+  line-height: 50px;
+  box-sizing: border-box;
+}
+.clearfix:before,
+.clearfix:after{
+  display: block;
+  content:"";
+  clear: both;
+}
+#app .error{
+  position: absolute;
+  width: 640px;
+  max-height: 500px;
+  left: 50%;
+  bottom: 30px;
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin-left: -335px;
+  background-color: #000000;
+  font-size: 14px;
+  color: #fff;
+  z-index: 9999;
+  overflow-y: auto;
+}

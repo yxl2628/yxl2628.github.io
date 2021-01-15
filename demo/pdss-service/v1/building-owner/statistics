@@ -1,0 +1,32 @@
+{
+  "totle_count": 13772,
+  "building_owner_statistics_age": [{
+    "minimum_age": 80,
+    "maximum_age": 1000,
+    "count": 134
+  }, {
+    "minimum_age": 70,
+    "maximum_age": 79,
+    "count": 464
+  }, {
+    "minimum_age": 60,
+    "maximum_age": 69,
+    "count": 1265
+  }, {
+    "minimum_age": 36,
+    "maximum_age": 59,
+    "count": 15078
+  }, {
+    "minimum_age": 18,
+    "maximum_age": 35,
+    "count": 4643
+  }, {
+    "minimum_age": 0,
+    "maximum_age": 18,
+    "count": 2188
+  }],
+  "building_owner_statistics_sex": {
+    "male_count": 6654,
+    "female_count": 7118
+  }
+}

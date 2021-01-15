@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	<link type="text/css" rel="stylesheet" href="css/jquery-image-player-min.css" />
+	<link type="text/css" rel="stylesheet" href="css/d1.css" />
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery-image-player.js"></script>
+	<script type="text/javascript" src="js/prettify-min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<style type="text/css">
+		body{
+			background-color: #292929;
+		}
+		.jsvp-wrapper .jsvp-ul{
+			background-color: #010001;
+		}
+		.jsvp-wrapper .jsvp-ul, .jsvp-wrapper .jsvp-ul li{
+			height: 448px;
+		}
+		.current{
+			height: 448px;
+			background-color: #010001;
+		}
+		.img1{
+			width: 700px;
+			height: 450px;
+		}
+		.jsvp-player-slider{
+			cursor: pointer;
+		}
+		.jsvp-player-slider::after{
+		    content:'';
+		    display: none;
+		    width:1px;
+		    height:8px;
+		    background-color: blue;
+		    position: relative;
+		    margin-bottom: 8px;
+		    z-index: 9999;
+		  }
+		 .thumbnail{
+		 	width:140px;
+		 	height: 100px;
+		 	position: relative;
+		 	bottom: 108px;
+		 	padding:5px;
+		 	background-color: #000;
+		 	display: none;
+		 }
+		 .thumbnail>img{
+		 	width: 100%;
+		 }
+	</style>
+	<script type="text/javascript">
+	var playTime = 500;//每200毫秒播放1张图片
+	$(function(){
+		$("#imgPlay").append("<li data-duration='0'><div class='contentArea'><img src='aqyPicture/1.jpg' class='img1'/></div></li>");
+		for(var i=2;i<93;i++){
+			$("#imgPlay").append("<li data-duration='"+playTime+"'><div class='contentArea'><img src='aqyPicture/"+i+".jpg' class='img1'/></div></li>");
+		}
+
+		$('#demo1').jsVideoPlayer({
+			showTitle : false,
+			showVolumeControl : false,
+			playerWidth:800,
+			playerHeight:450
+		});
+
+		$(".jsvp-control-player-bar").append("<div id=\"thumbnail\" class=\'thumbnail\'><img src='aqyPicture/small/1.jpg'/></div>");
+		$("#slider-sliderWrapper_0").mousemove(function(event){
+			var m_clientX =event.clientX-$("#slider-sliderWrapper_0").offset().left;
+			//console.log("当前坐标：X："+ m_clientX);
+			var sliderStyle="<style>.jsvp-player-slider::after{display:block; margin-left:"+m_clientX+"px;}</style>";
+			$(".jsvp-player-slider").append(sliderStyle);
+			var totaLen=$("#imgPlay").find("li").length;
+			var toolBarLen=parseInt($("#slider-sliderWrapper_0").css("width"));
+			var imgNum=Math.round(m_clientX/(toolBarLen/totaLen))+1;
+			if(imgNum<1){
+				imgNum=1;
+			}else if(imgNum>totaLen){
+				imgNum = totaLen;
+			}
+			$("#thumbnail").find('img').attr("src","aqyPicture/small/"+imgNum+".jpg");
+			//console.log("当前第"+imgNum+'张图片')
+			$("#thumbnail").css("left",(m_clientX-70)+'px');
+			$("#thumbnail").css("display","block");
+		});
+		$("#slider-sliderWrapper_0").mouseleave(function(){
+			var sliderStyle="<style>.jsvp-player-slider::after{display:none}</style>";
+			$(".jsvp-player-slider").append(sliderStyle);
+			$("#thumbnail").css("display","none");
+		});
+
+	});
+	</script>
+	<!--[if IE]>
+		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="htmleaf-container">
+		<section class="contentWrapper">
+			<section class="content">
+				<section class="playerOuterWrapper">
+					<section class="playerInnerWrapper">
+						<div id="demo1">
+							<ul id='imgPlay'>
+							</ul>
+						</div>
+					</section>
+				</section>
+			</section>
+		</section>
+	</div>
+</body>
+</html>

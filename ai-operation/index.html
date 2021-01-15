@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,height=device-height, user-scalable=no,initial-scale=1, minimum-scale=1, maximum-scale=1,target-densitydpi=device-dpi ">
+  <title>智能自动化运维</title>
+  <link rel="stylesheet" href="css/master.css?v1.0.1">
+</head>
+
+<body>
+  <div id="chat">
+    <div class="sidebar">
+      <div class="m-card">
+        <header>
+          <p class="name">在线人员列表</p>
+        </header>
+      </div>
+      <!--v-component-->
+      <div class="m-list">
+        <ul>
+          <!--v-for-start-->
+          <li><img class="avatar" width="30" height="30" src="img/ai.jpg">
+            <p class="name">机器人</p>
+          </li>
+          <li><img class="avatar" width="30" height="30" src="img/1.jpg">
+            <p class="name">运维人员</p>
+          </li>
+          <li><img class="avatar" width="30" height="30" src="img/2.jpg">
+            <p class="name">开发人员</p>
+          </li>
+          <li><img class="avatar" width="30" height="30" src="img/3.jpg">
+            <p class="name">杨小龙</p>
+          </li>
+          <!--v-for-end-->
+        </ul>
+      </div>
+      <!--v-component-->
+    </div>
+    <div class="main">
+      <div id="dialog" class="m-message">
+        <ul>
+          <!--v-for-start-->
+          <li v-for="chat in chatList">
+            <p class="time"><span>{{chat.time}}</span></p>
+            <div class="main" :class="{self:chat.user.name!=='ai'}"><img class="avatar" width="30" height="30" :src="chat.user.img">
+              <div class="text" v-html="chat.content"></div>
+            </div>
+          </li>
+          <!--v-for-end-->
+        </ul>
+      </div>
+      <!--v-component-->
+      <div class="m-text"><textarea v-model="question" placeholder="按 Enter 发送" @keyup.enter="enterQuestion"></textarea></div>
+      <!--v-component-->
+    </div>
+  </div>
+</body>
+<script src="js/vue.js?v1.0.0" charset="utf-8"></script>
+<script src="js/data.js?v1.0.5" charset="utf-8"></script>
+<script type="text/javascript">
+  var app = new Vue({
+    el: '#chat',
+    data () {
+      return {
+        question: '',
+        chatList: []
+      }
+    },
+    updated() {
+      var dialog = document.getElementById('dialog')
+      dialog.scrollTop = dialog.scrollHeight
+    },
+    methods: {
+      enterQuestion: function () {
+        var _this = this
+        if (this.question.indexOf('回滚') < 0 && this.question.indexOf('状态') < 0 && this.question.indexOf('升级') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '运维人员',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<yunwei.length;i++) {
+            _this.addAIChat(i,yunwei)
+          }
+        } else if (this.question.indexOf('状态') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '候铭睿',
+              img: 'img/2.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<zhuangtai.length;i++) {
+            _this.addAIChat(i,zhuangtai)
+          }
+        } else if (this.question.indexOf('回滚') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '候铭睿',
+              img: 'img/2.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<huigunqueren.length;i++) {
+            _this.addAIChat(i,huigunqueren)
+          }
+        } else if (this.chatList.length > 1 && this.chatList[this.chatList.length-1].content.indexOf('@运维人员，请授予权限') >= 0 && this.question.indexOf('同意') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '运维人员',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<huigun.length;i++) {
+            _this.addAIChat(i,huigun)
+          }
+        } else if (this.question.indexOf('自毁') >= 0) {
+          _this.chatList.push({
+            user: {
+              name: '杨小龙',
+              img: 'img/3.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          for (var i=0;i<zihui.length;i++) {
+            _this.addAIChat(i,zihui,1000)
+          }
+        } else {
+          _this.chatList.push({
+            user: {
+              name: '运维人员',
+              img: 'img/1.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: _this.question
+          })
+          _this.question = ''
+          _this.chatList.push({
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: '<p>你在说什么？我听不懂....</p><p>你可以试试这些命令：</p><p class="tip" onClick="addQuestion(1)">1.在加纳MTN进行10%比例的Cache 2.3版本灰度升级</p><p class="tip" onClick="addQuestion(2)">2.显示本次升级的系统状态</p><p class="tip" onClick="addQuestion(3)">3.本次升级回滚</p>'
+          })
+        }
+      },
+      addAIChat: function(i,data,time) {
+        time = time || 3000
+        var _this = this
+        setTimeout(function () {
+          _this.chatList.push({
+            user: {
+              name: 'ai',
+              img: 'img/ai.jpg'
+            },
+            time: _this.getNowFormatDate(),
+            content: data[i]
+          })
+        }, i*time)
+      },
+      getNowFormatDate: function() {
+        var date = new Date()
+        var seperator1 = '-'
+        var seperator2 = ':'
+        var month = date.getMonth() + 1
+        var strDate = date.getDate()
+        if (month >= 1 && month <= 9) {
+          month = '0' + month
+        }
+        if (strDate >= 0 && strDate <= 9) {
+          strDate = '0' + strDate
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate + ' ' + date.getHours() + seperator2 + date.getMinutes() + seperator2 + date.getSeconds()
+        return currentdate
+      }
+    }
+  })
+  function addQuestion(type) {
+    switch(type){
+      case 1:
+        app.question = '在加纳MTN进行10%比例的Cache 2.3版本灰度升级'
+        break
+      case 2:
+        app.question = '显示本次升级的系统状态'
+        break
+      case 3:
+        app.question = '本次升级回滚'
+        break
+    }
+    app.enterQuestion()
+  }
+</script>
+</html>

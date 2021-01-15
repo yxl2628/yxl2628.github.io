@@ -1,0 +1,33 @@
+[
+  {
+    "name": "一岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch33/main/av_stream"
+  }, {
+    "name": "二岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch34/main/av_stream"
+  }, {
+    "name": "三岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch35/main/av_stream"
+  }, {
+    "name": "四岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch36/main/av_stream"
+  }, {
+    "name": "五岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch37/main/av_stream"
+  }, {
+    "name": "六岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch38/main/av_stream"
+  }, {
+    "name": "七岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch39/main/av_stream"
+  }, {
+    "name": "八岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch40/main/av_stream"
+  }, {
+    "name": "九岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch41/main/av_stream"
+  }, {
+    "name": "十岗",
+    "playUrl": "rtsp://admin:admin123@15.0.35.2:554/h264/ch42/main/av_stream"
+  }
+]
