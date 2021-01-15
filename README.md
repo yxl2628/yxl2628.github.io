@@ -1,9 +1,6 @@
 # 演示环境
 > 用于存放各种演示demo
 
-### [ckplayer在线地址](https://demo.yangxl.cn/ckplayer/sample/index.html)
-> ckplayer需要http服务才可以使用，为了方便查看效果，放到此处
-
 ### [个人简历](https://demo.yangxl.cn/resume/)
 > 网上看到有特别炫的个人简历，自己fork了一个，用来装装门面
 

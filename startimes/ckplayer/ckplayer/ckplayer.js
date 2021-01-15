@@ -1,121 +1,32 @@
 /*
 	软件名称：ckplayer
-	软件版本：X
-	软件作者：http://www.ckplayer.com
-	---------------------------------------------------------------------------------------------
+	软件版本：X2
+	软件作者：niandeng
+	软件网站：http://www.ckplayer.com
+	--------------------------------------------------------------------------------------------------------------------
 	开发说明：
 	使用的主要程序语言：javascript(js)及actionscript3.0(as3.0)(as3.0主要用于flashplayer部分的开发，不在该页面呈现)
 	功能：播放视频
 	特点：兼容HTML5-VIDEO(优先)以及FlashPlayer
+	--------------------------------------------------------------------------------------------------------------------
+	使用开源代码部分：
+	1：flashls-http://flashls.org/
 	=====================================================================================================================
 */
-function ckplayerConfig() {
-	return {
-		flashvars: {}, //用来补充flashvars里的对象
-		languagePath: '', //语言包文件地址
-		stylePath: '', //风格包文件地址
-		config: {
-			fullInteractive: true, //是否开启交互功能
-			delay: 30, //延迟加载视频，单位：毫秒
-			timeFrequency: 100, //计算当前播放时间和加载量的时间频率，单位：毫秒
-			autoLoad: true, //视频是否自动加载
-			loadNext: 0, //多段视频预加载的段数，设置成0则全部加载
-			definition: true, //是否使用清晰度组件
-			smartRemove: true, //是否使用智能清理，使用该功能则在多段时当前播放段之前的段都会被清除出内存，减少对内存的使用
-			bufferTime: 200, //缓存区的长度，单位：毫秒,不要小于10
-			click: true, //是否支持屏幕单击暂停
-			doubleClick: true, //是否支持屏幕双击全屏
-			doubleClickInterval: 200, //判断双击的标准，即二次单击间隔的时间差之内判断为是双击，单位：毫秒
-			keyDown: {
-				space: true, //是否启用空格键切换播放/暂停
-				left: true, //是否启用左方向键快退
-				right: true, //是否启用右方向键快进
-				up: true, //是否支持上方向键增加音量
-				down: true //是否支持下方向键减少音量
-			},
-			timeJump: 10, //快进快退时的秒数
-			volumeJump: 0.1, //音量调整的数量，大于0小于1的小数
-			timeScheduleAdjust: 1, //是否可调节调节栏,0不启用，1是启用，2是只能前进（向右拖动），3是只能后退，4是只能前进但能回到第一次拖动时的位置，5是看过的地方可以随意拖动
-			previewDefaultLoad: true, //预览图片是否默认加载，优点是鼠标第一次经过进度条即可显示预览图片
-			promptSpotTime: false, //提示点文字是否在前面加上对应时间
-			buttonMode: {
-				player: false, //鼠标在播放器上是否显示可点击形态
-				controlBar: false, //鼠标在控制栏上是否显示可点击形态
-				timeSchedule: true, //鼠标在时间进度条上是否显示可点击形态
-				volumeSchedule: true //鼠标在音量调节栏上是否显示可点击形态
-			},
-			liveAndVod: { //直播+点播=回播功能
-				open: false, //是否开启，开启该功能需要设置flashvars里live=true
-				vodTime: 2, //可以回看的整点数
-				start: 'start' //回看请求参数
-			},
-			errorNum: 3, //错误重连次数
-			playCorrect: false, //是否需要错误修正，这是针对rtmp的
-			timeCorrect: true, //http视频播放时间错误纠正，有些因为视频格式的问题导致视频没有实际播放结束视频文件就返回了stop命令
-			m3u8Definition: { //m3u8自动清晰度时按关键字来进行判断
-				//tags:['200k','110k','400k','600k','1000k']
-			},
-			m3u8MaxBufferLength: 30, //m3u8每次缓冲时间，单位：秒数
-			split: ',', //当视频地址采用字符形式并且需要使用逗号或其它符号来切割数组里定义
-			timeStamp: '', //一个地址，用来请求当前时间戳，用于播放器内部时间效准
-			addCallback: 'adPlay,adPause,playOrPause,videoPlay,videoPause,videoMute,videoEscMute,videoClear,changeVolume,fastBack,fastNext,videoSeek,newVideo,getMetaDate,videoRotation,videoBrightness,videoContrast,videoSaturation,videoHue,videoZoom,videoProportion,videoError,addListener,removeListener,addElement,getElement,deleteElement,animate,animateResume,animatePause,deleteAnimate,changeConfig,getConfig,openUrl,fullScreen,quitFullScreen,switchFull,screenshot,custom,changeControlBarShow,getCurrentSrc'
-			//需要支持的事件
-		},
-		menu: { //版权名称支持
-			ckkey: '7114de397ee5711ad8e79e9a62ff53b5',
-			name: '四达时代',
-			link: 'http://www.startimes.com.cn',
-			version: '',
-			domain: '',
-			more: []
-		},
-		style: { //风格部分内容配置，这里主要配置loading和logo以及广告的部分内容
-			loading: {
-				file: 'data:image/swf;base64,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',
-				align: 'center',
-				vAlign: 'middle',
-				offsetX: -100,
-				offsetY: -40
-			},
-			logo: {
-				file: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAAA/CAYAAABKIS5EAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUEzNzQyOTQ5MTQ3MTFFOEI3OUM4OEE1OEIwMkQ1M0UiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUEzNzQyOTU5MTQ3MTFFOEI3OUM4OEE1OEIwMkQ1M0UiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpBQTM3NDI5MjkxNDcxMUU4Qjc5Qzg4QTU4QjAyRDUzRSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBQTM3NDI5MzkxNDcxMUU4Qjc5Qzg4QTU4QjAyRDUzRSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PnaT+vYAAA8DSURBVHja7JwHmBRF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',
-				align: 'right',
-				vAlign: 'top',
-				offsetX: -90,
-				offsetY: 10
-			},
-			advertisement: { //广告相关的配置
-				time: 5, //广告默认播放时长以及多个广告时每个广告默认播放时间，单位：秒
-				method: 'get', //广告监测地址默认请求方式，get/post
-				videoForce: false, //频广告是否强制播放结束
-				videoVolume: 0.8, //视频音量
-				skipButtonShow: true, //是否显示跳过广告按钮
-				linkButtonShow: true, //是否显示广告链接按钮，如果选择显示，只有在提供了广告链接地址时才会显示
-				muteButtonShow: true, //是否显示跳过广告按钮
-				closeButtonShow: true, //暂停时是否显示关闭广告按钮
-				closeOtherButtonShow: true, //其它广告是否需要关闭广告按钮
-				frontSkipButtonDelay: 0, //前置广告跳过广告按钮延时显示的时间，单位：秒
-				insertSkipButtonDelay: 0, //插入广告跳过广告按钮延时显示的时间，单位：秒
-				endSkipButtonDelay: 0, //后置广告跳过广告按钮延时显示的时间，单位：秒
-				frontStretched: 2, //前置广告拉伸方式，0=原始大小，1=自动缩放，2=只有当广告的宽或高大于播放器宽高时才进行缩放，3=参考播放器宽高，4=宽度参考播放器宽、高度自动，5=高度参考播放器高、宽度自动
-				insertStretched: 2, //插入广告拉伸方式，0=原始大小，1=自动缩放，2=只有当广告的宽或高大于播放器宽高时才进行缩放，3=参考播放器宽高，4=宽度参考播放器宽、高度自动，5=高度参考播放器高、宽度自动
-				pauseStretched: 2, //暂停广告拉伸方式，0=原始大小，1=自动缩放，2=只有当广告的宽或高大于播放器宽高时才进行缩放，3=参考播放器宽高，4=宽度参考播放器宽、高度自动，5=高度参考播放器高、宽度自动
-				endStretched: 2 //结束广告拉伸方式，0=原始大小，1=自动缩放，2=只有当广告的宽或高大于播放器宽高时才进行缩放，3=参考播放器宽高，4=宽度参考播放器宽、高度自动，5=高度参考播放器高、宽度自动
-			},
-			video: { //视频的默认比例
-				defaultWidth: 4, //宽度
-				defaultHeight: 3 //高度
+
+!(function() {
+	var ckplayerPath = '';
+	!function() {
+		var scriptList = document.scripts,
+		thisPath = scriptList[scriptList.length - 1].src;
+		for(var i=0;i<scriptList.length;i++){
+			var scriptName=scriptList[i].getAttribute('name') || scriptList[i].getAttribute('data-name');
+			if(scriptName && scriptName=='ckplayer'){
+				thisPath = scriptList[i].src;
 			}
 		}
-	};
-}
-!(function() {
-	var javascriptPath = '';
-	! function() {
-		var scriptList = document.scripts,
-			thisPath = scriptList[scriptList.length - 1].src;
-		javascriptPath = thisPath.substring(0, thisPath.lastIndexOf('/') + 1);
-	}();
+		ckplayerPath = thisPath.substring(0, thisPath.lastIndexOf('/') + 1);
+	} ();
 	var ckplayer = function(obj) {
 		/*
 			javascript部分开发所用的注释说明：
@@ -137,207 +48,274 @@ function ckplayerConfig() {
 			---------------------------------------------------------------------------------------------
 			程序开始
 			下面为需要初始化配置的全局变量
-			初始化配置
-			config：全局变量/变量类型：Object/功能：定义一些基本配置
 		*/
-		this.config = {
-			videoClick: true, //是否支持单击播放/暂停动作
-			videoDbClick: true, //是否支持双击全屏/退出全屏动作
-			errorTime: 100, //延迟判断失败的时间，单位：毫秒
-			videoDrawImage: false //是否使用视频drawImage功能，注意，该功能在移动端表现不了
+		//全局变量：播放器默认配置，在外部传递过来相应配置后，则进行相关替换
+		this.varsDefault = {
+			playerID: '',//播放器ID
+			container: '',//视频容器的ID
+			variable: 'ckplayer',//播放函数(变量)名称
+			volume: 0.8,//默认音量，范围0-1
+			poster: '',//封面图片地址
+			autoplay: false,//是否自动播放
+			loop: false,//是否需要循环播放
+			live: false,//是否是直播
+			duration: 0,//指定总时间
+			forceduration:0,//强制使用该时间为总时间
+			seek: 0,//默认需要跳转的秒数
+			drag: '',//拖动时支持的前置参数
+			front: '',//前一集按钮动作
+			next: '',//下一集按钮动作
+			loaded: '',//加载播放器后调用的函数
+			flashplayer: false,//设置成true则强制使用flashplayer
+			html5m3u8: false,//PC平台上是否使用h5播放器播放m3u8
+			track: null,//字幕轨道
+			cktrack: null,//ck字幕
+			cktrackdelay:0,//字幕显示延迟时间
+			preview: null,//预览图片对象
+			prompt: null,//提示点功能
+			video: null,//视频地址
+			config: '',//调用配置函数名称
+			type: '',//视频格式
+			crossorigin: '',//设置html5视频的crossOrigin属性
+			crossdomain: '',//安全策略文件地址
+			unescape: false,//默认flashplayer里需要解码
+			mobileCkControls: false,//移动端h5显示控制栏
+			mobileAutoFull: true,//移动端是否默认全屏播放
+			playbackrate: 1,//默认倍速
+			h5container: '',//h5环境中使用自定义容器
+			debug: false,//是否开启调试模式
+			overspread:true,//是否让视频铺满播放器
+			language:'',//语言文件路径
+			style:'',//风格文件路径
+			//以下为广告相关配置
+			adfront: '',
+			adfronttime: '',
+			adfrontlink: '',
+			adpause: '',
+			adpausetime: '',
+			adpauselink: '',
+			adinsert: '',
+			adinserttime: '',
+			adinsertlink: '',
+			inserttime: '',
+			adend: '',
+			adendtime: '',
+			adendlink: '',
+			advertisements: ''
 		};
-		//全局变量/变量类型：Object/功能：播放器默认配置，在外部传递过来相应配置后，则进行相关替换
-		this.varsConfig = {
-			playerID: '', //播放器ID
-			container: '', //视频容器的ID
-			variable: 'ckplayer', //播放函数(变量)名称
-			volume: 0.8, //默认音量，范围0-1
-			poster: '', //封面图片地址
-			autoplay: false, //是否自动播放
-			loop: false, //是否需要循环播放
-			live: false, //是否是直播
-			duration: 0, //指定总时间
-			seek: 0, //默认需要跳转的秒数
-			drag: '', //拖动时支持的前置参数
-			front: '', //前一集按钮动作
-			next: '', //下一集按钮动作
-			loaded: '', //加载播放器后调用的函数
-			flashplayer: false, //设置成true则强制使用flashplayer
-			html5m3u8: false, //PC平台上是否使用h5播放器播放m3u8
-			track: null, //字幕轨道
-			cktrack: null, //ck字幕
-			preview: null, //预览图片对象
-			prompt: null, //提示点功能
-			video: null, //视频地址
-			config: '', //调用配置函数名称
-			type: '', //视频格式
-			crossorigin: '', //设置html5视频的crossOrigin属性
-			crossdomain: '', //安全策略文件地址
-			unescape: false, //默认flashplayer里需要解码
-			mobileCkControls: false, //移动端h5显示控制栏
-			playbackrate: 1, //默认倍速
-			debug: false //是否开启调试模式
-		};
+		//全局变量:vars
 		this.vars = {};
-		//全局变量/变量类型：Object/功能：语言配置
-		this.language = {
-			volume: '音量：',
-			play: '点击播放',
-			pause: '点击暂停',
-			full: '点击全屏',
-			escFull: '退出全屏',
-			mute: '点击静音',
-			escMute: '取消静音',
-			front: '上一集',
-			next: '下一集',
-			definition: '点击选择清晰度',
-			playbackRate: '点击选择速度',
-			error: '加载出错'
-		};
-		//全局变量/变量类型：Array/功能：右键菜单：[菜单标题,类型(link:链接，default:灰色，function：调用函数，javascript:调用js函数),执行内容(包含链接地址，函数名称),[line(间隔线)]]
-		this.contextMenu = [
-			['ckplayer', 'link', 'http://www.ckplayer.com'],
-			['version:X', 'default', 'line']
-		];
-		//全局变量/变量类型：Array/功能：错误列表
+		//全局变量：配置文件函数
+		this.ckConfig = {};
+		this.jsonConfig = {};//该变量为一次性赋值，不再变化
+		//全局变量：语言配置
+		this.ckLanguage = {};
+		this.jsonLanguage = {};//该变量为一次性赋值，不再变化
+		//全局变量：语言配置
+		this.ckStyle = {};
+		this.jsonStyle = {};//该变量为一次性赋值，不再变化
+		//全局变量：右键菜单：[菜单标题,类型(link:链接，default:灰色，function：调用函数，javascript:调用js函数),执行内容(包含链接地址，函数名称),[line(间隔线)]]
+		this.contextMenu = [['ckplayer', 'link', 'http://www.ckplayer.com', '_blank'], ['version:X2', 'default', 'line']];
+		//全局变量：错误提示列表
 		this.errorList = [
-			['000', 'Object does not exist'],
-			['001', 'Variables type is not a object'],
+			['000', 'Object does not exist'], 
+			['001', 'Variables type is not a object'], 
 			['002', 'Video object does not exist'],
-			['003', 'Video object format error'],
-			['004', 'Video object format error'],
-			['005', 'Video object format error'],
-			['006', '[error] does not exist '],
+			['003', 'Video object format error'], 
+			['004', 'Video object format error'], 
+			['005', 'Video object format error'], 
+			['006', '[error] does not exist'], 
 			['007', 'Ajax error'],
 			['008', 'Ajax error'],
 			['009', 'Ajax object format error'],
-			['010', 'Ajax.status:[error]']
+			['010', 'Ajax.status:[error]'],
+			['011', '[error] File loading failed or error'],
+			['012', '[error]']
 		];
-		//全局变量/变量类型：Array/功能：HTML5变速播放的值数组/如果不需要可以设置成null
-		this.playbackRateArr = [
-			[0.5, '0.5倍'],
-			[1, '正常'],
-			[1.25, '1.25倍'],
-			[1.5, '1.5倍'],
-			[2, '2倍速'],
-			[4, '4倍速']
-		];
-		//全局变量/变量类型：Array/功能：HTML5默认变速播放的值
+		//全局变量：HTML5变速播放的值数组/如果不需要可以设置成null
+		this.playbackRateArr = [[0.5, '0.5X'], [1, '1X'], [1.25, '1.25X'], [1.5, '1.5X'], [2, '2X'], [4, '4X']];
+		//全局变量：保存倍速
+		this.playbackRateTemp=1;
+		//全局变量：HTML5默认变速播放的值
 		this.playbackRateDefault = 1;
-		//全局变量/变量类型：String/功能：定义logo
+		//全局变量：HTML5当前显示的字幕编号
+		this.subtitlesTemp=-1;
+		//全局变量：定义logo
 		this.logo = '';
-		//全局变量/变量类型：Boolean/功能：是否加载了播放器
+		//全局变量：是否加载了播放器
 		this.loaded = false;
-		//全局变量/变量类型：计时器/功能：监听视频加载出错的状态
+		//全局变量：计时器，监听视频加载出错的状态
 		this.timerError = null;
-		//全局变量/变量类型：Boolean/功能：是否出错
+		//全局变量：是否出错
 		this.error = false;
-		//全局变量/变量类型：Array/功能：出错地址的数组
+		//全局变量：出错地址的数组
 		this.errorUrl = [];
-		//全局变量/变量类型：计时器/功能：监听全屏与非全屏状态
+		//全局变量：计时器，监听全屏与非全屏状态
 		this.timerFull = null;
-		//全局变量/变量类型：Boolean/功能：是否全屏状态
+		//全局变量：是否全屏状态
 		this.full = false;
-		//全局变量/变量类型：计时器/功能：监听当前的月/日 时=分=秒
+		//全局变量：计时器，监听当前的月/日 时=分=秒
 		this.timerTime = null;
-		//全局变量/变量类型：计时器/功能：监听视频加载
+		//全局变量：计时器，监听视频加载
 		this.timerBuffer = null;
-		//全局变量/变量类型：Boolean/功能：设置进度按钮及进度条是否跟着时间变化，该属性主要用来在按下进度按钮时暂停进度按钮移动和进度条的长度变化
+		//全局变量：设置进度按钮及进度条是否跟着时间变化，该属性主要用来在按下进度按钮时暂停进度按钮移动和进度条的长度变化
 		this.isTimeButtonMove = true;
-		//全局变量/变量类型：Boolean/功能：进度栏是否有效，如果是直播，则不需要监听时间让进度按钮和进度条变化
+		//全局变量：进度栏是否有效，如果是直播，则不需要监听时间让进度按钮和进度条变化
 		this.isTimeButtonDown = false;
-		//全局变量/变量类型：Boolean/功能：用来模拟双击功能的判断
+		//全局变量：计时，用来计算鼠标离开清晰度或字幕或倍速按钮后的计算时间标准
+		this.timeButtonOver=null;
+		//全局变量：鼠标离开清晰度或字幕或倍速是否需要隐藏
+		this.buttonHide=false;
+		//全局变量：用来模拟双击功能的判断
 		this.isClick = false;
-		//全局变量/变量类型：计时器/功能：用来模拟双击功能的计时器
+		//全局变量：计时器，用来模拟双击功能的计时器
 		this.timerClick = null;
-		//全局变量/变量类型：计时器/功能：旋转loading
-		this.timerLoading = null;
-		//全局变量/变量类型：计时器/功能：监听鼠标在视频上移动显示控制栏
+		//全局变量：计时器，监听鼠标在视频上移动显示控制栏
 		this.timerCBar = null;
-		//全局变量/变量类型：Int/功能：播放视频时如果该变量的值大于0，则进行跳转后设置该值为0
+		//全局变量：播放视频时如果该变量的值大于0，则进行跳转后设置该值为0
 		this.needSeek = 0;
-		//全局变量/变量类型：Int/功能：当前音量
+		//全局变量：当前音量
 		this.volume = 0;
-		//全局变量/变量类型：Int/功能：静音时保存临时音量
+		//全局变量：静音时保存临时音量
 		this.volumeTemp = 0;
 		//全局变量/变量类型：Number/功能：当前播放时间
 		this.time = 0;
-		//全局变量/变量类型：Boolean/功能：定义首次调用
+		//全局变量：定义首次调用
 		this.isFirst = true;
-		//全局变量/变量类型：Boolean/功能：是否使用HTML5-VIDEO播放
+		//全局变量：是否使用HTML5-VIDEO播放
 		this.html5Video = true;
-		//全局变量/变量类型：Object/功能：记录视频容器节点的x;y
+		//全局变量记录视频容器节点的x;y
 		this.pdCoor = {
 			x: 0,
 			y: 0
 		};
-		//全局变量/变量类型：String/功能：判断当前使用的播放器类型，html5video或flashplayer
+		//全局变量：判断当前使用的播放器类型，html5video或flashplayer
 		this.playerType = '';
-		//全局变量/变量类型：Int/功能：加载进度条的长度
+		//全局变量：加载进度条的长度
 		this.loadTime = 0;
-		//全局变量/body对象
+		//全局变量：body对象
 		this.body = document.body || document.documentElement;
-		//全局变量/V/播放器
+		//全局变量：播放器
 		this.V = null;
-		//全局变量/保存外部js监听事件数组
+		//全局变量：保存外部js监听事件数组
 		this.listenerJsArr = [];
-		//全局变量/保存控制栏显示元素的总宽度
+		//全局变量：保存控制栏显示元素的总宽度
 		this.buttonLen = 0;
-		//全局变量/保存控制栏显示元素的数组
+		//全局变量：保存控制栏显示元素的数组
 		this.buttonArr = [];
-		//全局变量/保存按钮元素的宽
-		this.buttonWidth = {};
-		//全局变量/保存播放器上新增元件的数组
+		//全局变量：保存播放器上新增元件的数组
 		this.elementArr = [];
-		//全局变量/字幕内容
+		//全局变量：保存播放器上弹幕的临时数组
+		this.elementTempArr = [];
+		//全局变量：字幕内容
 		this.track = [];
-		//全局变量/字幕索引
+		//全局变量：字幕索引
 		this.trackIndex = 0;
-		//全局变量/当前显示的字幕内容
+		//全局变量：当前显示的字幕内容
 		this.nowTrackShow = {
 			sn: ''
 		};
-		//全局变量/保存字幕元件数组
+		//全局变量：保存字幕元件数组
 		this.trackElement = [];
-		//全局变量/将视频转换为图片
+		//全局变量：将视频转换为图片
 		this.timerVCanvas = null;
-		//全局变量/animate
+		//全局变量：animate，缓动对象数组
 		this.animateArray = [];
-		//全局变量/保存animate的元件
+		//全局变量：保存animate的元件
 		this.animateElementArray = [];
-		//全局变量/保存需要在暂停时停止缓动的数组
+		//全局变量：保存需要在暂停时停止缓动的数组
 		this.animatePauseArray = [];
-		//全局变量/预览图片加载状态/0=没有加载，1=正在加载，2=加载完成
+		//全局变量：预览图片加载状态/0=没有加载，1=正在加载，2=加载完成
 		this.previewStart = 0;
-		//全局变量/预览图片容器
+		//全局变量：预览图片容器
 		this.previewDiv = null;
-		//全局变量/预览框
+		//全局变量：预览框
 		this.previewTop = null;
-		//全局变量/预览框的宽
+		//全局变量：预览框的宽
 		this.previewWidth = 120;
-		//全局变量/预览图片容器缓动函数
+		//全局变量：预览图片容器缓动函数
 		this.previewTween = null;
-		//全局变量/是否是m3u8格式，是的话则可以加载hls.js
+		//全局变量：是否是m3u8格式，是的话则可以加载hls.js
 		this.isM3u8 = false;
-		//全局变量/保存提示点数组
+		//全局变量：保存提示点数组
 		this.promptArr = [];
-		//全局变量/显示提示点文件的容器
+		//全局变量：显示提示点文件的容器
 		this.promptElement = null;
-		//配置文件函数
-		this.ckplayerConfig = {};
-		//控制栏是否显示
-		this.showFace = true;
-		//是否监听过h5的错误
+		//全局变量：控制栏是否显示
+		this.conBarShow = true;
+		//全局变量：是否监听过h5的错误
 		this.errorAdd = false;
-		//是否发送了错误
+		//全局变量：是否发送了错误
 		this.errorSend = false;
-		//控制栏是否隐藏
+		//全局变量：控制栏是否隐藏
 		this.controlBarIsShow = true;
-		//字体
+		//全局变量，保存当前缩放比例
+		this.videoScale = 1;
+		//全局变量：设置字体
 		this.fontFamily = '"Microsoft YaHei"; YaHei; "\5FAE\8F6F\96C5\9ED1"; SimHei; "\9ED1\4F53";Arial';
-		//记录第一次拖动进度按钮时的位置
+		//全局变量：记录第一次拖动进度按钮时的位置
 		this.timeSliderLeftTemp = 0;
-		if(obj) {
+		//全局变量：判断是否记录了总时间
+		this.durationSendJS = false;
+		//全局变量：初始化广告分析是否结束设置
+		this.adAnalysisEnd = false;
+		//全局变量：广告变量
+		this.advertisements = {};
+		//全局变量：是否是第一次播放视频
+		this.isFirstTimePlay = true;
+		//全局变量：当前需要播放的广告类型
+		this.adType = '';
+		//全局变量：播放广告计数
+		this.adI = 0;
+		//全局变量：要播放的临时地址
+		this.videoTemp = {
+			src: '',
+			source: '',
+			currentSrc: '',
+			loop: false
+		};
+		//全局变量：当前要播放的广告组总时间
+		this.adTimeAllTotal = 0;
+		//全局变量：肖前要播放的广告时间
+		this.adTimeTotal = 0;
+		//全局变量：用来做倒计时
+		this.adCountDownObj = null;
+		//全局变量：前置，中插，结尾广告是否已开始运行
+		this.adPlayStart = false;
+		//全局变量：目前是否在播放广告
+		this.adPlayerPlay = false;
+		//全局变量：当前广告是否暂停
+		this.adIsPause = false;
+		//全局变量：视频广告是否静音
+		this.adVideoMute = false;
+		//全局变量：是否需要记录当前播放的时间供广告播放结束后进行跳转
+		this.adIsVideoTime = false;
+		//全局变量：后置广告是否播放
+		this.endAdPlay = false;
+		//全局变量：暂停广告是否在显示
+		this.adPauseShow = false;
+		//全局变量：是否需要重置广告以实现重新播放时再播放一次
+		this.adReset = false;
+		//全局变量：记录鼠标在视频上点击时的坐标
+		this.videoClickXy={x:0,y:0};
+		//全局变量：是否在播放广告时播放过视频广告
+		this.adVideoPlay = false;
+		
+		//全局变量：临时存储已加载时间的变量
+		this.loadTimeTemp=0;
+		//全局变量，临时存储hls形式下首次加载时是否需要暂停或播放的判断
+		this.hlsAutoPlay=true;
+		//全局变量，loading是否显示
+		this.loadingShow=false;
+		//全局变量，保存视频地址字符串的
+		this.videoString='';
+		//全局变量，保存所有自定义元件的数组
+		this.customeElement=[];
+		//全局变量，保存PD的宽高
+		this.cdWH={w:0,h:0};
+		//全局变量，保存所有的元素变量
+		this.CB={};
+		if (obj) {
 			this.embed(obj);
 		}
 	};
@@ -349,45 +327,316 @@ function ckplayerConfig() {
 		*/
 		embed: function(c) {
 			//c:Object：是调用接口传递的属性对象
-			if(window.location.href.substr(0, 7) == 'file://') {
+			if (window.location.href.substr(0, 7) == 'file://') {//如果是使用的file协议打网页则弹出提示
 				alert('Please use the HTTP protocol to open the page');
 				return;
 			}
-			if(c == undefined || !c) {
+			if (this.isUndefined(c)) {
 				this.eject(this.errorList[0]);
 				return;
 			}
-			if(typeof(c) != 'object') {
+			if (this.varType(c) != 'object') {
 				this.eject(this.errorList[1]);
 			}
-			this.vars = this.standardization(this.varsConfig, c);
-			if(!this.vars['mobileCkControls'] && this.isMobile()) {
+			this.vars = this.standardization(this.varsDefault, c);
+			if (!this.vars['mobileCkControls'] && this.isMobile()) {
 				this.vars['flashplayer'] = false;
-				this.showFace = false;
+				this.conBarShow = false;
 			}
-			var videoString = this.vars['video'];
-			if(!videoString) {
+			var videoStringTemp = this.vars['video'];
+			if (!videoStringTemp) {
 				this.eject(this.errorList[2]);
 				return;
 			}
-			if(typeof(videoString) == 'string') {
-				if(videoString.substr(0, 3) == 'CK:' || videoString.substr(0, 3) == 'CE:' || videoString.substr(8, 3) == 'CK:' || videoString.substr(8, 3) == 'CE:') {
+			if (this.varType(videoStringTemp) == 'string') {
+				if (videoStringTemp.substr(0, 3) == 'CK:' || videoStringTemp.substr(0, 3) == 'CE:' || videoStringTemp.substr(8, 3) == 'CK:' || videoStringTemp.substr(8, 3) == 'CE:') {
 					this.vars['flashplayer'] = true;
 				}
 			}
-			if(this.vars['config']) {
-				this.ckplayerConfig = eval(this.vars['config'] + '()');
-			} else {
-				this.ckplayerConfig = ckplayerConfig();
+			if (this.varType(videoStringTemp) == 'object') {
+				if (videoStringTemp.length > 1) {
+					if (videoStringTemp[0][0].substr(0, 3) == 'CK:' || videoStringTemp[0][0].substr(0, 3) == 'CE:' || videoStringTemp[0][0].substr(8, 3) == 'CK:' || videoStringTemp[0][0].substr(8, 3) == 'CE:') {
+						this.vars['flashplayer'] = true;
+					}
+				}
 			}
-			if((!this.supportVideo() && this.vars['flashplayer'] != '') || (this.vars['flashplayer'] && this.uploadFlash()) || !this.isMsie()) {
+			this.videoString=videoStringTemp;
+			this.checkUpConfig();	
+		},
+		/*
+			内部函数
+			加载config文件
+		*/
+		checkUpConfig:function(){
+			var thisTemp=this;
+			var configPath='';
+			var jsTemp=null;
+			if (this.vars['config']) {
+				if (this.vars['config'].substr(0, 8) != 'website:') {
+					jsTemp= eval(this.vars['config'] + '()');
+					if(!this.isUndefined(jsTemp)){
+						this.ckConfig=this.newObj(jsTemp);
+						this.jsonConfig=this.newObj(jsTemp);
+						this.loadConfig(null);
+					}
+					else{
+						this.loadConfig(ckplayerPath+this.vars['config']);
+					}
+					
+				}
+				else{
+					this.loadConfig(ckplayerPath+this.vars['config'].substr(8));
+				}
+			}
+			else {
+				try {
+					var isFun=false;
+					try{
+						if(typeof(ckplayerConfig)==='function'){
+							isFun=true;
+						}
+					}
+					catch(e){}
+			        if(isFun) {
+			          	jsTemp= ckplayerConfig();
+			          	if(jsTemp){
+			          		this.ckConfig=this.newObj(jsTemp);
+			          		this.jsonConfig=this.newObj(jsTemp);
+			          		this.loadConfig(null);
+			          	}
+						else{
+							this.loadConfig(ckplayerPath+'ckplayer.json');
+						}
+			        }
+			        else {
+			           this.loadConfig(ckplayerPath+'ckplayer.json');
+			        }
+			    } catch(e) {
+			    	thisTemp.sysError(thisTemp.errorList[12],e);//系统错误
+			    }
+				
+			}
+		},
+		loadConfig:function(file){
+			var thisTemp=this;
+			if(file){
+				this.ajax({
+					url:file,
+					success: function(data) {
+						if(data){
+							thisTemp.ckConfig=data;
+							thisTemp.jsonConfig=thisTemp.newObj(data);
+							if(!thisTemp.isUndefined(data['flashvars'])){
+								thisTemp.vars=thisTemp.objectAssign(data['flashvars'],thisTemp.vars);
+							}
+							thisTemp.checkUpLanguage();
+						}
+						else{
+							thisTemp.sysError(thisTemp.errorList[11],'Config');//系统错误
+						}
+					},
+					error:function(data){
+						thisTemp.sysError(thisTemp.errorList[12],data);//系统错误
+					}
+				});
+			}
+			else{
+				this.checkUpLanguage();
+			}
+		},
+		/*
+			内部函数
+			加载语言文件
+		*/
+		checkUpLanguage:function(){
+			var thisTemp=this;
+			var languagePath='';
+			var jsTemp=null;
+			if (this.vars['language']) {
+				languagePath=this.vars['language'];
+			}
+			else{
+				if (this.ckConfig['languagePath']) {
+					languagePath=this.ckConfig['languagePath'];
+				}
+			}
+			if (languagePath) {
+				if (languagePath.substr(0, 8) != 'website:') {
+					jsTemp = eval(languagePath + '()');
+					if(jsTemp){
+						this.ckLanguage=this.newObj(jsTemp);
+						this.jsonLanguage=this.newObj(jsTemp);
+						this.loadLanguage(null);
+					}
+					else{
+						this.loadLanguage(ckplayerPath+languagePath);
+					}
+					
+				}
+				else{
+					this.loadLanguage(ckplayerPath+languagePath.substr(8));
+				}
+				
+			}
+			else {
+				try {
+					var isFun=false;
+					try{
+						if(typeof(ckplayerLanguage)==='function'){
+							isFun=true;
+						}
+					}
+					catch(e){}
+			        if(isFun) {
+			          	jsTemp = ckplayerLanguage();
+			          	if(jsTemp){
+			          		this.ckLanguage=this.newObj(jsTemp);
+			          		this.jsonLanguage=this.newObj(jsTemp);
+			          		this.loadLanguage(null);
+			          	}
+						else{
+							 this.loadLanguage(ckplayerPath+'language.json');
+						}
+			        }
+			        else {
+			           this.loadLanguage(ckplayerPath+'language.json');
+			        }
+			    } catch(e) {
+			    	thisTemp.sysError(thisTemp.errorList[12],e);//系统错误
+			    }
+				
+			}
+		},
+		loadLanguage:function(file){
+			var thisTemp=this;
+			if(file){
+				this.ajax({
+					url:file,
+					success: function(data) {
+						if(data){
+							thisTemp.ckLanguage=data;
+							thisTemp.jsonLanguage=thisTemp.newObj(data);
+							thisTemp.checkUpStyle();
+						}
+						else{
+							thisTemp.sysError(thisTemp.errorList[11],'language.json');//系统错误
+						}
+					},
+					error:function(data){
+						thisTemp.sysError(thisTemp.errorList[12],data);//系统错误
+					}
+				});
+			}
+			else{
+				this.checkUpStyle();
+			}
+		},
+		/*
+			内部函数
+			加载皮肤文件
+		*/
+		checkUpStyle:function(){
+			var thisTemp=this;
+			var stylePath='';
+			var jsTemp=null;
+			var configJs=this.newObj(this.ckConfig);
+			if (this.vars['style']) {
+				stylePath=this.vars['style'];
+			}
+			else{
+				if (this.ckConfig['stylePath']) {
+					stylePath=''+this.ckConfig['stylePath'];
+				}
+			}
+			if (stylePath) {
+				if (stylePath.substr(0, 8) != 'website:') {
+					jsTemp = eval(stylePath + '()');
+					if(!this.isUndefined(jsTemp)){
+			          	this.jsonStyle=this.newObj(jsTemp);
+			          	this.ckStyle=this.newObj(jsTemp);
+						this.ckStyle['advertisement']=this.objectAssign(configJs['style']['advertisement'],this.ckStyle['advertisement']);
+						this.ckStyle=this.objectAssign(configJs['style'],this.ckStyle);
+						this.loadStyle(null);
+			        }
+					else{
+						this.loadStyle(ckplayerPath+stylePath);
+					}
+				}
+				else{
+					this.loadStyle(ckplayerPath+stylePath.substr(8));
+				}
+				
+			}
+			else {
+				try {
+			       var isFun=false;
+					try{
+						if(typeof(ckplayerStyle)==='function'){
+							isFun=true;
+						}
+					}
+					catch(e){isFun=false;}
+			        if(isFun) {
+			          	jsTemp= ckplayerStyle();
+			          	if(!this.isUndefined(jsTemp)){
+			          		this.jsonStyle=this.newObj(jsTemp);
+			          		this.ckStyle=this.newObj(jsTemp);
+							this.ckStyle['advertisement']=this.objectAssign(configJs['style']['advertisement'],this.ckStyle['advertisement']);
+							this.ckStyle=this.objectAssign(configJs['style'],this.ckStyle);
+							this.loadStyle(null);
+			          	}
+						else{
+							this.loadStyle(ckplayerPath+'style.json');
+						}
+				    }
+			        else {
+			           this.loadStyle(ckplayerPath+'style.json');
+			        }
+			    } catch(e) {}
+				
+			}
+		},
+		loadStyle:function(file){
+			var thisTemp=this;
+			if(file){
+				var configJs=this.newObj(this.ckConfig);
+				this.ajax({
+					url:file,
+					success: function(data) {
+						if(data){
+							thisTemp.jsonStyle=thisTemp.newObj(data);
+							thisTemp.ckStyle=thisTemp.newObj(data);
+							thisTemp.ckStyle['advertisement']=thisTemp.objectAssign(configJs['style']['advertisement'],thisTemp.ckStyle['advertisement']);
+							thisTemp.ckStyle=thisTemp.objectAssign(configJs['style'],thisTemp.ckStyle);
+							thisTemp.loadConfigHandler();
+						}
+						else{
+							thisTemp.sysError(thisTemp.errorList[11],'Style');//系统错误
+						}
+					},
+					error:function(data){
+						thisTemp.sysError(thisTemp.errorList[12],data);//系统错误
+					}
+				});
+			}
+			else{
+				this.loadConfigHandler();
+			}
+		},
+		/*
+			内部函数
+			当config,language,style三个文件或函数处理完成后执行的动作
+		*/
+		loadConfigHandler:function(){
+			if ((!this.supportVideo() && this.vars['flashplayer'] != '') || (this.vars['flashplayer'] && this.uploadFlash()) || !this.isMsie()) {
 				this.html5Video = false;
 				this.getVideo();
-			} else if(videoString) {
+			} 
+			else if (this.videoString) {
 				//判断视频数据类型
-				this.analysedVideoUrl(videoString);
-				return this;
-			} else {
+				this.analysedVideoUrl(this.videoString);
+			} 
+			else {
 				this.eject(this.errorList[2]);
 			}
 		},
@@ -397,42 +646,42 @@ function ckplayerConfig() {
 		*/
 		analysedVideoUrl: function(video) {
 			var i = 0,
-				y = 0;
+			y = 0;
 			var thisTemp = this;
-			//定义全局变量VA:Array：视频列表（包括视频地址，类型，清晰度说明）
-			this.VA = [];
-			if(typeof(video) == 'string') { //如果是字符形式的则判断后缀进行填充
-				if(video.substr(0, 8) != 'website:') {
-					this.VA = [
-						[video, '', '', 0]
-					];
+			this.VA = [];//定义全局变量VA：视频列表（包括视频地址，类型，清晰度说明）
+			if (this.varType(video) == 'string') { //如果是字符形式的则判断后缀进行填充
+				if (video.substr(0, 8) != 'website:') {
+					this.VA = [[video, '', '', 0]];
 					var fileExt = this.getFileExt(video);
-					switch(fileExt) {
-						case '.mp4':
-							this.VA[0][1] = 'video/mp4';
-							break;
-						case '.ogg':
-							this.VA[0][1] = 'video/ogg';
-							break;
-						case '.webm':
-							this.VA[0][1] = 'video/webm';
-							break;
-						default:
-							break;
+					switch (fileExt) {
+					case '.mp4':
+						this.VA[0][1] = 'video/mp4';
+						break;
+					case '.ogg':
+						this.VA[0][1] = 'video/ogg';
+						break;
+					case '.webm':
+						this.VA[0][1] = 'video/webm';
+						break;
+					default:
+						break;
 					}
 					this.getVideo();
 				} else {
-					if(this.html5Video) {
+					if (this.html5Video) {
 						var ajaxObj = {
 							url: video.substr(8),
 							success: function(data) {
-								if(data) {
+								if (data) {
 									thisTemp.analysedUrl(data);
 								} else {
 									thisTemp.eject(thisTemp.errorList[5]);
 									this.VA = video;
 									thisTemp.getVideo();
 								}
+							},
+							error:function(data){
+								thisTemp.eject(thisTemp.errorList[12],data);//系统错误
 							}
 						};
 						this.ajax(ajaxObj);
@@ -442,25 +691,26 @@ function ckplayerConfig() {
 					}
 
 				}
-			} else if(typeof(video) == 'object') { //对象或数组
-				if(!this.isUndefined(typeof(video.length))) { //说明是数组
-					if(!this.isUndefined(typeof(video[0].length))) { //说明是数组形式的数组
-						this.VA = video;
-					}
+			} 
+			else if(this.varType(video)=='array'){//如果视频地址是数组
+				if (this.varType(video[0])=='array') { //如果视频地址是二维数组
+					this.VA = video;
+				}
+				this.getVideo();
+			}
+			else if(this.varType(video)=='object'){
+				/*
+					如果video格式是对象形式，则分二种
+					如果video对象里包含type，则直接播放
+				*/
+				if (!this.isUndefined(video['type'])) {
+					this.VA.push([video['file'], video['type'], '', 0]);
 					this.getVideo();
 				} else {
-					/*
-						如果video格式是对象形式，则分二种
-						如果video对象里包含type，则直接播放
-					*/
-					if(!this.isUndefined(video['type'])) {
-						this.VA.push([video['file'], video['type'], '', 0]);
-						this.getVideo();
-					} else {
-						this.eject(this.errorList[5]);
-					}
+					this.eject(this.errorList[5]);
 				}
-			} else {
+			}
+			else {
 				this.eject(this.errorList[4]);
 			}
 		},
@@ -469,7 +719,7 @@ function ckplayerConfig() {
 		*/
 		analysedUrl: function(data) {
 			this.vars = this.standardization(this.vars, data);
-			if(!this.isUndefined(data['video'])) {
+			if (!this.isUndefined(data['video'])) {
 				this.vars['video'] = data['video'];
 			}
 			this.analysedVideoUrl(this.vars['video']);
@@ -481,59 +731,56 @@ function ckplayerConfig() {
 		getHtml5Video: function() {
 			var va = this.VA;
 			var nva = [];
-			var mobile = false;
+			var mobile = this.isMobile();
 			var video = document.createElement('video');
 			var codecs = function(type) {
 				var cod = '';
-				switch(type) {
-					case 'video/mp4':
-						cod = 'avc1.4D401E, mp4a.40.2';
-						break;
-					case 'video/ogg':
-						cod = 'theora, vorbis';
-						break;
-					case 'video/webm':
-						cod = 'vp8.0, vorbis';
-						break;
-					default:
-						break;
+				switch (type) {
+				case 'video/mp4':
+					cod = 'avc1.4D401E, mp4a.40.2';
+					break;
+				case 'video/ogg':
+					cod = 'theora, vorbis';
+					break;
+				case 'video/webm':
+					cod = 'vp8.0, vorbis';
+					break;
+				default:
+					break;
 				}
 				return cod;
 			};
 			var supportType = function(vidType, codType) {
-				if(!video.canPlayType) {
+				if (!video.canPlayType) {
 					this.html5Video = false;
 					return;
 				}
 				var isSupp = video.canPlayType(vidType + ';codecs="' + codType + '"');
-				if(isSupp == '') {
+				if (isSupp == '') {
 					return false
 				}
 				return true;
 			};
-			if(this.vars['flashplayer'] || !this.isMsie()) {
+			if (this.vars['flashplayer'] || !this.isMsie()) {
 				this.html5Video = false;
 				return;
 			}
-			if(this.isMobile()) {
-				mobile = true;
-			}
-			for(var i = 0; i < va.length; i++) {
+			for (var i = 0; i < va.length; i++) {
 				var v = va[i];
-				if(v) {
-					if(v[1] != '' && !mobile && supportType(v[1], codecs(v[1])) && v[0].substr(0, 4) != 'rtmp') {
+				if (v) {
+					if (v[1] != '' && !mobile && supportType(v[1], codecs(v[1])) && v[0].substr(0, 4) != 'rtmp') {
 						nva.push(v);
 					}
-					if((this.getFileExt(v[0]) == '.m3u8' || this.vars['type']=='video/m3u8' || this.vars['type']=='m3u8' || v[1]=='video/m3u8' || v[1]=='m3u8') && this.vars['html5m3u8']) {
+					if ((this.getFileExt(v[0]) == '.m3u8' || this.vars['type'] == 'video/m3u8' || this.vars['type'] == 'm3u8' || v[1] == 'video/m3u8' || v[1] == 'm3u8') && this.vars['html5m3u8'] && !mobile) {
 						this.isM3u8 = true;
 						nva.push(v);
 					}
 				}
 			}
-			if(nva.length > 0) {
+			if (nva.length > 0) {
 				this.VA = nva;
 			} else {
-				if(!mobile) {
+				if (!mobile) {
 					this.html5Video = false;
 				}
 			}
@@ -543,96 +790,127 @@ function ckplayerConfig() {
 			根据视频地址开始构建播放器
 		*/
 		getVideo: function() {
+			var thisTemp = this;
+			var v = this.vars;
+			//如果存在广告字段则开始分析广告
+			if (!this.adAnalysisEnd && (v['adfront'] != '' || v['adpause'] != '' || v['adinsert'] != '' || v['adend'] != '' || v['advertisements'] != '')) {
+				this.adAnalysisEnd = true;
+				this.adAnalysis();
+				return;
+			}
 			//如果存在字幕则加载
-			if(this.V) { //如果播放器已存在，则认为是从newVideo函数发送过来的请求
+			if (this.V) { //如果播放器已存在，则认为是从newVideo函数发送过来的请求
 				this.changeVideo();
 				return;
 			}
-			if(this.vars['cktrack']) {
+			if (this.vars['cktrack']) {
 				this.loadTrack();
 			}
-			if(this.supportVideo() && !this.vars['flashplayer']) {
+			if (this.supportVideo() && !this.vars['flashplayer']) {
 				this.getHtml5Video(); //判断浏览器支持的视频格式
 			}
-			var thisTemp = this;
-			var v = this.vars;
 			var src = '',
-				source = '',
-				poster = '',
-				loop = '',
-				autoplay = '',
-				track = '';
+			source = '',
+			poster = '',
+			loop = '',
+			autoplay = '',
+			track = '',
+			crossorigin='';
 			var video = v['video'];
 			var i = 0;
+			var vBg=this.ckStyle['background']['backgroundColor'].replace('0x','#');
 			this.CD = this.getByElement(v['container']);
 			volume = v['volume'];
-			if(!this.CD) {
+			if (this.isUndefined(this.CD)) {
 				this.eject(this.errorList[6], v['container']);
 				return false;
 			}
-			//开始构建播放容器
-			var playerID = 'ckplayer' + this.randomString();
-			var playerDiv = document.createElement('div');
-			playerDiv.className = playerID;
+			
+			//开始构建播放器容器
 			this.V = undefined;
-			this.CD.innerHTML = '';
-			this.CD.appendChild(playerDiv);
-			this.PD = this.getByElement(playerID); //PD:定义播放器容器对象全局变量
+			var thisPd = null;
+			if (v['h5container'] != '') {
+				thisPd = this.getByElement(v['h5container']);
+				if (this.isUndefined(thisPd)) {
+					thisPd = null;
+				}
+			}
+			var isVideoH5 = null; //isUndefined  thisPd
+			if (v['playerID'] != '') {
+				isVideoH5 = this.getByElement('#' + v['playerID']);
+				if (this.isUndefined(isVideoH5)) {
+					isVideoH5 = null;
+				}
+			}
+			if (thisPd != null && isVideoH5 != null) {
+				this.PD = thisPd; //PD:定义播放器容器对象全局变量
+			} else {
+				var playerID = 'ckplayer-' + this.randomString();
+				var playerDiv = document.createElement('div');
+				playerDiv.className = playerID;
+				this.CD.innerHTML = '';
+				this.CD.appendChild(playerDiv);
+				this.PD = playerDiv; //PD:定义播放器容器对象全局变量
+			}
 			this.css(this.CD, {
-				backgroundColor: '#000000',
+				backgroundColor: vBg,
 				overflow: 'hidden',
 				position: 'relative'
 			});
 			this.css(this.PD, {
-				backgroundColor: '#000000',
+				backgroundColor: vBg,
 				width: '100%',
 				height: '100%',
 				fontFamily: this.fontFamily
 			});
-			if(this.html5Video) { //如果支持HTML5-VIDEO则默认使用HTML5-VIDEO播放器
+			if (this.html5Video) { //如果支持HTML5-VIDEO则默认使用HTML5-VIDEO播放器
+				
 				//禁止播放器容器上鼠标选择文本
 				this.PD.onselectstart = this.PD.ondrag = function() {
 					return false;
 				};
-				//播放容器构建完成并且设置好样式
+				//播放器容器构建完成并且设置好样式
 				//构建播放器
-				if(this.VA.length == 1) {
-					src = ' src="' + decodeURIComponent(this.VA[0][0]) + '"';
+				if (this.VA.length == 1) {
+					this.videoTemp['src'] = decodeURIComponent(this.VA[0][0]);
+					src = ' src="' + this.videoTemp['src'] + '"';
+
 				} else {
 					var videoArr = this.VA.slice(0);
 					videoArr = this.arrSort(videoArr);
-					for(i = 0; i < videoArr.length; i++) {
+					for (i = 0; i < videoArr.length; i++) {
 						var type = '';
 						var va = videoArr[i];
-						if(va[1]) {
+						if (va[1]) {
 							type = ' type="' + va[1] + '"';
-							if(type == ' type="video/m3u8"' || type == ' type="m3u8"') {
+							if (type == ' type="video/m3u8"' || type == ' type="m3u8"') {
 								type = '';
 							}
 						}
 						source += '<source src="' + decodeURIComponent(va[0]) + '"' + type + '>';
 					}
+					this.videoTemp['source'] = source;
 				}
 				//分析视频地址结束
-				if(v['autoplay']) {
+				if (v['autoplay']) {
 					autoplay = ' autoplay="autoplay"';
 				}
-				if(v['poster']) {
+				if (v['poster']) {
 					poster = ' poster="' + v['poster'] + '"';
 				}
-				if(v['loop']) {
+				if (v['loop']) {
 					loop = ' loop="loop"';
 				}
-				if(v['seek'] > 0) {
+				if (v['seek'] > 0) {
 					this.needSeek = v['seek'];
 				}
-				if(v['track'] != null && v['cktrack'] == null) {
+				if (v['track'] != null && v['cktrack'] == null) {
 					var trackArr = v['track'];
 					var trackDefault = '';
 					var defaultHave = false;
-					for(i = 0; i < trackArr.length; i++) {
+					for (i = 0; i < trackArr.length; i++) {
 						var trackObj = trackArr[i];
-						if(trackObj['default'] && !defaultHave) {
+						if (trackObj['default'] && !defaultHave) {
 							trackDefault = ' default';
 							defaultHave = true;
 						} else {
@@ -641,56 +919,68 @@ function ckplayerConfig() {
 						track += '<track kind="' + trackObj['kind'] + '" src="' + trackObj['src'] + '" srclang="' + trackObj['srclang'] + '" label="' + trackObj['label'] + '"' + trackDefault + '>';
 					}
 				}
-				var autoLoad = this.ckplayerConfig['config']['autoLoad'];
+				if(v['crossorigin']){
+					crossorigin=' crossorigin="'+v['crossorigin']+'"';
+				}
+				var autoLoad = this.ckConfig['config']['autoLoad'];
 				var preload = '';
-				if(!autoLoad) {
+				if (!autoLoad) {
 					preload = ' preload="meta"';
 				}
 				var vid = this.randomString();
 				var controls = '';
-				if(!this.showFace) {
+				var mobileAutoFull = v['mobileAutoFull'];
+				var mobileautofull = '';
+				if (!mobileAutoFull) {
+					mobileautofull = ' x-webkit-airplay="true" playsinline  webkit-playsinline="true"  x5-video-player-type="h5"';
+				}
+				if(this.isMobile()){
 					controls = ' controls="controls"';
 				}
-				var html = '';
-				if(!this.isM3u8) {
-					html = '<video id="' + vid + '"' + src + ' width="100%" height="100%"' + autoplay + poster + loop + preload + controls + ' x5-playsinline="" playsinline="" webkit-playsinline="true">' + source + track + '</video>';
+				if (isVideoH5 != null && thisPd != null) {
+					this.V = isVideoH5;
+					if (v['poster']) {
+						this.V.poster = v['poster'];
+					}
 				} else {
-					html = '<video id="' + vid + '" width="100%" height="100%"' + poster + loop + preload + controls + ' x5-playsinline="" playsinline="" webkit-playsinline="true">' + track + '</video>';
-				}
-				this.PD.innerHTML = html;
-				this.V = this.getByElement('#' + vid); //V：定义播放器对象全局变量
-				if(this.vars['crossorigin']) {
-					this.V.crossOrigin = this.vars['crossorigin'];
+					var html = '';
+					if (!this.isM3u8) {
+						html = '<video id="' + vid + '"' + src + ' width="100%" height="100%"' + autoplay + poster + loop + preload + controls + mobileautofull + track + crossorigin+'>' + source + '</video>';
+
+					} else {
+						html = '<video id="' + vid + '" width="100%" height="100%"' + poster + loop + preload + controls + mobileautofull + track + crossorigin+'></video>';
+					}
+					this.PD.innerHTML = html;
+					this.V = this.getByElement('#' + vid); //V：定义播放器对象全局变量
 				}
 				try {
 					this.V.volume = volume; //定义音量
-					if(this.playbackRateArr && this.vars['playbackrate'] > -1) {
-						if(this.vars['playbackrate'] < this.playbackRateArr.length) {
+					if (this.playbackRateArr && this.vars['playbackrate'] > -1) {
+						if (this.vars['playbackrate'] < this.playbackRateArr.length) {
 							this.playbackRateDefault = this.vars['playbackrate'];
 						}
 						this.V.playbackRate = this.playbackRateArr[this.playbackRateDefault][0]; //定义倍速
 					}
 				} catch(error) {}
 				this.css(this.V, {
+					backgroundColor: vBg,
 					width: '100%',
 					height: '100%'
 				});
-				if(this.isM3u8) {
+				if (this.isM3u8) {
 					var loadJsHandler = function() {
 						thisTemp.embedHls(thisTemp.VA[0][0], v['autoplay']);
 					};
-					this.loadJs(javascriptPath + 'hls/hls.min.js', loadJsHandler);
+					this.loadJs(ckplayerPath + 'hls/hls.min.js', loadJsHandler);
 				}
-				this.css(this.V, 'backgroundColor', '#000000');
+				this.css(this.V, 'backgroundColor', vBg);
 				//创建一个画布容器
-				if(this.config['videoDrawImage']) {
-					var canvasID = 'vcanvas' + this.randomString();
+				if (this.ckConfig['config']['videoDrawImage']) {
 					var canvasDiv = document.createElement('div');
-					canvasDiv.className = canvasID;
 					this.PD.appendChild(canvasDiv);
-					this.MD = this.getByElement(canvasID); //定义画布存储容器
+					this.MD = canvasDiv; //定义画布存储容器
 					this.css(this.MD, {
-						backgroundColor: '#000000',
+						backgroundColor: vBg,
 						width: '100%',
 						height: '100%',
 						position: 'absolute',
@@ -701,7 +991,7 @@ function ckplayerConfig() {
 						zIndex: '10'
 					});
 					var cvid = 'ccanvas' + this.randomString();
-					this.MD.innerHTML = this.newCanvas(cvid, this.PD.offsetWidth, this.PD.offsetHeight);
+					this.MD.innerHTML = this.newCanvas(cvid, this.MD.offsetWidth, this.MD.offsetHeight);
 					this.MDC = this.getByElement(cvid + '-canvas');
 					this.MDCX = this.MDC.getContext('2d');
 				}
@@ -709,19 +999,205 @@ function ckplayerConfig() {
 				//播放器构建完成并且设置好样式
 				//建立播放器的监听函数，包含操作监听及事件监听
 				this.addVEvent();
-				//根据清晰度的值构建清晰度切换按钮
-				if(this.showFace) {
+				if (this.conBarShow) {
+					//根据清晰度的值构建清晰度切换按钮
 					this.definition();
-					if(!this.vars['live'] && this.playbackRateArr && this.vars['playbackrate'] > -1) {
+					if (!this.vars['live'] && this.playbackRateArr && this.vars['playbackrate'] > -1) {
 						this.playbackRate();
 					}
-					if(v['autoplay']) {
+					if (v['autoplay']) {
 						this.loadingStart(true);
 					}
+					this.subtitleSwitch();
 				}
 				this.playerLoad();
 			} else { //如果不支持HTML5-VIDEO则调用flashplayer
 				this.embedSWF();
+			}
+		},
+		/*
+			分析广告数据
+		*/
+		adAnalysis: function() {
+			var thisTemp = this;
+			var v = this.vars;
+			var isAdvShow = [];
+			var i = 0;
+			if (v['advertisements'] != '' && v['advertisements'].substr(0, 8) == 'website:') {
+				var ajaxObj = {
+					url: v['advertisements'].substr(8),
+					success: function(data) {
+						if (data) {
+							var newData = {};
+							var val = null;
+							//对广告进行分析
+							try {
+								if (!thisTemp.isUndefined(data['front']) || !thisTemp.isUndefined(data['pause']) || !thisTemp.isUndefined(data['end']) || !thisTemp.isUndefined(data['insert']) || !thisTemp.isUndefined(data['other'])) {
+									val = thisTemp.arrayDel(data['front']);
+									if (!thisTemp.isUndefined(val)) {
+										newData['front'] = val;
+									}
+									val = thisTemp.arrayDel(data['pause']);
+									if (!thisTemp.isUndefined(val)) {
+										newData['pause'] = val;
+									}
+									val = thisTemp.arrayDel(data['insert']);
+									if (!thisTemp.isUndefined(val)) {
+										newData['insert'] = val;
+										if (!thisTemp.isUndefined(data['inserttime'])) {
+											newData['inserttime'] = thisTemp.arrayInt(data['inserttime']);
+											isAdvShow = [];
+											for (i = 0; i < newData['inserttime'].length; i++) {
+												isAdvShow.push(false);
+											}
+											newData['insertPlay'] = isAdvShow;
+										}
+									}
+									val = thisTemp.arrayDel(data['end']);
+									if (!thisTemp.isUndefined(val)) {
+										newData['end'] = val;
+									}
+									val = thisTemp.arrayDel(data['other']);
+									if (!thisTemp.isUndefined(val)) {
+										newData['other'] = val;
+										isAdvShow = [];
+										var arrTemp = [];
+										for (i = 0; i < val.length; i++) {
+											isAdvShow.push(false);
+											arrTemp.push(parseInt('0' + val[i]['startTime']));
+										}
+										newData['othertime'] = arrTemp;
+										newData['otherPlay'] = isAdvShow;
+									}
+								}
+							} catch(event) {
+								thisTemp.log(event)
+							}
+							thisTemp.advertisements = newData;
+							//对广告进行分析结束
+						}
+						thisTemp.getVideo();
+					},
+					error:function(data){}
+				};
+				this.ajax(ajaxObj);
+			} else {
+				//根据广告分析
+				this.adAnalysisOne('front', 'adfront', 'adfronttime', 'adfrontlink', 'adfronttype');
+				this.adAnalysisOne('pause', 'adpause', 'adpausetime', 'adpauselink', 'adpausetype');
+				this.adAnalysisOne('insert', 'adinsert', 'adinserttime', 'adinsertlink', 'adinserttype');
+				this.adAnalysisOne('end', 'adend', 'adendtime', 'adendlink', 'adendtype');
+				if (!this.isUndefined(this.advertisements['insert'])) {
+					if (!this.isUndefined(v['inserttime'])) {
+						thisTemp.advertisements['inserttime'] = v['inserttime'];
+					}
+				}
+				if (!this.isUndefined(thisTemp.advertisements['inserttime'])) {
+					thisTemp.advertisements['inserttime'] = thisTemp.arrayInt(thisTemp.advertisements['inserttime']);
+					isInsert = [];
+					for (i = 0; i < thisTemp.advertisements['inserttime'].length; i++) {
+						isInsert.push(false);
+					}
+					thisTemp.advertisements['insertPlay'] = isInsert;
+				}
+				thisTemp.getVideo();
+			}
+		},
+		/*
+			将广告数组数据里不是视频和图片的去除
+		*/
+		arrayDel: function(arr) {
+			if(this.isUndefined(arr)){
+				return arr;
+			}
+			if (arr.length == 0) {
+				return null;
+			}
+			var newArr = [];
+			for (var i = 0; i < arr.length; i++) {
+				var type = arr[i]['type'];
+				if (type == 'mp4' || type == 'mov' || this.isStrImage(type)) {
+					newArr.push(arr[i]);
+				}
+			}
+			if (newArr.length > 0) {
+				return newArr;
+			}
+			return null;
+		},
+		/*分析单个类型的广告*/
+		adAnalysisOne: function(adType, adName, adTime, adLink, adStype) {
+			var v = this.vars;
+			if (this.isUndefined(v[adName])) {
+				v[adName] = '';
+			}
+			if (this.isUndefined(v[adTime])) {
+				v[adTime] = '';
+			}
+			if (this.isUndefined(v[adLink])) {
+				v[adLink] = '';
+			}
+			if (this.isUndefined(v[adStype])) {
+				v[adStype] = '';
+			}
+			if (v[adName] != '') {
+				var adList = [];
+				var ad = v[adName].split(',');
+				var adtime = v[adTime].split(',');
+				var adlink = v[adLink].split(',');
+				var adstype = v[adStype].split(',');
+				var i = 0;
+				if (ad.length > 0) {
+					var adLinkLen = adlink.length,
+					adTimeLen = adtime.length;
+					if (v[adLink] == '') {
+						adLinkLen = 0;
+						adlink = [];
+					}
+					if (v[adTime] == '') {
+						adTimeLen = 0;
+						adtime = [];
+					}
+					if (adLinkLen < ad.length) {
+						for (i = adLinkLen; i < ad.length; i++) {
+							adlink.push('');
+						}
+					}
+					if (adTimeLen < ad.length) {
+						for (i = adTimeLen; i < ad.length; i++) {
+							adtime.push('');
+						}
+					}
+					var adstypeLen = adstype.length;
+					if (v[adStype] == '') {
+						adstypeLen = 0;
+						adstype = [];
+					}
+					if (adstypeLen < ad.length) {
+						for (i = adstypeLen; i < ad.length; i++) {
+							adstype.push(this.getFileExt(ad[i]).replace('.', ''));
+						}
+					}
+					for (i = 0; i < ad.length; i++) {
+						var type = adstype[i];
+						if (type == 'mp4' || type == 'mov' || this.isStrImage(type)) {
+							var obj = {
+								file: ad[i],
+								type: type,
+								time: parseInt(adtime[i]) > 0 ? parseInt(adtime[i]) : this.ckStyle['advertisement']['time'],
+								link: adlink[i]
+							};
+							adList.push(obj);
+						}
+
+					}
+					if (this.isUndefined(this.advertisements)) {
+						this.advertisements = {};
+					}
+					if (adList.length > 0) {
+						this.advertisements[adType] = adList;
+					}
+				}
 			}
 		},
 		/*
@@ -730,11 +1206,11 @@ function ckplayerConfig() {
 		*/
 		playerLoad: function() {
 			var thisTemp = this;
-			if(this.isFirst) {
+			if (this.isFirst) {
 				this.isFirst = false;
-				window.setTimeout(function() {
+				setTimeout(function() {
 					thisTemp.loadedHandler();
-				}, 1);
+				},1);
 			}
 		},
 		/*
@@ -743,8 +1219,10 @@ function ckplayerConfig() {
 		*/
 		addVEvent: function() {
 			var thisTemp = this;
+			var duration=0;
 			//监听视频单击事件
 			var eventVideoClick = function(event) {
+				thisTemp.videoClickXy={x:event.clientX,y:event.clientY};
 				thisTemp.videoClick();
 			};
 			this.addListenerInside('click', eventVideoClick);
@@ -754,15 +1232,48 @@ function ckplayerConfig() {
 			//监听视频加载到元数据事件
 			var eventJudgeIsLive = function(event) {
 				thisTemp.sendJS('loadedmetadata');
-				thisTemp.sendJS('duration', thisTemp.V.duration);
+				if (thisTemp.varType(thisTemp.V.duration) == 'number' && thisTemp.V.duration > 1) {
+					duration = thisTemp.V.duration;
+					if(!duration){
+						if(thisTemp.vars['duration']>0){
+							duration=thisTemp.vars['duration'];
+						}
+					}
+					if(thisTemp.vars['forceduration']>0){
+						duration=thisTemp.vars['forceduration'];
+					}
+					thisTemp.sendJS('duration', duration);
+					thisTemp.formatInserttime(duration);
+					if (thisTemp.adPlayerPlay) {
+						thisTemp.advertisementsTime(duration + 1);
+					}
+					thisTemp.durationSendJS = true;
+				}
+				if (thisTemp.conBarShow) {
+					thisTemp.V.controls=null;
+					thisTemp.videoCss();
+				}
 				thisTemp.judgeIsLive();
 			};
-			this.addListenerInside('loadedmetadata', eventJudgeIsLive);
 			//监听视频播放事件
 			var eventPlaying = function(event) {
 				thisTemp.playingHandler();
 				thisTemp.sendJS('play');
 				thisTemp.sendJS('paused', false);
+				if (!thisTemp.durationSendJS && thisTemp.varType(thisTemp.V.duration) == 'number' && thisTemp.V.duration > 0) {
+					duration = thisTemp.V.duration;
+					if(!duration){
+						if(thisTemp.vars['duration']>0){
+							duration=thisTemp.vars['duration'];
+						}
+					}
+					if(thisTemp.vars['forceduration']>0){
+						duration=thisTemp.vars['forceduration'];
+					}
+					thisTemp.durationSendJS = true;
+					thisTemp.sendJS('duration', duration);
+					thisTemp.formatInserttime(duration);
+				}
 			};
 			this.addListenerInside('playing', eventPlaying);
 			//监听视频暂停事件
@@ -772,13 +1283,35 @@ function ckplayerConfig() {
 				thisTemp.sendJS('paused', true);
 			};
 			this.addListenerInside('pause', eventPause);
+			//监听视频播放结束事件
+			var eventEnded = function(event) {
+				thisTemp.endedHandler();
+			};
+			this.addListenerInside('ended', eventEnded);
 			//监听视频播放时间事件
 			var eventTimeupdate = function(event) {
-				if(thisTemp.timerLoading != null) {
+				if (thisTemp.loadingShow) {
 					thisTemp.loadingStart(false);
 				}
-				if(thisTemp.time) {
-					thisTemp.sendJS('time', thisTemp.time);
+				if (thisTemp.time) {
+					if (!thisTemp.adPlayerPlay) {
+						thisTemp.sendJS('time', thisTemp.time);
+						//监听中间插入广告是否需要播放
+						if (!thisTemp.isUndefined(thisTemp.advertisements['insert'])) {
+							thisTemp.checkAdInsert(thisTemp.time);
+						}
+						//监听其它广告
+						if (!thisTemp.isUndefined(thisTemp.advertisements['other'])) {
+							thisTemp.checkAdOther(thisTemp.time);
+						}
+						if (thisTemp.time < 3 && thisTemp.adReset) {
+							thisTemp.adReset = false;
+							thisTemp.endedAdReset();
+						}
+					} else { //如果是广告则进行广告倒计时
+						thisTemp.adPlayerTimeHandler(thisTemp.time);
+					}
+
 				}
 			};
 			this.addListenerInside('timeupdate', eventTimeupdate);
@@ -798,12 +1331,6 @@ function ckplayerConfig() {
 				thisTemp.sendJS('seek', 'ended');
 			};
 			this.addListenerInside('seeked', eventSeeked);
-			//监听视频播放结束事件
-			var eventEnded = function(event) {
-				thisTemp.endedHandler();
-				thisTemp.sendJS('ended');
-			};
-			this.addListenerInside('ended', eventEnded);
 			//监听视频音量
 			var eventVolumeChange = function(event) {
 				try {
@@ -821,9 +1348,10 @@ function ckplayerConfig() {
 			this.addListenerInside('webkitfullscreenchange', eventFullChange);
 			this.addListenerInside('mozfullscreenchange', eventFullChange);
 			//建立界面
-			if(this.showFace) {
+			if (this.conBarShow) {
 				this.interFace();
 			}
+			this.addListenerInside('loadedmetadata', eventJudgeIsLive);
 		},
 		/*
 			内部函数
@@ -831,12 +1359,11 @@ function ckplayerConfig() {
 		*/
 		resetPlayer: function() {
 			this.timeTextHandler();
-			if(this.showFace) {
+			if (this.conBarShow) {
 				this.timeProgress(0, 1); //改变时间进度条宽
 				this.changeLoad(0);
 				this.initPlayPause(); //判断显示播放或暂停按钮
 				this.definition(); //构建清晰度按钮
-				this.showFrontNext(); //构建上一集下一集按钮
 				this.deletePrompt(); //删除提示点
 				this.deletePreview(); //删除预览图
 				this.trackHide(); //重置字幕
@@ -850,822 +1377,648 @@ function ckplayerConfig() {
 			构建界面元素
 		 */
 		interFace: function() {
-			this.showFace = true;
+			this.conBarShow = true;
 			var thisTemp = this;
 			var html = ''; //控制栏内容
 			var i = 0;
-			var bWidth = 38, //按钮的宽
-				bHeight = 38; //按钮的高
-			var bBgColor = '#FFFFFF', //按钮元素默认颜色
-				bOverColor = '#0782F5'; //按钮元素鼠标经过时的颜色
-			var timeInto = this.formatTime(0) + ' / ' + this.formatTime(this.vars['duration']); //时间显示框默认显示内容
-			var randomS = this.randomString(10); //获取一个随机字符串
+			var thisStyle=this.ckStyle;
+			var styleC=thisStyle['controlBar'];
+			var styleCB=styleC['button'];
+			var styleAS=thisStyle['advertisement'];
+			var styleDF=styleC['definition'];
+			var bWidth = 38;//按钮的宽
+			
+			//var timeInto = this.formatTime(0) + ' / ' + this.formatTime(this.vars['duration']); //时间显示框默认显示内容
+			var timeInto = this.formatTime(0,this.vars['duration'],this.ckLanguage['vod']); //时间显示框默认显示内容			
 			/*
-				以下定义界面各元素的ID，统一以ID结束
+				构建一些PD（播放器容器）里使用的元素
 			*/
-			var controlBarBgID = 'controlbgbar' + randomS, //控制栏背景
-				controlBarID = 'controlbar' + randomS, //控制栏容器
-				timeProgressBgID = 'timeprogressbg' + randomS, //播放进度条背景
-				loadProgressID = 'loadprogress' + randomS, //加载进度条
-				timeProgressID = 'timeprogress' + randomS, //播放进度条
-				timeBOBGID = 'timebobg' + randomS, //播放进度按钮容器，该元素为一个透明覆盖在播放进度条上
-				timeBOID = 'timebo' + randomS, //播放进度可拖动按钮外框
-				timeBWID = 'timebw' + randomS, //播放进度可拖动按钮内框
-				timeTextID = 'timetext' + randomS, //时间文本框
-				playID = 'play' + randomS, //播放按钮
-				pauseID = 'pause' + randomS, //暂停按钮
-				frontID = 'front' + randomS, //前一集按钮
-				nextID = 'next' + randomS, //下一集按钮
-				fullID = 'full' + randomS, //全屏按钮
-				escFullID = 'escfull' + randomS, //退出全屏按钮
-				muteID = 'mute' + randomS, //静音按钮
-				escMuteID = 'escmute' + randomS, //取消静音按钮
-				volumeID = 'volume' + randomS, //音量调节框容器
-				volumeDbgID = 'volumedbg' + randomS, //音量调节框容器背景
-				volumeBgID = 'volumebg' + randomS, //音量调节框背景层
-				volumeUpID = 'volumeup' + randomS, //音量调节框可变宽度层
-				volumeBOID = 'volumebo' + randomS, //音量调节按钮外框
-				volumeBWID = 'volumebw' + randomS, //音量调节按钮内框
-				definitionID = 'definition' + randomS, //清晰度容器
-				definitionPID = 'definitionp' + randomS, //清晰度列表容器
-				playbackRateID = 'playbackrate' + randomS, //清晰度容器
-				playbackRatePID = 'playbackratep' + randomS, //清晰度列表容器
-				promptBgID = 'promptbg' + randomS, //提示框背景
-				promptID = 'prompt' + randomS, //提示框
-				dlineID = 'dline' + randomS, //分隔线共用前缀
-				menuID = 'menu' + randomS, //右键容器
-				pauseCenterID = 'pausecenter' + randomS, //中间暂停按钮
-				loadingID = 'loading' + randomS, //缓冲
-				errorTextID = 'errortext' + randomS, //错误文本框
-				logoID = 'logo' + randomS; //logo
-			//构建一些PD（播放器容器）里使用的元素
-			var controlBarBg = document.createElement('div'),
-				controlBar = document.createElement('div'),
-				timeProgressBg = document.createElement('div'),
-				timeBoBg = document.createElement('div'),
-				pauseCenter = document.createElement('div'),
-				errorText = document.createElement('div'),
-				promptBg = document.createElement('div'),
-				prompt = document.createElement('div'),
-				menuDiv = document.createElement('div'),
-				definitionP = document.createElement('div'),
-				playbackrateP = document.createElement('div'),
-				loading = document.createElement('div'),
-				logo = document.createElement('div');
-
-			controlBarBg.className = controlBarBgID;
-			controlBar.className = controlBarID;
-			timeProgressBg.className = timeProgressBgID;
-			timeBoBg.className = timeBOBGID;
-			promptBg.className = promptBgID;
-			prompt.className = promptID;
-			menuDiv.className = menuID;
-			definitionP.className = definitionPID;
-			playbackrateP.className = playbackRatePID;
-			pauseCenter.className = pauseCenterID;
-			loading.className = loadingID;
-			logo.className = logoID;
-			errorText.className = errorTextID;
-
-			this.PD.appendChild(controlBarBg);
-			this.PD.appendChild(controlBar);
-			this.PD.appendChild(timeProgressBg);
-			this.PD.appendChild(timeBoBg);
-			this.PD.appendChild(promptBg);
-			this.PD.appendChild(prompt);
-			this.PD.appendChild(definitionP);
-			this.PD.appendChild(playbackrateP);
-			this.PD.appendChild(pauseCenter);
-
-			this.PD.appendChild(loading);
-			this.PD.appendChild(errorText);
-			this.PD.appendChild(logo);
-			this.body.appendChild(menuDiv);
-			//构建一些PD（播放器容器）里使用的元素结束
-
-			if(this.vars['live']) { //如果是直播，时间显示文本框里显示当前系统时间
-				timeInto = this.getNowDate();
+			/*
+			 	构建播放器内的元素
+			*/
+			this.CB={menu:null};
+			var divEle={
+				controlBarBg:null,
+				controlBar:null,
+				pauseCenter:null,
+				errorText:null,
+				promptBg:null,
+				prompt:null,
+				promptTriangle:null,
+				definitionP:null,
+				playbackrateP:null,
+				subtitlesP:null,
+				loading:null,
+				logo:null,
+				adBackground:null,
+				adElement:null,
+				adLink:null,
+				adPauseClose:null,
+				adTime:null,
+				adTimeText:null,
+				adMute:null,
+				adEscMute:null,
+				adSkip:null,
+				adSkipText:null,
+				adSkipButton:null
+			};
+			var k='';
+			for(k in divEle){
+				this.CB[k]=divEle[k];
+				this.CB[k]=document.createElement('div');				
+				this.PD.appendChild(this.CB[k]);
 			}
-			//构建控制栏的内容
-			html += '<div class="' + playID + '" data-title="' + thisTemp.language['play'] + '">' + this.newCanvas(playID, bWidth, bHeight) + '</div>'; //播放按钮
-			html += '<div class="' + pauseID + '" data-title="' + thisTemp.language['pause'] + '">' + this.newCanvas(pauseID, bWidth, bHeight) + '</div>'; //暂停按钮
-			html += '<div class="' + dlineID + '-la"></div>'; //分隔线
-			html += '<div class="' + frontID + '" data-title="' + thisTemp.language['front'] + '">' + this.newCanvas(frontID, bWidth, bHeight) + '</div>'; //前一集按钮
-			html += '<div class="' + dlineID + '-lb"></div>'; //分隔线
-			html += '<div class="' + nextID + '" data-title="' + thisTemp.language['next'] + '">' + this.newCanvas(nextID, bWidth, bHeight) + '</div>'; //下一集按钮
-			html += '<div class="' + dlineID + '-lc"></div>'; //分隔线
-
-			html += '<div class="' + timeTextID + '">' + timeInto + '</div>'; //时间文本
-			html += '<div class="' + fullID + '" data-title="' + thisTemp.language['full'] + '">' + this.newCanvas(fullID, bWidth, bHeight) + '</div>'; //全屏按钮
-			html += '<div class="' + escFullID + '" data-title="' + thisTemp.language['escFull'] + '">' + this.newCanvas(escFullID, bWidth, bHeight) + '</div>'; //退出全屏按钮
-			html += '<div class="' + dlineID + '-ra"></div>'; //分隔线
-			html += '<div class="' + definitionID + '" data-title="' + thisTemp.language['definition'] + '"></div>'; //清晰度容器
-			html += '<div class="' + dlineID + '-rb"></div>'; //分隔线
-			html += '<div class="' + playbackRateID + '" data-title="' + thisTemp.language['playbackRate'] + '"></div>'; //倍速
-			html += '<div class="' + dlineID + '-rc"></div>'; //分隔线
-			html += '<div class="' + volumeID + '"><div class="' + volumeDbgID + '"><div class="' + volumeBgID + '"><div class="' + volumeUpID + '"></div></div><div class="' + volumeBOID + '"><div class="' + volumeBWID + '"></div></div></div></div>'; //音量调节框,音量调节按钮
-			html += '<div class="' + muteID + '" data-title="' + thisTemp.language['mute'] + '">' + this.newCanvas(muteID, bWidth, bHeight) + '</div>'; //静音按钮
-			html += '<div class="' + escMuteID + '" data-title="' + thisTemp.language['escMute'] + '">' + this.newCanvas(escMuteID, bWidth, bHeight) + '</div>'; //退出静音按钮
-			html += '<div class="' + dlineID + '-rd"></div>'; //分隔线
-			this.getByElement(controlBarID).innerHTML = html;
-			//构建控制栏内容结束
-			//构建进度条内容
-			this.getByElement(timeProgressBgID).innerHTML = '<div class="' + loadProgressID + '"></div><div class="' + timeProgressID + '"></div>';
-			this.getByElement(timeBOBGID).innerHTML = '<div class="' + timeBOID + '"><div class="' + timeBWID + '"></div></div>';
-			//构建进度条内容结束
-			this.getByElement(pauseCenterID).innerHTML = this.newCanvas(pauseCenterID, 80, 80); //构建中间暂停按钮
-			this.getByElement(loadingID).innerHTML = this.newCanvas(loadingID, 60, 60); //构建中间缓冲时显示的图标
-			this.getByElement(errorTextID).innerHTML = this.language['error']; //构建错误时显示的文本框
-			if(this.ckplayerConfig['style']['logo']) {
-				if(this.ckplayerConfig['style']['logo']['file']) {
-					var logoFile = this.ckplayerConfig['style']['logo']['file'];
-					if(logoFile.substr(0, 15) == 'data:image/png;' || logoFile.substr(0, 15) == 'data:image/jpg;' || logoFile.substr(0, 15) == 'data:image/jpeg;') {
-						this.getByElement(logoID).innerHTML = '<img src="' + logoFile + '" border="0">'; //构建logo
-					}
+			/*
+				构建鼠标右键容器
+			*/
+			this.CB['menu']=document.createElement('div');
+			this.body.appendChild(this.CB['menu']);
+			if (this.vars['live']) { //如果是直播，时间显示文本框里显示当前系统时间
+				timeInto = this.formatTime(0,0,this.ckLanguage['live']); //时间显示框默认显示内容
+			}
+			/*
+				构建控制栏的按钮
+			*/
+			divEle={
+				play:null,
+				pause:null,
+				mute:null,
+				escMute:null,
+				full:null,
+				escFull:null,
+				definition:null,
+				playbackrate:null,
+				subtitles:null
+			};
+			for(k in divEle){
+				this.CB[k]=divEle[k];
+				this.CB[k]=document.createElement('div');
+				if(!this.isUndefined(this.ckLanguage['buttonOver'][k])){
+					this.CB[k].dataset.title=this.ckLanguage['buttonOver'][k];
 				}
-			} else {
-				this.getByElement(logoID).innerHTML = this.vars['logo'] || this.logo || ''; //构建logo
+				this.CB['controlBar'].appendChild(this.CB[k]);
 			}
-			//CB:Object：全局变量，将一些全局需要用到的元素统一放在CB对象里
-			var pd = this.PD;
-			this.CB = {
-				controlBarBg: this.getByElement(controlBarBgID, pd),
-				controlBar: this.getByElement(controlBarID, pd),
-				promptBg: this.getByElement(promptBgID, pd),
-				prompt: this.getByElement(promptID, pd),
-				timeProgressBg: this.getByElement(timeProgressBgID, pd),
-				loadProgress: this.getByElement(loadProgressID, pd),
-				timeProgress: this.getByElement(timeProgressID, pd),
-				timeBoBg: this.getByElement(timeBOBGID, pd),
-				timeButton: this.getByElement(timeBOID, pd),
-				timeText: this.getByElement(timeTextID, pd),
-				play: this.getByElement(playID, pd),
-				front: this.getByElement(frontID, pd),
-				next: this.getByElement(nextID, pd),
-				pause: this.getByElement(pauseID, pd),
-				definition: this.getByElement(definitionID, pd),
-				definitionP: this.getByElement(definitionPID, pd),
-				definitionLine: this.getByElement(dlineID + '-rb', pd),
-				playbackrate: this.getByElement(playbackRateID, pd),
-				playbackrateP: this.getByElement(playbackRatePID, pd),
-				playbackrateLine: this.getByElement(dlineID + '-rc', pd),
-				full: this.getByElement(fullID, pd),
-				escFull: this.getByElement(escFullID, pd),
-				mute: this.getByElement(muteID, pd),
-				escMute: this.getByElement(escMuteID, pd),
-				volume: this.getByElement(volumeID, pd),
-				volumeBg: this.getByElement(volumeBgID, pd),
-				volumeUp: this.getByElement(volumeUpID, pd),
-				volumeBO: this.getByElement(volumeBOID, pd),
-				pauseCenter: this.getByElement(pauseCenterID, pd),
-				menu: this.getByElement(menuID),
-				loading: this.getByElement(loadingID, pd),
-				loadingCanvas: this.getByElement(loadingID + '-canvas', pd),
-				errorText: this.getByElement(errorTextID, pd),
-				logo: this.getByElement(logoID, pd),
-				playLine: this.getByElement(dlineID + '-la', pd),
-				frontLine: this.getByElement(dlineID + '-lb', pd),
-				nextLine: this.getByElement(dlineID + '-lc', pd),
-				fullLine: this.getByElement(dlineID + '-ra'),
-				definitionLine: this.getByElement(dlineID + '-rb', pd),
-				muteLine: this.getByElement(dlineID + '-rd', pd)
+			divEle={
+				timeProgressBg:null,
+				timeBoBg:null,
+				volume:null,
+				timeText:null
 			};
-			this.buttonWidth = {
-				play: bWidth,
-				full: bWidth,
-				front: bWidth,
-				next: bWidth,
-				mute: bWidth
+			for(k in divEle){
+				this.CB[k]=divEle[k];
+				this.CB[k]=document.createElement('div');				
+				this.CB['controlBar'].appendChild(this.CB[k]);
+			}
+			this.CB['timeText'].innerHTML=timeInto;//初始化时间
+			divEle={
+				loadProgress:null,
+				timeProgress:null
 			};
+			for(k in divEle){
+				this.CB[k]=divEle[k];
+				this.CB[k]=document.createElement('div');				
+				this.CB['timeProgressBg'].appendChild(this.CB[k]);
+			}
+			this.CB['timeButton']=document.createElement('div');
+			this.CB['timeBoBg'].appendChild(this.CB['timeButton']);
+			divEle={
+				volumeBg:null,
+				volumeBO:null
+			};
+			for(k in divEle){
+				this.CB[k]=divEle[k];
+				this.CB[k]=document.createElement('div');				
+				this.CB['volume'].appendChild(this.CB[k]);
+			}
+			this.CB['volumeUp']=document.createElement('div');
+			this.CB['volumeBg'].appendChild(this.CB['volumeUp']);
+			//构建loading图标
+			var imgTemp=null;
+			var imgFile='';
+			var imgFile=thisStyle['loading']['file'];
+			if(!this.isUndefined(thisStyle['loading']['fileH5'])){
+				imgFile=thisStyle['loading']['fileH5'];
+			}
+			if(imgFile){
+				imgTemp=document.createElement('img');
+				imgTemp.src=imgFile;
+				imgTemp.border=0;
+				this.CB['loading'].appendChild(imgTemp);
+			}
+			//构建logo图标
+			imgFile=thisStyle['logo']['file'];
+			if(!this.isUndefined(thisStyle['logo']['fileH5'])){
+				imgFile=thisStyle['logo']['fileH5'];
+			}
+			if(imgFile){
+				imgTemp=document.createElement('img');
+				imgTemp.src=imgFile;
+				imgTemp.border=0;
+				this.CB['logo'].appendChild(imgTemp);
+			}			
 			//定义界面元素的样式
+			if(this.ckConfig['config']['buttonMode']['player']){
+				this.css(this.PD, {cursor: 'pointer'});
+			}
 			//控制栏背景
-			this.css(controlBarBgID, {
-				width: '100%',
-				height: bHeight + 'px',
-				backgroundColor: '#000000',
-				position: 'absolute',
-				bottom: '0px',
-				filter: 'alpha(opacity:0.8)',
-				opacity: '0.8',
-				zIndex: '90'
-			});
-			//控制栏容器
-			this.css(controlBarID, {
-				width: '100%',
-				height: bHeight + 'px',
-				position: 'absolute',
-				bottom: '0px',
-				zIndex: '90'
-			});
-			//中间暂停按钮
-			this.css(pauseCenterID, {
-				width: '80px',
-				height: '80px',
-				borderRadius: '50%',
-				position: 'absolute',
-				display: 'none',
-				cursor: 'pointer',
-				zIndex: '100'
-			});
-			//loading
-			this.css(loadingID, {
-				width: '60px',
-				height: '60px',
-				position: 'absolute',
-				display: 'none',
-				zIndex: '100'
-			});
-			//出错文本框
-			this.css(errorTextID, {
-				width: '120px',
-				height: '30px',
-				lineHeight: '30px',
-				color: '#FFFFFF',
-				fontSize: '14px',
-				textAlign: 'center',
-				position: 'absolute',
-				display: 'none',
-				zIndex: '101',
-				cursor: 'default',
-				zIndex: '100'
-			});
-			//定义logo文字的样式
-			this.css(logoID, {
-				height: '30px',
-				lineHeight: '30px',
-				color: '#FFFFFF',
-				fontFamily: 'Arial',
-				fontSize: '28px',
-				textAlign: 'center',
-				position: 'absolute',
-				float: 'left',
-				left: '-1000px',
-				top: '20px',
-				zIndex: '100',
-				filter: 'alpha(opacity:0.8)',
-				opacity: '0.8',
-				cursor: 'default'
-			});
-
-			this.css(this.CB['loadingCanvas'], {
-				transform: 'rotate(0deg)',
-				msTransform: 'rotate(0deg)',
-				mozTransform: 'rotate(0deg)',
-				webkitTransform: 'rotate(0deg)',
-				oTransform: 'rotate(0deg)'
-			});
+			this.controlBar(); //改变控制栏
+			var cssTemp=null;
 			//定义提示语的样式
-			this.css([promptBgID, promptID], {
-				height: '30px',
-				lineHeight: '30px',
-				color: '#FFFFFF',
-				fontSize: '14px',
-				textAlign: 'center',
-				position: 'absolute',
-				borderRadius: '5px',
-				paddingLeft: '5px',
-				paddingRight: '5px',
-				bottom: '0px',
-				display: 'none',
-				zIndex: '95'
-			});
-			this.css(promptBgID, {
-				backgroundColor: '#000000',
-				filter: 'alpha(opacity:0.5)',
-				opacity: '0.5'
-			});
-			//时间进度条背景容器
-			this.css(timeProgressBgID, {
-				width: '100%',
-				height: '6px',
-				backgroundColor: '#3F3F3F',
+			var promptCss=thisStyle['prompt'];
+			cssTemp=this.getEleCss(promptCss,{overflow: 'hidden',zIndex: 900,display:'none'});
+			this.css(this.CB['promptBg'],cssTemp);
+			this.css(this.CB['promptBg'],'padding','0px');
+			cssTemp['backgroundColor']='';
+			cssTemp['border']='';
+			cssTemp['borderRadius']='';
+			cssTemp['whiteSpace']='nowrap';
+			this.css(this.CB['prompt'],cssTemp);
+			//定义提示语下方的三解形的样式
+			cssTemp={
+				width: 0,
+				height: 0,
+				borderLeft: promptCss['triangleWidth']*0.5+'px solid transparent',
+				borderRight: promptCss['triangleWidth']*0.5+'px solid transparent',
+				borderTop: promptCss['triangleHeight']+'px solid '+promptCss['triangleBackgroundColor'].replace('0x','#'),
 				overflow: 'hidden',
-				position: 'absolute',
-				bottom: '38px',
-				zIndex: '88'
-			});
-			//加载进度和时间进度
-			this.css([loadProgressID, timeProgressID], {
-				width: '1px',
-				height: '6px',
-				position: 'absolute',
-				bottom: '38px',
-				top: '0px',
-				zIndex: '91'
-			});
-			this.css(loadProgressID, 'backgroundColor', '#6F6F6F');
-			this.css(timeProgressID, 'backgroundColor', bOverColor);
-			//时间进度按钮
-			this.css(timeBOBGID, {
-				width: '100%',
-				height: '14px',
-				overflow: 'hidden',
-				position: 'absolute',
-				bottom: '34px',
-				cursor: 'pointer',
-				zIndex: '92'
-			});
-			this.css(timeBOID, {
-				width: '14px',
-				height: '14px',
-				overflow: 'hidden',
-				borderRadius: '50%',
-				backgroundColor: bBgColor,
-				cursor: 'pointer',
-				position: 'absolute',
-				top: '0px',
-				zIndex: '20'
-			});
-			this.css(timeBWID, {
-				width: '8px',
-				height: '8px',
-				overflow: 'hidden',
-				borderRadius: '50%',
-				position: 'absolute',
-				backgroundColor: bOverColor,
-				left: '3px',
-				top: '3px'
-			});
-			this.css(timeTextID, {
-				lineHeight: bHeight + 'px',
-				color: '#FFFFFF',
-				fontFamily: 'arial',
-				fontSize: '16px',
-				paddingLeft: '10px',
-				float: 'left',
-				overflow: 'hidden',
-				cursor: 'default'
-			});
-			//分隔线
-			this.css([dlineID + '-la', dlineID + '-lb', dlineID + '-lc', dlineID + '-ra', dlineID + '-rb', dlineID + '-rc', dlineID + '-rd'], {
-				width: '0px',
-				height: bHeight + 'px',
-				overflow: 'hidden',
-				borderLeft: '1px solid #303030',
-				borderRight: '1px solid #151515',
-				filter: 'alpha(opacity:0.9)',
-				opacity: '0.9'
-			});
-			this.css([dlineID + '-la', dlineID + '-lb', dlineID + '-lc'], 'float', 'left');
-			this.css([dlineID + '-ra', dlineID + '-rb', dlineID + '-rc', dlineID + '-rd'], 'float', 'right');
-			this.css([dlineID + '-lb', dlineID + '-lc', dlineID + '-rb', dlineID + '-rc'], 'display', 'none');
-			//播放/暂停/上一集/下一集按钮
-			this.css([playID, pauseID, frontID, nextID], {
-				width: bWidth + 'px',
-				height: bHeight + 'px',
-				float: 'left',
-				overflow: 'hidden',
-				cursor: 'pointer'
-			});
-			this.css([frontID, nextID], 'display', 'none');
+				opacity:promptCss['triangleAlpha'],
+				filter:'alpha(opacity:'+promptCss['triangleAlpha']+')',
+				position:'absolute',
+				left:'0px',
+				top:'0px',
+				zIndex: 900,
+				display:'none'
+			};
+			this.css(this.CB['promptTriangle'],cssTemp);
+			this.elementCoordinate();//中间播放按钮，出错文本框，logo，loading
+			this.css([this.CB['pauseCenter'],this.CB['loading'],this.CB['errorText']],'display','none');
+			this.carbarButton();//控制栏按钮
+			this.playerCustom();//播放器界面自定义元件
+			this.carbarCustom();//控制栏自定义元件
+			this.timeProgressDefault();//进度条默认样式
+			this.videoCss();//计算video的宽高和位置
 			//初始化判断播放/暂停按钮隐藏项
 			this.initPlayPause();
-
-			//设置静音/取消静音的按钮样式
-			this.css([muteID, escMuteID], {
-				width: bWidth + 'px',
-				height: bHeight + 'px',
-				float: 'right',
-				overflow: 'hidden',
-				cursor: 'pointer'
-			});
-			if(this.vars['volume'] > 0) {
-				this.css(escMuteID, 'display', 'none');
+			if (this.vars['volume'] > 0) {
+				this.css(this.CB['escMute'], 'display', 'none');
 			} else {
-				this.css(muteID, 'display', 'none');
+				this.css(this.CB['mute'], 'display', 'none');
 			}
-			//音量调节框
-			this.css([volumeID, volumeDbgID], {
-				width: '110px',
-				height: bHeight + 'px',
-				overflow: 'hidden',
-				float: 'right'
-			});
-			this.css(volumeDbgID, {
-				position: 'absolute'
-			});
-			this.css([volumeBgID, volumeUpID], {
-				width: '100px',
-				height: '6px',
-				overflow: 'hidden',
-				borderRadius: '5px',
-				cursor: 'pointer'
-			});
-			this.css(volumeBgID, {
+			if (!this.ckConfig['config']['mobileVolumeBarShow'] && this.isMobile()) {
+				this.css([this.CB['mute'], this.CB['escMute'], this.CB['volume']], {
+					display: 'none'
+				});
+			}
+			this.css(this.CB['escFull'],'display', 'none');
+			//设置广告背景层样式
+			var cssObj={
+				align: 'top',
+				vAlign:'left',
+				width:'100%',
+				height:'100%',
+				offsetX: 0,
+				offsetY: 0,
+				zIndex: 910,
+				display: 'none'
+			};
+			cssTemp=this.getEleCss(styleAS['background'],cssObj);
+			this.css(this.CB['adBackground'],cssTemp);
+			this.css(this.CB['adElement'], {
 				position: 'absolute',
-				top: '16px'
-			});
-			this.css(volumeBgID, 'backgroundColor', '#666666');
-			this.css(volumeUpID, 'backgroundColor', bOverColor);
-			this.buttonWidth['volume'] = 100;
-			//音量调节按钮
-			this.css(volumeBOID, {
-				width: '12px',
-				height: '12px',
 				overflow: 'hidden',
-				borderRadius: '50%',
-				position: 'absolute',
-				backgroundColor: bBgColor,
-				top: '13px',
-				left: '0px',
-				cursor: 'pointer'
-			});
-			this.css(volumeBWID, {
-				width: '6px',
-				height: '6px',
-				overflow: 'hidden',
-				borderRadius: '50%',
-				position: 'absolute',
-				backgroundColor: bOverColor,
-				left: '3px',
-				top: '3px'
-			});
-			//清晰度容器
-			this.css(definitionID, {
-				lineHeight: bHeight + 'px',
-				color: '#FFFFFF',
-				float: 'right',
-				fontSize: '14px',
-				textAlign: 'center',
-				overflow: 'hidden',
-				display: 'none',
-				cursor: 'pointer'
-			});
-			this.css(definitionPID, {
-				lineHeight: (bHeight - 8) + 'px',
-				color: '#FFFFFF',
-				overflow: 'hidden',
-				position: 'absolute',
-				bottom: '4px',
-				backgroundColor: '#000000',
-				textAlign: 'center',
-				zIndex: '95',
-				cursor: 'pointer',
+				top: '0px',
+				zIndex: 911,
+				float: 'center',
 				display: 'none'
 			});
-			//倍速容器
-			this.css(playbackRateID, {
-				lineHeight: bHeight + 'px',
-				color: '#FFFFFF',
-				float: 'right',
-				fontSize: '14px',
-				textAlign: 'center',
-				overflow: 'hidden',
-				display: 'none',
-				cursor: 'pointer'
-			});
-			this.css(playbackRatePID, {
-				lineHeight: (bHeight - 8) + 'px',
-				color: '#FFFFFF',
-				overflow: 'hidden',
-				position: 'absolute',
-				bottom: '4px',
-				backgroundColor: '#000000',
-				textAlign: 'center',
-				zIndex: '95',
-				cursor: 'pointer',
-				display: 'none'
-			});
-			//设置全屏/退出全屏按钮样式
-			this.css([fullID, escFullID], {
-				width: bWidth + 'px',
-				height: bHeight + 'px',
-				float: 'right',
-				overflow: 'hidden',
-				cursor: 'pointer'
-			});
-			this.css(escFullID, 'display', 'none');
-			//构建各按钮的形状
-			//播放按钮
-			var cPlay = this.getByElement(playID + '-canvas').getContext('2d');
-			var cPlayFillRect = function() {
-				thisTemp.canvasFill(cPlay, [
-					[12, 10],
-					[29, 19],
-					[12, 28]
-				]);
+			//广告控制各元素样式，用一个函数单独定义，这样在播放器尺寸变化时可以重新设置样式
+			this.advertisementStyle();
+			//初始化广告控制各元素-隐藏
+			this.css([this.CB['adTime'],this.CB['adTimeText'],this.CB['adMute'],this.CB['adEscMute'],this.CB['adSkip'],this.CB['adSkipText'],this.CB['adSkipButton'],this.CB['adLink'],this.CB['adPauseClose']],'display','none');
+			//定义鼠标经过控制栏只显示完整的进度条，鼠标离开进度条则显示简单的进度条
+			var timeProgressOut = function(event) {
+				thisTemp.timeProgressMouseOut();
 			};
-			cPlay.fillStyle = bBgColor;
-			cPlayFillRect();
-			var cPlayOver = function(event) {
-				cPlay.clearRect(0, 0, bWidth, bHeight);
-				cPlay.fillStyle = bOverColor;
-				cPlayFillRect();
+			this.addListenerInside('mouseout', timeProgressOut, this.CB['timeBoBg']);
+			var timeProgressOver = function(event) {
+				thisTemp.timeProgressDefault();
 			};
-			var cPlayOut = function(event) {
-				cPlay.clearRect(0, 0, bWidth, bHeight);
-				cPlay.fillStyle = bBgColor;
-				cPlayFillRect();
-			};
-
-			this.addListenerInside('mouseover', cPlayOver, this.getByElement(playID + '-canvas'));
-			this.addListenerInside('mouseout', cPlayOut, this.getByElement(playID + '-canvas'));
-			//暂停按钮
-			var cPause = this.getByElement(pauseID + '-canvas').getContext('2d');
-			var cPauseFillRect = function() {
-				thisTemp.canvasFillRect(cPause, [
-					[10, 10, 5, 18],
-					[22, 10, 5, 18]
-				]);
-			};
-			cPause.fillStyle = bBgColor;
-			cPauseFillRect();
-			var cPauseOver = function(event) {
-				cPause.clearRect(0, 0, bWidth, bHeight);
-				cPause.fillStyle = bOverColor;
-				cPauseFillRect();
-			};
-			var cPauseOut = function(event) {
-				cPause.clearRect(0, 0, bWidth, bHeight);
-				cPause.fillStyle = bBgColor;
-				cPauseFillRect();
-			};
-			this.addListenerInside('mouseover', cPauseOver, this.getByElement(pauseID + '-canvas'));
-			this.addListenerInside('mouseout', cPauseOut, this.getByElement(pauseID + '-canvas'));
-			//前一集按钮
-			var cFront = this.getByElement(frontID + '-canvas').getContext('2d');
-			var cFrontFillRect = function() {
-				thisTemp.canvasFill(cFront, [
-					[16, 19],
-					[30, 10],
-					[30, 28]
-				]);
-				thisTemp.canvasFillRect(cFront, [
-					[8, 10, 5, 18]
-				]);
-			};
-			cFront.fillStyle = bBgColor;
-			cFrontFillRect();
-			var cFrontOver = function(event) {
-				cFront.clearRect(0, 0, bWidth, bHeight);
-				cFront.fillStyle = bOverColor;
-				cFrontFillRect();
-			};
-			var cFrontOut = function(event) {
-				cFront.clearRect(0, 0, bWidth, bHeight);
-				cFront.fillStyle = bBgColor;
-				cFrontFillRect();
-			};
-
-			this.addListenerInside('mouseover', cFrontOver, this.getByElement(frontID + '-canvas'));
-			this.addListenerInside('mouseout', cFrontOut, this.getByElement(frontID + '-canvas'));
-			//下一集按钮
-			var cNext = this.getByElement(nextID + '-canvas').getContext('2d');
-			var cNextFillRect = function() {
-				thisTemp.canvasFill(cNext, [
-					[8, 10],
-					[22, 19],
-					[8, 28]
-				]);
-				thisTemp.canvasFillRect(cNext, [
-					[25, 10, 5, 18]
-				]);
-			};
-			cNext.fillStyle = bBgColor;
-			cNextFillRect();
-			var cNextOver = function(event) {
-				cNext.clearRect(0, 0, bWidth, bHeight);
-				cNext.fillStyle = bOverColor;
-				cNextFillRect();
-			};
-			var cNextOut = function(event) {
-				cNext.clearRect(0, 0, bWidth, bHeight);
-				cNext.fillStyle = bBgColor;
-				cNextFillRect();
-			};
-			this.addListenerInside('mouseover', cNextOver, this.getByElement(nextID + '-canvas'));
-			this.addListenerInside('mouseout', cNextOut, this.getByElement(nextID + '-canvas'));
-			//全屏按钮
-			var cFull = this.getByElement(fullID + '-canvas').getContext('2d');
-			var cFullFillRect = function() {
-				thisTemp.canvasFillRect(cFull, [
-					[19, 10, 9, 3],
-					[25, 13, 3, 6],
-					[10, 19, 3, 9],
-					[13, 25, 6, 3]
-				]);
-			};
-			cFull.fillStyle = bBgColor;
-			cFullFillRect();
-			var cFullOver = function() {
-				cFull.clearRect(0, 0, bWidth, bHeight);
-				cFull.fillStyle = bOverColor;
-				cFullFillRect();
-			};
-			var cFullOut = function() {
-				cFull.clearRect(0, 0, bWidth, bHeight);
-				cFull.fillStyle = bBgColor;
-				cFullFillRect();
-			};
-			this.addListenerInside('mouseover', cFullOver, this.getByElement(fullID + '-canvas'));
-			this.addListenerInside('mouseout', cFullOut, this.getByElement(fullID + '-canvas'));
-			//定义退出全屏按钮样式
-			var cEscFull = this.getByElement(escFullID + '-canvas').getContext('2d');
-			var cEscFullFillRect = function() {
-				thisTemp.canvasFillRect(cEscFull, [
-					[20, 9, 3, 9],
-					[23, 15, 6, 3],
-					[9, 20, 9, 3],
-					[15, 23, 3, 6]
-				]);
-			};
-			cEscFull.fillStyle = bBgColor;
-			cEscFullFillRect();
-
-			var cEscFullOver = function() {
-				cEscFull.clearRect(0, 0, bWidth, bHeight);
-				cEscFull.fillStyle = bOverColor;
-				cEscFullFillRect();
-			};
-			var cEscFullOut = function() {
-				cEscFull.clearRect(0, 0, bWidth, bHeight);
-				cEscFull.fillStyle = bBgColor;
-				cEscFullFillRect();
-			};
-			this.addListenerInside('mouseover', cEscFullOver, this.getByElement(escFullID + '-canvas'));
-			this.addListenerInside('mouseout', cEscFullOut, this.getByElement(escFullID + '-canvas'));
-			//定义全屏按钮的样式
-			var cMute = this.getByElement(muteID + '-canvas').getContext('2d');
-			var cMuteFillRect = function() {
-				thisTemp.canvasFill(cMute, [
-					[10, 15],
-					[15, 15],
-					[21, 10],
-					[21, 28],
-					[15, 23],
-					[10, 23]
-				]);
-				thisTemp.canvasFillRect(cMute, [
-					[23, 15, 2, 8],
-					[27, 10, 2, 18]
-				]);
-			};
-			cMute.fillStyle = bBgColor;
-			cMuteFillRect();
-			var cMuteOver = function() {
-				cMute.clearRect(0, 0, bWidth, bHeight);
-				cMute.fillStyle = bOverColor;
-				cMuteFillRect();
-			};
-			var cMuteOut = function() {
-				cMute.clearRect(0, 0, bWidth, bHeight);
-				cMute.fillStyle = bBgColor;
-				cMuteFillRect();
-			};
-			this.addListenerInside('mouseover', cMuteOver, this.getByElement(muteID + '-canvas'));
-			this.addListenerInside('mouseout', cMuteOut, this.getByElement(muteID + '-canvas'));
-			//定义退出全屏按钮样式
-			var cEscMute = this.getByElement(escMuteID + '-canvas').getContext('2d');
-			var cEscMuteFillRect = function() {
-				thisTemp.canvasFill(cEscMute, [
-					[10, 15],
-					[15, 15],
-					[21, 10],
-					[21, 28],
-					[15, 23],
-					[10, 23]
-				]);
-				thisTemp.canvasFill(cEscMute, [
-					[23, 13],
-					[24, 13],
-					[33, 25],
-					[32, 25]
-				]);
-				thisTemp.canvasFill(cEscMute, [
-					[32, 13],
-					[33, 13],
-					[24, 25],
-					[23, 25]
-				]);
-			};
-			cEscMute.fillStyle = bBgColor;
-			cEscMuteFillRect();
-			var cEscMuteOver = function() {
-				cEscMute.clearRect(0, 0, bWidth, bHeight);
-				cEscMute.fillStyle = bOverColor;
-				cEscMuteFillRect();
-			};
-			var cEscMuteOut = function() {
-				cEscMute.clearRect(0, 0, bWidth, bHeight);
-				cEscMute.fillStyle = bBgColor;
-				cEscMuteFillRect();
-			};
-			this.addListenerInside('mouseover', cEscMuteOver, this.getByElement(escMuteID + '-canvas'));
-			this.addListenerInside('mouseout', cEscMuteOut, this.getByElement(escMuteID + '-canvas'));
-			//定义loading样式
-			var cLoading = this.getByElement(loadingID + '-canvas').getContext('2d');
-			var cLoadingFillRect = function() {
-				cLoading.save();
-				var grad = cLoading.createLinearGradient(0, 0, 60, 60);
-				grad.addColorStop(0, bBgColor);
-				var grad2 = cLoading.createLinearGradient(0, 0, 80, 60);
-				grad2.addColorStop(1, bOverColor);
-				var grad3 = cLoading.createLinearGradient(0, 0, 80, 60);
-				grad3.addColorStop(1, '#FF9900');
-				var grad4 = cLoading.createLinearGradient(0, 0, 80, 60);
-				grad4.addColorStop(1, '#CC3300');
-				cLoading.strokeStyle = grad; //设置描边样式
-				cLoading.lineWidth = 8; //设置线宽
-				cLoading.beginPath(); //路径开始
-				cLoading.arc(30, 30, 25, 0, 0.4 * Math.PI, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				cLoading.stroke(); //绘制
-				cLoading.closePath(); //路径结束
-				cLoading.beginPath(); //路径开始
-				cLoading.strokeStyle = grad2; //设置描边样式
-				cLoading.arc(30, 30, 25, 0.5 * Math.PI, 0.9 * Math.PI, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				cLoading.stroke(); //绘制
-				cLoading.beginPath(); //路径开始
-				cLoading.strokeStyle = grad3; //设置描边样式
-				cLoading.arc(30, 30, 25, Math.PI, 1.4 * Math.PI, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				cLoading.stroke(); //绘制
-				cLoading.beginPath(); //路径开始
-				cLoading.strokeStyle = grad4; //设置描边样式
-				cLoading.arc(30, 30, 25, 1.5 * Math.PI, 1.9 * Math.PI, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				cLoading.stroke(); //绘制
-				cLoading.closePath(); //路径结束
-				cLoading.restore();
-			};
-			cLoading.fillStyle = bBgColor;
-			cLoadingFillRect();
-			//定义中间暂停按钮的样式
-			var cPauseCenter = this.getByElement(pauseCenterID + '-canvas').getContext('2d');
-			var cPauseCenterFillRect = function() {
-				thisTemp.canvasFill(cPauseCenter, [
-					[28, 22],
-					[59, 38],
-					[28, 58]
-				]);
-				/* 指定几个颜色 */
-				cPauseCenter.save();
-				cPauseCenter.lineWidth = 5; //设置线宽
-				cPauseCenter.beginPath(); //路径开始
-				cPauseCenter.arc(40, 40, 35, 0, 2 * Math.PI, false); //用于绘制圆弧context.arc(x坐标，y坐标，半径，起始角度，终止角度，顺时针/逆时针)
-				cPauseCenter.stroke(); //绘制
-				cPauseCenter.closePath(); //路径结束
-				cPauseCenter.restore();
-			};
-			cPauseCenter.fillStyle = bBgColor;
-			cPauseCenter.strokeStyle = bBgColor;
-			cPauseCenterFillRect();
-			var cPauseCenterOver = function() {
-				cPauseCenter.clearRect(0, 0, 80, 80);
-				cPauseCenter.fillStyle = bOverColor;
-				cPauseCenter.strokeStyle = bOverColor;
-				cPauseCenterFillRect();
-			};
-			var cPauseCenterOut = function() {
-				cPauseCenter.clearRect(0, 0, 80, 80);
-				cPauseCenter.fillStyle = bBgColor;
-				cPauseCenter.strokeStyle = bBgColor;
-				cPauseCenterFillRect();
-			};
-			this.addListenerInside('mouseover', cPauseCenterOver, this.getByElement(pauseCenterID + '-canvas'));
-			this.addListenerInside('mouseout', cPauseCenterOut, this.getByElement(pauseCenterID + '-canvas'));
-
-			//鼠标经过/离开音量调节按钮
-			var volumeBOOver = function() {
-				thisTemp.css(volumeBOID, 'backgroundColor', bOverColor);
-				thisTemp.css(volumeBWID, 'backgroundColor', bBgColor);
-			};
-			var volumeBOOut = function() {
-				thisTemp.css(volumeBOID, 'backgroundColor', bBgColor);
-				thisTemp.css(volumeBWID, 'backgroundColor', bOverColor);
-			};
-			this.addListenerInside('mouseover', volumeBOOver, this.getByElement(volumeBOID));
-			this.addListenerInside('mouseout', volumeBOOut, this.getByElement(volumeBOID));
-			//鼠标经过/离开进度按钮
-			var timeBOOver = function() {
-				thisTemp.css(timeBOID, 'backgroundColor', bOverColor);
-				thisTemp.css(timeBWID, 'backgroundColor', bBgColor);
-			};
-			var timeBOOut = function() {
-				thisTemp.css(timeBOID, 'backgroundColor', bBgColor);
-				thisTemp.css(timeBWID, 'backgroundColor', bOverColor);
-			};
-			this.addListenerInside('mouseover', timeBOOver, this.getByElement(timeBOID));
-			this.addListenerInside('mouseout', timeBOOut, this.getByElement(timeBOID));
+			this.addListenerInside('mouseover', timeProgressOver, this.CB['controlBar']);
+			//定义各按钮鼠标经过时的切换样式
+			this.buttonEventFun(this.CB['play'],styleCB['play']);//播放按钮
+			this.buttonEventFun(this.CB['pause'],styleCB['pause']);//暂停按钮
+			this.buttonEventFun(this.CB['mute'],styleCB['mute']);//静音按钮
+			this.buttonEventFun(this.CB['escMute'],styleCB['escMute']);//恢复音量按钮
+			this.buttonEventFun(this.CB['full'],styleCB['full']);//全屏按钮
+			this.buttonEventFun(this.CB['escFull'],styleCB['escFull']);//退出全屏按钮
+			this.buttonEventFun(this.CB['adMute'],styleAS['muteButton']);//广告静音按钮
+			this.buttonEventFun(this.CB['adEscMute'],styleAS['escMuteButton']);//恢复广告音量按钮
+			this.buttonEventFun(this.CB['adSkipButton'],styleAS['skipAdButton']);//跳过广告按钮
+			this.buttonEventFun(this.CB['adLink'],styleAS['adLinkButton']);//广告查看详情按钮
+			this.buttonEventFun(this.CB['adPauseClose'],styleAS['closeButton']);//播放暂停时的广告的关闭按钮
+			this.buttonEventFun(this.CB['pauseCenter'],thisStyle['centerPlay']);//播放器中间暂停时的播放按钮
+			this.buttonEventFun(this.CB['volumeBO'],styleC['volumeSchedule']['button']);//音量调节框按钮样式
+			this.buttonEventFun(this.CB['timeButton'],styleC['timeSchedule']['button']);//时间进度调节框按钮样式
 
 			this.addButtonEvent(); //注册按钮及音量调节，进度操作事件
-			this.newMenu(); //单独设置右键的样式和事件
 			this.controlBarHide(); //单独注册控制栏隐藏事件
-			this.keypress(); //单独注册键盘事件
+			this.newMenu(); //设置右键的样式和事件
+			this.keypress(); //注册键盘事件
 			//初始化音量调节框
 			this.changeVolume(this.vars['volume']);
-			//初始化判断是否需要显示上一集和下一集按钮
-			this.showFrontNext();
-			window.setTimeout(function() {
+			setTimeout(function() {
 				thisTemp.elementCoordinate(); //调整中间暂停按钮/loading的位置/error的位置
-			}, 100);
+			},
+			100);
 			this.checkBarWidth();
 			var resize = function() {
-				thisTemp.elementCoordinate();
-				thisTemp.timeUpdateHandler();
-				thisTemp.changeLoad();
-				thisTemp.checkBarWidth();
-				thisTemp.changeElementCoor(); //修改新加元件的坐标
-				thisTemp.changePrompt();
+				thisTemp.log('window.resize');
+				thisTemp.playerResize();
 			};
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+			var observer = new MutationObserver(function(){
+				thisTemp.log('video.resize');
+				var cdW=parseInt(thisTemp.css(thisTemp.CD,'width')),cdH=parseInt(thisTemp.css(thisTemp.CD,'height'));
+				if(cdW!=thisTemp.cdWH['w'] || cdH!=thisTemp.cdWH['h']){
+					thisTemp.cdWH={
+						w:cdW,
+						h:cdH
+					};
+					thisTemp.changeSize(cdW,cdH);
+				}
+			});
+			observer.observe(this.CD, {attributes: true, attributeFilter: ['style'], attributeOldValue: true });
 			this.addListenerInside('resize', resize, window);
+		},
+		/*
+			内部函数
+			进间进度条默认样式
+		*/
+		timeProgressDefault:function(){
+			var styleCT=this.ckStyle['controlBar']['timeSchedule'];
+			var cssObj=this.newObj(styleCT['default']);
+			var loadBackImg=cssObj['loadProgressImg'],playBackImg=cssObj['playProgressImg'];
+			var cssTemp=null;
+			this.css(this.CB['timeBoBg'],'display','block');
+			//时间进度条背景容器
+			cssTemp=this.getEleCss(this.newObj(cssObj),{overflow: 'hidden',zIndex: 2},this.CB['controlBarBg']);
+			this.css(this.CB['timeProgressBg'], cssTemp);
+			//加载进度
+			cssObj={
+				align:'left',
+				vAlign:'top',
+				width:1,
+				height:cssObj['height'],
+				backgroundImg:loadBackImg
+			};
+			//加载进度和时间进度
+			if(this.CB['loadProgress'].offsetWidth>1){
+				cssObj['width']=this.CB['loadProgress'].offsetWidth;
+			}
+			cssTemp=this.getEleCss(this.newObj(cssObj),{overflow:'hidden',zIndex:1},this.CB['timeProgressBg']);
+			this.css(this.CB['loadProgress'],cssTemp);
+			cssObj['width']=0;
+			if(this.CB['timeProgress'].offsetWidth>1 && parseInt(this.css(this.CB['timeButton'],'left'))>0){
+				cssObj['width']=this.CB['timeProgress'].offsetWidth;
+				
+			}
+			cssObj['backgroundImg']=playBackImg;
+			cssTemp=this.getEleCss(cssObj,{overflow:'hidden',zIndex:2});
+			this.css(this.CB['timeProgress'],cssTemp);
+			//时间进度按钮容器
+			cssTemp=this.getEleCss(styleCT['buttonContainer'],{position: 'absolute',overflow: 'hidden',zIndex: 3},this.CB['controlBar']);
+			if(this.ckConfig['config']['buttonMode']['timeSchedule']){
+				cssTemp['cursor']='pointer';
+			}
+			this.css(this.CB['timeBoBg'],cssTemp);
+			//时间进度按钮
+			cssTemp=this.getEleCss(styleCT['button'],{cursor: 'pointer',overflow: 'hidden',zIndex: 4},this.CB['timeBoBg']);
+			this.css(this.CB['timeButton'], cssTemp);
+		},
+		/*
+			内部函数
+			进间进度条鼠标离开样式
+		*/
+		timeProgressMouseOut:function(){
+			var styleCT=this.ckStyle['controlBar']['timeSchedule'];
+			var cssObj=this.newObj(styleCT['mouseOut']);
+			var loadBackImg=cssObj['loadProgressImg'],playBackImg=cssObj['playProgressImg'];
+			var cssTemp=null;
+			this.css(this.CB['timeBoBg'],'display','block');
+			//时间进度条背景容器
+			cssTemp=this.getEleCss(this.newObj(cssObj),{overflow: 'hidden',zIndex: 2},this.CB['controlBarBg']);
+			this.css(this.CB['timeProgressBg'], cssTemp);
+			//加载进度
+			cssObj={
+				align:'left',
+				vAlign:'top',
+				width:1,
+				height:cssObj['height'],
+				backgroundImg:loadBackImg
+			};
+			//加载进度和时间进度
+			if(this.CB['loadProgress'].offsetWidth>1){
+				cssObj['width']=this.CB['loadProgress'].offsetWidth;
+			}
+			cssTemp=this.getEleCss(this.newObj(cssObj),{overflow:'hidden',zIndex:1},this.CB['timeProgressBg']);
+			this.css(this.CB['loadProgress'],cssTemp);
+			cssObj['width']=1;
+			if(this.CB['timeProgress'].offsetWidth>1 && parseInt(this.css(this.CB['timeButton'],'left'))>0){
+				cssObj['width']=this.CB['timeProgress'].offsetWidth;
+				cssObj['backgroundImg']=playBackImg;
+			}
+			cssTemp=this.getEleCss(cssObj,{overflow:'hidden',zIndex:2});
+			this.css(this.CB['timeProgress'],cssTemp);			
+			this.css(this.CB['timeBoBg'],'display','none');			
+		},
+		/*
+			统一注册按钮鼠标经过和离开时的切换动作
+		*/
+		buttonEventFun:function(ele,cssEle){
+			var thisTemp=this;
+			var overFun = function(event) {
+				thisTemp.css(ele,{
+					backgroundImage:'url('+cssEle['mouseOver']+')'
+				});
+				thisTemp.promptShow(ele);
+			};
+			var outFun = function(event) {
+				thisTemp.css(ele,{
+					backgroundImage:'url('+cssEle['mouseOut']+')'
+				});
+				thisTemp.promptShow(false);
+			};
+			outFun();
+			this.addListenerInside('mouseover', overFun, ele);
+			this.addListenerInside('mouseout', outFun, ele);
+			if(!this.isUndefined(cssEle['clickEvent'])){
+				var clickFun=function(event){
+					thisTemp.runFunction(cssEle['clickEvent']);
+				};
+				this.addListenerInside('click', clickFun, ele);
+			}
+		},
+		/*
+			内部函数
+			格式化样式用的数字
+		*/
+		formatNumPx:function(str,z){
+			if(!str){
+				return 0;
+			}
+			if(str.toString().indexOf('%')>-1){//说明是根据百分比来计算
+				if(!this.isUndefined(z)){//如果有值
+					return parseInt(str)*z*0.01+'px';
+				}
+				return str;
+			}
+			else{
+				return str+'px';
+			}
+		},
+		/*
+			内部函数
+			格式化样式用的数字，返回类型必需是数字或百分比
+		*/
+		formatZToNum:function(str,z){
+			if(!str){
+				return 0;
+			}
+			if(str.toString().indexOf('%')>-1){//说明是根据百分比来计算
+				if(!this.isUndefined(z)){//如果有值
+					return parseInt(str)*z*0.01;
+				}
+				return str;
+			}
+			else{
+				return str;
+			}
+		},
+		/*
+			内部函数
+			对对象进行深度复制
+		*/
+		newObj:function(obj) {
+			if(this.isUndefined(obj)){
+				return obj;
+			}
+		  	var str, newobj ={};//constructor 属性返回对创建此对象的数组函数的引用。创建相同类型的空数据
+		  	if (this.varType(obj) != 'object') {
+		    	return obj;
+		  	}
+		  	else {
+		    	for (var k in obj) {
+		    		if(this.isUndefined(obj[k])){
+		    			newobj[k] = obj[k];
+		    		}
+		    		else{
+			      		if(this.varType(obj[k]) == 'object') { //判断对象的这条属性是否为对象
+			        		newobj[k] = this.newObj(obj[k]);//若是对象进行嵌套调用
+			      		}
+			      		else{
+			        		newobj[k] = obj[k];
+			      		}
+			      	}
+		    	}
+		  	}
+		  	return newobj;//返回深度克隆后的对象
+		},
+		/*
+			内部函数
+			统一的显示图片
+		*/
+		loadImgBg:function(eleid,obj){
+			this.css(this.getByElement(eleid),{
+				backgroundImage:'url('+obj+')'
+			});
+		},
+		/*
+			内部函数
+			格式化css
+			eleObj=样式,
+			supplement=补充样式,
+			rrEle=参考对象，
+			该函数强制使用position定位的元素
+		*/
+		getEleCss:function(eleObj,supplement,rrEle){
+			var eleName=null;
+			var pdW=this.PD.offsetWidth,pdH=this.PD.offsetHeight;
+			if(rrEle){
+				pdW=rrEle.offsetWidth;
+				pdH=rrEle.offsetHeight;
+			}
+			if(this.isUndefined(eleObj)){
+				return null;
+			}
+			eleName=this.newObj(eleObj);
+			var cssObject={};
+			if(!this.isUndefined(eleName['width'])){
+				cssObject['width']=this.formatZToNum(eleName['width'],pdW)+'px';
+			}
+			if(!this.isUndefined(eleName['height'])){
+				cssObject['height']=this.formatZToNum(eleName['height'],pdH)+'px';
+			}
+			if(!this.isUndefined(eleName['background'])){
+				var bg=eleName['background'];
+				if(!this.isUndefined(bg['backgroundColor'])){
+					cssObject['backgroundColor']=bg['backgroundColor'].replace('0x','#');
+				}
+				if(!this.isUndefined(bg['backgroundImg'])){
+					cssObject['backgroundImage']='url('+bg['backgroundImg']+')';
+				}
+				if(!this.isUndefined(bg['alpha'])){
+					cssObject['filter']='alpha(opacity:'+bg['alpha']+')';
+					cssObject['opacity']=bg['alpha'];
+				}
+			}
+			if(!this.isUndefined(eleName['backgroundColor'])){
+				cssObject['backgroundColor']=eleName['backgroundColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['backgroundImg'])){
+				cssObject['backgroundImage']='url('+eleName['backgroundImg']+')';
+			}
+			if(!this.isUndefined(eleName['color'])){
+				cssObject['color']=eleName['color'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['font'])){
+				cssObject['fontFamily']=eleName['font'];
+			}
+			if(!this.isUndefined(eleName['size'])){
+				cssObject['fontSize']=eleName['size']+'px';
+			}
+			if(!this.isUndefined(eleName['alpha'])){
+				cssObject['filter']='alpha(opacity:'+eleName['alpha']+')';
+				cssObject['opacity']=eleName['alpha'];
+			}
+			if(!this.isUndefined(eleName['lineHeight'])){
+				cssObject['lineHeight']=eleName['lineHeight']+'px';
+			}
+			if(!this.isUndefined(eleName['textAlign'])){
+				cssObject['textAlign']=eleName['textAlign'];
+			}
+			if(!this.isUndefined(eleName['borderRadius'])){
+				cssObject['borderRadius']=eleName['borderRadius']+'px';
+			}
+			if(!this.isUndefined(eleName['radius'])){
+				cssObject['borderRadius']=eleName['radius']+'px';
+			}
+			if(!this.isUndefined(eleName['padding'])){
+				cssObject['padding']=eleName['padding']+'px';
+			}
+			if(!this.isUndefined(eleName['paddingLeft'])){
+				cssObject['paddingLeft']=eleName['paddingLeft']+'px';
+			}
+			if(!this.isUndefined(eleName['paddingRight'])){
+				cssObject['paddingRight']=eleName['paddingRight']+'px';
+			}
+			if(!this.isUndefined(eleName['paddingTop'])){
+				cssObject['paddingTop']=eleName['paddingTop']+'px';
+			}
+			if(!this.isUndefined(eleName['paddingBottom'])){
+				cssObject['paddingBottom']=eleName['paddingBottom']+'px';
+			}
+			if(!this.isUndefined(eleName['margin'])){
+				cssObject['margin']=eleName['margin']+'px';
+			}
+			if(!this.isUndefined(eleName['marginLeft'])){
+				cssObject['marginLeft']=eleName['marginLeft']+'px';
+			}
+			if(!this.isUndefined(eleName['marginRight'])){
+				cssObject['marginRight']=eleName['marginRight']+'px';
+			}
+			if(!this.isUndefined(eleName['marginTop'])){
+				cssObject['marginTop']=eleName['marginTop']+'px';
+			}
+			if(!this.isUndefined(eleName['marginBottom'])){
+				cssObject['marginBottom']=eleName['marginBottom']+'px';
+			}
+			if(!this.isUndefined(eleName['border']) && !this.isUndefined(eleName['borderColor'])){
+				cssObject['border']=eleName['border']+'px solid '+eleName['borderColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['borderLeft']) && !this.isUndefined(eleName['borderLeftColor'])){
+				cssObject['borderLeft']=eleName['borderLeft']+'px solid '+eleName['borderLeftColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['borderRight']) && !this.isUndefined(eleName['borderRightColor'])){
+				cssObject['borderRight']=eleName['borderRight']+'px solid '+eleName['borderRightColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['borderTop']) && !this.isUndefined(eleName['borderTopColor'])){
+				cssObject['borderTop']=eleName['borderTop']+'px solid '+eleName['borderTopColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(eleName['borderBottom']) && !this.isUndefined(eleName['borderBottomColor'])){
+				cssObject['borderBottom']=eleName['borderBottom']+'px solid '+eleName['borderBottomColor'].replace('0x','#');
+			}
+			if(!this.isUndefined(supplement)){
+				for(var k in supplement){
+					cssObject[k]=supplement[k];
+				}
+			}
+			cssObject['position']='absolute';
+			var left=-10000,top=-10000,right=-10000,bottom=-10000;
+			var offsetX=0,offsetY=0;
+			if(!this.isUndefined(eleName['offsetX'])){
+				offsetX=eleName['offsetX'];
+			}
+			if(!this.isUndefined(eleName['marginX'])){
+				offsetX=eleName['marginX'];
+			}
+			if(!this.isUndefined(eleName['offsetY'])){
+				offsetY=eleName['offsetY'];
+			}
+			if(!this.isUndefined(eleName['marginY'])){
+				offsetY=eleName['marginY'];
+			}
+			offsetX=this.formatZToNum(offsetX,pdW);
+			offsetY=this.formatZToNum(offsetY,pdH);
+			if(!this.isUndefined(eleName['align'])){
+				left=0;
+				switch (eleName['align']) {
+					case 'left':
+						left = offsetX;
+						break;
+					case 'center':
+						left = pdW * 0.5 + offsetX;
+						break;
+					case 'right':
+						left = pdW+offsetX;
+						break;
+					case 'right2':
+						left = -10000;
+						right=offsetX;
+						break;	
+				}
+			}
+			if(!this.isUndefined(eleName['vAlign'])){
+				top=0;
+				switch (eleName['vAlign']) {
+					case 'top':
+						top = offsetY;
+						break;
+					case 'middle':
+						top=pdH*0.5+offsetY;
+						break;
+					case 'bottom':
+						top =pdH+offsetY;
+						break;
+					case 'bottom2':
+						top=-10000;
+						bottom =offsetY;
+						
+						break;
+				}
+			}
+			if(left>-10000){
+				cssObject['left']=left+'px';
+			}
+			if(right>-10000){
+				cssObject['right']=right+'px';
+			}
+			if(top>-10000){
+				cssObject['top']=top+'px';
+			}
+			if(bottom>-10000){
+				cssObject['bottom']=bottom+'px';
+			}
+			return cssObject;
 		},
 		/*
 			内部函数
@@ -1681,95 +2034,11 @@ function ckplayerConfig() {
 		addButtonEvent: function() {
 			var thisTemp = this;
 			//定义按钮的单击事件
-			var playClick = function(event) {
-				thisTemp.videoPlay();
-				thisTemp.sendJS('clickEvent', 'actionScript->videoPlay');
-			};
-			this.addListenerInside('click', playClick, this.CB['play']);
-			this.addListenerInside('click', playClick, this.CB['pauseCenter']);
-			var pauseClick = function(event) {
-				thisTemp.videoPause();
-				thisTemp.sendJS('clickEvent', 'actionScript->videoPause');
-			};
-			this.addListenerInside('click', pauseClick, this.CB['pause']);
-			var frontClick = function(event) {
-				if(thisTemp.vars['front']) {
-					eval(thisTemp.vars['front'] + '()');
-					thisTemp.sendJS('clickEvent', 'actionScript->' + thisTemp.vars['front']);
-				}
-			};
-			this.addListenerInside('click', frontClick, this.CB['front']);
-			var nextClick = function(event) {
-				if(thisTemp.vars['next']) {
-					eval(thisTemp.vars['next'] + '()');
-					thisTemp.sendJS('clickEvent', 'actionScript->' + thisTemp.vars['next']);
-				}
-			};
-			this.addListenerInside('click', nextClick, this.CB['next']);
-			var muteClick = function(event) {
-				thisTemp.videoMute();
-				thisTemp.sendJS('clickEvent', 'actionScript->videoMute');
-			};
-			this.addListenerInside('click', muteClick, this.CB['mute']);
-			var escMuteClick = function(event) {
-				thisTemp.videoEscMute();
-				thisTemp.sendJS('clickEvent', 'actionScript->videoEscMute');
-			};
-			this.addListenerInside('click', escMuteClick, this.CB['escMute']);
-			var fullClick = function(event) {
-				thisTemp.fullScreen();
-				thisTemp.sendJS('clickEvent', 'actionScript->fullScreen');
-			};
-			this.addListenerInside('click', fullClick, this.CB['full']);
-			var escFullClick = function(event) {
-				thisTemp.quitFullScreen();
-				thisTemp.sendJS('clickEvent', 'actionScript->quitFullScreen');
-			};
-			this.addListenerInside('click', escFullClick, this.CB['escFull']);
+			
 			//定义各个按钮的鼠标经过/离开事件
 			var promptHide = function(event) {
 				thisTemp.promptShow(false);
 			};
-			var playOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['play']);
-			};
-			this.addListenerInside('mouseover', playOver, this.CB['play']);
-			this.addListenerInside('mouseout', promptHide, this.CB['play']);
-			var pauseOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['pause']);
-			};
-			this.addListenerInside('mouseover', pauseOver, this.CB['pause']);
-			this.addListenerInside('mouseout', promptHide, this.CB['pause']);
-			var frontOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['front']);
-			};
-			this.addListenerInside('mouseover', frontOver, this.CB['front']);
-			this.addListenerInside('mouseout', promptHide, this.CB['front']);
-			var nextOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['next']);
-			};
-			this.addListenerInside('mouseover', nextOver, this.CB['next']);
-			this.addListenerInside('mouseout', promptHide, this.CB['next']);
-			var muteOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['mute']);
-			};
-			this.addListenerInside('mouseover', muteOver, this.CB['mute']);
-			this.addListenerInside('mouseout', promptHide, this.CB['mute']);
-			var escMuteOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['escMute']);
-			};
-			this.addListenerInside('mouseover', escMuteOver, this.CB['escMute']);
-			this.addListenerInside('mouseout', promptHide, this.CB['escMute']);
-			var fullOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['full']);
-			};
-			this.addListenerInside('mouseover', fullOver, this.CB['full']);
-			this.addListenerInside('mouseout', promptHide, this.CB['full']);
-			var escFullOver = function(event) {
-				thisTemp.promptShow(thisTemp.CB['escFull']);
-			};
-			this.addListenerInside('mouseover', escFullOver, this.CB['escFull']);
-			this.addListenerInside('mouseout', promptHide, this.CB['escFull']);
 			var definitionOver = function(event) {
 				thisTemp.promptShow(thisTemp.CB['definition']);
 			};
@@ -1780,12 +2049,16 @@ function ckplayerConfig() {
 			};
 			this.addListenerInside('mouseover', playbackrateOver, this.CB['playbackrate']);
 			this.addListenerInside('mouseout', promptHide, this.CB['playbackrate']);
+			var subtitlesOver = function(event) {
+				thisTemp.promptShow(thisTemp.CB['subtitles']);
+			};
+			this.addListenerInside('mouseover', subtitlesOver, this.CB['subtitles']);
+			this.addListenerInside('mouseout', promptHide, this.CB['subtitles']);
 			//定义音量和进度按钮的滑块事件
-
 			var volumePrompt = function(vol) {
 				var volumeBOXY = thisTemp.getCoor(thisTemp.CB['volumeBO']);
 				var promptObj = {
-					title: thisTemp.language['volume'] + vol + '%',
+					title:thisTemp.ckLanguage['volumeSliderOver'].replace('[$volume]',vol),
 					x: volumeBOXY['x'] + thisTemp.CB['volumeBO'].offsetWidth * 0.5,
 					y: volumeBOXY['y']
 				};
@@ -1823,7 +2096,7 @@ function ckplayerConfig() {
 				var eventX = thisTemp.client(event)['x'];
 				var eventVolume = parseInt((eventX - volumeBgXY['x']) * 100 / thisTemp.CB['volumeBg'].offsetWidth);
 				var buttonPromptObj = {
-					title: thisTemp.language['volume'] + eventVolume + '%',
+					title:thisTemp.ckLanguage['volumeSliderOver'].replace('[$volume]',eventVolume),
 					x: eventX,
 					y: volumeBgXY['y']
 				};
@@ -1836,6 +2109,8 @@ function ckplayerConfig() {
 			this.addDefListener();
 			//注册倍速相关事件
 			this.addPlaybackrate();
+			//注册多字幕事件
+			this.addSubtitles();
 		},
 		/*
 			内部函数
@@ -1844,8 +2119,8 @@ function ckplayerConfig() {
 		videoClick: function() {
 			var thisTemp = this;
 			var clearTimerClick = function() {
-				if(thisTemp.timerClick != null) {
-					if(thisTemp.timerClick.runing) {
+				if (thisTemp.timerClick != null) {
+					if (thisTemp.timerClick.runing) {
 						thisTemp.timerClick.stop();
 					}
 					thisTemp.timerClick = null;
@@ -1854,14 +2129,28 @@ function ckplayerConfig() {
 			var timerClickFun = function() {
 				clearTimerClick();
 				thisTemp.isClick = false;
-				thisTemp.playOrPause();
+				thisTemp.sendJS('videoClick',thisTemp.videoClickXy);
+				if (thisTemp.adPlayerPlay) {
+					var ad = thisTemp.getNowAdvertisements();
+					try {
+						if (ad['link'] != '') {
+							window.open(ad['link']);
+						}
+						thisTemp.ajaxSuccessNull(ad['clickMonitor']);
+					} catch(event) {}
+				} else {
+					if (thisTemp.ckConfig['config']['click']) {
+						thisTemp.playOrPause();
+					}
+				}
 
 			};
 			clearTimerClick();
-			if(this.isClick) {
+			if (this.isClick) {
 				this.isClick = false;
-				if(thisTemp.config['videoDbClick']) {
-					if(!this.full) {
+				thisTemp.sendJS('videoDoubleClick',thisTemp.videoClickXy);
+				if (thisTemp.ckConfig['config']['doubleClick']) {
+					if (!this.full) {
 						thisTemp.fullScreen();
 					} else {
 						thisTemp.quitFullScreen();
@@ -1882,12 +2171,12 @@ function ckplayerConfig() {
 		timeButtonMouseDown: function() {
 			var thisTemp = this;
 			var timePrompt = function(time) {
-				if(isNaN(time)) {
+				if (isNaN(time)) {
 					time = 0;
 				}
 				var timeButtonXY = thisTemp.getCoor(thisTemp.CB['timeButton']);
 				var promptObj = {
-					title: thisTemp.formatTime(time),
+					title: thisTemp.formatTime(time,0,thisTemp.ckLanguage['timeSliderOver']),
 					x: timeButtonXY['x'] - thisTemp.pdCoor['x'] + thisTemp.CB['timeButton'].offsetWidth * 0.5,
 					y: timeButtonXY['y'] - thisTemp.pdCoor['y']
 				};
@@ -1904,8 +2193,8 @@ function ckplayerConfig() {
 				},
 				monitorFun: function(time) {},
 				endFun: function(time) {
-					if(thisTemp.V) {
-						if(thisTemp.V.duration > 0) {
+					if (thisTemp.V) {
+						if (thisTemp.V.duration > 0) {
 							thisTemp.needSeek = 0;
 							thisTemp.videoSeek(parseInt(time));
 						}
@@ -1919,8 +2208,8 @@ function ckplayerConfig() {
 				refer: this.CB['timeBoBg'],
 				grossValue: 'time',
 				fun: function(time) {
-					if(thisTemp.V) {
-						if(thisTemp.V.duration > 0) {
+					if (thisTemp.V) {
+						if (thisTemp.V.duration > 0) {
 							thisTemp.needSeek = 0;
 							thisTemp.videoSeek(parseInt(time));
 						}
@@ -1930,31 +2219,38 @@ function ckplayerConfig() {
 			var timeBoBgmousemove = function(event) {
 				var timeBoBgXY = thisTemp.getCoor(thisTemp.CB['timeBoBg']);
 				var eventX = thisTemp.client(event)['x'];
-				var eventTime = parseInt((eventX - timeBoBgXY['x']) * thisTemp.V.duration / thisTemp.CB['timeBoBg'].offsetWidth);
+				var duration=thisTemp.V.duration;
+				if (isNaN(duration) || parseInt(duration) < 0.2) {
+					duration = thisTemp.vars['duration'];
+				}
+				if(thisTemp.vars['forceduration']>0){
+					duration=thisTemp.vars['forceduration'];
+				}
+				var eventTime = parseInt((eventX - timeBoBgXY['x']) * duration / thisTemp.CB['timeBoBg'].offsetWidth);
 				var buttonPromptObj = {
-					title: thisTemp.formatTime(eventTime),
+					title: thisTemp.formatTime(eventTime,0,thisTemp.ckLanguage['timeSliderOver']),
 					x: eventX,
 					y: timeBoBgXY['y']
 				};
 				thisTemp.promptShow(false, buttonPromptObj);
 				var def = false;
-				if(!thisTemp.isUndefined(thisTemp.CB['definitionP'])) {
-					if(thisTemp.css(thisTemp.CB['definitionP'], 'display') != 'block') {
+				if (!thisTemp.isUndefined(thisTemp.CB['definitionP'])) {
+					if (thisTemp.css(thisTemp.CB['definitionP'], 'display') != 'block') {
 						def = true;
 					}
 				}
-				if(thisTemp.vars['preview'] != null && def) {
+				if (thisTemp.vars['preview'] != null && def) {
 					buttonPromptObj['time'] = eventTime;
 					thisTemp.preview(buttonPromptObj);
 				}
 			};
 			var promptHide = function(event) {
 				thisTemp.promptShow(false);
-				if(thisTemp.previewDiv != null) {
+				if (thisTemp.previewDiv != null) {
 					thisTemp.css([thisTemp.previewDiv, thisTemp.previewTop], 'display', 'none');
 				}
 			};
-			if(!this.vars['live']) { //如果不是直播
+			if (!this.vars['live']) { //如果不是直播
 				this.isTimeButtonDown = true;
 				this.addListenerInside('mousemove', timeBoBgmousemove, this.CB['timeBoBg']);
 				this.addListenerInside('mouseout', promptHide, this.CB['timeBoBg']);
@@ -1985,19 +2281,25 @@ function ckplayerConfig() {
 				var referX = thisTemp.client(event)['x'] - thisTemp.getCoor(obj['refer'])['x'];
 				var rWidth = obj['refer'].offsetWidth;
 				var grossValue = 0;
-				if(obj['grossValue'] == 'volume') {
+				if (obj['grossValue'] == 'volume') {
 					grossValue = 100;
 				} else {
-					if(thisTemp.V) {
+					if (thisTemp.V) {
 						grossValue = thisTemp.V.duration;
+						if (isNaN(grossValue) || parseInt(grossValue) < 0.2) {
+							grossValue = thisTemp.vars['duration'];
+						}
+						if(thisTemp.vars['forceduration']>0){
+							grossValue=thisTemp.vars['forceduration'];
+						}
 					}
 				}
 				var nowZ = parseInt(referX * grossValue / rWidth);
-				if(obj['fun']) {
-					if(obj['grossValue'] === 'time') {
+				if (obj['fun']) {
+					if (obj['grossValue'] === 'time') {
 						var sliderXY = thisTemp.getCoor(thisTemp.CB['timeButton']);
 						sliderLeft = sliderXY['x'];
-						if(!thisTemp.checkSlideLeft(referX, sliderLeft, rWidth)) {
+						if (!thisTemp.checkSlideLeft(referX, sliderLeft, rWidth)) {
 							return;
 						}
 						var bimeButtonWB = thisTemp.CB['timeButton'].offsetWidth * 0.5;
@@ -2007,7 +2309,7 @@ function ckplayerConfig() {
 					obj['fun'](nowZ);
 				}
 			};
-			if(this.isUndefined(obj['removeListenerInside'])) {
+			if (this.isUndefined(obj['removeListenerInside'])) {
 				this.addListenerInside('click', referMouseClick, obj['refer']);
 			} else {
 				this.removeListenerInside('click', referMouseClick, obj['refer']);
@@ -2035,21 +2337,21 @@ function ckplayerConfig() {
 			*/
 			var thisTemp = this;
 			var clientX = 0,
-				criterionWidth = 0,
-				sliderLeft = 0,
-				referLeft = 0;
+			criterionWidth = 0,
+			sliderLeft = 0,
+			referLeft = 0;
 			var value = 0;
 			var calculation = function() { //根据滑块的left计算百分比
 				var sLeft = parseInt(thisTemp.css(obj['slider'], 'left'));
 				var rWidth = obj['refer'].offsetWidth - obj['slider'].offsetWidth;
 				var grossValue = 0;
-				if(thisTemp.isUndefined(sLeft) || isNaN(sLeft)) {
+				if (thisTemp.isUndefined(sLeft) || isNaN(sLeft)) {
 					sLeft = 0;
 				}
-				if(obj['grossValue'] == 'volume') {
+				if (obj['grossValue'] == 'volume') {
 					grossValue = 100;
 				} else {
-					if(thisTemp.V) {
+					if (thisTemp.V) {
 						grossValue = thisTemp.V.duration;
 					}
 				}
@@ -2064,45 +2366,45 @@ function ckplayerConfig() {
 				referLeft = referXY['x'];
 				sliderLeft = sliderXY['x'];
 				criterionWidth = clientX - sliderLeft;
-				if(obj['startFun']) {
+				if (obj['startFun']) {
 					obj['startFun'](calculation());
 				}
 			};
 			var mMove = function(event) {
 				clientX = thisTemp.client(event)['x'];
 				var newX = clientX - criterionWidth - referLeft;
-				if(newX < 0) {
+				if (newX < 0) {
 					newX = 0;
 				}
-				if(newX > obj['refer'].offsetWidth - obj['slider'].offsetWidth) {
+				if (newX > obj['refer'].offsetWidth - obj['slider'].offsetWidth) {
 					newX = obj['refer'].offsetWidth - obj['slider'].offsetWidth;
 				}
-				if(obj['slider'] === thisTemp.CB['timeButton']) {
-					if(!thisTemp.checkSlideLeft(newX, sliderLeft, obj['refer'].offsetWidth)) {
+				if (obj['slider'] === thisTemp.CB['timeButton']) {
+					if (!thisTemp.checkSlideLeft(newX, sliderLeft, obj['refer'].offsetWidth)) {
 						return;
 					}
 				}
 				thisTemp.css(obj['slider'], 'left', newX + 'px');
 				thisTemp.css(obj['follow'], 'width', (newX + obj['slider'].offsetWidth * 0.5) + 'px');
 				var nowZ = calculation();
-				if(obj['monitorFun']) {
+				if (obj['monitorFun']) {
 					obj['monitorFun'](nowZ);
 				}
 			};
 			var mUp = function(event) {
 				thisTemp.removeListenerInside('mousemove', mMove, document);
 				thisTemp.removeListenerInside('mouseup', mUp, document);
-				if(obj['endFun']) {
+				if (obj['endFun']) {
 					obj['endFun'](calculation());
 				}
 			};
 			var mOver = function(event) {
-				if(obj['overFun']) {
+				if (obj['overFun']) {
 					obj['overFun'](calculation());
 				}
 
 			};
-			if(this.isUndefined(obj['removeListenerInside'])) {
+			if (this.isUndefined(obj['removeListenerInside'])) {
 				this.addListenerInside('mousedown', mDown, obj['slider']);
 				this.addListenerInside('mouseover', mOver, obj['slider']);
 			} else {
@@ -2115,45 +2417,45 @@ function ckplayerConfig() {
 			判断是否可以拖动进度按钮或点击进度栏
 		*/
 		checkSlideLeft: function(newX, sliderLeft, refer) {
-			var timeSA = this.ckplayerConfig['config']['timeScheduleAdjust'];
-			switch(timeSA) {
-				case 0:
+			var timeSA = this.ckConfig['config']['timeScheduleAdjust'];
+			switch (timeSA) {
+			case 0:
+				return false;
+				break;
+			case 2:
+				if (newX < sliderLeft) {
 					return false;
-					break;
-				case 2:
-					if(newX < sliderLeft) {
-						return false;
+				}
+				break;
+			case 3:
+				if (newX > sliderLeft) {
+					return false;
+				}
+				break;
+			case 4:
+				if (!this.timeSliderLeftTemp) {
+					this.timeSliderLeftTemp = sliderLeft / refer;
+				}
+				if (newX < this.timeSliderLeftTemp * refer) {
+					return false;
+				}
+				break;
+			case 5:
+				if (!this.timeSliderLeftTemp) {
+					this.timeSliderLeftTemp = sliderLeft / refer;
+				} else {
+					var timeSliderMax = sliderLeft / refer;
+					if (timeSliderMax > this.timeSliderLeftTemp) {
+						this.timeSliderLeftTemp = timeSliderMax;
 					}
-					break;
-				case 3:
-					if(newX > sliderLeft) {
-						return false;
-					}
-					break;
-				case 4:
-					if(!this.timeSliderLeftTemp) {
-						this.timeSliderLeftTemp = sliderLeft / refer;
-					}
-					if(newX < this.timeSliderLeftTemp * refer) {
-						return false;
-					}
-					break;
-				case 5:
-					if(!this.timeSliderLeftTemp) {
-						this.timeSliderLeftTemp = sliderLeft / refer;
-					} else {
-						var timeSliderMax = sliderLeft / refer;
-						if(timeSliderMax > this.timeSliderLeftTemp) {
-							this.timeSliderLeftTemp = timeSliderMax;
-						}
-					}
-					if(newX > this.timeSliderLeftTemp * refer) {
-						return false;
-					}
-					break;
-				default:
-					return true;
-					break;
+				}
+				if (newX > this.timeSliderLeftTemp * refer) {
+					return false;
+				}
+				break;
+			default:
+				return true;
+				break;
 			}
 			return true;
 		},
@@ -2163,49 +2465,18 @@ function ckplayerConfig() {
 		*/
 		loadingStart: function(rot) {
 			var thisTemp = this;
-			if(this.isUndefined(rot)) {
+			if (this.isUndefined(rot)) {
 				rot = true;
 			}
-			if(this.showFace) {
+			if (this.conBarShow) {
 				this.css(thisTemp.CB['loading'], 'display', 'none');
-			}
-			if(this.timerLoading != null) {
-				if(this.timerLoading.runing) {
-					this.timerLoading.stop();
-				}
-				this.timerLoading = null;
+				this.loadingShow=false;
 			}
 			var buffer = 0;
-			var loadingFun = function() {
-				var nowRotate = '0';
-				try {
-					nowRotate = thisTemp.css(thisTemp.CB['loadingCanvas'], 'transform') || thisTemp.css(thisTemp.CB['loadingCanvas'], '-ms-transform') || thisTemp.css(thisTemp.CB['loadingCanvas'], '-moz-transform') || thisTemp.css(thisTemp.CB['loadingCanvas'], '-webkit-transform') || thisTemp.css(thisTemp.CB['loadingCanvas'], '-o-transform') || '0';
-				} catch(event) {}
-				nowRotate = parseInt(nowRotate.replace('rotate(', '').replace('deg);', ''));
-				nowRotate += 4;
-				if(nowRotate > 360) {
-					nowRotate = 0;
-				}
-				if(thisTemp.showFace) {
-					thisTemp.css(thisTemp.CB['loadingCanvas'], {
-						transform: 'rotate(' + nowRotate + 'deg)',
-						msTransform: 'rotate(' + nowRotate + 'deg)',
-						mozTransform: 'rotate(' + nowRotate + 'deg)',
-						webkitTransform: 'rotate(' + nowRotate + 'deg)',
-						oTransform: 'rotate(' + nowRotate + 'deg)'
-					});
-				}
-				buffer++;
-				if(buffer >= 99) {
-					buffer = 99;
-				}
-				thisTemp.sendJS('buffer', buffer);
-			};
-			if(rot) {
-				this.timerLoading = new this.timer(10, loadingFun);
-				//this.timerLoading.start();
-				if(this.showFace) {
+			if (rot) {
+				if (this.conBarShow) {
 					this.css(thisTemp.CB['loading'], 'display', 'block');
+					this.loadingShow=true;
 				}
 			} else {
 				thisTemp.sendJS('buffer', 100);
@@ -2213,64 +2484,56 @@ function ckplayerConfig() {
 		},
 		/*
 			内部函数
-			判断是否需要显示上一集和下一集
-		*/
-		showFrontNext: function() {
-			if(!this.showFace) {
-				return;
-			}
-			if(this.vars['front']) {
-				this.css([this.CB['front'], this.CB['frontLine']], 'display', 'block');
-			} else {
-				this.css([this.CB['front'], this.CB['frontLine']], 'display', 'none');
-			}
-			if(this.vars['next']) {
-				this.css([this.CB['next'], this.CB['nextLine']], 'display', 'block');
-			} else {
-				this.css([this.CB['next'], this.CB['nextLine']], 'display', 'none');
-			}
-		},
-		/*
-			内部函数
 			显示提示语
 		*/
 		promptShow: function(ele, data) {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var obj = {};
-			if(ele || data) {
-				if(!this.isUndefined(data)) {
+			var eleTitle='';
+			if(!this.isUndefined(ele)){
+				eleTitle=this.getDataset(ele, 'title');
+				if(this.isUndefined(eleTitle)){
+					ele=null;
+				}
+			}
+			if (ele || data) {
+				if (!this.isUndefined(data)) {
 					obj = data;
 				} else {
 					var offsetCoor = this.getCoor(ele);
 					obj = {
-						title: this.getDataset(ele, 'title'),
+						title: eleTitle,
 						x: offsetCoor['x'] + ele.offsetWidth * 0.5,
 						y: offsetCoor['y']
 					};
 				}
 				this.CB['prompt'].innerHTML = obj['title'];
 				this.css(this.CB['prompt'], 'display', 'block');
-				var promoptWidth = this.getStringLen(obj['title']) * 10;
-				this.css(this.CB['promptBg'], 'width', promoptWidth + 'px');
-				this.css(this.CB['prompt'], 'width', promoptWidth + 'px');
-				promoptWidth += 10;
+				var promptStye=this.ckStyle['prompt'];
+				var promoptWidth=this.CB['prompt'].offsetWidth,promoptHeight=this.CB['prompt'].offsetHeight;
+				this.css(this.CB['promptBg'], {width:promoptWidth + 'px',height:promoptHeight+'px'});
 				var x = obj['x'] - (promoptWidth * 0.5);
-				var y = this.PD.offsetHeight - obj['y'] + 8;
-				if(x < 0) {
+				var y = obj['y'] - this.CB['prompt'].offsetHeight-promptStye['marginBottom']-promptStye['triangleHeight'];
+				if (x < 0) {
 					x = 0;
 				}
-				if(x > this.PD.offsetWidth - promoptWidth) {
+				if (x > this.PD.offsetWidth - promoptWidth) {
 					x = this.PD.offsetWidth - promoptWidth;
 				}
 				this.css([this.CB['promptBg'], this.CB['prompt']], {
 					display: 'block',
 					left: x + 'px',
-					bottom: y + 'px'
+					top: y + 'px'
+				});
+				this.css(this.CB['promptTriangle'], {
+					display: 'block',
+					left: x+(promoptWidth-promptStye['triangleWidth'])*0.5+parseInt(promptStye['triangleDeviationX']) + 'px',
+					top: y +promoptHeight+ 'px'
 				});
 			} else {
-				this.css([this.CB['promptBg'], this.CB['prompt']], {
+				this.css([this.CB['promptBg'], this.CB['prompt'],this.CB['promptTriangle']], {
 					display: 'none'
 				});
 			}
@@ -2283,8 +2546,8 @@ function ckplayerConfig() {
 			var thisTemp = this;
 			this.errorSend = false;
 			var clearIntervalError = function(event) {
-				if(thisTemp.timerError != null) {
-					if(thisTemp.timerError.runing) {
+				if (thisTemp.timerError != null) {
+					if (thisTemp.timerError.runing) {
 						thisTemp.timerError.stop();
 					}
 					thisTemp.timerError = null;
@@ -2296,38 +2559,37 @@ function ckplayerConfig() {
 				//提取错误播放地址
 				thisTemp.errorUrl = thisTemp.getVideoUrl();
 				//提取错误播放地址结束
-				if(!thisTemp.errorSend) {
+				if (!thisTemp.errorSend) {
 					thisTemp.errorSend = true;
 					thisTemp.sendJS('error');
 				}
-				if(thisTemp.showFace) {
+				if (thisTemp.conBarShow) {
+					thisTemp.CB['errorText'].innerHTML=thisTemp.ckLanguage['error']['streamNotFound'];
 					thisTemp.css(thisTemp.CB['errorText'], 'display', 'block');
-					thisTemp.css(thisTemp.CB['pauseCenter'], 'display', 'none');
-					thisTemp.css(thisTemp.CB['loading'], 'display', 'none');
+					thisTemp.css([thisTemp.CB['pauseCenter'],thisTemp.CB['loading']], 'display', 'none');
 				}
 				thisTemp.V.removeAttribute('poster');
 				thisTemp.resetPlayer();
 			};
 			var errorListenerFun = function(event) {
-				window.setTimeout(function() {
-					if(isNaN(thisTemp.V.duration)) {
+				setTimeout(function() {
+					if (isNaN(thisTemp.V.duration)) {
 						errorFun(event);
 					}
-				}, 500);
-
+				},
+				500);
 			};
-			if(!this.errorAdd) {
+			if (!this.errorAdd) {
 				this.errorAdd = true;
-				this.addListenerInside('error', errorListenerFun, this.V);
+				this.addListenerInside('error', errorListenerFun);
 			}
 			clearIntervalError();
 			var timerErrorFun = function() {
-				if(thisTemp.V && parseInt(thisTemp.V.networkState) == 3) {
+				if (thisTemp.V && parseInt(thisTemp.V.networkState) == 3) {
 					errorFun();
 				}
 			};
-			this.timerError = new this.timer(this.config['errorTime'], timerErrorFun);
-			//this.timerError.start();
+			this.timerError = new this.timer(this.ckConfig['config']['errorTime'], timerErrorFun);
 		},
 		/*
 			内部函数
@@ -2335,8 +2597,8 @@ function ckplayerConfig() {
 		*/
 		judgeFullScreen: function() {
 			var thisTemp = this;
-			if(this.timerFull != null) {
-				if(this.timerFull.runing) {
+			if (this.timerFull != null) {
+				if (this.timerFull.runing) {
 					this.timerFull.stop();
 				}
 				this.timerFull = null;
@@ -2351,34 +2613,38 @@ function ckplayerConfig() {
 			判断是否是全屏
 		*/
 		isFullScreen: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var fullState = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenElement;
-			if(fullState && !this.full) {
+			if (fullState && !this.full) {
 				this.full = true;
 				this.sendJS('full', true);
 				this.elementCoordinate();
+				this.carbarButton();
+				this.customCoor();//控制栏自定义元件
 				this.css(this.CB['full'], 'display', 'none');
 				this.css(this.CB['escFull'], 'display', 'block');
-				if(this.vars['live'] == 0) {
+				if (this.vars['live'] == 0) {
 					this.timeUpdateHandler();
 				}
 				this.PD.appendChild(this.CB['menu']);
 			}
-			if(!fullState && this.full) {
+			if (!fullState && this.full) {
 				this.full = false;
 				this.sendJS('full', false);
 				this.elementCoordinate();
+				this.carbarButton();
+				this.customCoor();//控制栏自定义元件
 				this.css(this.CB['full'], 'display', 'block');
 				this.css(this.CB['escFull'], 'display', 'none');
-				if(this.timerFull != null) {
-					if(this.timerFull.runing) {
+				if (this.timerFull != null) {
+					if (this.timerFull.runing) {
 						this.timerFull.stop();
 					}
 					this.timerFull = null;
 				}
-				if(this.vars['live'] == 0) {
+				if (this.vars['live'] == 0) {
 					this.timeUpdateHandler();
 				}
 				this.body.appendChild(this.CB['menu']);
@@ -2403,41 +2669,41 @@ function ckplayerConfig() {
 				boxShadow: '2px 2px 3px #AAAAAA'
 			});
 			var mArr = this.contextMenu;
-			var cMenu = this.ckplayerConfig['menu'];
-			if(cMenu['name']) {
-				if(cMenu['link']) {
+			var cMenu = this.ckConfig['menu'];
+			if (cMenu['name']) {
+				if (cMenu['link']) {
 					mArr[0] = [cMenu['name'], 'link', cMenu['link']];
 				} else {
 					mArr[0] = [cMenu['name'], 'default'];
 				}
 			}
-			if(cMenu['version']) {
+			if (cMenu['version']) {
 				mArr[1] = [cMenu['version'], 'default', 'line'];
 			}
-			if(cMenu['more']) {
-				if(typeof(cMenu['more']) == 'object') {
-					if(cMenu['more'].length > 0) {
+			if (cMenu['more']) {
+				if (this.varType(cMenu['more']) == 'array') {
+					if (cMenu['more'].length > 0) {
 						var moreArr = cMenu['more'];
-						for(i = 0; i < moreArr.length; i++) {
+						for (i = 0; i < moreArr.length; i++) {
 							var mTemp = moreArr[i];
 							var arrTemp = [];
-							if(mTemp['name']) {
+							if (mTemp['name']) {
 								arrTemp.push(mTemp['name']);
 							}
-							if(mTemp['clickEvent'] && mTemp['clickEvent'] != 'none') {
+							if (mTemp['clickEvent'] && mTemp['clickEvent'] != 'none') {
 								var eveObj = this.clickEvent(mTemp['clickEvent']);
 								arrTemp.push(eveObj['type']);
-								if(eveObj['fun']) {
+								if (eveObj['fun']) {
 									arrTemp.push(eveObj['fun']);
 								}
-								if(eveObj['link']) {
+								if (eveObj['link']) {
 									arrTemp.push(eveObj['link']);
 								}
-								if(eveObj['target']) {
+								if (eveObj['target']) {
 									arrTemp.push(' target="' + eveObj['target'] + '"');
 								}
 							}
-							if(mTemp['separatorBefore']) {
+							if (mTemp['separatorBefore']) {
 								arrTemp.push('line');
 							}
 							mArr.push(arrTemp);
@@ -2446,28 +2712,31 @@ function ckplayerConfig() {
 				}
 			}
 			var html = '';
-			for(i = 0; i < mArr.length; i++) {
+			for (i = 0; i < mArr.length; i++) {
 				var me = mArr[i];
-				switch(me[1]) {
-					case 'default':
-						html += '<p>' + me[0] + '</p>';
-						break;
-					case 'link':
-						html += '<p><a href="' + me[2] + '"' + me[3] + '>' + me[0] + '</a></p>';
-						break;
-					case 'javaScript':
-						html += '<p><a href="javascript:' + me[2] + '">' + me[0] + '</a></p>';
-						break;
-					case 'actionScript':
-						html += '<p><a href="javascript:' + this.vars['variable'] + me[2].replace('thisTemp', '') + '">' + me[0] + '</a></p>';
-						break;
-					default:
-						break;
+				switch (me[1]) {
+				case 'default':
+					html += '<p>' + me[0] + '</p>';
+					break;
+				case 'link':
+					if (me[3]) {
+						me[3] = 'target="' + me[3] + '"';
+					}
+					html += '<p><a href="' + me[2] + '"' + me[3] + '>' + me[0] + '</a></p>';
+					break;
+				case 'javaScript':
+					html += '<p><a href="javascript:' + me[2] + '">' + me[0] + '</a></p>';
+					break;
+				case 'actionScript':
+					html += '<p><a href="javascript:' + this.vars['variable'] + me[2].replace('thisTemp', '') + '">' + me[0] + '</a></p>';
+					break;
+				default:
+					break;
 				}
 			}
 			this.CB['menu'].innerHTML = html;
 			var pArr = this.CB['menu'].childNodes;
-			for(i = 0; i < pArr.length; i++) {
+			for (i = 0; i < pArr.length; i++) {
 				this.css(pArr[i], {
 					height: '30px',
 					lineHeight: '30px',
@@ -2477,12 +2746,12 @@ function ckplayerConfig() {
 					paddingLeft: '10px',
 					paddingRight: '30px'
 				});
-				if(mArr[i][mArr[i].length - 1] == 'line') {
+				if (mArr[i][mArr[i].length - 1] == 'line') {
 					this.css(pArr[i], 'borderBottom', '1px solid #e9e9e9');
 				}
 				var aArr = pArr[i].childNodes;
-				for(var n = 0; n < aArr.length; n++) {
-					if(aArr[n].localName == 'a') {
+				for (var n = 0; n < aArr.length; n++) {
+					if (aArr[n].localName == 'a') {
 						this.css(aArr[n], {
 							color: '#000000',
 							textDecoration: 'none'
@@ -2493,7 +2762,7 @@ function ckplayerConfig() {
 			this.PD.oncontextmenu = function(event) {
 				var eve = event || window.event;
 				var client = thisTemp.client(event);
-				if(eve.button == 2) {
+				if (eve.button == 2) {
 					eve.returnvalue = false;
 					var x = client['x'] + thisTemp.pdCoor['x'] - 2;
 					var y = client['y'] + thisTemp.pdCoor['y'] - 2;
@@ -2507,7 +2776,7 @@ function ckplayerConfig() {
 				return true;
 			};
 			var setTimeOutPClose = function() {
-				if(setTimeOutP) {
+				if (setTimeOutP) {
 					window.clearTimeout(setTimeOutP);
 					setTimeOutP = null;
 				}
@@ -2515,9 +2784,10 @@ function ckplayerConfig() {
 			var setTimeOutP = null;
 			var mouseOut = function(event) {
 				setTimeOutPClose();
-				setTimeOutP = window.setTimeout(function(event) {
+				setTimeOutP = setTimeout(function(event) {
 					thisTemp.css(thisTemp.CB['menu'], 'display', 'none');
-				}, 500);
+				},
+				500);
 			};
 			this.addListenerInside('mouseout', mouseOut, thisTemp.CB['menu']);
 			var mouseOver = function(event) {
@@ -2533,58 +2803,59 @@ function ckplayerConfig() {
 		controlBarHide: function(hide) {
 			var thisTemp = this;
 			var client = {
-					x: 0,
-					y: 0
-				},
-				oldClient = {
-					x: 0,
-					y: 0
-				};
+				x: 0,
+				y: 0
+			},
+			oldClient = {
+				x: 0,
+				y: 0
+			};
 			var cShow = true,
-				force = false;
+			force = false;
 			var oldCoor = [0, 0];
 			var controlBarShow = function(show) {
-				if(show && !cShow && thisTemp.controlBarIsShow) {
+				if (show && !cShow && thisTemp.controlBarIsShow) {
 					cShow = true;
 					thisTemp.sendJS('controlBar', true);
 					thisTemp.css(thisTemp.CB['controlBarBg'], 'display', 'block');
 					thisTemp.css(thisTemp.CB['controlBar'], 'display', 'block');
-					thisTemp.css(thisTemp.CB['timeProgressBg'], 'display', 'block');
-					thisTemp.css(thisTemp.CB['timeBoBg'], 'display', 'block');
+					thisTemp.timeProgressDefault();
+					//thisTemp.css(thisTemp.CB['timeProgressBg'], 'display', 'block');
+					//thisTemp.css(thisTemp.CB['timeBoBg'], 'display', 'block');
 					thisTemp.changeVolume(thisTemp.volume);
 					thisTemp.changeLoad();
-					if(!thisTemp.timerBuffer) {
+					if (!thisTemp.timerBuffer) {
 						thisTemp.bufferEdHandler();
 					}
 				} else {
-					if(cShow) {
+					if (cShow) {
 						cShow = false;
 						var paused = thisTemp.getMetaDate()['paused'];
-						if(force) {
+						if (force) {
 							paused = false;
 						}
-						if(!paused) {
+						if (!paused) {
 							thisTemp.sendJS('controlBar', false);
 							thisTemp.css(thisTemp.CB['controlBarBg'], 'display', 'none');
 							thisTemp.css(thisTemp.CB['controlBar'], 'display', 'none');
-							thisTemp.css(thisTemp.CB['timeProgressBg'], 'display', 'none');
-							thisTemp.css(thisTemp.CB['timeBoBg'], 'display', 'none');
 							thisTemp.promptShow(false);
 
 						}
 					}
 				}
+				thisTemp.videoCss();//计算video的宽高和位置
 			};
 			var cbarFun = function(event) {
-				if(client['x'] == oldClient['x'] && client['y'] == oldClient['y']) {
+				if (client['x'] == oldClient['x'] && client['y'] == oldClient['y']) {
 					var cdH = parseInt(thisTemp.CD.offsetHeight);
-					if((client['y'] < cdH - 50 || client['y'] > cdH - 2) && cShow) {
+					if ((client['y'] < cdH - 50 || client['y'] > cdH - 2) && cShow && !thisTemp.getMetaDate()['paused']) {
 						controlBarShow(false);
 					}
 				} else {
-					if(!cShow) {
+					if (!cShow) {
 						controlBarShow(true);
 					}
+					
 				}
 				oldClient = {
 					x: client['x'],
@@ -2596,19 +2867,20 @@ function ckplayerConfig() {
 				var getClient = thisTemp.client(event);
 				client['x'] = getClient['x'];
 				client['y'] = getClient['y'];
-				if(!cShow) {
+				if (!cShow) {
 					controlBarShow(true);
 				}
+				thisTemp.sendJS('mouse',client);
 			};
 			this.addListenerInside('mousemove', cdMove, thisTemp.CD);
 			this.addListenerInside('ended', cdMove);
 			this.addListenerInside('resize', cdMove, window);
-			if(hide === true) {
+			if (hide === true) {
 				cShow = true;
 				force = true;
 				controlBarShow(false);
 			}
-			if(hide === false) {
+			if (hide === false) {
 				cShow = false;
 				force = true;
 				controlBarShow(true);
@@ -2623,7 +2895,10 @@ function ckplayerConfig() {
 			var thisTemp = this;
 			var keyDown = function(eve) {
 				var keycode = eve.keyCode || eve.which;
-				switch(keycode) {
+				if (thisTemp.adPlayerPlay) {
+					return;
+				}
+				switch (keycode) {
 					case 32:
 						thisTemp.playOrPause();
 						break;
@@ -2634,11 +2909,11 @@ function ckplayerConfig() {
 						thisTemp.fastNext();
 						break;
 					case 38:
-						now = thisTemp.volume + thisTemp.ckplayerConfig['config']['volumeJump'];
+						now = thisTemp.volume + thisTemp.ckConfig['config']['volumeJump'];
 						thisTemp.changeVolume(now > 1 ? 1 : now);
 						break;
 					case 40:
-						now = thisTemp.volume - thisTemp.ckplayerConfig['config']['volumeJump'];
+						now = thisTemp.volume - thisTemp.ckConfig['config']['volumeJump'];
 						thisTemp.changeVolume(now < 0 ? 0 : now);
 						break;
 					default:
@@ -2652,69 +2927,103 @@ function ckplayerConfig() {
 			注册倍速相关
 		*/
 		playbackRate: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow || !this.ckConfig['config']['playbackRate']) {
 				return;
 			}
+			var styleCD=this.ckStyle['controlBar']['playbackrate'];
+			var cssSup={overflow: 'hidden',display: 'none',zIndex: 995};
+			var cssSup2={overflow: 'hidden',align: 'top',vAlign: 'left',offsetX: 0,offsetY: 0,zIndex: 1};
 			var thisTemp = this;
-			var vArr = this.playbackRateArr;
+			var dArr = this.playbackRateArr;
 			var html = '';
-			var nowD = ''; //当前的清晰度
-			var i = 0;
-			if(!nowD) {
-				nowD = vArr[this.playbackRateDefault][1];
-			}
-			if(vArr.length > 1) {
-				var zlen = 0;
-				for(i = 0; i < vArr.length; i++) {
-					html = '<p>' + vArr[i][1] + '</p>' + html;
-					var dlen = this.getStringLen(vArr[i][1]);
-					if(dlen > zlen) {
-						zlen = dlen;
+			var nowD = ''; //当前的倍速
+			var i = 0,nowI=0;
+			nowD = dArr[this.playbackRateDefault][1];
+			nowI=this.playbackRateDefault;
+			this.removeChildAll(this.CB['playbackrateP']);
+			if (dArr.length > 1) {
+				//设置样式
+				this.CB['playbackratePB']=document.createElement('div'),this.CB['playbackratePC']=document.createElement('div');
+				this.CB['playbackrateP'].appendChild(this.CB['playbackratePB']);
+				this.CB['playbackrateP'].appendChild(this.CB['playbackratePC']);
+				//按钮列表容器样式
+				var bgCss=this.newObj(styleCD['background']);
+				bgCss['backgroundColor']='';
+				//内容层样式
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['playbackratePC'], cssTemp);
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				//容器层样式
+				cssTemp=this.getEleCss(this.objectAssign(bgCss,styleCD['backgroundCoorH5']),cssSup);
+				this.css(this.CB['playbackrateP'], cssTemp);
+				//背景层样式
+				bgCss=this.newObj(styleCD['background']);
+				bgCss['alpha']=bgCss['backgroundAlpha'];
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['playbackratePB'], cssTemp);
+				//样式设置结束
+				for(i=0;i<dArr.length;i++){
+					var buttonDiv=document.createElement('div');
+					buttonDiv.dataset.title=dArr[i][1];
+					if(nowI!=i){
+						this.textButton(buttonDiv,styleCD['button'],null,this.CB['playbackrateP'],dArr[i][1],'');
 					}
-				}
-				if(html) {
-					html += '<p>' + nowD + '</p>';
-				}
-				this.CB['playbackrate'].innerHTML = nowD;
-				this.CB['playbackrateP'].innerHTML = html;
-				this.css([this.CB['playbackrate'], this.CB['playbackrateLine']], 'display', 'block');
-				var pArr = this.CB['playbackrateP'].childNodes;
-				for(var i = 0; i < pArr.length; i++) {
-					var fontColor = '#FFFFFF';
-					if(pArr[i].innerHTML == nowD) {
-						fontColor = '#0782F5';
+					else{
+						this.textButton(buttonDiv,styleCD['buttonHighlight'],null,this.CB['playbackrateP'],dArr[i][1],'');
 					}
-					this.css(pArr[i], {
-						color: fontColor,
-						margin: '0px',
-						padding: '0px',
-						fontSize: '14px'
-					});
-					if(i < pArr.length - 1) {
-						this.css(pArr[i], 'borderBottom', '1px solid #282828')
+					this.css(buttonDiv,'position','static');
+					this.CB['playbackratePC'].appendChild(buttonDiv);
+					//构建间隔线
+					if(i<dArr.length-1){
+						var separate=styleCD['separate'];
+						separate['borderTop']=separate['border'];
+						separate['borderTopColor']=separate['color'];
+						var separateDiv=document.createElement('div');
+						this.CB['playbackratePC'].appendChild(separateDiv);
+						var cssTemp=this.getEleCss(separate,{width:'100%'});
+						cssTemp['position']='static';
+						this.css(separateDiv,cssTemp);
 					}
-					var defClick = function(event) {
-						if(nowD != this.innerHTML) {
+					var subClick = function() {
+						var dName=thisTemp.getDataset(this, 'title');
+						if (nowD != dName) {
 							thisTemp.css(thisTemp.CB['playbackrateP'], 'display', 'none');
-							thisTemp.newPlaybackrate(this.innerHTML);
-							thisTemp.sendJS('clickEvent', 'actionScript->newPlaybackrate');
+							thisTemp.newPlaybackrate(dName);
 						}
 					};
-					this.addListenerInside('click', defClick, pArr[i]);
-
+					this.addListenerInside('click', subClick, buttonDiv);
 				}
-				var pW = (zlen * 10) + 20;
-				this.css(this.CB['playbackrateP'], {
-					width: pW + 'px'
-				});
-				this.css(this.CB['playbackrate'], {
-					width: pW + 'px'
-				});
-				this.buttonWidth['playbackrate'] = this.CB['playbackrate'].offsetWidth;
+				//下面三角形样式
+				this.CB['playbackrateTriangle']=document.createElement('div');
+				this.CB['playbackrateP'].appendChild(this.CB['playbackrateTriangle']);
+				var tbCss=styleCD['background'];
+				cssTemp={
+					width: 0,
+					height: 0,
+					borderLeft: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderRight: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderTop: tbCss['triangleHeight']+'px solid '+tbCss['triangleBackgroundColor'].replace('0x','#'),
+					overflow: 'hidden',
+					opacity:tbCss['triangleAlpha'],
+					filter:'alpha(opacity:'+tbCss['triangleAlpha']+')',
+					position:'absolute',
+					left:'0px',
+					top:'0px',
+					zIndex: 2
+				};
+				this.css(this.CB['playbackrateTriangle'],cssTemp);
+				this.CB['playbackrateButtonText'].innerHTML = nowD;
 			} else {
-				this.CB['playbackrate'].innerHTML = '';
-				this.CB['playbackrateP'].innerHTML = '';
-				this.css([this.CB['playbackrate'], this.CB['playbackrateLine']], 'display', 'none');
+				this.CB['playbackrateButtonText'].innerHTML = this.ckLanguage['playbackrate'];
 			}
 		},
 		/*
@@ -2725,24 +3034,49 @@ function ckplayerConfig() {
 			var thisTemp = this;
 			var setTimeOutP = null;
 			var defClick = function(event) {
-				thisTemp.css(thisTemp.CB['playbackrateP'], {
-					left: thisTemp.getCoor(thisTemp.CB['playbackrate'])['x'] + 'px',
-					display: 'block'
-				});
+				if(thisTemp.css(thisTemp.CB['playbackrateP'],'display')!='block' && !thisTemp.isUndefined(thisTemp.CB['playbackratePC'])){
+					thisTemp.css(thisTemp.CB['playbackrateP'],'display','block');
+					var tbCss=thisTemp.ckStyle['controlBar']['playbackrate']['background'];
+					thisTemp.css(thisTemp.CB['playbackratePB'], {
+						width: thisTemp.CB['playbackratePC'].offsetWidth+'px',
+						height: thisTemp.CB['playbackratePC'].offsetHeight+'px'
+					});
+					thisTemp.css(thisTemp.CB['playbackrateP'], {
+						width: (thisTemp.CB['playbackratePC'].offsetWidth+tbCss['triangleDeviationX']+tbCss['triangleWidth'])+'px',
+						height: (thisTemp.CB['playbackratePC'].offsetHeight+tbCss['triangleDeviationY']+tbCss['triangleHeight'])+'px'
+					});
+					thisTemp.promptShow(false);
+					//设置三角形样式
+					var tempELe=thisTemp.CB['playbackratePB'];
+					var tempWidth=tempELe.offsetWidth,tempHeight=tempELe.offsetHeight;
+					
+					var x = ((tempWidth-tbCss['triangleWidth']) * 0.5)+tbCss['triangleDeviationX'];
+					var y = tempELe.offsetHeight+tbCss['triangleDeviationY'];
+					var cssTemp={
+						left:x+'px',
+						top:y+'px'
+					};
+					thisTemp.css(thisTemp.CB['playbackrateTriangle'],cssTemp);
+				}
+				else{
+					thisTemp.css(thisTemp.CB['playbackrateP'],'display','none');
+				}
 			};
 			this.addListenerInside('click', defClick, this.CB['playbackrate']);
 			var defMouseOut = function(event) {
-				if(setTimeOutP) {
+				if (setTimeOutP) {
 					window.clearTimeout(setTimeOutP);
 					setTimeOutP = null;
 				}
-				setTimeOutP = window.setTimeout(function(event) {
+				setTimeOutP = setTimeout(function(event) {
 					thisTemp.css(thisTemp.CB['playbackrateP'], 'display', 'none');
-				}, 500);
+				},
+				500);
 			};
 			this.addListenerInside('mouseout', defMouseOut, thisTemp.CB['playbackrateP']);
 			var defMouseOver = function(event) {
-				if(setTimeOutP) {
+				if (setTimeOutP) {
+					thisTemp.buttonHide=false;
 					window.clearTimeout(setTimeOutP);
 					setTimeOutP = null;
 				}
@@ -2757,99 +3091,389 @@ function ckplayerConfig() {
 			var vArr = this.playbackRateArr;
 			var nVArr = [];
 			var i = 0;
-			for(i = 0; i < vArr.length; i++) {
+			for (i = 0; i < vArr.length; i++) {
 				var v = vArr[i];
-				if(v[1] == title) {
+				if (v[1] == title) {
 					this.playbackRateDefault = i;
 					this.V.playbackRate = v[0];
-					if(this.showFace) {
-						this.CB['playbackrate'].innerHTML = v[1];
+					if (this.conBarShow) {
+						this.CB['playbackrateButtonText'].innerHTML = v[1];
 						this.playbackRate();
 					}
 					this.sendJS('playbackRate', v);
+					this.playbackRateTemp=v[0];
 				}
 			}
 		},
-
+		/*
+			内部函数
+			注册多字幕切换相关
+		*/
+		subtitleSwitch: function() {
+			if (!this.conBarShow || !this.ckConfig['config']['subtitle']) {
+				return;
+			}
+			var thisTemp = this;
+			var dArr = this.vars['cktrack'];//字幕数组
+			if(this.varType(dArr)!='array'){
+				return;
+			}
+			if(dArr[0][1]==''){
+				return;
+			}
+			var styleCD=this.ckStyle['controlBar']['subtitle'];
+			var cssSup={overflow: 'hidden',display: 'none',zIndex: 995};
+			var cssSup2={overflow: 'hidden',align: 'top',vAlign: 'left',offsetX: 0,offsetY: 0,zIndex: 1};
+			var html = '';
+			var nowD = ''; //当前的字幕
+			var i = 0,nowI=0;
+			
+			if(this.subtitlesTemp==-1 && dArr.length>0){
+				this.subtitlesTemp=dArr.length-1;
+			}
+			for(i=0;i<dArr.length;i++){
+				if(this.subtitlesTemp==i){
+					nowD=dArr[i][1];
+					nowI=i;
+				}
+			}
+			if (!nowD) {
+				nowD = dArr[0][1];
+			}
+			this.removeChildAll(this.CB['subtitlesP']);
+			if (dArr.length > 1) {
+				//设置样式
+				this.CB['subtitlesPB']=document.createElement('div'),this.CB['subtitlesPC']=document.createElement('div');
+				this.CB['subtitlesP'].appendChild(this.CB['subtitlesPB']);
+				this.CB['subtitlesP'].appendChild(this.CB['subtitlesPC']);
+				//按钮列表容器样式
+				var bgCss=this.newObj(styleCD['background']);
+				bgCss['backgroundColor']='';
+				//内容层样式
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['subtitlesPC'], cssTemp);
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				//容器层样式
+				cssTemp=this.getEleCss(this.objectAssign(bgCss,styleCD['backgroundCoorH5']),cssSup);
+				this.css(this.CB['subtitlesP'], cssTemp);
+				//背景层样式
+				bgCss=this.newObj(styleCD['background']);
+				bgCss['alpha']=bgCss['backgroundAlpha'];
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['subtitlesPB'], cssTemp);
+				//样式设置结束
+				for(i=0;i<dArr.length;i++){
+					var buttonDiv=document.createElement('div');
+					buttonDiv.dataset.title=dArr[i][1];
+					if(nowI!=i){
+						this.textButton(buttonDiv,styleCD['button'],null,this.CB['subtitlesP'],dArr[i][1],'');
+					}
+					else{
+						this.textButton(buttonDiv,styleCD['buttonHighlight'],null,this.CB['subtitlesP'],dArr[i][1],'');
+					}
+					this.css(buttonDiv,'position','static');
+					this.CB['subtitlesPC'].appendChild(buttonDiv);
+					//构建间隔线
+					if(i<dArr.length-1){
+						var separate=styleCD['separate'];
+						separate['borderTop']=separate['border'];
+						separate['borderTopColor']=separate['color'];
+						var separateDiv=document.createElement('div');
+						this.CB['subtitlesPC'].appendChild(separateDiv);
+						var cssTemp=this.getEleCss(separate,{width:'100%'});
+						cssTemp['position']='static';
+						this.css(separateDiv,cssTemp);
+					}
+					var subClick = function() {
+						var dName=thisTemp.getDataset(this, 'title');
+						if (nowD != dName) {
+							thisTemp.css(thisTemp.CB['subtitlesP'], 'display', 'none');
+							thisTemp.newSubtitles(dName);
+						}
+					};
+					this.addListenerInside('click', subClick, buttonDiv);
+				}
+				//下面三角形样式
+				this.CB['subtitlesTriangle']=document.createElement('div');
+				this.CB['subtitlesP'].appendChild(this.CB['subtitlesTriangle']);
+				var tbCss=styleCD['background'];
+				cssTemp={
+					width: 0,
+					height: 0,
+					borderLeft: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderRight: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderTop: tbCss['triangleHeight']+'px solid '+tbCss['triangleBackgroundColor'].replace('0x','#'),
+					overflow: 'hidden',
+					opacity:tbCss['triangleAlpha'],
+					filter:'alpha(opacity:'+tbCss['triangleAlpha']+')',
+					position:'absolute',
+					left:'0px',
+					top:'0px',
+					zIndex: 2
+				};
+				this.css(this.CB['subtitlesTriangle'],cssTemp);
+				this.CB['subtitleButtonText'].innerHTML = nowD;
+			} else {
+				this.CB['subtitleButtonText'].innerHTML = this.ckLanguage['subtitle'];
+			}
+			
+		},
+		/*
+			内部函数
+			注册多字幕切换事件
+		*/
+		addSubtitles:function(){
+			var thisTemp = this;
+			var setTimeOutP = null;
+			var defClick = function(event) {
+				if(thisTemp.css(thisTemp.CB['subtitlesP'],'display')!='block' && !thisTemp.isUndefined(thisTemp.CB['subtitlesPC'])){
+					var tbCss=thisTemp.ckStyle['controlBar']['subtitle']['background'];
+					thisTemp.css(thisTemp.CB['subtitlesP'],'display','block');
+					thisTemp.css(thisTemp.CB['subtitlesPB'], {
+						width: thisTemp.CB['subtitlesPC'].offsetWidth+'px',
+						height: thisTemp.CB['subtitlesPC'].offsetHeight+'px'
+					});
+					thisTemp.css(thisTemp.CB['subtitlesP'], {
+						width: (thisTemp.CB['subtitlesPC'].offsetWidth+tbCss['triangleDeviationX']+tbCss['triangleWidth'])+'px',
+						height: (thisTemp.CB['subtitlesPC'].offsetHeight+tbCss['triangleDeviationY']+tbCss['triangleHeight'])+'px'
+					});
+					thisTemp.promptShow(false);
+					//设置三角形样式
+					var tempELe=thisTemp.CB['subtitlesPB'];
+					var tempWidth=tempELe.offsetWidth,tempHeight=tempELe.offsetHeight;
+					
+					var x = ((tempWidth-tbCss['triangleWidth']) * 0.5)+tbCss['triangleDeviationX'];
+					var y = tempELe.offsetHeight+tbCss['triangleDeviationY'];
+					var cssTemp={
+						left:x+'px',
+						top:y+'px'
+					};
+					thisTemp.css(thisTemp.CB['subtitlesTriangle'],cssTemp);
+				}
+				else{
+					thisTemp.css(thisTemp.CB['subtitlesP'],'display','none');
+				}
+			};
+			this.addListenerInside('click', defClick, this.CB['subtitles']);
+			var defMouseOut = function(event) {
+				if (setTimeOutP) {
+					window.clearTimeout(setTimeOutP);
+					setTimeOutP = null;
+				}
+				setTimeOutP = setTimeout(function(event) {
+					thisTemp.css(thisTemp.CB['subtitlesP'], 'display', 'none');
+				},
+				500);
+			};
+			this.addListenerInside('mouseout', defMouseOut, thisTemp.CB['subtitlesP']);
+			var defMouseOver = function(event) {
+				thisTemp.buttonHide=false;
+				if (setTimeOutP) {
+					window.clearTimeout(setTimeOutP);
+					setTimeOutP = null;
+				}
+			};
+			this.addListenerInside('mouseover', defMouseOver, thisTemp.CB['subtitlesP']);
+		},
+		/*
+			接口函数:修改字幕，按数组编号来
+			提供给外部api
+		*/
+		changeSubtitles: function(n) {
+			if (!this.loaded || n < 0) {
+				return;
+			}
+			var vArr = this.vars['cktrack'];//字幕数组
+			if(this.varType(vArr)!='array'){
+				return;
+			}
+			if (this.playerType == 'flashplayer') {
+				this.V.changeSubtitles(n);
+				return;
+			}
+			if (vArr.length > n) {
+				var arr = vArr[n];
+				if (arr.length > 2) {
+					var title = arr[1];
+					if (title) {
+						this.newSubtitles(title);
+					}
+				}
+			}
+		},
+		/*
+			接口函数：修改字幕大小
+			提供给外部api
+		*/
+		changeSubtitlesSize:function(n,m){
+			if (!this.loaded || n < 0) {
+				return;
+			}
+			if (this.playerType == 'flashplayer') {
+				this.V.changeSubtitlesSize(n,m);
+				return;
+			}
+			this.ckStyle['cktrack']['size']=n;
+			if(!this.isUndefined(m)){
+				this.ckStyle['cktrack']['leading']=m;
+			}
+			this.trackShowAgain();
+		},
+		/*
+			当切换字幕时的动作 
+		*/
+		newSubtitles:function(title){
+			var vArr = this.vars['cktrack'];//字幕数组
+			var i = 0;
+			for (i = 0; i < vArr.length; i++) {
+				var v = vArr[i];
+				if (v[1] == title) {
+					this.subtitlesTemp=i;
+					if (this.conBarShow) {
+						this.CB['subtitleButtonText'].innerHTML = v[1];
+						this.subtitleSwitch();
+						this.loadTrack(i);
+					}
+					this.sendJS('subtitles', v);
+				}
+			}
+		},
 		/*
 			内部函数
 			构建清晰度按钮及切换事件(Click事件)
 		*/
 		definition: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow || !this.ckConfig['config']['definition']) {
 				return;
 			}
+			var styleCD=this.ckStyle['controlBar']['definition'];
+			var cssSup={overflow: 'hidden',display: 'none',zIndex: 995};
+			var cssSup2={overflow: 'hidden',align: 'top',vAlign: 'left',offsetX: 0,offsetY: 0,zIndex: 1};
 			var thisTemp = this;
 			var vArr = this.VA;
 			var dArr = [];
 			var html = '';
 			var nowD = ''; //当前的清晰度
-			var i = 0;
-			for(i = 0; i < vArr.length; i++) {
+			var i = 0,nowI=0;
+			for (i = 0; i < vArr.length; i++) {
 				var d = vArr[i][2];
-				if(dArr.indexOf(d) == -1) {
+				if (dArr.indexOf(d) == -1) {
 					dArr.push(d);
 				}
-				if(this.V) {
-					if(vArr[i][0] == this.V.currentSrc) {
+				if (this.V) {
+					if (vArr[i][0] == this.V.currentSrc) {
 						nowD = d;
+						nowI = i;
 					}
 				}
 			}
-			if(!nowD) {
+			if (!nowD) {
 				nowD = dArr[0];
 			}
-			if(dArr.length > 1) {
-				var zlen = 0;
-				for(i = dArr.length - 1; i > -1; i--) {
-					html = '<p>' + dArr[i] + '</p>' + html;
-					var dlen = this.getStringLen(dArr[i]);
-					if(dlen > zlen) {
-						zlen = dlen;
+			this.removeChildAll(this.CB['definitionP']);
+			if (dArr.length > 1) {
+				//设置样式
+				this.CB['definitionPB']=document.createElement('div'),this.CB['definitionPC']=document.createElement('div');
+				this.CB['definitionP'].appendChild(this.CB['definitionPB']);
+				this.CB['definitionP'].appendChild(this.CB['definitionPC']);
+				//按钮列表容器样式
+				var bgCss=this.newObj(styleCD['background']);
+				bgCss['backgroundColor']='';
+				//内容层样式
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['definitionPC'], cssTemp);
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				//容器层样式
+				cssTemp=this.getEleCss(this.objectAssign(bgCss,styleCD['backgroundCoorH5']),cssSup);
+				this.css(this.CB['definitionP'], cssTemp);
+				//背景层样式
+				bgCss=this.newObj(styleCD['background']);
+				bgCss['alpha']=bgCss['backgroundAlpha'];
+				bgCss['padding']=0;
+				bgCss['paddingLeft']=0;
+				bgCss['paddingTop']=0;
+				bgCss['paddingRight']=0;
+				bgCss['paddingBottom']=0;
+				cssTemp=this.getEleCss(bgCss,cssSup2);
+				this.css(this.CB['definitionPB'], cssTemp);
+				//样式设置结束
+				for(i=0;i<dArr.length;i++){
+					var buttonDiv=document.createElement('div');
+					buttonDiv.dataset.title=dArr[i];
+					if(nowI!=i){
+						this.textButton(buttonDiv,styleCD['button'],null,this.CB['definitionP'],dArr[i],'');
 					}
-				}
-				if(html) {
-					html += '<p>' + nowD + '</p>';
-				}
-				this.CB['definition'].innerHTML = nowD;
-				this.CB['definitionP'].innerHTML = html;
-				this.css([this.CB['definition'], this.CB['definitionLine']], 'display', 'block');
-				var pArr = this.CB['definitionP'].childNodes;
-				for(var i = 0; i < pArr.length; i++) {
-					var fontColor = '#FFFFFF';
-					if(pArr[i].innerHTML == nowD) {
-						fontColor = '#0782F5';
+					else{
+						this.textButton(buttonDiv,styleCD['buttonHighlight'],null,this.CB['definitionP'],dArr[i],'');
 					}
-					this.css(pArr[i], {
-						color: fontColor,
-						margin: '0px',
-						padding: '0px',
-						fontSize: '14px'
-					});
-					if(i < pArr.length - 1) {
-						this.css(pArr[i], 'borderBottom', '1px solid #282828')
+					this.css(buttonDiv,'position','static');
+					this.CB['definitionPC'].appendChild(buttonDiv);
+					//构建间隔线
+					if(i<dArr.length-1){
+						var separate=styleCD['separate'];
+						separate['borderTop']=separate['border'];
+						separate['borderTopColor']=separate['color'];
+						var separateDiv=document.createElement('div');
+						this.CB['definitionPC'].appendChild(separateDiv);
+						var cssTemp=this.getEleCss(separate,{width:'100%'});
+						cssTemp['position']='static';
+						this.css(separateDiv,cssTemp);
 					}
 					var defClick = function() {
-						if(nowD != this.innerHTML) {
+						var dName=thisTemp.getDataset(this, 'title');
+						if (nowD != dName) {
 							thisTemp.css(thisTemp.CB['definitionP'], 'display', 'none');
-							thisTemp.newDefinition(this.innerHTML);
+							thisTemp.newDefinition(dName);
 						}
 					};
-					this.addListenerInside('click', defClick, pArr[i]);
-
+					this.addListenerInside('click', defClick, buttonDiv);
 				}
-				var pW = (zlen * 10) + 20;
-				this.css(this.CB['definitionP'], {
-					width: pW + 'px'
-				});
-				this.css(this.CB['definition'], {
-					width: pW + 'px'
-				});
-				this.buttonWidth['definition'] = this.CB['definition'].offsetWidth;
+				//下面三角形样式
+				this.CB['definitionTriangle']=document.createElement('div');
+				this.CB['definitionP'].appendChild(this.CB['definitionTriangle']);
+				var tbCss=styleCD['background'];
+				cssTemp={
+					width: 0,
+					height: 0,
+					borderLeft: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderRight: tbCss['triangleWidth']*0.5+'px solid transparent',
+					borderTop: tbCss['triangleHeight']+'px solid '+tbCss['triangleBackgroundColor'].replace('0x','#'),
+					overflow: 'hidden',
+					opacity:tbCss['triangleAlpha'],
+					filter:'alpha(opacity:'+tbCss['triangleAlpha']+')',
+					position:'absolute',
+					left:'0px',
+					top:'0px',
+					zIndex: 2
+				};
+				this.css(this.CB['definitionTriangle'],cssTemp);
+				this.CB['defaultButtonText'].innerHTML = nowD;
+				this.css(this.CB['definition'], 'display', 'block');
 			} else {
-				this.CB['definition'].innerHTML = '';
-				this.CB['definitionP'].innerHTML = '';
-				this.css([this.CB['definition'], this.CB['definitionLine']], 'display', 'none');
+				this.CB['defaultButtonText'].innerHTML = this.ckLanguage['definition'];
+			}
+		},
+		/*
+			内部函数
+			删除节点内容
+		*/
+		removeChildAll:function(ele){
+			for(var i=ele.childNodes.length-1;i>=0;i--){
+				var childNode=ele.childNodes[i];
+				ele.removeChild(childNode);
 			}
 		},
 		/*
@@ -2860,29 +3484,76 @@ function ckplayerConfig() {
 			var thisTemp = this;
 			var setTimeOutP = null;
 			var defClick = function(event) {
-				thisTemp.css(thisTemp.CB['definitionP'], {
-					left: thisTemp.getCoor(thisTemp.CB['definition'])['x'] + 'px',
-					display: 'block'
-				});
+				if(thisTemp.css(thisTemp.CB['definitionP'],'display')!='block' && !thisTemp.isUndefined(thisTemp.CB['definitionPC'])){
+					thisTemp.css(thisTemp.CB['definitionP'],'display','block');
+					var tbCss=thisTemp.ckStyle['controlBar']['definition']['background'];
+					thisTemp.css(thisTemp.CB['definitionPB'], {
+						width: thisTemp.CB['definitionPC'].offsetWidth+'px',
+						height: thisTemp.CB['definitionPC'].offsetHeight+'px'
+					});
+					thisTemp.css(thisTemp.CB['definitionP'], {
+						width: (thisTemp.CB['definitionPC'].offsetWidth+tbCss['triangleDeviationX']+tbCss['triangleWidth'])+'px',
+						height: (thisTemp.CB['definitionPC'].offsetHeight+tbCss['triangleDeviationY']+tbCss['triangleHeight'])+'px'
+					});
+					thisTemp.promptShow(false);
+					//设置三角形样式
+					var tempELe=thisTemp.CB['definitionPB'];
+					var tempWidth=tempELe.offsetWidth,tempHeight=tempELe.offsetHeight;
+					
+					var x = ((tempWidth-tbCss['triangleWidth']) * 0.5)+tbCss['triangleDeviationX'];
+					var y = tempELe.offsetHeight+tbCss['triangleDeviationY'];
+					var cssTemp={
+						left:x+'px',
+						top:y+'px'
+					};
+					thisTemp.css(thisTemp.CB['definitionTriangle'],cssTemp);
+				}
+				else{
+					thisTemp.css(thisTemp.CB['definitionP'],'display','none');
+				}
 			};
 			this.addListenerInside('click', defClick, this.CB['definition']);
 			var defMouseOut = function(event) {
-				if(setTimeOutP) {
+				if (setTimeOutP) {
 					window.clearTimeout(setTimeOutP);
 					setTimeOutP = null;
 				}
-				setTimeOutP = window.setTimeout(function(event) {
+				setTimeOutP = setTimeout(function(event) {
 					thisTemp.css(thisTemp.CB['definitionP'], 'display', 'none');
-				}, 500);
+				},
+				500);
 			};
 			this.addListenerInside('mouseout', defMouseOut, thisTemp.CB['definitionP']);
 			var defMouseOver = function(event) {
-				if(setTimeOutP) {
+				thisTemp.buttonHide=false;
+				if (setTimeOutP) {
 					window.clearTimeout(setTimeOutP);
 					setTimeOutP = null;
 				}
 			};
 			this.addListenerInside('mouseover', defMouseOver, thisTemp.CB['definitionP']);
+		},
+		/*
+			接口函数
+			提供给外部api
+		*/
+		changeDefinition: function(n) {
+			if (!this.loaded || n < 0) {
+				return;
+			}
+			if (this.playerType == 'flashplayer') {
+				this.V.changeDefinition(n);
+				return;
+			}
+			if (this.VA.length > n) {
+				var arr = this.VA[n];
+				if (arr.length > 3) {
+					var title = arr[2];
+					if (title) {
+						this.newDefinition(title);
+					}
+				}
+			}
 		},
 		/*
 			内部函数
@@ -2892,45 +3563,50 @@ function ckplayerConfig() {
 			var vArr = this.VA;
 			var nVArr = [];
 			var i = 0;
-			for(i = 0; i < vArr.length; i++) {
+			for (i = 0; i < vArr.length; i++) {
 				var v = vArr[i];
-				if(v[2] == title) {
+				if (v[2] == title) {
 					nVArr.push(v);
 					this.sendJS('definitionChange', i + '');
 				}
 			}
-			if(nVArr.length < 1) {
+			if (nVArr.length < 1) {
 				return;
 			}
-			if(this.V != null && this.needSeek == 0) {
+			if (this.V != null && this.needSeek == 0) {
 				this.needSeek = this.V.currentTime;
 			}
-			if(this.getFileExt(nVArr[0][0]) != '.m3u8') {
+			if (this.getFileExt(nVArr[0][0]) != '.m3u8') {
 				this.isM3u8 = false;
 			}
-			if(!this.isM3u8) {
-				if(nVArr.length == 1) {
+			if (!this.isM3u8) {
+				if (nVArr.length == 1) {
 					this.V.innerHTML = '';
 					this.V.src = nVArr[0][0];
+					this.V.currentSrc = nVArr[0][0];
 				} else {
 					var source = '';
 					nVArr = this.arrSort(nVArr);
-					for(i = 0; i < nVArr.length; i++) {
+					for (i = 0; i < nVArr.length; i++) {
 						var type = '';
 						var va = nVArr[i];
-						if(va[1]) {
+						if (va[1]) {
 							type = ' type="' + va[1] + '"';
 						}
 						source += '<source src="' + va[0] + '"' + type + '>';
 					}
 					this.V.removeAttribute('src');
 					this.V.innerHTML = source;
+					this.V.currentSrc = nVArr[0][0];
 				}
 			} else {
 				this.embedHls(vArr[0][0], this.vars['autoplay']);
 			}
 			this.V.autoplay = 'autoplay';
 			this.V.load();
+			if (this.playbackRateTemp!=1) {
+				this.V.playbackRate = this.playbackRateTemp; //定义倍速
+			}
 			this.timerErrorFun();
 		},
 		/*
@@ -2939,13 +3615,15 @@ function ckplayerConfig() {
 		*/
 		embedHls: function(url, autoplay) {
 			var thisTemp = this;
-			if(Hls.isSupported()) {
+			thisTemp.hlsAutoPlay=autoplay;
+			if (Hls.isSupported()) {
 				var hls = new Hls();
 				hls.loadSource(url);
 				hls.attachMedia(this.V);
-				hls.on(Hls.Events.MANIFEST_PARSED, function() {
+				hls.on(Hls.Events.MANIFEST_PARSED,
+				function() {
 					thisTemp.playerLoad();
-					if(autoplay) {
+					if (autoplay) {
 						thisTemp.videoPlay();
 					}
 				});
@@ -2956,26 +3634,27 @@ function ckplayerConfig() {
 			构建提示点
 		*/
 		prompt: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var thisTemp = this;
 			var prompt = this.vars['promptSpot'];
-			if(prompt == null || this.promptArr.length > 0) {
+			if (prompt == null || this.promptArr.length > 0) {
 				return;
 			}
 			var showPrompt = function(event) {
-				if(thisTemp.promptElement == null) {
-					var random2 = 'prompte' + thisTemp.randomString(5);
+				if (thisTemp.promptElement == null) {
+					var random2 = 'prompte-' + thisTemp.randomString(5);
 					var ele2 = document.createElement('div');
 					ele2.className = random2;
 					thisTemp.PD.appendChild(ele2);
 					thisTemp.promptElement = thisTemp.getByElement(random2);
 					thisTemp.css(thisTemp.promptElement, {
 						overflowX: 'hidden',
-						lineHeight: '22px',
-						fontSize: '14px',
-						color: '#FFFFFF',
+						lineHeight: thisTemp.ckStyle['previewPrompt']['lineHeight']+'px',
+						fontFamily: thisTemp.ckStyle['previewPrompt']['font'],
+						fontSize: thisTemp.ckStyle['previewPrompt']['size']+'px',
+						color: thisTemp.ckStyle['previewPrompt']['color'].replace('0x','#'),
 						position: 'absolute',
 						display: 'block',
 						zIndex: '90'
@@ -2983,56 +3662,55 @@ function ckplayerConfig() {
 				}
 				var pcon = thisTemp.getPromptTest();
 				var pW = pcon['pW'],
-					pT = pcon['pT'],
-					pL = parseInt(thisTemp.css(this, 'left')) - parseInt(pW * 0.5);
-				if(pcon['pL'] > 10) {
+				pT = pcon['pT'],
+				pL = parseInt(thisTemp.css(this, 'left')) - parseInt(pW * 0.5);
+				if (pcon['pL'] > 10) {
 					pL = pcon['pL'];
 				}
-				if(pL < 0) {
+				if (pL < 0) {
 					pL = 0;
 				}
 				thisTemp.css(thisTemp.promptElement, {
 					width: pW + 'px',
-					left: (-pW - 10) + 'px',
+					left: ( - pW - 10) + 'px',
 					display: 'block'
 				});
 				thisTemp.promptElement.innerHTML = thisTemp.getDataset(this, 'words');
 				thisTemp.css(thisTemp.promptElement, {
 					left: pL + 'px',
-					top: (pT - thisTemp.promptElement.offsetHeight - 10) + 'px'
+					top: (pT - thisTemp.promptElement.offsetHeight-thisTemp.ckStyle['previewPrompt']['marginBottom']) + 'px'
 				});
 			};
 			var hidePrompt = function(event) {
-				if(thisTemp.promptElement != null) {
+				if (thisTemp.promptElement != null) {
 					thisTemp.css(thisTemp.promptElement, {
 						display: 'none'
 					});
 				}
 			};
 			var i = 0;
-			for(i = 0; i < prompt.length; i++) {
+			for (i = 0; i < prompt.length; i++) {
 				var pr = prompt[i];
 				var words = pr['words'];
 				var time = pr['time'];
-				var random = 'prompt' + this.randomString(5);
+				var random = 'prompttitle-' + this.randomString(5);
 				var ele = document.createElement('div');
 				ele.className = random;
 				this.CB['timeBoBg'].appendChild(ele);
 				var div = this.getByElement(random);
-				div.setAttribute('data-time', time);
-				div.setAttribute('data-words', words);
-				this.css(div, {
-					width: '6px',
-					height: '6px',
-					backgroundColor: '#FFFFFF',
-					position: 'absolute',
-					top: '4px',
-					left: '-100px',
-					display: 'none',
-					zIndex: '1',
-					borderRadius: '6px'
-				});
-
+				try{
+					div.setAttribute('data-time', time);
+					if(this.ckConfig['config']['promptSpotTime']){
+						words=this.formatTime(time,0,this.ckLanguage['timeSliderOver'])+' '+words;
+					}
+					div.setAttribute('data-words', words);
+				}
+				catch(event){}
+				var pCss=this.getEleCss(this.ckStyle['promptSpotH5'],{marginY:-10000,zIndex: 1});
+				try{
+					this.css(div, pCss);
+				}
+				catch(event){}
 				this.addListenerInside('mouseover', showPrompt, div);
 				this.addListenerInside('mouseout', hidePrompt, div);
 				this.promptArr.push(div);
@@ -3045,19 +3723,19 @@ function ckplayerConfig() {
 		*/
 		getPromptTest: function() {
 			var pW = this.previewWidth,
-				pT = this.getCoor(this.CB['timeButton'])['y'],
-				pL = 0;
-			if(this.previewTop != null) {
-				pT -= parseInt(this.css(this.previewTop, 'height'));
+			pT = this.getCoor(this.CB['timeProgressBg'])['y'],
+			pL = 0;
+			if (this.previewTop != null) {
+				pT = parseInt(this.css(this.previewTop, 'top'));
 				pL = parseInt(this.css(this.previewTop, 'left'));
 			} else {
 				pT -= 35;
 			}
 			pL += 2;
-			if(pL < 0) {
+			if (pL < 0) {
 				pL = 0;
 			}
-			if(pL > this.PD.offsetWidth - pW) {
+			if (pL > this.PD.offsetWidth - pW) {
 				pL = this.PD.offsetWidth - pW;
 			}
 			return {
@@ -3072,9 +3750,9 @@ function ckplayerConfig() {
 		*/
 		deletePrompt: function() {
 			var arr = this.promptArr;
-			if(arr.length > 0) {
-				for(var i = 0; i < arr.length; i++) {
-					if(arr[i]) {
+			if (arr.length > 0) {
+				for (var i = 0; i < arr.length; i++) {
+					if (arr[i]) {
 						this.deleteChild(arr[i]);
 					}
 				}
@@ -3086,19 +3764,19 @@ function ckplayerConfig() {
 			计算提示点坐标
 		*/
 		changePrompt: function() {
-			if(this.promptArr.length == 0) {
+			if (this.promptArr.length == 0) {
 				return;
 			}
 			var arr = this.promptArr;
 			var duration = this.getMetaDate()['duration'];
 			var bw = this.CB['timeBoBg'].offsetWidth;
-			for(var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 				var time = parseInt(this.getDataset(arr[i], 'time'));
 				var left = parseInt(time * bw / duration) - parseInt(arr[i].offsetWidth * 0.5);
-				if(left < 0) {
+				if (left < 0) {
 					left = 0;
 				}
-				if(left > bw - parseInt(arr[i].offsetWidth * 0.5)) {
+				if (left > bw - parseInt(arr[i].offsetWidth * 0.5)) {
 					left = bw - parseInt(arr[i].offsetWidth * 0.5);
 				}
 				this.css(arr[i], {
@@ -3118,17 +3796,17 @@ function ckplayerConfig() {
 				scale: 0
 			};
 			preview = this.standardization(preview, this.vars['preview']);
-			if(preview['file'] == null || preview['scale'] <= 0) {
+			if (preview['file'] == null || preview['scale'] <= 0) {
 				return;
 			}
 			var srcArr = preview['file'];
-			if(this.previewStart == 0) { //如果还没有构建，则先进行构建
+			if (this.previewStart == 0) { //如果还没有构建，则先进行构建
 				this.previewStart = 1;
-				if(srcArr.length > 0) {
+				if (srcArr.length > 0) {
 					var i = 0;
 					var imgW = 0,
-						imgH = 0;
-					var random = thisTemp.randomString(10);
+					imgH = 0;
+					var random = 'preview-'+thisTemp.randomString(10);
 					var loadNum = 0;
 					var loadImg = function(i) {
 						srcArr[i] = thisTemp.getNewUrl(srcArr[i]);
@@ -3138,7 +3816,7 @@ function ckplayerConfig() {
 						img.className = random + i;
 						img.onload = function(event) {
 							loadNum++;
-							if(thisTemp.previewDiv == null) { //如果没有建立DIV，则建
+							if (thisTemp.previewDiv == null) { //如果没有建立DIV，则建
 								imgW = img.width;
 								imgH = img.height;
 								thisTemp.previewWidth = parseInt(imgW * 0.1);
@@ -3146,7 +3824,8 @@ function ckplayerConfig() {
 								ele.className = random;
 								thisTemp.PD.appendChild(ele);
 								thisTemp.previewDiv = thisTemp.getByElement(random);
-								var eleTop = (obj['y'] - parseInt(imgH * 0.1) + 2);
+								var eleTop = 0;
+								eleTop=thisTemp.PD.offsetHeight -thisTemp.ckStyle['preview']['bottom'];
 								thisTemp.css(thisTemp.previewDiv, {
 									width: srcArr.length * imgW * 10 + 'px',
 									height: parseInt(imgH * 0.1) + 'px',
@@ -3167,14 +3846,14 @@ function ckplayerConfig() {
 									width: parseInt(imgW * 0.1) + 'px',
 									height: parseInt(imgH * 0.1) + 'px',
 									position: 'absolute',
-									border: '5px solid ' + thisTemp.css(thisTemp.CB['timeProgress'], 'backgroundColor'),
+									border: thisTemp.ckStyle['preview']['border']+'px solid ' + thisTemp.ckStyle['preview']['borderColor'].replace('0x','#'),
 									left: '0px',
-									top: (obj['y'] - parseInt(imgH * 0.1) + 2) + 'px',
+									top: eleTop + 'px',
 									display: 'none',
 									zIndex: '81'
 								});
 								var html = '';
-								for(n = 0; n < srcArr.length; n++) {
+								for (n = 0; n < srcArr.length; n++) {
 									html += thisTemp.newCanvas(random + n, imgW * 10, parseInt(imgH * 0.1))
 								}
 								thisTemp.previewDiv.innerHTML = html;
@@ -3184,20 +3863,20 @@ function ckplayerConfig() {
 							var canvas = thisTemp.getByElement(img.className + '-canvas');
 							var context = canvas.getContext('2d');
 							var sx = 0,
-								sy = 0,
-								x = 0,
-								h = parseInt(imgH * 0.1);
-							for(n = 0; n < 100; n++) {
+							sy = 0,
+							x = 0,
+							h = parseInt(imgH * 0.1);
+							for (n = 0; n < 100; n++) {
 								x = parseInt(n * imgW * 0.1);
 								context.drawImage(cimg, sx, sy, parseInt(imgW * 0.1), h, x, 0, parseInt(imgW * 0.1), h);
 								sx += parseInt(imgW * 0.1);
-								if(sx >= imgW) {
+								if (sx >= imgW) {
 									sx = 0;
 									sy += h;
 								}
 								thisTemp.css(cimg, 'display', 'none');
 							}
-							if(loadNum == srcArr.length) {
+							if (loadNum == srcArr.length) {
 								thisTemp.previewStart = 2;
 							} else {
 								i++;
@@ -3209,32 +3888,32 @@ function ckplayerConfig() {
 				loadImg(i);
 				return;
 			}
-			if(this.previewStart == 2) {
+			if (this.previewStart == 2) {
 				var isTween = true;
 				var nowNum = parseInt(obj['time'] / this.vars['preview']['scale']);
 				var numTotal = parseInt(thisTemp.getMetaDate()['duration'] / this.vars['preview']['scale']);
-				if(thisTemp.css(thisTemp.previewDiv, 'display') == 'none') {
+				if (thisTemp.css(thisTemp.previewDiv, 'display') == 'none') {
 					isTween = false;
 				}
 				thisTemp.css(thisTemp.previewDiv, 'display', 'block');
 				var imgWidth = thisTemp.previewDiv.offsetWidth * 0.01 / srcArr.length;
 				var left = (imgWidth * nowNum) - obj['x'] + parseInt(imgWidth * 0.5),
-					top = obj['y'] - thisTemp.previewDiv.offsetHeight;
+				top=thisTemp.PD.offsetHeight- thisTemp.previewDiv.offsetHeight -thisTemp.ckStyle['preview']['bottom'];
 				thisTemp.css(thisTemp.previewDiv, 'top', top + 2 + 'px');
 				var topLeft = obj['x'] - parseInt(imgWidth * 0.5);
 				var timepieces = 0;
-				if(topLeft < 0) {
+				if (topLeft < 0) {
 					topLeft = 0;
 					timepieces = obj['x'] - topLeft - imgWidth * 0.5;
 				}
-				if(topLeft > thisTemp.PD.offsetWidth - imgWidth) {
+				if (topLeft > thisTemp.PD.offsetWidth - imgWidth) {
 					topLeft = thisTemp.PD.offsetWidth - imgWidth;
 					timepieces = obj['x'] - topLeft - imgWidth * 0.5;
 				}
-				if(left < 0) {
+				if (left < 0) {
 					left = 0;
 				}
-				if(left > numTotal * imgWidth - thisTemp.PD.offsetWidth) {
+				if (left > numTotal * imgWidth - thisTemp.PD.offsetWidth) {
 					left = numTotal * imgWidth - thisTemp.PD.offsetWidth;
 				}
 				thisTemp.css(thisTemp.previewTop, {
@@ -3242,21 +3921,21 @@ function ckplayerConfig() {
 					top: top + 2 + 'px',
 					display: 'block'
 				});
-				if(thisTemp.previewTop.offsetHeight > thisTemp.previewDiv.offsetHeight) {
+				if (thisTemp.previewTop.offsetHeight > thisTemp.previewDiv.offsetHeight) {
 					thisTemp.css(thisTemp.previewTop, {
 						height: thisTemp.previewDiv.offsetHeight - (thisTemp.previewTop.offsetHeight - thisTemp.previewDiv.offsetHeight) + 'px'
 					});
 				}
-				if(this.previewTween != null) {
+				if (this.previewTween != null) {
 					this.animatePause(this.previewTween);
 					this.previewTween = null
 				}
 				var nowLeft = parseInt(thisTemp.css(thisTemp.previewDiv, 'left'));
 				var leftC = nowLeft + left;
-				if(nowLeft == -(left + timepieces)) {
+				if (nowLeft == -(left + timepieces)) {
 					return;
 				}
-				if(isTween) {
+				if (isTween) {
 					var obj = {
 						element: thisTemp.previewDiv,
 						start: null,
@@ -3274,7 +3953,7 @@ function ckplayerConfig() {
 			删除预览图节点
 		*/
 		deletePreview: function() {
-			if(this.previewDiv != null) {
+			if (this.previewDiv != null) {
 				this.deleteChild(this.previewDiv);
 				this.previewDiv = null;
 				this.previewStart = 0;
@@ -3285,7 +3964,7 @@ function ckplayerConfig() {
 			修改视频地址，属性
 		*/
 		changeVideo: function() {
-			if(!this.html5Video) {
+			if (!this.html5Video) {
 				this.getVarsObject();
 				this.V.newVideo(this.vars);
 				return;
@@ -3293,41 +3972,41 @@ function ckplayerConfig() {
 			var vArr = this.VA;
 			var v = this.vars;
 			var i = 0;
-			if(vArr.length < 1) {
+			if (vArr.length < 1) {
 				return;
 			}
-			if(this.V != null && this.needSeek == 0) {
+			if (this.V != null && this.needSeek == 0) {
 				this.needSeek = this.V.currentTime;
 			}
-			if(v['poster']) {
+			if (v['poster']) {
 				this.V.poster = v['poster'];
 			} else {
 				this.V.removeAttribute('poster');
 			}
-			if(v['loop']) {
+			if (v['loop']) {
 				this.V.loop = 'loop';
 			} else {
 				this.V.removeAttribute('loop');
 			}
-			if(v['seek'] > 0) {
+			if (v['seek'] > 0) {
 				this.needSeek = v['seek'];
 			} else {
 				this.needSeek = 0;
 			}
-			if(this.getFileExt(vArr[0][0]) != '.m3u8') {
+			if (this.getFileExt(vArr[0][0]) != '.m3u8') {
 				this.isM3u8 = false;
 			}
-			if(!this.isM3u8) {
-				if(vArr.length == 1) {
+			if (!this.isM3u8) {
+				if (vArr.length == 1) {
 					this.V.innerHTML = '';
 					this.V.src = vArr[0][0];
 				} else {
 					var source = '';
 					vArr = this.arrSort(vArr);
-					for(i = 0; i < vArr.length; i++) {
+					for (i = 0; i < vArr.length; i++) {
 						var type = '';
 						var va = vArr[i];
-						if(va[1]) {
+						if (va[1]) {
 							type = ' type="' + va[1] + '"';
 						}
 						source += '<source src="' + va[0] + '"' + type + '>';
@@ -3336,7 +4015,7 @@ function ckplayerConfig() {
 					this.V.innerHTML = source;
 				}
 				//分析视频地址结束
-				if(v['autoplay']) {
+				if (v['autoplay']) {
 					this.V.autoplay = 'autoplay';
 				} else {
 					this.V.removeAttribute('autoplay');
@@ -3345,13 +4024,13 @@ function ckplayerConfig() {
 			} else {
 				this.embedHls(vArr[0][0], v['autoplay']);
 			}
-			if(!this.isUndefined(v['volume'])) {
+			if (!this.isUndefined(v['volume'])) {
 				this.changeVolume(v['volume']);
 			}
 			this.resetPlayer(); //重置界面元素
 			this.timerErrorFun();
 			//如果存在字幕则加载
-			if(this.vars['cktrack']) {
+			if (this.vars['cktrack']) {
 				this.loadTrack();
 			}
 		},
@@ -3361,112 +4040,403 @@ function ckplayerConfig() {
 		*/
 		elementCoordinate: function() {
 			this.pdCoor = this.getXY(this.PD);
-			this.css(this.CB['pauseCenter'], {
-				left: parseInt((this.PD.offsetWidth - 80) * 0.5) + 'px',
-				top: parseInt((this.PD.offsetHeight - 80) * 0.5) + 'px'
-			});
-			this.css(this.CB['loading'], {
-				left: parseInt((this.PD.offsetWidth - 60) * 0.5) + 'px',
-				top: parseInt((this.PD.offsetHeight - 60) * 0.5) + 'px'
-			});
-			this.css(this.CB['errorText'], {
-				left: parseInt((this.PD.offsetWidth - 120) * 0.5) + 'px',
-				top: parseInt((this.PD.offsetHeight - 30) * 0.5) + 'px'
-			});
-			this.css(this.CB['logo'], {
-				left: parseInt(this.PD.offsetWidth - this.CB['logo'].offsetWidth - 20) + 'px',
-				top: '20px'
-			});
+			var cssTemp=null;
+			try {
+				cssTemp=this.getEleCss(this.ckStyle['centerPlay'],{cursor:'pointer'});
+				this.css(this.CB['pauseCenter'], cssTemp);
+			} catch(event) {this.log(event);}
+			try {
+				cssTemp=this.getEleCss(this.ckStyle['loading']);
+				this.css(this.CB['loading'],cssTemp);
+			} catch(event) {this.log(event);}
+			try {
+				cssTemp=this.getEleCss(this.ckStyle['error']);
+				this.css(this.CB['errorText'], cssTemp);
+			} catch(event) {this.log(event);}
+			try {
+				cssTemp=this.getEleCss(this.ckStyle['logo']);
+				this.css(this.CB['logo'], cssTemp);
+			} catch(event) {this.log(event);}
 			this.checkBarWidth();
+		},
+		/*
+			内部函数
+			控制栏内各按钮的位置
+		*/
+		carbarButton:function(){
+			var styleC=this.ckStyle['controlBar'];
+			var styleCB=styleC['button'];
+			var cssTemp=null;
+			var cssSup={overflow: 'hidden',cursor: 'pointer',zIndex: 1};
+			var cssSup2={overflow: 'hidden',cursor: 'default',zIndex: 1};
+			var cssSup4={overflow: 'hidden',cursor: 'pointer',display: 'none',zIndex: 995};
+			//播放/暂停按钮
+			cssTemp=this.getEleCss(styleCB['play'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['play'],cssTemp);
+			cssTemp=this.getEleCss(styleCB['pause'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['pause'],cssTemp);
+			//设置静音/取消静音的按钮样式
+			cssTemp=this.getEleCss(styleCB['mute'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['mute'],cssTemp);
+			cssTemp=this.getEleCss(styleCB['escMute'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['escMute'],cssTemp);
+			//设置全屏/退出全屏按钮样式
+			cssTemp=this.getEleCss(styleCB['full'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['full'],cssTemp);
+			cssTemp=this.getEleCss(styleCB['escFull'],cssSup,this.CB['controlBarBg']);
+			this.css(this.CB['escFull'],cssTemp);
+			cssTemp=this.getEleCss(styleC['timeText']['vod'],cssSup2,this.CB['controlBarBg']);
+ 			this.css(this.CB['timeText'], cssTemp);
+ 			//音量调节框
+ 			var volumeSchedule=this.newObj(styleC['volumeSchedule']);
+ 			volumeSchedule['backgroundImg']='';
+			cssTemp=this.getEleCss(volumeSchedule,cssSup2,this.CB['controlBarBg']);
+			this.css(this.CB['volume'],cssTemp);
+			cssTemp= {
+				width: cssTemp['width'],
+				height: styleC['volumeSchedule']['backgroundHeight']+'px',
+				overflow: 'hidden',
+				backgroundRepeat:'no-repeat',
+				backgroundPosition:'left center'
+			};
+			if(this.ckConfig['config']['buttonMode']['volumeSchedule']){
+				cssTemp['cursor']='pointer';
+			}
+			this.css(this.CB['volumeBg'],cssTemp);
+			this.css(this.CB['volumeBg'], {
+				position: 'absolute'
+			});
+			cssTemp['width']=(this.CB['volumeBO'].offsetWidth*0.5+parseInt(this.css(this.CB['volumeBO'],'left')))+'px';
+			this.css(this.CB['volumeUp'],cssTemp);
+			this.css(this.CB['volumeBg'], 'backgroundImage', 'url('+styleC['volumeSchedule']['backgroundImg']+')');
+			this.css(this.CB['volumeUp'], 'backgroundImage', 'url('+styleC['volumeSchedule']['maskImg']+')');
+			//音量调节按钮
+			cssTemp=this.getEleCss(styleC['volumeSchedule']['button'],{overflow: 'hidden',cursor: 'pointer',backgroundRepeat:'no-repeat',backgroundPosition:'left center'});
+			this.css(this.CB['volumeBO'],cssTemp);
+			//倍速容器
+			if(this.ckConfig['config']['playbackRate']){
+				if(!this.CB['playbackrateButtonText']){
+					this.textButton(this.CB['playbackrate'],styleC['playbackrate']['defaultButton'],this.objectAssign({overflow: 'hidden',cursor: 'pointer',zIndex: 1},styleC['playbackrate']['defaultButtonCoor']),this.CB['controlBarBg'],this.ckLanguage['playbackrate'],'playbackrateButtonText');
+				}
+				cssTemp=this.getEleCss(styleC['playbackrate']['defaultButtonCoor'],cssSup,this.CB['controlBarBg']);
+				this.css(this.CB['playbackrate'], {
+					left:cssTemp['left'],
+					top:cssTemp['top']
+				});
+				this.css(this.CB['playbackrateP'],'display','none');
+				cssTemp=this.getEleCss(styleC['playbackrate']['backgroundCoorH5'],cssSup4);
+				this.css(this.CB['playbackrateP'], cssTemp);
+			}
+			//初始化清晰度按钮
+			if(this.ckConfig['config']['definition']){
+				if(!this.CB['defaultButtonText']){
+					this.textButton(this.CB['definition'],styleC['definition']['defaultButton'],this.objectAssign({overflow: 'hidden',cursor: 'pointer',zIndex: 1},styleC['definition']['defaultButtonCoor']),this.CB['controlBarBg'],this.ckLanguage['definition'],'defaultButtonText');
+				}
+				cssTemp=this.getEleCss(styleC['definition']['defaultButtonCoor'],cssSup,this.CB['controlBarBg']);
+				this.css(this.CB['definition'], {
+					left:cssTemp['left'],
+					top:cssTemp['top']
+				});
+				this.css(this.CB['definitionP'],'display','none');
+				cssTemp=this.getEleCss(styleC['definition']['backgroundCoorH5'],cssSup4);
+				this.css(this.CB['definitionP'], cssTemp);
+			}
+			//初始化字幕切换按钮
+			if(this.ckConfig['config']['subtitle']){
+				if(!this.CB['subtitleButtonText']){
+					this.textButton(this.CB['subtitles'],styleC['subtitle']['defaultButton'],this.objectAssign({overflow: 'hidden',cursor: 'pointer',zIndex: 1},styleC['subtitle']['defaultButtonCoor']),this.CB['controlBarBg'],this.ckLanguage['subtitle'],'subtitleButtonText');
+				}
+				//字幕按钮列表容器样式
+				cssTemp=this.getEleCss(styleC['subtitle']['defaultButtonCoor'],cssSup,this.CB['controlBarBg']);
+				this.css(this.CB['subtitles'], {
+					left:cssTemp['left'],
+					top:cssTemp['top']
+				});
+				this.css(this.CB['subtitlesP'],'display','none');
+				cssTemp=this.getEleCss(styleC['subtitle']['backgroundCoorH5'],cssSup4);
+				this.css(this.CB['subtitlesP'], cssTemp);
+			}
+		},
+		/*
+		 	构造一个文字按钮
+		 	ele:当前按钮
+		 	css:样式
+		 	cssSup:补充样式
+		 	upEle：上一级容器对象
+		 	text:显示的文本
+		 	newName:文本框名称
+		*/
+		textButton:function(ele,css,cssSup,upEle,text,newName){
+			var thisTemp=this;
+			var bgCss={
+				width:css['width'],
+				height:css['height']
+			};
+			if(cssSup){
+				bgCss={
+					width:css['width'],
+					height:css['height'],
+					align:cssSup['align'],
+					vAlign:cssSup['vAlign'],
+					marginX: cssSup['marginX'],
+					marginY: cssSup['marginY'],
+					offsetX: cssSup['offsetX'],
+					offsetY: cssSup['offsetY'],
+					zIndex:2
+				};
+			}
+			cssTemp=this.getEleCss(bgCss,null,upEle);
+			thisTemp.css(ele, cssTemp);
+			var outCss=this.newObj(css);
+			var overCss=this.newObj(css);
+			var textOutCss=this.newObj(css);
+			var textOverCss=this.newObj(css);
+			var cssTemp=null;
+			outCss['alpha']=css['backgroundAlpha'];
+			overCss['backgroundColor']=css['overBackgroundColor'];
+			overCss['alpha']=css['backgroundAlpha'];
+			textOutCss['color']=css['textColor'];
+			textOverCss['color']=css['overTextColor'];
+			textOutCss['textAlign']=css['align'];
+			textOverCss['textAlign']=css['align'];
+			//修正文字
+			textOutCss['backgroundColor']=textOverCss['backgroundColor']='';
+			var bgEle=document.createElement('div');//按钮背景层
+			this.removeChildAll(ele);
+			ele.appendChild(bgEle);
+			if(newName){
+				this.CB[newName]=document.createElement('div');//文字层
+				ele.appendChild(this.CB[newName]);
+				this.CB[newName].innerHTML=text;
+			}
+			else{
+				var newEle=document.createElement('div');//文字层
+				ele.appendChild(newEle);
+				newEle.innerHTML=text;
+			}
+			var outFun=function(){
+				cssTemp=thisTemp.getEleCss(outCss,{cursor: 'pointer',zIndex:1},bgEle);
+				cssTemp['left']='';
+				cssTemp['top']='';
+				thisTemp.css(bgEle, cssTemp);
+				cssTemp=thisTemp.getEleCss(textOutCss,{cursor: 'pointer',zIndex:2},bgEle);
+				cssTemp['left']='';
+				cssTemp['top']='';
+				if(newName){
+					thisTemp.css(thisTemp.CB[newName], cssTemp,bgEle);
+				}
+				else{
+					thisTemp.css(newEle, cssTemp,bgEle);
+				}
+				thisTemp.buttonHide=true;//显示的列表框需要隐藏
+				if(thisTemp.timeButtonOver){
+					window.clearTimeout(thisTemp.timeButtonOver);
+					thisTemp.timeButtonOver=null;
+				}
+				thisTemp.timeButtonOver=window.setTimeout(function(){thisTemp.buttonListHide()},1000);
+			};
+			var overFun=function(){
+				cssTemp=thisTemp.getEleCss(overCss,{zIndex:1},bgEle);
+				cssTemp['left']='';
+				cssTemp['top']='';
+				thisTemp.css(bgEle, cssTemp);
+				cssTemp=thisTemp.getEleCss(textOverCss,{zIndex:2},bgEle);
+				cssTemp['left']='';
+				cssTemp['top']='';
+				if(newName){
+					thisTemp.css(thisTemp.CB[newName], cssTemp);
+				}
+				else{
+					thisTemp.css(newEle, cssTemp);
+				}
+				
+			};
+			outFun();
+			this.addListenerInside('mouseout', outFun, ele);
+			this.addListenerInside('mouseover', overFun, ele);
+		},
+		/*
+			隐藏所有的列表框 
+		*/
+		buttonListHide:function(){
+			if(this.buttonHide){
+				this.css([this.CB['definitionP'],this.CB['subtitlesP'],this.CB['playbackrateP']],'display','none');
+			}
+			if(this.timeButtonOver){
+				window.clearTimeout(this.timeButtonOver);
+				this.timeButtonOver=null;
+			}
+			this.buttonHide=false;
+		},
+		/*
+		 	计算视频的宽高
+		*/
+		videoCss:function(){
+			var cssTemp={};
+			
+			if(this.css(this.CB['controlBar'],'display')=='none'){
+				cssTemp=this.ckStyle['video']['controlBarHideReserve'];
+			}
+			else{
+				cssTemp=this.ckStyle['video']['reserve'];
+			}
+			var spacingBottom=cssTemp['spacingBottom'];
+			if(this.V.controls && this.isMobile()){
+				spacingBottom-=40;
+			}
+			var pW=this.PD.offsetWidth,pH=this.PD.offsetHeight;
+			var vW=pW-cssTemp['spacingLeft']-cssTemp['spacingRight'];
+			var vH=pH-cssTemp['spacingTop']-spacingBottom;
+			if(!this.MD){
+				this.css(this.V,{
+					width:vW+'px',
+					height:vH+'px',
+					marginLeft:cssTemp['spacingLeft']+'px',
+					marginTop:cssTemp['spacingTop']+'px'
+				});
+			}
+			else{
+				this.css([this.MD,this.MDC],{
+					width:vW+'px',
+					height:vH+'px',
+					marginLeft:cssTemp['spacingLeft']+'px',
+					marginTop:cssTemp['spacingTop']+'px'
+				});
+			}
+		},
+		/*
+		 	播放器界面自定义元素
+		*/
+		playerCustom:function(){
+			var custom=this.ckStyle['custom'];
+			var button=custom['button'];
+			var images=custom['images'];
+			var cssTemp=null;
+			var cssSup=null;
+			var k='',tempID='';
+			var b={};
+			var tempDiv;
+			var i=0;
+			for(k in button){
+				b=button[k];
+				cssSup={overflow: 'hidden',cursor: 'pointer',zIndex: 1};
+				cssTemp=this.getEleCss(b,cssSup);
+				tempDiv = document.createElement('div');
+				this.css(tempDiv,cssTemp);
+				this.customeElement.push({ele:tempDiv,css:b,cssSup:cssSup,type:'player-button',name:k});
+				this.PD.appendChild(tempDiv);
+				if(!this.isUndefined(this.ckLanguage['buttonOver'][k])){
+					tempDiv.dataset.title=this.ckLanguage['buttonOver'][k];
+				}
+				i++;
+				this.buttonEventFun(tempDiv,b);
+			}
+			for(k in images){
+				b=images[k];
+				cssSup={overflow: 'hidden',zIndex: 1};
+				cssTemp=this.getEleCss(b,cssSup);
+				tempDiv = document.createElement('div');
+				this.css(tempDiv,cssTemp);
+				this.customeElement.push({ele:tempDiv,css:b,cssSup:cssSup,type:'player-images',name:k});
+				this.PD.appendChild(tempDiv);
+				var img=new Image();
+				img.src=images[k]['img'];
+				tempDiv.appendChild(img);
+				i++
+			}
+		},
+		/*
+		 	控制栏自定义元素
+		*/
+		carbarCustom:function(){
+			var custom=this.ckStyle['controlBar']['custom'];
+			var button=custom['button'];
+			var images=custom['images'];
+			var cssTemp=null;
+			var cssSup=null;
+			var k='',tempID='';
+			var b={};
+			var tempDiv;
+			var i=0;
+			for(k in button){
+				b=button[k];
+				cssSup={overflow: 'hidden',cursor: 'pointer',zIndex: 1};
+				cssTemp=this.getEleCss(b,cssSup,this.CB['controlBarBg']);
+				tempDiv = document.createElement('div');
+				this.css(tempDiv,cssTemp);
+				this.customeElement.push({ele:tempDiv,css:b,cssSup:cssSup,type:'controlBar-button',name:k});
+				this.CB['controlBar'].appendChild(tempDiv);
+				if(!this.isUndefined(this.ckLanguage['buttonOver'][k])){
+					tempDiv.dataset.title=this.ckLanguage['buttonOver'][k];
+				}
+				i++;
+				this.buttonEventFun(tempDiv,b);
+			}
+			for(k in images){
+				b=images[k];
+				cssSup={overflow: 'hidden',zIndex: 1};
+				cssTemp=this.getEleCss(b,cssSup,this.CB['controlBarBg']);
+				tempDiv = document.createElement('div');
+				this.css(tempDiv,cssTemp);
+				this.customeElement.push({ele:tempDiv,css:b,cssSup:cssSup,type:'controlBar-images',name:k});
+				this.CB['controlBar'].appendChild(tempDiv);
+				var img=new Image();
+				img.src=images[k]['img'];
+				tempDiv.appendChild(img);
+				i++;
+			}
+		},
+		/*
+		 	控制栏自定义元素的位置
+		*/
+		customCoor:function(){
+			var cssTemp=null;
+			if(this.customeElement.length>0){
+				for(var i=0;i<this.customeElement.length;i++){
+					if(this.customeElement[i]['type']=='controlBar'){
+						cssTemp=this.getEleCss(this.customeElement[i]['css'],this.customeElement[i]['cssSup'],this.CB['controlBarBg']);
+					}
+					else{
+						cssTemp=this.getEleCss(this.customeElement[i]['css'],this.customeElement[i]['cssSup']);
+					}
+					this.css(this.customeElement[i]['ele'],cssTemp);
+				}
+			}			
+		},
+		/*
+		 	控制栏自定义元素的显示和隐藏，只对播放器界面的有效，作用是当播放视频广告时隐藏，广告播放完成后显示
+		*/
+		customShow:function(show){
+			if(this.customeElement.length>0){
+				for(var i=0;i<this.customeElement.length;i++){
+					if(this.customeElement[i]['type']=='player'){
+						this.css(this.customeElement[i]['ele'],'display',show?'block':'none');
+					}
+				}
+			}			
+		},
+		/*
+		 	广告控制栏样式
+		*/
+		advertisementStyle:function(){
+			var asArr=['muteButton','escMuteButton','adLinkButton','closeButton','skipAdButton','countDown','countDownText','skipDelay','skipDelayText'];
+			var eleArr=['adMute','adEscMute','adLink','adPauseClose','adSkipButton','adTime','adTimeText','adSkip','adSkipText'];
+			for(var i=0;i<eleArr.length;i++){
+				var cssUp={overflow: 'hidden',zIndex: 999};
+				if(i<5){
+					cssUp['cursor']='pointer';
+				}
+				var cssTemp=this.getEleCss(this.ckStyle['advertisement'][asArr[i]],cssUp);
+				this.css(this.CB[eleArr[i]],cssTemp);
+			}
 		},
 		/*
 			内部函数
 			当播放器尺寸变化时，显示和隐藏相关节点
 		*/
 		checkBarWidth: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
-			}
-			var controlBarW = this.CB['controlBar'].offsetWidth;
-			var ele = [];
-			ele.push([
-				[this.CB['full'], this.CB['escFull'], this.CB['fullLine']], this.buttonWidth['full'] + 2, 'full'
-			]);
-			if(this.vars['front'] != '') {
-				ele.push([
-					[this.CB['front'], this.CB['frontLine']], this.buttonWidth['front'] + 2
-				]);
-			}
-			if(this.vars['next'] != '') {
-				ele.push([
-					[this.CB['next'], this.CB['nextLine']], this.buttonWidth['next'] + 2
-				]);
-			}
-			if(this.CB['definition'].innerHTML != '') {
-				ele.push([
-					[this.CB['definition'], this.CB['definitionLine']], this.buttonWidth['definition'] + 2
-				]);
-			}
-			ele.push([
-				[this.CB['volume']], this.buttonWidth['volume']
-			]);
-			ele.push([
-				[this.CB['mute'], this.CB['escMute'], this.CB['muteLine']], this.buttonWidth['mute'] + 2, 'mute'
-			]);
-			ele.push([
-				[this.CB['timeText']], this.buttonWidth['timeText']
-			]);
-			ele.push([
-				[this.CB['play'], this.CB['pause'], this.CB['playLine']], this.buttonWidth['play'] + 2, 'play'
-			]);
-
-			var i = 0;
-			var len = 0;
-			var isc = true;
-			//计算所有要显示的节点的总宽度
-			for(var i = 0; i < ele.length; i++) {
-				var nlen = ele[i][1];
-				if(nlen > 2) {
-					len += nlen;
-				} else {
-					isc = false;
-				}
-			}
-			if(isc) {
-				this.buttonLen = len;
-				this.buttonArr = ele;
-			}
-			len = this.buttonLen;
-			ele = this.buttonArr;
-			for(var i = 0; i < ele.length; i++) {
-				if(len > controlBarW) {
-					len -= ele[i][1];
-					this.css(ele[i][0], 'display', 'none');
-				} else {
-					this.css(ele[i][0], 'display', 'block');
-					if(ele[i].length == 3) {
-						var name = ele[i][2];
-						switch(name) {
-							case 'mute':
-								if(this.volume == 0) {
-									this.css(this.CB['mute'], 'display', 'none');
-								} else {
-									this.css(this.CB['escMute'], 'display', 'none');
-								}
-								break;
-							case 'play':
-								this.playShow(this.V.paused ? false : true);
-								break;
-							case 'full':
-								if(this.full) {
-									this.css(this.CB['full'], 'display', 'none');
-								} else {
-									this.css(this.CB['escFull'], 'display', 'none');
-								}
-								break;
-						}
-					}
-				}
 			}
 		},
 		/*
@@ -3474,15 +4444,15 @@ function ckplayerConfig() {
 			初始化暂停或播放按钮
 		*/
 		initPlayPause: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
-			if(this.vars['autoplay']) {
+			if (this.vars['autoplay']) {
 				this.css([this.CB['play'], this.CB['pauseCenter']], 'display', 'none');
 				this.css(this.CB['pause'], 'display', 'block');
 			} else {
 				this.css(this.CB['play'], 'display', 'block');
-				if(this.css(this.CB['errorText'], 'display') == 'none') {
+				if (this.css(this.CB['errorText'], 'display') == 'none') {
 					this.css(this.CB['pauseCenter'], 'display', 'block');
 				}
 				this.css(this.CB['pause'], 'display', 'none');
@@ -3496,9 +4466,9 @@ function ckplayerConfig() {
 		*/
 		loadedHandler: function() {
 			this.loaded = true;
-			if(this.vars['loaded'] != '') {
+			if (this.vars['loaded'] != '') {
 				try {
-					eval(this.vars['loaded'] + '()');
+					eval(this.vars['loaded'] + '(\''+this.vars['variable']+'\')');
 				} catch(event) {
 					this.log(event);
 				}
@@ -3510,32 +4480,675 @@ function ckplayerConfig() {
 		*/
 		playingHandler: function() {
 			this.playShow(true);
-			if(this.needSeek > 0) {
+			//如果是第一次播放
+			if (this.isFirstTimePlay && !this.isUndefined(this.advertisements['front'])) {
+				this.isFirstTimePlay = false;
+				//调用播放前置广告组件
+				this.adI = 0;
+				this.adType = 'front';
+				this.adMuteInto();
+				this.adIsVideoTime = true;
+				this.adPlayStart = true;
+				this.adVideoPlay = false;
+				this.videoPause();
+				this.advertisementsTime();
+				this.advertisementsPlay();
+				this.adSkipButtonShow();
+				//调用播放前置广告组件结束
+				return;
+			}
+			if (this.adPlayerPlay) {
+				return;
+			}
+			//判断第一次播放结束
+			if (this.needSeek > 0) {
 				this.videoSeek(this.needSeek);
 				this.needSeek = 0;
 			}
-			if(this.animatePauseArray.length > 0) {
+			if (this.animatePauseArray.length > 0) {
 				this.animateResume('pause');
 			}
-			if(this.playerType == 'html5video' && this.V != null && this.config['videoDrawImage']) {
+			if (this.playerType == 'html5video' && this.V != null && this.ckConfig['config']['videoDrawImage']) {
 				this.sendVCanvas();
 			}
+			if (!this.isUndefined(this.advertisements['pause']) && !this.adPlayStart) { //如果存在暂停广告
+				this.closePauseAd();
+			}
+		},
+		/*暂停时播放暂停广告*/
+		adPausePlayer: function() {
+			this.adI = 0;
+			this.adType = 'pause';
+			this.adPauseShow = true;
+			this.loadAdPause();
+			this.sendJS('pauseAd','play');
+		},
+		loadAdPause: function() {
+			var ad = this.getNowAdvertisements();
+			var type = ad['type'];
+			var thisTemp = this;
+			var width = this.PD.offsetWidth,
+			height = this.PD.offsetHeight;
+			if (this.isStrImage(type) && this.adPauseShow) {
+				this.css(this.CB['adElement'], 'display', 'block');
+				var imgClass = 'adimg' + this.randomString(10);
+				var imgHtml = '<img src="' + ad['file'] + '" class="' + imgClass + '">';
+				if (ad['link']) {
+					imgHtml = '<a href="' + ad['link'] + '" target="_blank">' + imgHtml + '</a>';
+				}
+				this.CB['adElement'].innerHTML = imgHtml;
+				this.addListenerInside('load',
+				function() {
+					var imgObj = new Image();
+					imgObj.src = this.src;
+					var imgWH = thisTemp.adjustmentWH(imgObj.width, imgObj.height);
+					thisTemp.css([thisTemp.getByElement(imgClass), thisTemp.CB['adElement']], {
+						width: imgWH['width'] + 'px',
+						height: imgWH['height'] + 'px',
+						border: '0px'
+					});
+					if (thisTemp.ckStyle['advertisement']['closeButtonShow'] && thisTemp.adPauseShow) {
+						thisTemp.css(thisTemp.CB['adPauseClose'], {
+							display: 'block'
+						});
+					}
+					thisTemp.ajaxSuccessNull(ad['exhibitionMonitor']);
+					thisTemp.adPauseCoor();
+				},
+				this.getByElement(imgClass));
+				this.addListenerInside('click',
+				function() {
+					thisTemp.ajaxSuccessNull(ad['clickMonitor']);
+				},
+				this.CB['adElement']);
+				var newI = this.adI;
+				if (this.adI < this.advertisements['pause'].length - 1) {
+					newI++;
+				} else {
+					newI = 0;
+				}
+				if (ad['time'] > 0) {
+					setTimeout(function() {
+						if (thisTemp.adPauseShow) {
+							thisTemp.adI = newI;
+							thisTemp.loadAdPause();
+						}
+					},
+					ad['time'] * 1000);
+				}
+			}
+		},
+		/*调整暂停广告的位置*/
+		adPauseCoor: function() {
+			if (this.css(this.CB['adElement'], 'display') == 'block') {
+				var w = this.CB['adElement'].offsetWidth,
+				h = this.CB['adElement'].offsetHeight;
+				var pw = this.PD.offsetWidth,
+				ph = this.PD.offsetHeight;
+				this.css(this.CB['adElement'], {
+					top: (ph - h) * 0.5 + 'px',
+					left: (pw - w) * 0.5 + 'px'
+				});
+				if (this.css(this.CB['adPauseClose'], 'display') == 'block') {
+					var rr=this.ckStyle['advertisement']['closeButton'];
+					var cxy =  this.getPosition(rr,this.CB['adElement']);
+					this.css(this.CB['adPauseClose'], {
+						top: cxy['y'] + 'px',
+						left: cxy['x'] + 'px'
+					});
+				}
+			}
+		},
+		/*
+			关闭暂停广告
+		*/
+		closePauseAd: function() {
+			this.CB['adElement'].innerHTML = '';
+			this.css([this.CB['adElement'], this.CB['adPauseClose']], 'display', 'none');
+			this.adPauseShow = false;
+			this.sendJS('pauseAd','ended');
+		},
+		/*计算广告时间*/
+		advertisementsTime: function(nt) {
+			if (this.isUndefined(nt)) {
+				nt = 0;
+			}
+			var ad = this.advertisements[this.adType];
+			if (nt > 0) {
+				ad[this.adI]['time'] = Math.ceil(nt);
+			}
+			this.adTimeAllTotal = 0;
+			for (var i = this.adI; i < ad.length; i++) {
+				if (!this.isUndefined(ad[i]['time'])) {
+					this.adTimeAllTotal += Math.ceil(ad[i]['time']);
+				}
+			}
+			if (this.adTimeAllTotal > 0) {
+				this.CB['adTimeText'].innerHTML = this.ckLanguage['adCountdown'].replace('[$second]', this.adTimeAllTotal).replace('[$Second]', this.adTimeAllTotal > 9 ? this.adTimeAllTotal: '0' + this.adTimeAllTotal);
+			}
+			if (this.adPauseShow) {
+				this.closePauseAd();
+			}
+			this.adOtherCloseAll();
+			this.adTimeTotal = -1;
+		},
+		/*判断是否需要显示跳过广告按钮*/
+		adSkipButtonShow: function() {
+			var thisTemp = this;
+			var skipConfig = this.ckStyle['advertisement'];
+			var delayTimeTemp = skipConfig[this.adType + 'SkipButtonDelay'];
+			var timeFun = function() {
+				if (delayTimeTemp >= 0) {
+					thisTemp.CB['adSkipText'].innerHTML = thisTemp.ckLanguage['skipDelay'].replace('[$second]', delayTimeTemp).replace('[$Second]', delayTimeTemp > 9 ? delayTimeTemp: '0' + delayTimeTemp);
+					thisTemp.css([thisTemp.CB['adSkip'],thisTemp.CB['adSkipText']],'display','block');
+					thisTemp.css(thisTemp.CB['adSkipButton'],'display','none');
+					setTimeout(timeFun, 1000);
+				} else {
+					thisTemp.css([thisTemp.CB['adSkip'],thisTemp.CB['adSkipText']],'display','none');
+					if(thisTemp.css(thisTemp.CB['adTime'],'display')=='block'){
+						thisTemp.css(thisTemp.CB['adSkipButton'],'display','block');
+					}
+					
+				}
+				delayTimeTemp--;
+			};
+			if (skipConfig['skipButtonShow']) {
+				if (skipConfig[this.adType + 'SkipButtonDelay'] > 0 && this.isUndefined(this.adSkipButtonTime)) {
+					thisTemp.css([thisTemp.CB['adSkip'],thisTemp.CB['adSkipText']], 'display', 'block');
+					timeFun();
+				} else {
+					thisTemp.css([thisTemp.CB['adSkip'],thisTemp.CB['adSkipText']],'display','none');
+					thisTemp.css(thisTemp.CB['adSkipButton'],'display','block');
+				}
+			}
+		},
+		/*播放广告*/
+		advertisementsPlay: function() {
+			this.css([this.CB['adBackground'], this.CB['adElement'], this.CB['adTime'], this.CB['adTimeText'], this.CB['adSkip'], this.CB['adSkipText'],this.CB['adSkipButton'], this.CB['adLink']], 'display', 'none');
+			this.adPlayerPlay = false;
+			var ad = this.advertisements[this.adType];
+			if (this.adI == 0 && (this.adType == 'front' || this.adType == 'insert' || this.adType == 'end')) {
+				this.sendJS('process', this.adType + ' ad play');
+				this.sendJS(this.adType+'Ad','play');
+			}
+			this.trackHide();
+			if (this.adI < ad.length) {
+				if (!this.isUndefined(ad[this.adI]['time'])) {
+					this.adTimeTotal = parseInt(ad[this.adI]['time']);
+				}
+				this.loadAdvertisements();
+			} else {
+				this.adEnded();
+			}
+		},
+		/*清除当前所有广告*/
+		eliminateAd: function() {
+			if (this.adType) {
+				var ad = this.advertisements[this.adType];
+				this.adI = ad.length;
+				this.advertisementsPlay();
+			}
+
+		},
+		/*广告播放结束*/
+		adEnded: function() {
+			var thisTemp = this;
+			this.adPlayStart = false;
+			if(this.adType=='front'){
+				this.time=0;
+			}
+			this.adPlayerPlay = false;
+			if (this.adVideoPlay) {
+				if (this.videoTemp['src'] != '') {
+					this.V.src = this.videoTemp['src'];
+				} else {
+					if (this.V.src) {
+						this.V.removeAttribute('src');
+					}
+				}
+				if (this.videoTemp['source'] != '') {
+					this.V.innerHTML = this.videoTemp['source'];
+				}
+				if (this.videoTemp['currentSrc'] != '') {
+					this.V.src = this.videoTemp['currentSrc'];
+					this.V.currentSrc = this.videoTemp['currentSrc'];
+				}
+				if (this.videoTemp['loop']) {
+					this.V.loop = true;
+					this.videoTemp['loop'] = false;
+				}
+				if (this.adType == 'end') {
+					this.endedHandler();
+				} else {
+					this.videoPlay();
+				}
+			} else {
+				this.videoPlay();
+			}
+			this.changeVolume(this.vars['volume']);
+			this.sendJS('process', this.adType + ' ad ended');
+			this.sendJS(this.adType+'Ad','ended');
+			this.changeControlBarShow(true);
+			this.css(this.CB['logo'], 'display','block');
+			this.customShow(true);
+			this.css([this.CB['adBackground'], this.CB['adElement'], this.CB['adTime'], this.CB['adTimeText'], this.CB['adSkip'], this.CB['adSkipText'],this.CB['adSkipButton'], this.CB['adLink'],this.CB['adMute'], this.CB['adEscMute']], 'display', 'none');
+		},
+		/*加载广告*/
+		loadAdvertisements: function() {
+			//this.videoTemp
+			var ad = this.getNowAdvertisements();
+			var type = ad['type'];
+			var thisTemp = this;
+			var width = this.PD.offsetWidth,
+			height = this.PD.offsetHeight;
+			this.changeControlBarShow(false);
+			this.adPlayerPlay = true;
+			this.css(this.CB['logo'], 'display','none');
+			this.customShow(false);
+			if (this.isStrImage(type)) {
+				this.css([this.CB['adBackground'], this.CB['adElement'], this.CB['adTime'], this.CB['adTimeText']], 'display', 'block');
+				this.css([this.CB['adMute'], this.CB['adEscMute']], 'display', 'none');
+				var imgClass = 'adimg' + this.randomString(10);
+				var imgHtml = '<img src="' + ad['file'] + '" class="' + imgClass + '">';
+				if (ad['link']) {
+					imgHtml = '<a href="' + ad['link'] + '" target="_blank">' + imgHtml + '</a>';
+				}
+				this.CB['adElement'].innerHTML = imgHtml;
+				this.addListenerInside('load',
+				function() {
+					var imgObj = new Image();
+					imgObj.src = this.src;
+					var imgWH = thisTemp.adjustmentWH(imgObj.width, imgObj.height);
+					thisTemp.css(thisTemp.getByElement(imgClass), {
+						width: imgWH['width'] + 'px',
+						height: imgWH['height'] + 'px',
+						border: '0px'
+					});
+					thisTemp.css(thisTemp.CB['adElement'], {
+						width: imgWH['width'] + 'px',
+						height: imgWH['height'] + 'px',
+						top: (height - imgWH['height']) * 0.5 + 'px',
+						left: (width - imgWH['width']) * 0.5 + 'px'
+					});
+					thisTemp.ajaxSuccessNull(ad['exhibitionMonitor']);
+				},
+				this.getByElement(imgClass));
+				this.addListenerInside('click',
+				function() {
+					thisTemp.ajaxSuccessNull(ad['clickMonitor']);
+				},
+				this.CB['adElement']);
+				if (!this.isUndefined(ad['time'])) {
+					this.adCountDown();
+				}
+			} else {
+				this.css([this.CB['adTime'], this.CB['adTimeText']], 'display', 'block');
+				//判断是否静音
+				if (this.adVideoMute) {
+					this.css(this.CB['adEscMute'], 'display', 'block');
+					this.css(this.CB['adMute'], 'display', 'none');
+				} else {
+					this.css(this.CB['adEscMute'], 'display', 'none');
+					this.css(this.CB['adMute'], 'display', 'block');
+				}
+				this.CB['adElement'].innerHTML = '';
+				if (this.videoTemp['currentSrc'] == '') {
+					this.videoTemp['currentSrc'] = this.getCurrentSrc();
+				}
+				if (this.V.loop) {
+					this.videoTemp['loop'] = true;
+					this.V.loop = false;
+				}
+				if (this.V != null && this.V.currentTime > 0 && this.adIsVideoTime && this.adType!='front') { //当有视频广告时而又没有记录下已播放的时间则进行记录
+					this.adIsVideoTime = false;
+					this.needSeek = this.V.currentTime;
+				}
+				this.V.src = ad['file'];
+				this.V.currentSrc = ad['file'];
+				this.V.innerHTML = '';
+				this.V.play();
+				this.adVideoPlay = true;
+				this.ajaxSuccessNull(ad['exhibitionMonitor']);
+				if (!this.adVideoMute) {
+					this.escAdMute();
+				}
+			}
+			if (ad['link']) {
+				this.css(this.CB['adLink'], 'display', 'block');
+				var adLinkClick = function(event) {
+					thisTemp.sendJS('clickEvent', 'javaScript->adLinkClick');
+				};
+				this.addListenerInside('click', adLinkClick, this.CB['adLink']);
+				this.adLinkTemp=ad['link'];
+				var linkTemp = '<a href="' + ad['link'] + '" target="_blank" class="ckadmorelink"><img src="' + this.ckStyle['png-1-1'] + '" width="'+this.ckStyle['advertisement']['adLinkButton']['width']+'" height="'+this.ckStyle['advertisement']['adLinkButton']['height']+'"></a>';
+				this.CB['adLink'].innerHTML = linkTemp;
+				this.css(this.getByElement('ckadmorelink'), {
+					color: '#FFFFFF',
+					textDecoration: 'none'
+				});
+				this.addListenerInside('click',
+				function() {
+					thisTemp.ajaxSuccessNull(ad['clickMonitor']);
+				},
+				this.CB['adLink']);
+			} else {
+				this.css(this.CB['adLink'], 'display', 'none');
+			}
+
+		},
+		/*普通广告倒计时*/
+		adCountDown: function() {
+			var thisTemp = this;
+			if (this.adTimeTotal > 0) {
+				if (!this.adIsPause) {
+					this.adTimeTotal--;
+					this.showAdTime();
+					this.adCountDownObj = null;
+					this.adCountDownObj = setTimeout(function() {
+						thisTemp.adCountDown();
+					},
+					1000);
+				}
+			} else {
+				this.adI++;
+				this.advertisementsPlay();
+			}
+		},
+		/*视频广告倒计时*/
+		adPlayerTimeHandler: function(time) {
+			var ad = this.getNowAdvertisements();
+			var type = ad['type'];
+			if (this.isStrImage(type)) {
+				return;
+			}
+			if (this.adTimeTotal != parseInt(time)) {
+				this.adTimeTotal = parseInt(time);
+				this.showAdTime();
+			}
+		},
+		/*格式化广告倒计时显示*/
+		showAdTime: function() {
+			this.adTimeAllTotal--;
+			var n = this.adTimeAllTotal;
+			if (n < 0) {
+				n = 0;
+			}
+			this.CB['adTimeText'].innerHTML = this.ckLanguage['adCountdown'].replace('[$second]', n).replace('[$Second]', n < 10 ? '0' + n: n);
+		},
+		/*
+			单独监听其它广告
+		*/
+		checkAdOther: function(t) {
+			if (this.adPlayerPlay) {
+				return;
+			}
+			var adTime = this.advertisements['othertime'];
+			var adPlay = this.advertisements['otherPlay'];
+			for (var i = 0; i < adTime.length; i++) {
+				if (t >= adTime[i] && !adPlay[i]) { //如果播放时间大于广告时间而该广告还没有播放，则开始播放
+					adPlay[i] = true;
+					this.newAdOther(i);
+				}
+			}
+		},
+		/*
+			新建其它广告 
+		*/
+		newAdOther: function(i) {
+			var thisTemp = this;
+			var ad = this.advertisements['other'][i];
+			var randomS = this.randomString(10); //获取一个随机字符串
+			var adDivID = 'adother' + randomS; //广告容器
+			imgClassName = 'adimgother' + randomS;
+			var adDiv = document.createElement('div');
+			adDiv.className = adDivID;
+			this.PD.appendChild(adDiv);
+			ad['div'] = adDivID;
+			ad['element'] = imgClassName;
+			var adHtml='<img src="' + ad['file'] + '" class="' + imgClassName + '">';
+			if(ad['link']){
+				adHtml='<a href="' + ad['link'] + '" target="blank">'+adHtml+'</a>';
+			}
+			this.getByElement(adDivID).innerHTML =adHtml;
+			this.css(adDivID, {
+				position: 'absolute',
+				overflow: 'hidden',
+				zIndex: '996',
+				top: '-600px',
+				left: '-600px',
+				cursor: 'pointer'
+			});
+			if (this.ckStyle['advertisement']['closeOtherButtonShow']) {
+				var closeAdDivID = 'adotherclose-' + randomS; //广告容器
+				var closeAdDiv = document.createElement('div');
+				closeAdDiv.className = closeAdDivID;
+				this.PD.appendChild(closeAdDiv);
+				ad['closeDiv'] = closeAdDivID;
+				ad['close'] = false;
+				var closeAdDivCss=this.getEleCss(this.ckStyle['advertisement']['closeOtherButton'],{offsetX:-10000,offsetY:-10000,cursor: 'pointer',zIndex: 997});				
+				this.css(closeAdDivID, closeAdDivCss);			
+				var adOtherCloseOver = function() {
+					thisTemp.loadImgBg(closeAdDivID,thisTemp.ckStyle['advertisement']['closeOtherButton']['mouseOver']);
+				};
+				var adOtherCloseOut = function() {
+					thisTemp.loadImgBg(closeAdDivID,thisTemp.ckStyle['advertisement']['closeOtherButton']['mouseOut']);
+				};
+				adOtherCloseOut();
+				this.addListenerInside('mouseover', adOtherCloseOver, this.getByElement(closeAdDivID));
+				this.addListenerInside('mouseout', adOtherCloseOut, this.getByElement(closeAdDivID));
+			}
+			this.addListenerInside('load',
+			function() {
+				var imgObj = new Image();
+				imgObj.src = this.src;
+				var imgWH = thisTemp.adjustmentWH(imgObj.width, imgObj.height);
+				thisTemp.css([thisTemp.getByElement(imgClassName), thisTemp.getByElement(adDivID)], {
+					width: imgWH['width'] + 'px',
+					height: imgWH['height'] + 'px',
+					border: '0px'
+				});
+				thisTemp.advertisements['other'][i] = ad;
+				thisTemp.ajaxSuccessNull(ad['exhibitionMonitor']);
+				thisTemp.adOtherCoor();
+			},
+			this.getByElement(imgClassName));
+			this.addListenerInside('click',
+			function() {
+				thisTemp.adOtherClose(i);
+			},
+			this.getByElement(closeAdDivID));
+			this.addListenerInside('click',
+			function() {
+				thisTemp.ajaxSuccessNull(ad['clickMonitor']);
+			},
+			this.getByElement(imgClassName));
+			if (ad['time'] > 0) {
+				setTimeout(function() {
+					thisTemp.adOtherClose(i);
+				},
+				ad['time'] * 1000);
+			}
+		},
+		/*
+		关闭其它广告
+		*/
+		adOtherClose: function(i) {
+			var ad = this.advertisements['other'][i];
+			if (!this.isUndefined(ad['close'])) {
+				if (!ad['close']) {
+					ad['close'] = true;
+					this.PD.removeChild(this.getByElement(ad['div']));
+					this.PD.removeChild(this.getByElement(ad['closeDiv']));
+				}
+			}
+		},
+		adOtherCloseAll: function() {
+			if (!this.isUndefined(this.advertisements['other'])) {
+				var ad = this.advertisements['other'];
+				for (var i = 0; i < ad.length; i++) {
+					this.adOtherClose(i);
+				}
+			}
+		},
+		/*
+			计算其它广告的坐标
+		*/
+		adOtherCoor: function() {
+			if (!this.isUndefined(this.advertisements['other'])) {
+				var arr = this.advertisements['other'];
+				for (var i = 0; i < arr.length; i++) {
+					var ad = arr[i];
+					if (!this.isUndefined(ad['close'])) {
+						if (!ad['close']) {
+							var rr=this.ckStyle['advertisement']['closeOtherButton'];
+							var coor = this.getPosition(ad);
+							var x = coor['x'],
+							y = coor['y'];
+							this.css(this.getByElement(ad['div']), {
+								left: x + 'px',
+								top: y + 'px'
+							});
+							var cxy =  this.getPosition(rr,this.getByElement(ad['div']));
+							if (!this.isUndefined(ad['closeDiv'])) {
+								this.css(this.getByElement(ad['closeDiv']), {
+									left: cxy['x'] + 'px',
+									top: cxy['y'] + 'px'
+								});
+							}
+						}
+					}
+				}
+			}
+		},
+		/*
+			单独监听中间插入广告
+		*/
+		checkAdInsert: function(t) {
+			if (this.adPlayerPlay) {
+				return;
+			}
+			var adTime = this.advertisements['inserttime'];
+			var adPlay = this.advertisements['insertPlay'];
+			var duration = this.getMetaDate()['duration'];
+			for (var i = adTime.length - 1; i > -1; i--) {
+				if (t >= adTime[i] && t < duration - 2 && t > 1 && !adPlay[i]) { //如果播放时间大于广告时间而该广告还没有播放，则开始播放
+					this.adI = 0;
+					this.adType = 'insert';
+					this.adMuteInto();
+					this.adIsVideoTime = true;
+					this.adPlayStart = true;
+					this.adVideoPlay = false;
+					this.videoPause();
+					this.advertisementsTime();
+					this.advertisementsPlay();
+					this.adSkipButtonShow();
+					adPlay[i] = true;
+					for (var n = 0; n < i + 1; n++) {
+						adPlay[n] = true;
+					}
+					break;
+				}
+			}
+		},
+		/*格式化中间插入广告的播放时间*/
+		formatInserttime: function(duration) {
+			if (!this.isUndefined(this.advertisements['inserttime'])) {
+				var arr = this.advertisements['inserttime'];
+				var newArr = [];
+				for (var i = 0; i < arr.length; i++) {
+					if (arr[i].toString().substr( - 1) == '%') {
+						newArr.push(parseInt(duration * parseInt(arr[i]) * 0.01));
+					} else {
+						newArr.push(parseInt(arr[i]));
+					}
+				}
+				this.advertisements['inserttime'] = newArr;
+			}
+		},
+		/*获取当前的广告*/
+		getNowAdvertisements: function() {
+			if (this.adI == -1) {
+				return {
+					file: '',
+					time: 0,
+					link: ''
+				};
+			}
+			return this.advertisements[this.adType][this.adI];
+		},
+		/*根据元件尺寸和播放器尺寸调整大小*/
+		adjustmentWH: function(w, h) {
+			var width = this.PD.offsetWidth,
+			height = this.PD.offsetHeight;
+			var nw = 0,
+			nh = 0;
+			if (w >= width || h >= height) {
+				if (width / w > height / h) {
+					nh = height - 20;
+					nw = w * nh / h;
+				} else {
+					nw = width - 20;
+					nh = h * nw / w;
+				}
+			} else {
+				nw = w;
+				nh = h;
+			}
+			return {
+				width: nw,
+				height: nh
+			}
+		},
+		/*单独请求一次地址，但不处理返回的数据*/
+		ajaxSuccessNull: function(url) {
+			if (!this.isUndefined(url)) {
+				var ajaxObj = {
+					url: url,
+					success: function(data) {}
+				};
+				this.ajax(ajaxObj);
+			}
+		},
+		/*
+			内部函数
+			运行指定函数
+		*/
+		runFunction: function(s) {
+			try {
+				var arr = s.split('->');
+				if(arr.length==2){
+					switch (arr[0]) {
+						case 'javaScript':
+							if(arr[1].substr(0,11)!='[flashvars]'){
+								eval(arr[1] + '()');
+							}
+							else{
+								eval(this.vars[arr[1].substr(11)] + '()');
+							}
+							break;
+						case 'actionScript':
+							eval('this.' + arr[1] + '()');
+							break;
+					}
+				}
+				this.sendJS('clickEvent', s);
+			} catch(event) {}
 		},
 		/*
 			内部函数
 			使用画布附加视频
 		*/
 		sendVCanvas: function() {
-			if(this.timerVCanvas == null) {
+			if (this.timerVCanvas == null) {
 				this.css(this.V, 'display', 'none');
 				this.css(this.MD, 'display', 'block');
 				var thisTemp = this;
 				var videoCanvas = function() {
-					if(thisTemp.MDCX.width != thisTemp.PD.offsetWidth) {
-						thisTemp.MDC.width = thisTemp.PD.offsetWidth;
+					if (thisTemp.MDCX.width != thisTemp.MD.offsetWidth) {
+						thisTemp.MDC.width = thisTemp.MD.offsetWidth;
 					}
-					if(thisTemp.MDCX.height != thisTemp.PD.offsetHeight) {
-						thisTemp.MDC.height = thisTemp.PD.offsetHeight;
+					if (thisTemp.MDCX.height != thisTemp.MD.offsetHeight) {
+						thisTemp.MDC.height = thisTemp.MD.offsetHeight;
 					}
 					thisTemp.MDCX.clearRect(0, 0, thisTemp.MDCX.width, thisTemp.MDCX.height);
 					var coor = thisTemp.getProportionCoor(thisTemp.PD.offsetWidth, thisTemp.PD.offsetHeight, thisTemp.V.videoWidth, thisTemp.V.videoHeight);
@@ -3549,12 +5162,21 @@ function ckplayerConfig() {
 			监听暂停
 		*/
 		pauseHandler: function() {
+			var thisTemp = this;
 			this.playShow(false);
-			if(this.animatePauseArray.length > 0) {
+			if (this.animatePauseArray.length > 0) {
 				this.animatePause('pause');
 			}
-			if(this.playerType == 'html5video' && this.V != null && this.config['videoDrawImage']) {
+			if (this.playerType == 'html5video' && this.V != null && this.ckConfig['config']['videoDrawImage']) {
 				this.stopVCanvas();
+			}
+			if (!this.isUndefined(this.advertisements['pause']) && !this.adPlayStart && !this.adPauseShow) { //如果存在暂停广告
+				setTimeout(function() {
+					if (!thisTemp.isUndefined(thisTemp.advertisements['pause']) && !thisTemp.adPlayStart && !thisTemp.adPauseShow && thisTemp.time > 1) { //如果存在暂停广告
+						thisTemp.adPausePlayer();
+					}
+				},
+				300);
 			}
 		},
 		/*
@@ -3562,10 +5184,10 @@ function ckplayerConfig() {
 			停止画布
 		*/
 		stopVCanvas: function() {
-			if(this.timerVCanvas != null) {
+			if (this.timerVCanvas != null) {
 				this.css(this.V, 'display', 'block');
 				this.css(this.MD, 'display', 'none');
-				if(this.timerVCanvas.runing) {
+				if (this.timerVCanvas.runing) {
 					this.timerVCanvas.stop();
 				}
 				this.timerVCanvas = null;
@@ -3576,17 +5198,20 @@ function ckplayerConfig() {
 			根据当前播放还是暂停确认图标显示
 		*/
 		playShow: function(b) {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
-			if(b) {
+			if (b) {
 				this.css(this.CB['play'], 'display', 'none');
 				this.css(this.CB['pauseCenter'], 'display', 'none');
 				this.css(this.CB['pause'], 'display', 'block');
 			} else {
 				this.css(this.CB['play'], 'display', 'block');
-				if(this.css(this.CB['errorText'], 'display') == 'none') {
-					this.css(this.CB['pauseCenter'], 'display', 'block');
+				if (this.css(this.CB['errorText'], 'display') == 'none') {
+					if (!this.adPlayerPlay) {
+						this.css(this.CB['pauseCenter'], 'display', 'block');
+					}
+
 				} else {
 					this.css(this.CB['pauseCenter'], 'display', 'none');
 				}
@@ -3600,8 +5225,13 @@ function ckplayerConfig() {
 		seekedHandler: function() {
 			this.resetTrack();
 			this.isTimeButtonMove = true;
-			if(this.V.paused) {
-				this.videoPlay();
+			if (this.V.paused) {
+				if(this.hlsAutoPlay){
+					this.videoPlay();
+				}
+				else{
+					this.hlsAutoPlay=true;
+				}
 			}
 		},
 		/*
@@ -3609,63 +5239,140 @@ function ckplayerConfig() {
 			监听播放结束
 		*/
 		endedHandler: function() {
-			if(!this.vars['loop']) {
-				this.videoPause();
+			this.sendJS('ended');
+			if (this.adPlayerPlay) {
+				this.adI++;
+				this.advertisementsPlay();
+				return;
 			}
+			if (!this.endAdPlay && !this.isUndefined(this.advertisements['end'])) {
+				this.endAdPlay = true;
+				this.adI = 0;
+				this.adType = 'end';
+				this.adMuteInto();
+				this.adIsVideoTime = true;
+				this.adPlayStart = true;
+				this.adVideoPlay = false;
+				this.videoPause();
+				this.advertisementsTime();
+				this.advertisementsPlay();
+				this.adSkipButtonShow();
+				this.adReset = true;
+				return;
+			}
+			this.endedAdReset();
+			if (this.vars['loop']) {
+				this.videoSeek(0);
+			}
+		},
+		/*
+			重置结束后相关的设置
+		*/
+		endedAdReset: function() {
+			var arr = [];
+			var i = 0;
+			if (!this.isUndefined(this.advertisements['insertPlay'])) {
+				arr = this.advertisements['insertPlay'];
+				for (i = 0; i < arr.length; i++) {
+					this.advertisements['insertPlay'][i] = false;
+				}
+			}
+			if (!this.isUndefined(this.advertisements['otherPlay'])) {
+				arr = this.advertisements['otherPlay'];
+				for (i = 0; i < arr.length; i++) {
+					this.advertisements['otherPlay'][i] = false;
+				}
+			}
+			//this.endAdPlay=false;
 		},
 		/*
 			内部函数
 			监听音量改变
 		*/
 		volumechangeHandler: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
-			try {
-				if(this.V.volume > 0) {
-					this.css(this.CB['mute'], 'display', 'block');
-					this.css(this.CB['escMute'], 'display', 'none');
-				} else {
-					this.css(this.CB['mute'], 'display', 'none');
-					this.css(this.CB['escMute'], 'display', 'block');
-				}
-			} catch(event) {}
+			if ((this.ckConfig['config']['mobileVolumeBarShow'] || !this.isMobile()) && this.css(this.CB['volume'], 'display') != 'none') {
+				try {
+					var volume=this.volume || this.V.volume;
+					if (volume > 0) {
+						this.css(this.CB['mute'], 'display', 'block');
+						this.css(this.CB['escMute'], 'display', 'none');
+					} else {
+						this.css(this.CB['mute'], 'display', 'none');
+						this.css(this.CB['escMute'], 'display', 'block');
+					}
+				} catch(event) {}
+			}
 		},
-
 		/*
 			内部函数
 			监听播放时间调节进度条
 		*/
 		timeUpdateHandler: function() {
 			var duration = 0;
-			if(this.playerType == 'html5video') {
+			if (this.playerType == 'html5video') {
 				try {
 					duration = this.V.duration;
 				} catch(event) {}
 			}
-			if(duration > 0) {
+			if (isNaN(duration) || parseInt(duration) < 0.2) {
+				duration = this.vars['duration'];
+			}
+			if(this.vars['forceduration']>0){
+				duration=this.vars['forceduration'];
+			}
+			if (duration > 0) {
 				this.time = this.V.currentTime;
 				this.timeTextHandler();
 				this.trackShowHandler();
-				if(this.isTimeButtonMove) {
+				if (this.isTimeButtonMove) {
 					this.timeProgress(this.time, duration);
 				}
 			}
 		},
 		/*
 			内部函数
+			改变控制栏坐标
+		*/
+		controlBar:function(){
+			//控制栏背景
+			var cb=this.ckStyle['controlBar'];
+			var cssObjTemp={
+				align:cb['align'],
+				vAlign:cb['vAlign'],
+				width:cb['width'],
+				height:cb['height'],
+				offsetX:cb['offsetX'],
+				offsetY:cb['offsetY']
+				
+			};
+			var bgCss={
+				backgroundColor:cb['background']['backgroundColor'],
+				backgroundImg:cb['background']['backgroundImg'],
+				alpha:cb['background']['alpha']
+			};
+			var cssTemp=this.getEleCss(this.objectAssign(cssObjTemp,bgCss),{zIndex:888});
+			this.css(this.CB['controlBarBg'], cssTemp);
+			//控制栏容器
+			cssTemp=this.getEleCss(cssObjTemp,{zIndex:889});
+			this.css(this.CB['controlBar'], cssTemp);
+		},
+		/*
+			内部函数
 			按时间改变进度条
 		*/
 		timeProgress: function(time, duration) {
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var timeProgressBgW = this.CB['timeProgressBg'].offsetWidth;
 			var timeBOW = parseInt((time * timeProgressBgW / duration) - (this.CB['timeButton'].offsetWidth * 0.5));
-			if(timeBOW > timeProgressBgW - this.CB['timeButton'].offsetWidth) {
+			if (timeBOW > timeProgressBgW - this.CB['timeButton'].offsetWidth) {
 				timeBOW = timeProgressBgW - this.CB['timeButton'].offsetWidth;
 			}
-			if(timeBOW < 0) {
+			if (timeBOW < 0) {
 				timeBOW = 0;
 			}
 			this.css(this.CB['timeProgress'], 'width', timeBOW + 'px');
@@ -3676,31 +5383,32 @@ function ckplayerConfig() {
 			监听播放时间改变时间显示文本框
 		*/
 		timeTextHandler: function() { //显示时间/总时间
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var duration = this.V.duration;
 			var time = this.V.currentTime;
-			if(isNaN(duration) || parseInt(duration) < 0.2) {
+			if (isNaN(duration) || parseInt(duration) < 0.2) {
 				duration = this.vars['duration'];
 			}
-			this.CB['timeText'].innerHTML = this.formatTime(time) + ' / ' + this.formatTime(duration);
-			if(this.CB['timeText'].offsetWidth > 0) {
-				this.buttonWidth['timeText'] = this.CB['timeText'].offsetWidth;
+			if(this.vars['forceduration']>0){
+				duration=this.vars['forceduration'];
 			}
+			this.CB['timeText'].innerHTML = this.formatTime(time,duration,this.ckLanguage['vod']);
+
 		},
 		/*
 			内部函数
 			监听是否是缓冲状态
 		*/
 		bufferEdHandler: function() {
-			if(!this.showFace || this.playerType == 'flashplayer') {
+			if (!this.conBarShow || this.playerType == 'flashplayer') {
 				return;
 			}
 			var thisTemp = this;
 			var clearTimerBuffer = function() {
-				if(thisTemp.timerBuffer != null) {
-					if(thisTemp.timerBuffer.runing) {
+				if (thisTemp.timerBuffer != null) {
+					if (thisTemp.timerBuffer.runing) {
 						thisTemp.sendJS('buffer', 100);
 						thisTemp.timerBuffer.stop();
 					}
@@ -3709,7 +5417,7 @@ function ckplayerConfig() {
 			};
 			clearTimerBuffer();
 			var bufferFun = function() {
-				if(thisTemp.V.buffered.length > 0) {
+				if (!thisTemp.isUndefined(thisTemp.V) && thisTemp.V.buffered.length > 0) {
 					var duration = thisTemp.V.duration;
 					var len = thisTemp.V.buffered.length;
 					var bufferStart = thisTemp.V.buffered.start(len - 1);
@@ -3718,7 +5426,7 @@ function ckplayerConfig() {
 					var loadProgressBgW = thisTemp.CB['timeProgressBg'].offsetWidth;
 					var timeButtonW = thisTemp.CB['timeButton'].offsetWidth;
 					var loadW = parseInt((loadTime * loadProgressBgW / duration) + timeButtonW);
-					if(loadW >= loadProgressBgW) {
+					if (loadW >= loadProgressBgW) {
 						loadW = loadProgressBgW;
 						clearTimerBuffer();
 					}
@@ -3732,22 +5440,30 @@ function ckplayerConfig() {
 			单独计算加载进度
 		*/
 		changeLoad: function(loadTime) {
-			if(this.V == null) {
+			if (this.V == null) {
 				return;
 			}
-			if(!this.showFace) {
+			if (!this.conBarShow) {
 				return;
 			}
 			var loadProgressBgW = this.CB['timeProgressBg'].offsetWidth;
 			var timeButtonW = this.CB['timeButton'].offsetWidth;
 			var duration = this.V.duration;
-			if(this.isUndefined(loadTime)) {
+			if (isNaN(duration) || parseInt(duration) < 0.2) {
+				duration = this.vars['duration'];
+			}
+			if(this.vars['forceduration']>0){
+				duration=this.vars['forceduration'];
+			}
+			if (this.isUndefined(loadTime)) {
 				loadTime = this.loadTime;
 			} else {
 				this.loadTime = loadTime;
 			}
 			var loadW = parseInt((loadTime * loadProgressBgW / duration) + timeButtonW);
 			this.css(this.CB['loadProgress'], 'width', loadW + 'px');
+			this.sendJS('loadTime',loadTime);
+			this.loadTimeTemp=loadTime;
 		},
 		/*
 			内部函数
@@ -3755,43 +5471,44 @@ function ckplayerConfig() {
 		*/
 		judgeIsLive: function() {
 			var thisTemp = this;
-			if(this.timerError != null) {
-				if(this.timerError.runing) {
+			if (this.timerError != null) {
+				if (this.timerError.runing) {
 					this.timerError.stop();
 				}
 				this.timerError = null;
 			}
 			this.error = false;
-			if(this.showFace) {
+			if (this.conBarShow) {
 				this.css(this.CB['errorText'], 'display', 'none');
 			}
 			var timeupdate = function(event) {
 				thisTemp.timeUpdateHandler();
 			};
-			if(!this.vars['live']) {
-				if(this.V != null && this.playerType == 'html5video') {
+			if (!this.vars['live']) {
+				if (this.V != null && this.playerType == 'html5video') {
 					this.addListenerInside('timeupdate', timeupdate);
 					thisTemp.timeTextHandler();
 					thisTemp.prompt(); //添加提示点
-					window.setTimeout(function() {
+					setTimeout(function() {
 						thisTemp.bufferEdHandler();
-					}, 200);
+					},
+					200);
 				}
 			} else {
 				this.removeListenerInside('timeupdate', timeupdate);
-				if(this.timerTime != null) {
+				if (this.timerTime != null) {
 					window.clearInterval(this.timerTime);
 					timerTime = null;
 				}
-				if(this.timerTime != null) {
-					if(this.timerTime.runing) {
+				if (this.timerTime != null) {
+					if (this.timerTime.runing) {
 						this.timerTime.stop();
 					}
 					this.timerTime = null;
 				}
 				var timeFun = function() {
-					if(thisTemp.V != null && !thisTemp.V.paused && thisTemp.showFace) {
-						thisTemp.CB['timeText'].innerHTML = thisTemp.getNowDate();
+					if (thisTemp.V != null && !thisTemp.V.paused && thisTemp.conBarShow) {
+						thisTemp.CB['timeText'].innerHTML = thisTemp.formatTime(0,0,thisTemp.ckLanguage['live']); //时间显示框默认显示内容
 					}
 				};
 				this.timerTime = new this.timer(1000, timeFun);
@@ -3803,23 +5520,51 @@ function ckplayerConfig() {
 			内部函数
 			加载字幕
 		*/
-		loadTrack: function() {
-			if(this.playerType == 'flashplayer' || this.vars['flashplayer'] == true) {
+		loadTrack: function(def) {
+			if (this.playerType == 'flashplayer' || this.vars['flashplayer'] == true) {
 				return;
 			}
-			var thisTemp = this;
+			if(this.isUndefined(def)){
+				def=-1;
+			}
 			var track = this.vars['cktrack'];
+			var loadTrackUrl='';
+			var type=this.varType(track);
+			var thisTemp = this;
+			if(type=='array'){
+				if(def==-1){
+					var index=0;
+					var indexN=0;
+					for(var i=0;i<track.length;i++){
+						var li=track[i];
+						if(li.length==3 && li[2]>indexN){
+							indexN=li[2];
+							index=i;
+						}
+					}
+				}
+				else{
+					index=def;
+				}
+				loadTrackUrl=track[index][0];
+			}
+			else{
+				loadTrackUrl=track;
+			}
 			var obj = {
 				method: 'get',
 				dataType: 'text',
-				url: track,
+				url: loadTrackUrl,
 				charset: 'utf-8',
 				success: function(data) {
-					thisTemp.track = thisTemp.parseSrtSubtitles(data);
-					thisTemp.trackIndex = 0;
-					thisTemp.nowTrackShow = {
-						sn: ''
-					};
+					if(data){
+						thisTemp.track = thisTemp.parseSrtSubtitles(data);
+						thisTemp.trackIndex = 0;
+						thisTemp.nowTrackShow = {
+							sn: ''
+						}
+					}
+					
 				}
 			};
 			this.ajax(obj);
@@ -3839,13 +5584,13 @@ function ckplayerConfig() {
 			根据时间改变读取显示字幕
 		*/
 		trackShowHandler: function() {
-			if(!this.showFace) {
+			if (!this.conBarShow || this.adPlayerPlay) {
 				return;
 			}
-			if(this.track.length < 1) {
+			if (this.track.length < 1) {
 				return;
 			}
-			if(this.trackIndex >= this.track.length) {
+			if (this.trackIndex >= this.track.length) {
 				this.trackIndex = 0;
 			}
 			var nowTrack = this.track[this.trackIndex]; //当前编号对应的字幕内容
@@ -3853,22 +5598,27 @@ function ckplayerConfig() {
 				this.nowTrackShow=当前显示在界面上的内容
 				如果当前时间正好在nowTrack时间内，则需要判断
 			*/
-			if(this.time >= nowTrack['startTime'] && this.time <= nowTrack['endTime']) {
+			if (this.time >= nowTrack['startTime'] && this.time <= nowTrack['endTime']) {
 				/*
 				 	如果当前显示的内容不等于当前需要显示的内容时，则需要显示正确的内容
 				*/
 				var nowShow = this.nowTrackShow;
-				if(nowShow['sn'] != nowTrack['sn']) {
+				if (nowShow['sn'] != nowTrack['sn']) {
 					this.trackHide();
 					this.trackShow(nowTrack);
+					this.nowTrackTemp=nowTrack;
 				}
 			} else {
 				/*
-				 * 如果当前播放时间不在当前编号字幕内，则需要先清空当前的字幕内容，再显示新的字幕内容
-				 */
+				  如果当前播放时间不在当前编号字幕内，则需要先清空当前的字幕内容，再显示新的字幕内容
+				*/
 				this.trackHide();
 				this.checkTrack();
 			}
+		},
+		trackShowAgain:function(){
+			this.trackHide();
+			this.trackShow(this.nowTrackTemp);
 		},
 		/*
 			内部函数
@@ -3877,17 +5627,17 @@ function ckplayerConfig() {
 		trackShow: function(track) {
 			this.nowTrackShow = track;
 			var arr = track['content'];
-			for(var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 				var obj = {
 					list: [{
 						type: 'text',
 						text: arr[i],
-						color: '#FFFFFF',
-						size: 16,
-						font: this.fontFamily,
-						lineHeight: 30
+						color: this.ckStyle['cktrack']['color'],
+						size: this.ckStyle['cktrack']['size'],
+						fontFamily: this.ckStyle['cktrack']['font'],
+						lineHeight: this.ckStyle['cktrack']['leading']+'px'
 					}],
-					position: [1, 2, null, -(arr.length - i) * 30 - 50]
+					position: [1, 2, null, -(arr.length - i) * this.ckStyle['cktrack']['leading'] - this.ckStyle['cktrack']['marginBottom']]
 				};
 				var ele = this.addElement(obj);
 				this.trackElement.push(ele);
@@ -3895,10 +5645,10 @@ function ckplayerConfig() {
 		},
 		/*
 			内部函数
-			隐藏字字幕内容
+			隐藏字幕内容
 		*/
 		trackHide: function() {
-			for(var i = 0; i < this.trackElement.length; i++) {
+			for (var i = 0; i < this.trackElement.length; i++) {
 				this.deleteElement(this.trackElement[i]);
 			}
 			this.trackElement = [];
@@ -3911,8 +5661,8 @@ function ckplayerConfig() {
 			var num = this.trackIndex;
 			var arr = this.track;
 			var i = 0;
-			for(i = num; i < arr.length; i++) {
-				if(this.time >= arr[i]['startTime'] && this.time <= arr[i]['endTime']) {
+			for (i = num; i < arr.length; i++) {
+				if (this.time >= arr[i]['startTime'] && this.time <= arr[i]['endTime']) {
 					this.trackIndex = i;
 					break;
 				}
@@ -3924,22 +5674,20 @@ function ckplayerConfig() {
 			在播放和暂停之间切换
 		*/
 		playOrPause: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.config['videoClick']) {
-				if(this.V == null) {
-					return;
-				}
-				if(this.playerType == 'flashplayer') {
-					this.V.playOrPause();
-					return;
-				}
-				if(this.V.paused) {
-					this.videoPlay();
-				} else {
-					this.videoPause();
-				}
+			if (this.V == null) {
+				return;
+			}
+			if (this.playerType == 'flashplayer') {
+				this.V.playOrPause();
+				return;
+			}
+			if (this.V.paused) {
+				this.videoPlay();
+			} else {
+				this.videoPause();
 			}
 		},
 		/*
@@ -3947,47 +5695,62 @@ function ckplayerConfig() {
 			播放动作
 		*/
 		videoPlay: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoPlay();
 				return;
 			}
-			this.V.play();
+			if (this.adPlayerPlay) {
+				this.eliminateAd(); //清除广告
+				return;
+			}
+			try {
+				if (this.V.currentSrc) {
+					this.V.play();
+				}
+			} catch(event) {}
 		},
 		/*
 			接口函数
 			暂停动作
 		*/
 		videoPause: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoPause();
 				return;
 			}
-			this.V.pause();
+			try {
+				this.V.pause();
+			} catch(event) {}
 		},
 		/*
 			接口函数
 			跳转时间动作
 		*/
 		videoSeek: function(time) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoSeek(time);
 				return;
 			}
-			var meta = this.getMetaDate();
-			var duration = meta['duration'];
-			if(duration > 0 && time > duration) {
-				time = duration;
+			var duration = this.V.duration>0.2?this.V.duration:this.getMetaDate()['duration'];
+			if (duration > 0 && time > duration) {
+				if(this.vars['forceduration']>0){
+					time=0;
+					this.sendJS('ended');
+				}
+				else{
+					time = duration-0.1;
+				}
 			}
-			if(time >= 0) {
+			if (time >= 0) {
 				this.V.currentTime = time;
 				this.sendJS('seekTime', time);
 			}
@@ -3996,63 +5759,63 @@ function ckplayerConfig() {
 			接口函数
 			调节音量/获取音量
 		*/
-		changeVolume: function(vol, bg, button) {
-			if(this.loaded) {
-				if(this.playerType == 'flashplayer') {
-					this.V.changeVolume(time);
+		changeVolume: function(vol, bg, button) {			
+			if (this.loaded) {
+				if (this.playerType == 'flashplayer') {
+					this.V.changeVolume(vol);
 					return;
 				}
 			}
-			if(isNaN(vol) || this.isUndefined(vol)) {
+			if (isNaN(vol) || this.isUndefined(vol)) {
 				vol = 0;
 			}
-			if(!this.loaded) {
+			if (!this.loaded) {
 				this.vars['volume'] = vol;
 			}
-			if(!this.html5Video) {
+			if (!this.html5Video) {
 				this.V.changeVolume(vol);
 				return;
 			}
 			try {
-				if(this.isUndefined(bg)) {
+				if (this.isUndefined(bg)) {
 					bg = true;
 				}
 			} catch(e) {}
 			try {
-				if(this.isUndefined(button)) {
+				if (this.isUndefined(button)) {
 					button = true;
 				}
 			} catch(e) {}
-			if(!vol) {
+			if (!vol) {
 				vol = 0;
 			}
-			if(vol < 0) {
+			if (vol < 0) {
 				vol = 0;
 			}
-			if(vol > 1) {
+			if (vol > 1) {
 				vol = 1;
 			}
 			try {
 				this.V.volume = vol;
 			} catch(error) {}
 			this.volume = vol;
-			if(bg && this.showFace) {
+			if (bg && this.conBarShow) {
 				var bgW = vol * this.CB['volumeBg'].offsetWidth;
-				if(bgW < 0) {
+				if (bgW < 0) {
 					bgW = 0;
 				}
-				if(bgW > this.CB['volumeBg'].offsetWidth) {
+				if (bgW > this.CB['volumeBg'].offsetWidth) {
 					bgW = this.CB['volumeBg'].offsetWidth;
 				}
 				this.css(this.CB['volumeUp'], 'width', bgW + 'px');
 			}
 
-			if(button && this.showFace) {
+			if (button && this.conBarShow) {
 				var buLeft = parseInt(this.CB['volumeUp'].offsetWidth - (this.CB['volumeBO'].offsetWidth * 0.5));
-				if(buLeft > this.CB['volumeBg'].offsetWidth - this.CB['volumeBO'].offsetWidth) {
+				if (buLeft > this.CB['volumeBg'].offsetWidth - this.CB['volumeBO'].offsetWidth) {
 					buLeft = this.CB['volumeBg'].offsetWidth - this.CB['volumeBO'].offsetWidth
 				}
-				if(buLeft < 0) {
+				if (buLeft < 0) {
 					buLeft = 0;
 				}
 				this.css(this.CB['volumeBO'], 'left', buLeft + 'px');
@@ -4063,14 +5826,14 @@ function ckplayerConfig() {
 			静音
 		*/
 		videoMute: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoMute();
 				return;
 			}
-			this.volumeTemp = this.V ? (this.V.volume > 0 ? this.V.volume : this.vars['volume']) : this.vars['volume'];
+			this.volumeTemp = this.V ? (this.V.volume > 0 ? this.V.volume: this.vars['volume']) : this.vars['volume'];
 			this.changeVolume(0);
 		},
 		/*
@@ -4078,29 +5841,62 @@ function ckplayerConfig() {
 			取消静音
 		*/
 		videoEscMute: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoEscMute();
 				return;
 			}
-			this.changeVolume(this.volumeTemp > 0 ? this.volumeTemp : this.vars['volume']);
+			this.changeVolume(this.volumeTemp > 0 ? this.volumeTemp: this.vars['volume']);
+		},
+		/*
+			接口函数
+			视频广告静音
+		*/
+		adMute: function() {
+			if (!this.loaded) {
+				return;
+			}
+			this.changeVolume(0);
+			this.adVideoMute = true;
+			this.css(this.CB['adEscMute'], 'display', 'block');
+			this.css(this.CB['adMute'], 'display', 'none');
+		},
+		/*
+			接口函数
+			视频广告取消静音
+		*/
+		escAdMute: function() {
+			if (!this.loaded) {
+				return;
+			}
+			var v = this.ckStyle['advertisement']['videoVolume'];
+			this.changeVolume(v);
+			this.adMuteInto();
+		},
+		/*
+		 	初始化广告的音量按钮
+		*/
+		adMuteInto: function() {
+			this.adVideoMute = false;
+			this.css(this.CB['adEscMute'], 'display', 'none');
+			this.css(this.CB['adMute'], 'display', 'block');
 		},
 		/*
 			接口函数
 			快退
 		*/
 		fastBack: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.fastBack();
 				return;
 			}
-			var time = this.time - this.ckplayerConfig['config']['timeJump'];
-			if(time < 0) {
+			var time = this.time - this.ckConfig['config']['timeJump'];
+			if (time < 0) {
 				time = 0;
 			}
 			this.videoSeek(time);
@@ -4110,15 +5906,15 @@ function ckplayerConfig() {
 			快进
 		*/
 		fastNext: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.fastNext();
 				return;
 			}
-			var time = this.time + this.ckplayerConfig['config']['timeJump'];
-			if(time > this.V.duration) {
+			var time = this.time + this.ckConfig['config']['timeJump'];
+			if (time > this.V.duration) {
 				time = this.V.duration;
 			}
 			this.videoSeek(time);
@@ -4127,11 +5923,11 @@ function ckplayerConfig() {
 			接口函数
 			获取当前播放的地址
 		*/
-		getCurrentSrc:function(){
-			if(!this.loaded) {
+		getCurrentSrc: function() {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.getCurrentSrc();
 			}
 			return this.V.currentSrc;
@@ -4141,7 +5937,7 @@ function ckplayerConfig() {
 			全屏/退出全屏动作，该动作只能是用户操作才可以触发，比如用户点击按钮触发该事件
 		*/
 		switchFull: function() {
-			if(this.full) {
+			if (this.full) {
 				this.quitFullScreen();
 			} else {
 				this.fullScreen();
@@ -4152,17 +5948,17 @@ function ckplayerConfig() {
 			全屏动作，该动作只能是用户操作才可以触发，比如用户点击按钮触发该事件
 		*/
 		fullScreen: function() {
-			if(this.html5Video && this.playerType == 'html5video') {
+			if (this.html5Video && this.playerType == 'html5video') {
 				var element = this.PD;
-				if(element.requestFullscreen) {
+				if (element.requestFullscreen) {
 					element.requestFullscreen();
-				} else if(element.mozRequestFullScreen) {
+				} else if (element.mozRequestFullScreen) {
 					element.mozRequestFullScreen();
-				} else if(element.webkitRequestFullscreen) {
+				} else if (element.webkitRequestFullscreen) {
 					element.webkitRequestFullscreen();
-				} else if(element.msRequestFullscreen) {
+				} else if (element.msRequestFullscreen) {
 					element.msRequestFullscreen();
-				} else if(element.oRequestFullscreen) {
+				} else if (element.oRequestFullscreen) {
 					element.oRequestFullscreen();
 				}
 				this.judgeFullScreen();
@@ -4175,18 +5971,18 @@ function ckplayerConfig() {
 			退出全屏动作
 		*/
 		quitFullScreen: function() {
-			if(this.html5Video && this.playerType == 'html5video') {
-				if(document.exitFullscreen) {
+			if (this.html5Video && this.playerType == 'html5video') {
+				if (document.exitFullscreen) {
 					document.exitFullscreen();
-				} else if(document.msExitFullscreen) {
+				} else if (document.msExitFullscreen) {
 					document.msExitFullscreen();
-				} else if(document.mozCancelFullScreen) {
+				} else if (document.mozCancelFullScreen) {
 					document.mozCancelFullScreen();
-				} else if(document.oRequestFullscreen) {
+				} else if (document.oRequestFullscreen) {
 					document.oCancelFullScreen();
-				} else if(document.requestFullscreen) {
+				} else if (document.requestFullscreen) {
 					document.requestFullscreen();
-				} else if(document.webkitExitFullscreen) {
+				} else if (document.webkitExitFullscreen) {
 					document.webkitExitFullscreen();
 				} else {
 					this.css(document.documentElement, 'cssText', '');
@@ -4197,214 +5993,332 @@ function ckplayerConfig() {
 			}
 		},
 		/*
-		 下面列出只有flashplayer里支持的
+		 下面列出只有flashplayer里支持的 
 		 */
 		videoRotation: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoRotation(n);
 				return;
 			}
-			if(this.isUndefined(n)) {
+			if (this.isUndefined(n)) {
 				n = 0;
 			}
 			var tf = this.css(this.V, 'transform');
-			if(this.isUndefined(tf) && !tf) {
+			if (this.isUndefined(tf) && !tf) {
 				tf = 'rotate(0deg)';
 			}
 			var reg = tf.match(/rotate\([^)]+\)/);
 			reg = reg ? reg[0].replace('rotate(', '').replace('deg)', '') : '';
-			if(reg == '') {
+			if (reg == '') {
 				reg = 0;
 			} else {
 				reg = parseInt(reg);
 			}
-			if(n == -1) {
+			if (n == -1) {
 				reg -= 90;
-			} else if(n == 1) {
+			} else if (n == 1) {
 				reg += 90;
 			} else {
-				if(n != 90 && n != 180 && n != 270 && n != -90 && n != -180 && n != -270) {
+				if (n != 90 && n != 180 && n != 270 && n != -90 && n != -180 && n != -270) {
 					reg = 0;
 				} else {
 					reg = n;
 				}
 			}
 			n = reg;
-			tf = tf.replace(/rotate\([^)]+\)/, '') + ' rotate(' + n + 'deg)';
-			this.css(this.V, 'transform', tf);
+			var y90 = n % 90,
+			y180 = n % 180,
+			y270 = n % 270;
+			var ys = false;
+			if (y90 == 0 && y180 == 90 && y270 == 90) {
+				ys = true;
+			}
+			if (y90 == 0 && y180 == 90 && y270 == 0) {
+				ys = true;
+			}
+			if (y90 == -0 && y180 == -90 && y270 == -90) {
+				ys = true;
+			}
+			if (y90 == -0 && y180 == -90 && y270 == -0) {
+				ys = true;
+			}
+			tf = tf.replace(/rotate\([^)]+\)/, '').replace(/scale\([^)]+\)/, '') + ' rotate(' + n + 'deg)';
+			var cdW = this.CD.offsetWidth,
+			cdH = this.CD.offsetHeight,
+			vW = this.V.videoWidth,
+			vH = this.V.videoHeight;
+			if (vW > 0 && vH > 0) {
+				if (ys) {
+					if (cdW / cdH > vH / vW) {
+						nH = cdH;
+						nW = vH * nH / vW;
+					} else {
+						nW = cdW;
+						nH = vW * nW / vH;
+					}
+					this.css(this.V, 'transform', 'rotate(0deg)');
+					this.css(this.V, 'transform', 'scale(' + nH / cdW + ',' + nW / cdH + ')' + tf);
+				} else {
+					this.css(this.V, 'transform', tf);
+				}
+			} else {
+				this.css(this.V, 'transform', tf);
+			}
 			return;
 		},
 		videoBrightness: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoBrightness(n);
 				return;
 			}
 		},
 		videoContrast: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoContrast(n);
 				return;
 			}
 		},
 		videoSaturation: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoSaturation(n);
 				return;
 			}
 		},
 		videoHue: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoHue(n);
 				return;
 			}
 		},
 		videoZoom: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoZoom(n);
 				return;
 			}
-			if(this.isUndefined(n)) {
+			if (this.isUndefined(n)) {
 				n = 1;
 			}
-			if(n < 0) {
+			if (n < 0) {
 				n = 0;
 			}
-			if(n > 2) {
+			if (n > 2) {
 				n = 2;
 			}
 			var tf = this.css(this.V, 'transform');
 			tf = tf.replace(/scale\([^)]+\)/, '') + ' scale(' + n + ')';
+			this.videoScale = n;
 			this.css(this.V, 'transform', tf);
 			return;
 		},
 		videoProportion: function(w, h) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoProportion(w, h);
 				return;
 			}
 		},
 		adPlay: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.adPlay();
 				return;
 			}
+			if (this.adPlayerPlay) {
+				this.adIsPause = false;
+				var ad = this.getNowAdvertisements();
+				var type = ad['type'];
+				if (this.isStrImage(type)) {
+					this.adCountDown();
+				} else {
+					this.V.play();
+				}
+			}
 		},
 		adPause: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.adPause();
 				return;
 			}
+			if (this.adPlayerPlay) {
+				this.adIsPause = true;
+				var ad = this.getNowAdvertisements();
+				var type = ad['type'];
+				if (type != 'jpg' && type != 'jpeg' && type != 'png' && type != 'svg' && type != 'gif') {
+					this.videoPause();
+				}
+			}
 		},
 		videoError: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoError(n);
 				return;
 			}
 		},
 		changeConfig: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
-				this.V.changeConfig(arguments);
+			if (this.playerType == 'flashplayer') {
+				var args = Array.prototype.slice.call(arguments);
+				switch(args.length){
+					case 1:
+						this.V.changeConfig(args[0]);
+						break;
+					case 2:
+						this.V.changeConfig(args[0],args[1]);
+						break;
+					case 3:
+						this.V.changeConfig(args[0],args[1],args[2]);
+						break;
+					case 4:
+						this.V.changeConfig(args[0],args[1],args[2],args[3]);
+						break;
+					case 5:
+						this.V.changeConfig(args[0],args[1],args[2],args[3],args[4]);
+						break;
+					case 6:
+						this.V.changeConfig(args[0],args[1],args[2],args[3],args[4],args[5]);
+						break;
+					case 7:
+						this.V.changeConfig(args[0],args[1],args[2],args[3],args[4],args[5],args[6]);
+						break;
+					case 8:
+						this.V.changeConfig(args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7]);
+						break;
+					case 8:
+						this.V.changeConfig(args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8]);
+						break;
+				}
 				return;
 			}
-			var obj = this.ckplayerConfig;
+			var obj = this.ckConfig;
 			var arg = arguments;
-			for(var i = 0; i < arg.length - 1; i++) {
-				if(obj.hasOwnProperty(arg[i])) {
+			for (var i = 0; i < arg.length - 1; i++) {
+				if (obj.hasOwnProperty(arg[i])) {
 					obj = obj[arg[i]];
 				} else {
 					return;
 				}
 			}
 			var val = arg[arg.length - 1];
-			switch(arg.length) {
+			switch (arg.length) {
 				case 2:
-					this.ckplayerConfig[arg[0]] = val;
+					this.ckConfig[arg[0]] = val;
 					break;
 				case 3:
-					this.ckplayerConfig[arg[0]][arg[1]] = val;
+					this.ckConfig[arg[0]][arg[1]] = val;
 					break;
 				case 4:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]] = val;
 					break;
 				case 5:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]] = val;
 					break;
 				case 6:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]] = val;
 					break;
 				case 7:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]] = val;
 					break;
 				case 8:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]] = val;
 					break;
 				case 9:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]][arg[7]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]][arg[7]] = val;
 					break;
 				case 10:
-					this.ckplayerConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]][arg[7]][arg[8]] = val;
+					this.ckConfig[arg[0]][arg[1]][arg[2]][arg[3]][arg[4]][arg[5]][arg[6]][arg[7]][arg[8]] = val;
 					break;
 				default:
-					return;
 					break;
 			}
-			this.sendJS('configChange', this.ckplayerConfig);
+			this.sendJS('configChange', this.ckConfig);
 		},
 		custom: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.custom(arguments);
 				return;
 			}
+			if(this.isUndefined(arguments)){
+				return;
+			}
+			var type='',name='',display='';
+			if(arguments.length==4){//控制栏
+				type='controlBar-'+arguments[1];
+				name=arguments[2];
+				display=arguments[3]?'block':'none';
+			}
+			else if(arguments.length==3){//播放器
+				type='player-'+arguments[0];
+				name=arguments[1];
+				display=arguments[2]?'block':'none';
+			}
+			else{
+				return;
+			}
+			for(var k in this.customeElement){
+				var obj=this.customeElement[k];
+				if(obj['type']==type && obj['name']==name){
+					this.css(obj['ele'],'display',display);
+				}
+			}
 		},
 		getConfig: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return null;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.getConfig(arguments);
+			}
+			else{
+				var temp=this.ckConfig;
+				for(var index in arguments) {  
+			        try{
+			        	temp=temp[arguments[index]];
+			        }
+			        catch(error){
+			        	temp=null;
+			        }
+			    }; 
+				return temp;
 			}
 		},
 		openUrl: function(n) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.openUrl(n);
 				return;
 			}
@@ -4414,20 +6328,22 @@ function ckplayerConfig() {
 			清除视频
 		*/
 		videoClear: function() {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.videoClear();
 				return;
 			}
+			this.V.innerHTML='';
+			this.V.src='';
 		},
 		/*
 			接口函数
 			向播放器传递新的视频地址
 		*/
 		newVideo: function(c) {
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.newVideo(c);
 				return;
 			} else {
@@ -4439,10 +6355,10 @@ function ckplayerConfig() {
 			截图
 		*/
 		screenshot: function(obj, save, name) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				try {
 					this.V.screenshot(obj, save, name);
 				} catch(error) {
@@ -4450,7 +6366,7 @@ function ckplayerConfig() {
 				}
 				return;
 			}
-			if(obj == 'video') {
+			if (obj == 'video') {
 				var newCanvas = document.createElement('canvas');
 				newCanvas.width = this.V.videoWidth;
 				newCanvas.height = this.V.videoHeight;
@@ -4473,31 +6389,50 @@ function ckplayerConfig() {
 			改变播放器尺寸
 		*/
 		changeSize: function(w, h) {
-			if(this.isUndefined(w)) {
+			if (this.isUndefined(w)) {
 				w = 0;
 			}
-			if(this.isUndefined(h)) {
+			if (this.isUndefined(h)) {
 				h = 0;
 			}
-			if(w > 0) {
+			if (w > 0) {
 				this.css(this.CD, 'width', w + 'px');
 			}
-			if(h > 0) {
+			if (h > 0) {
 				this.css(this.CD, 'height', h + 'px');
 			}
-			if(this.html5Video) {
-				this.elementCoordinate();
+			if (this.html5Video) {
+				this.playerResize();
 			}
+		},
+		/*
+			重置播放器界面
+		*/
+		playerResize:function(){
+			this.controlBar();//控制栏按钮
+			this.elementCoordinate();
+			this.carbarButton();
+			this.customCoor();//自定义元件的位置重置
+			this.timeProgressDefault();//进度条默认样式
+			this.videoCss();//计算video的宽高和位置
+			this.timeUpdateHandler();//修改进度条样式
+			this.changeElementCoor(); //修改新加元件的坐标
+			this.changePrompt();//重置提示点
+			this.advertisementStyle();//广告控制样式
+			this.adPauseCoor();
+			this.adOtherCoor();
+			this.changeLoad();
+			this.sendJS('resize');
 		},
 		/*
 			接口函数
 			改变视频播放速度
 		*/
 		changePlaybackRate: function(n) {
-			if(this.html5Video) {
+			if (this.html5Video) {
 				var arr = this.playbackRateArr;
 				n = parseInt(n);
-				if(n < arr.length) {
+				if (n < arr.length) {
 					this.newPlaybackrate(arr[n][1]);
 				}
 			}
@@ -4507,14 +6442,14 @@ function ckplayerConfig() {
 			注册控制控制栏显示与隐藏函数
 		*/
 		changeControlBarShow: function(show) {
-			if(!this.loaded) {
+			if (!this.loaded) {
 				return;
 			}
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				this.V.changeControlBarShow(show);
 				return;
 			}
-			if(show) {
+			if (show) {
 				this.controlBarIsShow = true;
 				this.controlBarHide(false);
 			} else {
@@ -4527,23 +6462,44 @@ function ckplayerConfig() {
 			调用flashplayer
 		*/
 		embedSWF: function() {
-			var vid = this.randomString();
+			var vid = 'ckplayer-'+this.randomString();
 			var flashvars = this.getFlashVars();
 			var param = this.getFlashplayerParam();
 			var flashplayerUrl = 'http://www.macromedia.com/go/getflashplayer';
 			var html = '',
-				src = javascriptPath + 'ckplayer.swf';
+			src = ckplayerPath + 'ckplayer.swf';
 			id = 'id="' + vid + '" name="' + vid + '" ';
-			html += '<object pluginspage="' + flashplayerUrl + '" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=11,3,0,0" width="100%" height="100%" ' + id + ' align="middle">';
+			html += '<object pluginspage="' + flashplayerUrl + '" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"  codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=11,3,0,0" width="100%" height="100%" ' + id + ' align="middle" wmode="transparent">';
 			html += param['v'];
 			html += '<param name="movie" value="' + src + '">';
 			html += '<param name="flashvars" value="' + flashvars + '">';
-			html += '<embed ' + param['w'] + ' src="' + src + '" flashvars="' + flashvars + '" width="100%" height="100%" ' + id + ' align="middle" type="application/x-shockwave-flash" pluginspage="' + flashplayerUrl + '" />';
+			html += '<param name="wmode" value="transparent">';
+			html += '<embed wmode="transparent" ' + param['w'] + ' src="' + src + '" flashvars="' + flashvars + '" width="100%" height="100%" ' + id + ' align="middle" type="application/x-shockwave-flash" pluginspage="' + flashplayerUrl + '" />';
 			html += '</object>';
 			this.PD.innerHTML = html;
 			this.V = this.getObjectById(vid); //V：定义播放器对象全局变量
 			this.playerType = 'flashplayer';
-			//this.loaded=true;
+		},
+		/*
+			判断浏览器是否支持flashplayer 
+		*/
+		checkShockwaveFlash:function(){
+			if(window.ActiveXObject) {
+				try {
+					var s = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+					if(s) {
+						return true;
+					}
+				} catch(e) {}
+			} else {
+				try {
+					var s = navigator.plugins['Shockwave Flash'];
+					if(s) {
+						return true;
+					}
+				} catch(e) {}
+			}
+			return false;
 		},
 		/*
 			内置函数
@@ -4553,29 +6509,36 @@ function ckplayerConfig() {
 			this.getVarsObject();
 			var v = this.vars;
 			var z = '';
-			for(k in v) {
-				if(k != 'flashplayer' && k != 'container' && v[k] != '') {
-					if(z != '') {
+			for (k in v) {
+				if (k != 'flashplayer' && k != 'container' && v[k] != '') {
+					if (z != '') {
 						z += '&';
 					}
 					var vk = v[k];
-					if(vk == true) {
+					if (vk == true) {
 						vk = 1;
 					}
-					if(vk == false) {
+					if (vk == false) {
 						vk = 0;
 					}
 					z += k + '=' + vk;
 				}
 
 			}
-			if(!v.hasOwnProperty('volume') || !v['volume']) {
-				if(z != '') {
+			if (!v.hasOwnProperty('volume') || !v['volume']) {
+				if (z != '') {
 					z += '&';
 				}
 				z += 'volume=0';
 			}
 			return z;
+		},
+		/*判断字符串是否是图片*/
+		isStrImage: function(s) {
+			if (s == 'jpg' || s == 'jpeg' || s == 'png' || s == 'svg' || s == 'gif') {
+				return true;
+			}
+			return false;
 		},
 		/*
 			内置函数
@@ -4584,51 +6547,51 @@ function ckplayerConfig() {
 		getVarsObject: function() {
 			var v = this.vars;
 			var f = '',
-				d = '',
-				w = ''; //f=视频地址，d=清晰度地址,w=权重，z=最终地址
+			d = '',
+			w = ''; //f=视频地址，d=清晰度地址,w=权重，z=最终地址
 			var arr = this.VA;
 			var prompt = v['promptSpot'];
 			var i = 0;
 			var video = this.vars['video'];
-			if(typeof(video) == 'object') { //对象或数组
-				if(!this.isUndefined(typeof(video.length))) { //说明是数组
-					var arr = video;
-					for(i = 0; i < arr.length; i++) {
-						var arr2 = arr[i];
-						if(arr2) {
-							if(f != '') {
-								f += this.ckplayerConfig['config']['split'];
-								d += ',';
-								w += ',';
-								v['type']+=this.ckplayerConfig['config']['split'];
-							}
-							f += encodeURIComponent(decodeURIComponent(arr2[0]));
-							d += arr2[2];
-							w += arr2[3];
-							v['type']+=arr2[1].replace('video/','');
+			if (this.varType(video) == 'array') { //对象或数组
+				var arr = video;
+				for (i = 0; i < arr.length; i++) {
+					var arr2 = arr[i];
+					if (arr2) {
+						if (f != '') {
+							f += this.ckConfig['config']['split'];
+							d += ',';
+							w += ',';
+							v['type'] += this.ckConfig['config']['split'];
 						}
+						f += encodeURIComponent(decodeURIComponent(arr2[0]));
+						d += arr2[2];
+						w += arr2[3];
+						v['type'] += arr2[1].replace('video/', '');
 					}
-				} else {
-					f = encodeURIComponent(decodeURIComponent(video['file']));
-					if(!this.isUndefined(video['type'])) {
-						v['type'] = video['type'];
-					}
-					d = '';
-					w = '';
 				}
-			} else {
+			}
+			else if (this.varType(video) == 'object') { //对象或数组
+				f = encodeURIComponent(decodeURIComponent(video['file']));
+				if (!this.isUndefined(video['type'])) {
+					v['type'] = video['type'];
+				}
+				d = '';
+				w = '';
+			}
+			else {
 				f = encodeURIComponent(decodeURIComponent(video));
 			}
-			if(v['preview'] != null) {
+			if (v['preview'] != null) {
 				v['previewscale'] = v['preview']['scale'];
 				v['preview'] = v['preview']['file'].join(',');
 
 			}
-			if(prompt != null) {
+			if (prompt != null) {
 				v['promptspot'] = '';
 				v['promptspottime'] = '';
-				for(i = 0; i < prompt.length; i++) {
-					if(v['promptspot'] != '') {
+				for (i = 0; i < prompt.length; i++) {
+					if (v['promptspot'] != '') {
 						v['promptspot'] += ',';
 						v['promptspottime'] += ',';
 					}
@@ -4637,21 +6600,21 @@ function ckplayerConfig() {
 				}
 
 			}
-			if(f != '') {
+			if (f != '') {
 				v['video'] = f;
 				v['definition'] = d;
 				v['weight'] = w;
 			}
-			if(!v['volume']) {
+			if (!v['volume']) {
 				v['volume'] = 0;
 			}
 			var newV = {};
 
-			for(var k in v) {
-				if(v[k] != null) {
+			for (var k in v) {
+				if (v[k] != null) {
 					newV[k] = v[k];
 				}
-				if(k == 'type') {
+				if (k == 'type') {
 					newV[k] = v[k].replace('video/m3u8', 'm3u8');
 				}
 			}
@@ -4664,14 +6627,14 @@ function ckplayerConfig() {
 		*/
 		getFlashplayerParam: function() {
 			var w = '',
-				v = '',
-				o = {
-					allowScriptAccess: 'always',
-					allowFullScreen: true,
-					quality: 'high',
-					bgcolor: '#000'
-				};
-			for(var e in o) {
+			v = '',
+			o = {
+				allowScriptAccess: 'always',
+				allowFullScreen: true,
+				quality: 'high',
+				bgcolor: '#000'
+			};
+			for (var e in o) {
 				w += e + '="' + o[e] + '" ';
 				v += '<param name="' + e + '" value="' + o[e] + '" />';
 			}
@@ -4685,19 +6648,29 @@ function ckplayerConfig() {
 		/*
 			操作动作结束
 			-----------------------------------------------------------------------
-
+			
 			接口函数
 			获取元数据部分
 		*/
 		getMetaDate: function() {
-			if(!this.loaded || this.V == null) {
+			if (!this.loaded || this.V == null) {
 				return false;
 			}
-			if(this.playerType == 'html5video') {
+			if (this.playerType == 'html5video') {
 				var duration = 0;
 				try {
-					duration = !isNaN(this.V.duration) ? this.V.duration : 0;
-				} catch(event) {this.log(event);}
+					duration = !isNaN(this.V.duration) ? this.V.duration: 0;
+					if (isNaN(duration) || parseInt(duration) < 0.2) {
+						if(this.vars['duration']>0){
+							duration=this.vars['duration'];
+						}
+					}
+					if(this.vars['forceduration']>0){
+						duration=this.vars['forceduration'];
+					}
+				} catch(event) {
+					this.log(event);
+				}
 				var data = {
 					duration: duration,
 					volume: this.V.volume,
@@ -4708,14 +6681,14 @@ function ckplayerConfig() {
 					streamHeight: this.V.videoHeight,
 					videoWidth: this.V.offsetWidth,
 					videoHeight: this.V.offsetHeight,
-					paused: this.V.paused
+					paused: this.V.paused,
+					loadTime:this.loadTimeTemp
 				};
 				return data;
 			} else {
-				try{
+				try {
 					return this.V.getMetaDate();
-				}
-				catch(event){
+				} catch(event) {
 					this.log(event);
 				}
 			}
@@ -4726,15 +6699,15 @@ function ckplayerConfig() {
 			取当前提供给播放器播放的视频列表
 		*/
 		getVideoUrl: function() {
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.getVideoUrl();
 			}
 			var arr = [];
-			if(this.V.src) {
+			if (this.V.src) {
 				arr.push(this.V.src);
 			} else {
 				var uArr = this.V.childNodes;
-				for(var i = 0; i < uArr.length; i++) {
+				for (var i = 0; i < uArr.length; i++) {
 					arr.push(uArr[i].src);
 				}
 			}
@@ -4745,20 +6718,20 @@ function ckplayerConfig() {
 			格式化函数
 		*/
 		clickEvent: function(call) {
-			if(call == 'none' || call == '' || call == null) {
+			if (call == 'none' || call == '' || call == null) {
 				return {
 					type: 'none'
 				};
 			}
 			var callArr = call.split('->');
 			var type = '',
-				fun = '',
-				link = '',
-				target = '';
-			if(callArr.length == 2) {
+			fun = '',
+			link = '',
+			target = '';
+			if (callArr.length == 2) {
 				var callM = callArr[0];
 				var callE = callArr[1];
-				if(!callE) {
+				if (!callE) {
 					return {
 						type: 'none'
 					};
@@ -4766,58 +6739,57 @@ function ckplayerConfig() {
 				var val = '';
 				var eArr = [];
 				type = callM;
-				switch(callM) {
-					case 'actionScript':
-						//trace(THIS.hasOwnProperty(callE));
-
-						if(callE.indexOf('(') > -1) {
-							eArr = callE.split('(');
-							callE = eArr[0];
-							val = eArr[1].replace(')', '');
-						}
-						if(val == '') {
-							fun = 'thisTemp.' + callE + '()';
+				switch (callM) {
+				case 'actionScript':
+					//trace(THIS.hasOwnProperty(callE));
+					if (callE.indexOf('(') > -1) {
+						eArr = callE.split('(');
+						callE = eArr[0];
+						val = eArr[1].replace(')', '');
+					}
+					if (val == '') {
+						fun = 'thisTemp.' + callE + '()';
+					} else {
+						fun = 'thisTemp.' + callE + '(' + val + ')';
+					}
+					break;
+				case 'javaScript':
+					if (callE.substr(0, 11) == '[flashvars]') {
+						callE = callE.substr(11);
+						if (this.vars.hasOwnProperty(callE)) {
+							callE = this.vars[callE];
 						} else {
-							fun = 'thisTemp.' + callE + '(' + val + ')';
+							break;
 						}
-						break;
-					case 'javaScript':
-						if(callE.substr(0, 11) == '[flashvars]') {
-							callE = callE.substr(11);
-							if(this.vars.hasOwnProperty(callE)) {
-								callE = this.vars[callE];
-							} else {
-								break;
-							}
 
-						}
-						if(callE.indexOf('(') > -1) {
-							eArr = callE.split('(');
-							callE = eArr[0];
-							val = eArr[1].replace(')', '');
-						}
-						if(val == '') {
-							fun = callE + '()';
+					}
+					if (callE.indexOf('(') > -1) {
+						eArr = callE.split('(');
+						callE = eArr[0];
+						val = eArr[1].replace(')', '');
+					}
+					if (val == '') {
+						fun = callE + '()';
+					} else {
+						fun = callE + '(' + val + ')';
+					}
+					break;
+				case "link":
+					var callLink = (callE + ',').split(',');
+					if (callLink[0].substr(0, 11) == '[flashvars]') {
+						var fl = callLink[0].replace('[flashvars]', '');
+						if (this.vars.hasOwnProperty(fl)) {
+							callLink[0] = this.vars[fl];
 						} else {
-							fun = callE + '(' + val + ')';
+							break;
 						}
-						break;
-					case "link":
-						var callLink = (callE + ',').split(',');
-						if(callLink[0].substr(0, 11) == '[flashvars]') {
-							var fl = callLink[0].replace('[flashvars]', '');
-							if(this.vars.hasOwnProperty(fl)) {
-								callLink[0] = this.vars[fl];
-							} else {
-								break;
-							}
-						}
-						if(!callLink[1]) {
-							callLink[1] = '_blank';
-						}
-						link = callLink[0];
-						target = callLink[1];
-						break;
+					}
+					if (!callLink[1]) {
+						callLink[1] = '_blank';
+					}
+					link = callLink[0];
+					target = callLink[1];
+					break;
 				}
 			}
 			return {
@@ -4829,11 +6801,71 @@ function ckplayerConfig() {
 		},
 		/*
 			内置函数
+			根据指定的align,valign,offsetX,offsetY计算坐标
+		*/
+		getPosition: function(obj,rEle) {
+			/*
+			{
+	            "align": "right",
+	            "vAlign": "right",
+	            "offsetX": -60,
+	            "offsetY": -60
+	        } 
+			*/
+			var pw = this.PD.offsetWidth,
+			ph = this.PD.offsetHeight;
+			var x = 0,
+			y = 0;
+			var left=0,top=0,rw=0,rh=0;
+			if(!this.isUndefined(rEle)){
+				left=parseInt(this.css(rEle,'left')),top=parseInt(this.css(rEle,'top')),rw=rEle.offsetWidth,rh=rEle.offsetHeight;
+			}
+			switch (obj['align']) {
+				case 'left':
+					x = obj['offsetX']+left;
+					break;
+				case 'center':
+					x = pw * 0.5 + obj['offsetX'];
+					if(left){
+						x-=(pw*0.5-rw*0.5-left);
+					}
+					break;
+				case 'right':
+					x = pw + obj['offsetX'];
+					if(left){
+						x-=(pw-left-rw);
+					}
+					break;
+			}
+			switch (obj['vAlign']) {
+				case 'top':
+					y = obj['offsetY']+top;
+					break;
+				case 'middle':
+					y = ph * 0.5 + obj['offsetY']-top-(rh*0.5);
+					if(top){
+						x-=(ph*0.5-rh*0.5-top);
+					}
+					break;
+				case 'bottom':
+					y = ph + obj['offsetY'];
+					if(top){
+						y-=(ph-top-rh);
+					}
+					break;
+			}
+			return {
+				x: x,
+				y: y
+			};
+		},
+		/*
+			内置函数
 			向播放器界面添加一个文本
 		*/
 		addElement: function(attribute) {
 			var thisTemp = this;
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.addElement(attribute);
 			}
 			var i = 0;
@@ -4850,25 +6882,24 @@ function ckplayerConfig() {
 			};
 			obj = this.standardization(obj, attribute);
 			var list = obj['list'];
-			if(list == null) {
+			if (list == null) {
 				return '';
 			}
-			var id = 'element' + this.randomString(10);
+			var id = 'element-' + this.randomString(10);
 			var ele = document.createElement('div');
 			ele.className = id;
-			if(obj['x']) {
+			if (obj['x']) {
 				ele.setAttribute('data-x', obj['x']);
 			}
-			if(obj['y']) {
+			if (obj['y']) {
 				ele.setAttribute('data-y', obj['y']);
 			}
-			if(obj['position'] != null) {
+			if (obj['position'] != null) {
 				ele.setAttribute('data-position', obj['position'].join(','));
 			}
 
 			this.PD.appendChild(ele);
-			var eid = this.getByElement(id);
-			this.css(eid, {
+			this.css(ele, {
 				position: 'absolute',
 				filter: 'alpha(opacity:' + obj['alpha'] + ')',
 				opacity: obj['alpha'].toString(),
@@ -4881,87 +6912,84 @@ function ckplayerConfig() {
 			var html = '';
 			var idArr = [];
 			var clickArr = [];
-			if(!this.isUndefined(list) && list.length > 0) {
+			if (!this.isUndefined(list) && list.length > 0) {
 				var textObj, returnObj, clickEvent;
-				for(i = 0; i < list.length; i++) {
+				for (i = 0; i < list.length; i++) {
 					var newEleid = 'elementnew' + this.randomString(10);
-					switch(list[i]['type']) {
-						case 'image':
-						case 'png':
-						case 'jpg':
-						case 'jpeg':
-						case 'gif':
-							textObj = {
-								type: 'image',
-								file: '',
-								radius: 0, //圆角弧度
-								width: 30, //定义宽，必需要定义
-								height: 30, //定义高，必需要定义
-								alpha: 1, //透明度
-								paddingLeft: 0, //左边距离
-								paddingRight: 0, //右边距离
-								paddingTop: 0,
-								paddingBottom: 0,
-								marginLeft: 0,
-								marginRight: 0,
-								marginTop: 0,
-								marginBottom: 0,
-								backgroundColor: '',
-								clickEvent: ''
-							};
+					switch (list[i]['type']) {
+					case 'image':
+					case 'png':
+					case 'jpg':
+					case 'jpeg':
+					case 'gif':
+						textObj = {
+							type: 'image',
+							file: '',
+							radius: 0,//圆角弧度
+							width: 30,//定义宽，必需要定义
+							height: 30,//定义高，必需要定义
+							alpha: 1,//透明度
+							paddingLeft: 0,//左边距离
+							paddingRight: 0,//右边距离
+							paddingTop: 0,
+							paddingBottom: 0,
+							marginLeft: 0,
+							marginRight: 0,
+							marginTop: 0,
+							marginBottom: 0,
+							backgroundColor: '',
+							clickEvent: ''
+						};
 
-							list[i] = this.standardization(textObj, list[i]);
-							clickEvent = this.clickEvent(list[i]['clickEvent']);
-							clickArr.push(clickEvent);
-							if(clickEvent['type'] == 'link') {
-								html += '<div class="' + newEleid + '" data-i="' + i + '"><a href="' + clickEvent['link'] + '" target="' + clickEvent['target'] + '"><img class="' + newEleid + '_image" src="' + list[i]['file'] + '" style="border:0;"></a></div>';
-							} else {
-								html += '<div class="' + newEleid + '" data-i="' + i + '"><img class="' + newEleid + '_image" src="' + list[i]['file'] + '" style="border:0;"></div>';
-							}
-							break;
-						case 'text':
-							textObj = {
-								type: 'text', //说明是文本
-								text: '', //文本内容
-								color: '0xFFFFFF',
-								size: 14,
-								font: this.fontFamily,
-								leading: 0,
-								alpha: 1, //透明度
-								paddingLeft: 0, //左边距离
-								paddingRight: 0, //右边距离
-								paddingTop: 0,
-								paddingBottom: 0,
-								marginLeft: 0,
-								marginRight: 0,
-								marginTop: 0,
-								marginBottom: 0,
-								backgroundColor: '',
-								backAlpha: 1,
-								backRadius: 0, //背景圆角弧度，支持数字统一设置，也支持分开设置[30,20,20,50]，对应上左，上右，下右，下左
-								clickEvent: ''
-							};
-							list[i] = this.standardization(textObj, list[i]);
-							clickEvent = this.clickEvent(list[i]['clickEvent']);
-							clickArr.push(clickEvent);
-							if(clickEvent['type'] == 'link') {
-								html += '<div class="' + newEleid + '" data-i="' + i + '"><div class="' + newEleid + '_bg"></div><div class="' + newEleid + '_text"><a href="' + clickEvent['link'] + '" target="' + clickEvent['target'] + '">' + list[i]['text'] + '</a></div></div>';
-							} else {
-								html += '<div  class="' + newEleid + '" data-i="' + i + '"><div class="' + newEleid + '_bg"></div><div class="' + newEleid + '_text">' + list[i]['text'] + '</div></div>';
-							}
-							break;
-						default:
-							break;
+						list[i] = this.standardization(textObj, list[i]);
+						clickEvent = this.clickEvent(list[i]['clickEvent']);
+						clickArr.push(clickEvent);
+						if (clickEvent['type'] == 'link') {
+							html += '<div class="' + newEleid + '" data-i="' + i + '"><a href="' + clickEvent['link'] + '" target="' + clickEvent['target'] + '"><img class="' + newEleid + '_image" src="' + list[i]['file'] + '" style="border:0;"></a></div>';
+						} else {
+							html += '<div class="' + newEleid + '" data-i="' + i + '"><img class="' + newEleid + '_image" src="' + list[i]['file'] + '" style="border:0;"></div>';
+						}
+						break;
+					case 'text':
+						textObj = {
+							type: 'text',//说明是文本
+							text: '',//文本内容
+							color: '0xFFFFFF',
+							size: 14,
+							fontFamily: this.fontFamily,
+							leading: 0,
+							alpha: 1,//透明度
+							paddingLeft: 0,//左边距离
+							paddingRight: 0,//右边距离
+							paddingTop: 0,
+							paddingBottom: 0,
+							marginLeft: 0,
+							marginRight: 0,
+							marginTop: 0,
+							marginBottom: 0,
+							backgroundColor: '',
+							backAlpha: 1,
+							backRadius: 0,//背景圆角弧度，支持数字统一设置，也支持分开设置[30,20,20,50]，对应上左，上右，下右，下左
+							clickEvent: ''
+						};
+						list[i] = this.standardization(textObj, list[i]);
+						clickEvent = this.clickEvent(list[i]['clickEvent']);
+						clickArr.push(clickEvent);
+						if (clickEvent['type'] == 'link') {
+							html += '<div class="' + newEleid + '" data-i="' + i + '"><div class="' + newEleid + '_bg"></div><div class="' + newEleid + '_text"><a href="' + clickEvent['link'] + '" target="' + clickEvent['target'] + '">' + list[i]['text'] + '</a></div></div>';
+						} else {
+							html += '<div  class="' + newEleid + '" data-i="' + i + '"><div class="' + newEleid + '_bg"></div><div class="' + newEleid + '_text">' + list[i]['text'] + '</div></div>';
+						}
+						break;
+					default:
+						break;
 					}
 					idArr.push(newEleid);
 				}
 			}
 			var objClickEvent = this.clickEvent(obj['clickEvent']);
-			/*if(objClickEvent['type']=='link'){
-				html = '<a href="'+objClickEvent['link']+'" target="'+objClickEvent['target']+'">' + html + '</a>';
-			}*/
-			eid.innerHTML = '<div class="' + bgid + '"></div><div class="' + bgid + '_c">' + html + '</div>';
-			if(objClickEvent['type'] == 'javaScript' || objClickEvent['type'] == 'actionScript') {
+			ele.innerHTML = '<div class="' + bgid + '"></div><div class="' + bgid + '_c">' + html + '</div>';
+			if (objClickEvent['type'] == 'javaScript' || objClickEvent['type'] == 'actionScript') {
 				var objClickHandler = function() {
 					eval(objClickEvent['fun']);
 					thisTemp.sendJS('clickEvent', clk['type'] + '->' + clk['fun'].replace('thisTemp.', '').replace('()', ''));
@@ -4972,82 +7000,82 @@ function ckplayerConfig() {
 				position: 'absolute',
 				zIndex: '2'
 			});
-			for(i = 0; i < idArr.length; i++) {
+			for (i = 0; i < idArr.length; i++) {
 				var clk = clickArr[i];
-
-				if(clk['type'] == 'javaScript' || clk['type'] == 'actionScript') {
+				if (clk['type'] == 'javaScript' || clk['type'] == 'actionScript') {
 					var clickHandler = function() {
-						clk = clickArr[this.getAttribute('data-i')];
+						//clk = clickArr[this.getAttribute('data-i')];
+						clk = clickArr[thisTemp.getDataset(this,'i')];
 						eval(clk['fun']);
 						thisTemp.sendJS('clickEvent', clk['type'] + '->' + clk['fun'].replace('thisTemp.', '').replace('()', ''));
 					};
 					this.addListenerInside('click', clickHandler, this.getByElement(idArr[i]))
 				}
-				switch(list[i]['type']) {
-					case 'image':
-					case 'png':
-					case 'jpg':
-					case 'jpeg':
-					case 'gif':
-						this.css(idArr[i], {
-							float: 'left',
-							width: list[i]['width'] + 'px',
-							height: list[i]['height'] + 'px',
-							filter: 'alpha(opacity:' + list[i]['alpha'] + ')',
-							opacity: list[i]['alpha'].toString(),
-							marginLeft: list[i]['marginLeft'] + 'px',
-							marginRight: list[i]['marginRight'] + 'px',
-							marginTop: list[i]['marginTop'] + 'px',
-							marginBottom: list[i]['marginBottom'] + 'px',
-							borderRadius: list[i]['radius'] + 'px',
-							cursor: 'pointer'
-						});
-						this.css(idArr[i] + '_image', {
-							width: list[i]['width'] + 'px',
-							height: list[i]['height'] + 'px',
-							borderRadius: list[i]['radius'] + 'px'
-						});
-						break;
-					case 'text':
-						this.css(idArr[i] + '_text', {
-							filter: 'alpha(opacity:' + list[i]['alpha'] + ')',
-							opacity: list[i]['alpha'].toString(),
-							borderRadius: list[i]['radius'] + 'px',
-							fontFamily: list[i]['font'],
-							fontSize: list[i]['size'] + 'px',
-							color: list[i]['color'].replace('0x', '#'),
-							lineHeight: list[i]['leading'] > 0 ? list[i]['leading'] + 'px' : '',
-							paddingLeft: list[i]['paddingLeft'] + 'px',
-							paddingRight: list[i]['paddingRight'] + 'px',
-							paddingTop: list[i]['paddingTop'] + 'px',
-							paddingBottom: list[i]['paddingBottom'] + 'px',
-							whiteSpace: 'nowrap',
-							position: 'absolute',
-							zIndex: '3',
-							cursor: 'pointer'
-						});
-						this.css(idArr[i], {
-							float: 'left',
-							width: this.getByElement(idArr[i] + '_text').offsetWidth + 'px',
-							height: this.getByElement(idArr[i] + '_text').offsetHeight + 'px',
-							marginLeft: list[i]['marginLeft'] + 'px',
-							marginRight: list[i]['marginRight'] + 'px',
-							marginTop: list[i]['marginTop'] + 'px',
-							marginBottom: list[i]['marginBottom'] + 'px'
-						});
-						this.css(idArr[i] + '_bg', {
-							width: this.getByElement(idArr[i] + '_text').offsetWidth + 'px',
-							height: this.getByElement(idArr[i] + '_text').offsetHeight + 'px',
-							filter: 'alpha(opacity:' + list[i]['backAlpha'] + ')',
-							opacity: list[i]['backAlpha'].toString(),
-							borderRadius: list[i]['backRadius'] + 'px',
-							backgroundColor: list[i]['backgroundColor'].replace('0x', '#'),
-							position: 'absolute',
-							zIndex: '2'
-						});
-						break;
-					default:
-						break;
+				switch (list[i]['type']) {
+				case 'image':
+				case 'png':
+				case 'jpg':
+				case 'jpeg':
+				case 'gif':
+					this.css(idArr[i], {
+						float: 'left',
+						width: list[i]['width'] + 'px',
+						height: list[i]['height'] + 'px',
+						filter: 'alpha(opacity:' + list[i]['alpha'] + ')',
+						opacity: list[i]['alpha'].toString(),
+						marginLeft: list[i]['marginLeft'] + 'px',
+						marginRight: list[i]['marginRight'] + 'px',
+						marginTop: list[i]['marginTop'] + 'px',
+						marginBottom: list[i]['marginBottom'] + 'px',
+						borderRadius: list[i]['radius'] + 'px',
+						cursor: 'pointer'
+					});
+					this.css(idArr[i] + '_image', {
+						width: list[i]['width'] + 'px',
+						height: list[i]['height'] + 'px',
+						borderRadius: list[i]['radius'] + 'px'
+					});
+					break;
+				case 'text':
+					this.css(idArr[i] + '_text', {
+						filter: 'alpha(opacity:' + list[i]['alpha'] + ')',
+						opacity: list[i]['alpha'].toString(),
+						borderRadius: list[i]['radius'] + 'px',
+						fontFamily: list[i]['font'],
+						fontSize: list[i]['size'] + 'px',
+						color: list[i]['color'].replace('0x', '#'),
+						lineHeight: list[i]['leading'] > 0 ? list[i]['leading'] + 'px': '',
+						paddingLeft: list[i]['paddingLeft'] + 'px',
+						paddingRight: list[i]['paddingRight'] + 'px',
+						paddingTop: list[i]['paddingTop'] + 'px',
+						paddingBottom: list[i]['paddingBottom'] + 'px',
+						whiteSpace: 'nowrap',
+						position: 'absolute',
+						zIndex: '3',
+						cursor: 'pointer'
+					});
+					this.css(idArr[i], {
+						float: 'left',
+						width: this.getByElement(idArr[i] + '_text').offsetWidth + 'px',
+						height: this.getByElement(idArr[i] + '_text').offsetHeight + 'px',
+						marginLeft: list[i]['marginLeft'] + 'px',
+						marginRight: list[i]['marginRight'] + 'px',
+						marginTop: list[i]['marginTop'] + 'px',
+						marginBottom: list[i]['marginBottom'] + 'px'
+					});
+					this.css(idArr[i] + '_bg', {
+						width: this.getByElement(idArr[i] + '_text').offsetWidth + 'px',
+						height: this.getByElement(idArr[i] + '_text').offsetHeight + 'px',
+						filter: 'alpha(opacity:' + list[i]['backAlpha'] + ')',
+						opacity: list[i]['backAlpha'].toString(),
+						borderRadius: list[i]['backRadius'] + 'px',
+						backgroundColor: list[i]['backgroundColor'].replace('0x', '#'),
+						position: 'absolute',
+						zIndex: '2'
+					});
+					break;
+				default:
+					break;
 				}
 			}
 			this.css(bgid, {
@@ -5060,29 +7088,29 @@ function ckplayerConfig() {
 				borderRadius: obj['backRadius'] + 'px',
 				zIndex: '1'
 			});
-			this.css(eid, {
+			this.css(ele, {
 				width: this.getByElement(bgid).offsetWidth + 'px',
 				height: this.getByElement(bgid).offsetHeight + 'px'
 			});
-			var eidCoor = this.calculationCoor(eid);
-			this.css(eid, {
+			var eidCoor = this.calculationCoor(ele);
+			this.css(ele, {
 				left: eidCoor['x'] + 'px',
 				top: eidCoor['y'] + 'px'
 			});
 
-			this.elementArr.push(eid.className);
-			return eid;
+			this.elementArr.push(ele.className);
+			return ele;
 		},
 		/*
 			内置函数
 			获取元件的属性，包括x,y,width,height,alpha
 		*/
 		getElement: function(element) {
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.getElement(element);
 			}
 			var ele = element;
-			if(typeof(element) == 'string') {
+			if (this.varType(element) == 'string') {
 				ele = this.getByElement(element);
 			}
 			var coor = this.getCoor(ele);
@@ -5091,103 +7119,127 @@ function ckplayerConfig() {
 				y: coor['y'],
 				width: ele.offsetWidth,
 				height: ele.offsetHeight,
-				alpha: !this.isUndefined(this.css(ele, 'opacity')) ? parseFloat(this.css(ele, 'opacity')) : 1
+				alpha: !this.isUndefined(this.css(ele, 'opacity')) ? parseFloat(this.css(ele, 'opacity')) : 1,
+				show: this.css(ele, 'display') == 'none' ? false: true
 			};
+		},
+		/*
+			内置函数
+			控制元件显示和隐藏
+		*/
+		elementShow: function(element, show) {
+			if (this.playerType == 'flashplayer') {
+				this.V.elementShow(element, show);
+				return;
+			}
+			if (this.varType(element) == 'string') {
+				if (element) {
+					this.css(ele, 'display', show == true ? 'block': 'none');
+				} else {
+					var arr = this.elementTempArr;
+					for (var i = 0; i < arr.length; i++) {
+						this.css(arr[i], 'display', show == true ? 'block': 'none');
+					}
+				}
+			}
+
 		},
 		/*
 			内置函数
 			根据节点的x,y计算在播放器里的坐标
 		*/
 		calculationCoor: function(ele) {
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.calculationCoor(ele);
 			}
-			if(ele == []) {
+			if(this.isUndefined(ele)){
+				return;
+			}
+			if (ele == []) {
 				return;
 			}
 			var x, y, position = [];
 			var w = this.PD.offsetWidth,
-				h = this.PD.offsetHeight;
+			h = this.PD.offsetHeight;
 			var ew = ele.offsetWidth,
-				eh = ele.offsetHeight;
-			if(!this.isUndefined(this.getDataset(ele, 'x'))) {
+			eh = ele.offsetHeight;
+			if (!this.isUndefined(this.getDataset(ele, 'x'))) {
 				x = this.getDataset(ele, 'x');
 			}
-			if(!this.isUndefined(this.getDataset(ele, 'y'))) {
+			if (!this.isUndefined(this.getDataset(ele, 'y'))) {
 				y = this.getDataset(ele, 'y');
 			}
-			if(!this.isUndefined(this.getDataset(ele, 'position'))) {
-				try{
+			if (!this.isUndefined(this.getDataset(ele, 'position'))) {
+				try {
 					position = this.getDataset(ele, 'position').toString().split(',');
-				}
-				catch(event){}
+				} catch(event) {}
 			}
-			if(position.length > 0) {
+			if (position.length > 0) {
 				position.push(null, null, null, null);
 				var i = 0;
-				for(i = 0; i < position.length; i++) {
-					if(this.isUndefined(position[i]) || position[i] == null || position[i] == 'null' || position[i] == '') {
+				for (i = 0; i < position.length; i++) {
+					if (this.isUndefined(position[i]) || position[i] == null || position[i] == 'null' || position[i] == '') {
 						position[i] = null;
 					} else {
 						position[i] = parseFloat(position[i]);
 					}
 				}
 
-				if(position[2] == null) {
-					switch(position[0]) {
-						case 0:
-							x = 0;
-							break;
-						case 1:
-							x = parseInt((w - ew) * 0.5);
-							break;
-						default:
-							x = w - ew;
-							break;
+				if (position[2] == null) {
+					switch (position[0]) {
+					case 0:
+						x = 0;
+						break;
+					case 1:
+						x = parseInt((w - ew) * 0.5);
+						break;
+					default:
+						x = w - ew;
+						break;
 					}
 				} else {
-					switch(position[0]) {
-						case 0:
-							x = position[2];
-							break;
-						case 1:
-							x = parseInt(w * 0.5) + position[2];
-							break;
-						default:
-							x = w + position[2];
-							break;
+					switch (position[0]) {
+					case 0:
+						x = position[2];
+						break;
+					case 1:
+						x = parseInt(w * 0.5) + position[2];
+						break;
+					default:
+						x = w + position[2];
+						break;
 					}
 				}
-				if(position[3] == null) {
-					switch(position[1]) {
-						case 0:
-							y = 0;
-							break;
-						case 1:
-							y = parseInt((h - eh) * 0.5);
-							break;
-						default:
-							y = h - eh;
-							break;
+				if (position[3] == null) {
+					switch (position[1]) {
+					case 0:
+						y = 0;
+						break;
+					case 1:
+						y = parseInt((h - eh) * 0.5);
+						break;
+					default:
+						y = h - eh;
+						break;
 					}
 				} else {
-					switch(position[1]) {
-						case 0:
-							y = position[3];
-							break;
-						case 1:
-							y = parseInt(h * 0.5) + position[3];
-							break;
-						default:
-							y = h + position[3];
-							break;
+					switch (position[1]) {
+					case 0:
+						y = position[3];
+						break;
+					case 1:
+						y = parseInt(h * 0.5) + position[3];
+						break;
+					default:
+						y = h + position[3];
+						break;
 					}
 				}
 			} else {
-				if(x.substring(x.length - 1, x.length) == '%') {
+				if (x.substring(x.length - 1, x.length) == '%') {
 					x = Math.floor(parseInt(x.substring(0, x.length - 1)) * w * 0.01);
 				}
-				if(y.substring(y.length - 1, y.length) == '%') {
+				if (y.substring(y.length - 1, y.length) == '%') {
 					y = Math.floor(parseInt(y.substring(0, y.length - 1)) * h * 0.01);
 				}
 			}
@@ -5202,14 +7254,16 @@ function ckplayerConfig() {
 			修改新增元件的坐标
 		*/
 		changeElementCoor: function() {
-			for(var i = 0; i < this.elementArr.length; i++) {
-				if(this.getByElement(this.elementArr[i]) != []) {
-					var c = this.calculationCoor(this.getByElement(this.elementArr[i]));
-					if(c['x'] && c['y']){
-						this.css(this.elementArr[i], {
-							top: c['y'] + 'px',
-							left: c['x'] + 'px'
-						});
+			for (var i = 0; i < this.elementArr.length; i++) {
+				if(!this.isUndefined(this.getByElement(this.elementArr[i]))){
+					if (this.getByElement(this.elementArr[i]) != []) {
+						var c = this.calculationCoor(this.getByElement(this.elementArr[i]));
+						if (c['x'] && c['y']) {
+							this.css(this.elementArr[i], {
+								top: c['y'] + 'px',
+								left: c['x'] + 'px'
+							});
+						}
 					}
 				}
 			}
@@ -5236,11 +7290,11 @@ function ckplayerConfig() {
 						return c * (t /= d) * t + b;
 					},
 					easeOut: function(t, b, c, d) {
-						return -c * (t /= d) * (t - 2) + b;
+						return - c * (t /= d) * (t - 2) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if((t /= d / 2) < 1) return c / 2 * t * t + b;
-						return -c / 2 * ((--t) * (t - 2) - 1) + b;
+						if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+						return - c / 2 * ((--t) * (t - 2) - 1) + b;
 					}
 				},
 				Cubic: {
@@ -5251,7 +7305,7 @@ function ckplayerConfig() {
 						return c * ((t = t / d - 1) * t * t + 1) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+						if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
 						return c / 2 * ((t -= 2) * t * t + 2) + b;
 					}
 				},
@@ -5260,11 +7314,11 @@ function ckplayerConfig() {
 						return c * (t /= d) * t * t * t + b;
 					},
 					easeOut: function(t, b, c, d) {
-						return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+						return - c * ((t = t / d - 1) * t * t * t - 1) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-						return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+						if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
+						return - c / 2 * ((t -= 2) * t * t * t - 2) + b;
 					}
 				},
 				Quintic: {
@@ -5275,92 +7329,92 @@ function ckplayerConfig() {
 						return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+						if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
 						return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
 					}
 				},
 				Sine: {
 					easeIn: function(t, b, c, d) {
-						return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+						return - c * Math.cos(t / d * (Math.PI / 2)) + c + b;
 					},
 					easeOut: function(t, b, c, d) {
 						return c * Math.sin(t / d * (Math.PI / 2)) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+						return - c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
 					}
 				},
 				Exponential: {
 					easeIn: function(t, b, c, d) {
-						return(t == 0) ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+						return (t == 0) ? b: c * Math.pow(2, 10 * (t / d - 1)) + b;
 					},
 					easeOut: function(t, b, c, d) {
-						return(t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+						return (t == d) ? b + c: c * ( - Math.pow(2, -10 * t / d) + 1) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if(t == 0) return b;
-						if(t == d) return b + c;
-						if((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-						return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+						if (t == 0) return b;
+						if (t == d) return b + c;
+						if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+						return c / 2 * ( - Math.pow(2, -10 * --t) + 2) + b;
 					}
 				},
 				Circular: {
 					easeIn: function(t, b, c, d) {
-						return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+						return - c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
 					},
 					easeOut: function(t, b, c, d) {
 						return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
 					},
 					easeInOut: function(t, b, c, d) {
-						if((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+						if ((t /= d / 2) < 1) return - c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
 						return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
 					}
 				},
 				Elastic: {
 					easeIn: function(t, b, c, d, a, p) {
-						if(t == 0) return b;
-						if((t /= d) == 1) return b + c;
-						if(!p) p = d * .3;
-						if(!a || a < Math.abs(c)) {
+						if (t == 0) return b;
+						if ((t /= d) == 1) return b + c;
+						if (!p) p = d * .3;
+						if (!a || a < Math.abs(c)) {
 							a = c;
 							var s = p / 4;
 						} else var s = p / (2 * Math.PI) * Math.asin(c / a);
-						return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+						return - (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
 					},
 					easeOut: function(t, b, c, d, a, p) {
-						if(t == 0) return b;
-						if((t /= d) == 1) return b + c;
-						if(!p) p = d * .3;
-						if(!a || a < Math.abs(c)) {
+						if (t == 0) return b;
+						if ((t /= d) == 1) return b + c;
+						if (!p) p = d * .3;
+						if (!a || a < Math.abs(c)) {
 							a = c;
 							var s = p / 4;
 						} else var s = p / (2 * Math.PI) * Math.asin(c / a);
-						return(a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b);
+						return (a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b);
 					},
 					easeInOut: function(t, b, c, d, a, p) {
-						if(t == 0) return b;
-						if((t /= d / 2) == 2) return b + c;
-						if(!p) p = d * (.3 * 1.5);
-						if(!a || a < Math.abs(c)) {
+						if (t == 0) return b;
+						if ((t /= d / 2) == 2) return b + c;
+						if (!p) p = d * (.3 * 1.5);
+						if (!a || a < Math.abs(c)) {
 							a = c;
 							var s = p / 4;
 						} else var s = p / (2 * Math.PI) * Math.asin(c / a);
-						if(t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+						if (t < 1) return - .5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
 						return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
 					}
 				},
 				Back: {
 					easeIn: function(t, b, c, d, s) {
-						if(s == undefined) s = 1.70158;
+						if (s == undefined) s = 1.70158;
 						return c * (t /= d) * t * ((s + 1) * t - s) + b;
 					},
 					easeOut: function(t, b, c, d, s) {
-						if(s == undefined) s = 1.70158;
+						if (s == undefined) s = 1.70158;
 						return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
 					},
 					easeInOut: function(t, b, c, d, s) {
-						if(s == undefined) s = 1.70158;
-						if((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+						if (s == undefined) s = 1.70158;
+						if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
 						return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
 					}
 				},
@@ -5369,18 +7423,18 @@ function ckplayerConfig() {
 						return c - Tween.Bounce.easeOut(d - t, 0, c, d) + b;
 					},
 					easeOut: function(t, b, c, d) {
-						if((t /= d) < (1 / 2.75)) {
+						if ((t /= d) < (1 / 2.75)) {
 							return c * (7.5625 * t * t) + b;
-						} else if(t < (2 / 2.75)) {
+						} else if (t < (2 / 2.75)) {
 							return c * (7.5625 * (t -= (1.5 / 2.75)) * t + .75) + b;
-						} else if(t < (2.5 / 2.75)) {
+						} else if (t < (2.5 / 2.75)) {
 							return c * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375) + b;
 						} else {
 							return c * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375) + b;
 						}
 					},
 					easeInOut: function(t, b, c, d) {
-						if(t < d / 2) return Tween.Bounce.easeIn(t * 2, 0, c, d) * .5 + b;
+						if (t < d / 2) return Tween.Bounce.easeIn(t * 2, 0, c, d) * .5 + b;
 						else return Tween.Bounce.easeOut(t * 2 - d, 0, c, d) * .5 + c * .5 + b;
 					}
 				}
@@ -5398,7 +7452,7 @@ function ckplayerConfig() {
 			speed:Number=运动的总秒数，支持小数
 		*/
 		animate: function(attribute) {
-			if(this.playerType == 'flashplayer') {
+			if (this.playerType == 'flashplayer') {
 				return this.V.animate(attribute);
 			}
 			var thisTemp = this;
@@ -5412,27 +7466,29 @@ function ckplayerConfig() {
 				end: null,
 				speed: 0,
 				overStop: false,
-				pauseStop: false, //暂停播放时缓动是否暂停
+				pauseStop: false,
+				//暂停播放时缓动是否暂停
 				callBack: null
 			};
 			obj = this.standardization(obj, attribute);
-			if(obj['element'] == null || obj['speed'] == 0) {
+			if (obj['element'] == null || obj['speed'] == 0) {
 				return false;
 			}
 			var w = this.PD.offsetWidth,
-				h = this.PD.offsetHeight;
+			h = this.PD.offsetHeight;
 			var effArr = (obj['effect'] + '.').split('.');
 			var tweenFun = this.tween()[effArr[0]][effArr[1]];
 			var eleCoor = {
 				x: 0,
 				y: 0
 			};
-			if(this.isUndefined(tweenFun)) {
+			if (this.isUndefined(tweenFun)) {
 				return false;
 			}
 			//先将该元件从元件数组里删除，让其不再跟随播放器的尺寸改变而改变位置
 			var def = this.arrIndexOf(this.elementArr, obj['element'].className);
-			if(def > -1) {
+			if (def > -1) {
+				this.elementTempArr.push(obj['element'].className);
 				this.elementArr.splice(def, 1);
 			}
 			//var run = true;
@@ -5445,123 +7501,123 @@ function ckplayerConfig() {
 			var d = obj['speed'] * 1000; //持续时间
 			var timerTween = null;
 			var tweenObj = null;
-			var start = obj['start'] == null ? '' : obj['start'].toString();
-			var end = obj['end'] == null ? '' : obj['end'].toString();
-			switch(obj['parameter']) {
-				case 'x':
-					if(obj['start'] == null) {
-						b = pm['x'];
+			var start = obj['start'] == null ? '': obj['start'].toString();
+			var end = obj['end'] == null ? '': obj['end'].toString();
+			switch (obj['parameter']) {
+			case 'x':
+				if (obj['start'] == null) {
+					b = pm['x'];
+				} else {
+					if (start.substring(start.length - 1, start.length) == '%') {
+						b = parseInt(start) * w * 0.01;
 					} else {
-						if(start.substring(start.length - 1, start.length) == '%') {
-							b = parseInt(start) * w * 0.01;
+						b = parseInt(start);
+					}
+
+				}
+				if (obj['end'] == null) {
+					c = pm['x'] - b;
+				} else {
+					if (end.substring(end.length - 1, end.length) == '%') {
+						c = parseInt(end) * w * 0.01 - b;
+					} else if (end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
+						if (this.varType(obj['end']) == 'number') {
+							c = parseInt(obj['end']) - b;
 						} else {
-							b = parseInt(start);
+							c = parseInt(end);
 						}
 
-					}
-					if(obj['end'] == null) {
-						c = pm['x'] - b;
 					} else {
-						if(end.substring(end.length - 1, end.length) == '%') {
-							c = parseInt(end) * w * 0.01 - b;
-						} else if(end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
-							if(typeof(obj['end']) == 'number') {
-								c = parseInt(obj['end']) - b;
-							} else {
-								c = parseInt(end);
-							}
+						c = parseInt(end) - b;
+					}
+				}
+				break;
+			case 'y':
+				if (obj['start'] == null) {
+					b = pm['y'];
+				} else {
+					if (start.substring(start.length - 1, start.length) == '%') {
+						b = parseInt(start) * h * 0.01;
+					} else {
+						b = parseInt(start);
+					}
 
+				}
+				if (obj['end'] == null) {
+					c = pm['y'] - b;
+				} else {
+					if (end.substring(end.length - 1, end.length) == '%') {
+						c = parseInt(end) * h * 0.01 - b;
+					} else if (end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
+						if (this.varType(obj['end']) == 'number') {
+							c = parseInt(obj['end']) - b;
 						} else {
-							c = parseInt(end) - b;
+							c = parseInt(end);
 						}
-					}
-					break;
-				case 'y':
-					if(obj['start'] == null) {
-						b = pm['y'];
 					} else {
-						if(start.substring(start.length - 1, start.length) == '%') {
-							b = parseInt(start) * h * 0.01;
-						} else {
-							b = parseInt(start);
-						}
+						c = parseInt(end) - b;
+					}
+				}
+				break;
+			case 'alpha':
+				if (obj['start'] == null) {
+					b = pm['alpha'] * 100;
+				} else {
+					if (start.substring(start.length - 1, start.length) == '%') {
+						b = parseInt(obj['start']);
+					} else {
+						b = parseInt(obj['start'] * 100);
+					}
 
-					}
-					if(obj['end'] == null) {
-						c = pm['y'] - b;
-					} else {
-						if(end.substring(end.length - 1, end.length) == '%') {
-							c = parseInt(end) * h * 0.01 - b;
-						} else if(end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
-							if(typeof(obj['end']) == 'number') {
-								c = parseInt(obj['end']) - b;
-							} else {
-								c = parseInt(end);
-							}
-						} else {
-							c = parseInt(end) - b;
-						}
-					}
-					break;
-				case 'alpha':
-					if(obj['start'] == null) {
-						b = pm['alpha'] * 100;
-					} else {
-						if(start.substring(start.length - 1, start.length) == '%') {
-							b = parseInt(obj['start']);
-						} else {
-							b = parseInt(obj['start'] * 100);
-						}
-
-					}
-					if(obj['end'] == null) {
-						c = pm['alpha'] * 100 - b;
-					} else {
-						if(end.substring(end.length - 1, end.length) == '%') {
-							c = parseInt(end) - b;
-						} else if(end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
-							if(typeof(obj['end']) == 'number') {
-								c = parseInt(obj['end']) * 100 - b;
-							} else {
-								c = parseInt(obj['end']) * 100;
-							}
-						} else {
+				}
+				if (obj['end'] == null) {
+					c = pm['alpha'] * 100 - b;
+				} else {
+					if (end.substring(end.length - 1, end.length) == '%') {
+						c = parseInt(end) - b;
+					} else if (end.substring(0, 1) == '-' || end.substring(0, 1) == '+') {
+						if (this.varType(obj['end']) == 'number') {
 							c = parseInt(obj['end']) * 100 - b;
+						} else {
+							c = parseInt(obj['end']) * 100;
 						}
+					} else {
+						c = parseInt(obj['end']) * 100 - b;
 					}
-					break;
+				}
+				break;
 			}
 			var callBack = function() {
 				var index = thisTemp.arrIndexOf(thisTemp.animateElementArray, animateId);
-				if(index > -1) {
+				if (index > -1) {
 					thisTemp.animateArray.splice(index, 1);
 					thisTemp.animateElementArray.splice(index, 1);
 				}
 				index = thisTemp.arrIndexOf(thisTemp.animatePauseArray, animateId);
-				if(index > -1) {
+				if (index > -1) {
 					thisTemp.animatePauseArray.splice(index, 1);
 				}
-				if(obj['callBack'] != null && obj['element'] && obj['callBack'] != 'callBack' && obj['callBack'] != 'tweenX' && obj['tweenY'] != 'callBack' && obj['callBack'] != 'tweenAlpha') {
+				if (obj['callBack'] != null && obj['element'] && obj['callBack'] != 'callBack' && obj['callBack'] != 'tweenX' && obj['tweenY'] != 'callBack' && obj['callBack'] != 'tweenAlpha') {
 					var cb = eval(obj['callBack']);
 					cb(obj['element']);
 					obj['callBack'] = null;
 				}
 			};
 			var stopTween = function() {
-				if(timerTween != null) {
-					if(timerTween.runing) {
+				if (timerTween != null) {
+					if (timerTween.runing) {
 						timerTween.stop();
 					}
 					timerTween = null;
 				}
 			};
 			var tweenX = function() {
-				if(t < d) {
+				if (t < d) {
 					t += 10;
 					css = {
 						left: Math.ceil(tweenFun(t, b, c, d)) + 'px'
 					};
-					if(obj['static']) {
+					if (obj['static']) {
 						eleCoor = thisTemp.calculationCoor(obj['element']);
 						css['top'] = eleCoor['y'] + 'px';
 					}
@@ -5569,29 +7625,41 @@ function ckplayerConfig() {
 
 				} else {
 					stopTween();
+					try {
+						var defX = this.arrIndexOf(this.elementTempArr, obj['element'].className);
+						if (defX > -1) {
+							this.elementTempArr.splice(defX, 1);
+						}
+					} catch(event) {}
 					thisTemp.elementArr.push(obj['element'].className);
 					callBack();
 				}
 			};
 			var tweenY = function() {
-				if(t < d) {
+				if (t < d) {
 					t += 10;
 					css = {
 						top: Math.ceil(tweenFun(t, b, c, d)) + 'px'
 					};
-					if(obj['static']) {
+					if (obj['static']) {
 						eleCoor = thisTemp.calculationCoor(obj['element']);
 						css['left'] = eleCoor['x'] + 'px';
 					}
 					thisTemp.css(obj['element'], css);
 				} else {
 					stopTween();
+					try {
+						var defY = this.arrIndexOf(this.elementTempArr, obj['element'].className);
+						if (defY > -1) {
+							this.elementTempArr.splice(defY, 1);
+						}
+					} catch(event) {}
 					thisTemp.elementArr.push(obj['element'].className);
 					callBack();
 				}
 			};
 			var tweenAlpha = function() {
-				if(t < d) {
+				if (t < d) {
 					t += 10;
 					eleCoor = thisTemp.calculationCoor(obj['element']);
 					var ap = Math.ceil(tweenFun(t, b, c, d)) * 0.01;
@@ -5599,7 +7667,7 @@ function ckplayerConfig() {
 						filter: 'alpha(opacity:' + ap + ')',
 						opacity: ap.toString()
 					};
-					if(obj['static']) {
+					if (obj['static']) {
 						eleCoor = thisTemp.calculationCoor(obj['element']);
 						css['top'] = eleCoor['y'] + 'px';
 						css['left'] = eleCoor['x'] + 'px';
@@ -5607,11 +7675,17 @@ function ckplayerConfig() {
 					thisTemp.css(obj['element'], css);
 				} else {
 					stopTween();
+					try {
+						var defA = this.arrIndexOf(this.elementTempArr, obj['element'].className);
+						if (defA > -1) {
+							this.elementTempArr.splice(defA, 1);
+						}
+					} catch(event) {}
 					thisTemp.elementArr.push(obj['element'].className);
 					callBack();
 				}
 			};
-			switch(obj['parameter']) {
+			switch (obj['parameter']) {
 				case 'x':
 					tweenObj = tweenX;
 					break;
@@ -5625,20 +7699,20 @@ function ckplayerConfig() {
 					break;
 			}
 			timerTween = new thisTemp.timer(10, tweenObj);
-			timerTween.callBackFunction=callBack;
-			if(obj['overStop']) {
+			timerTween.callBackFunction = callBack;
+			if (obj['overStop']) {
 				var mouseOver = function() {
-					if(timerTween != null && timerTween.runing) {
+					if (timerTween != null && timerTween.runing) {
 						timerTween.stop();
 					}
 				};
 				this.addListenerInside('mouseover', mouseOver, obj['element']);
 				var mouseOut = function() {
 					var start = true;
-					if(obj['pauseStop'] && thisTemp.getMetaDate()['paused']) {
+					if (obj['pauseStop'] && thisTemp.getMetaDate()['paused']) {
 						start = false;
 					}
-					if(timerTween != null && !timerTween.runing && start) {
+					if (timerTween != null && !timerTween.runing && start) {
 						timerTween.start();
 					}
 				};
@@ -5647,7 +7721,7 @@ function ckplayerConfig() {
 
 			this.animateArray.push(timerTween);
 			this.animateElementArray.push(animateId);
-			if(obj['pauseStop']) {
+			if (obj['pauseStop']) {
 				this.animatePauseArray.push(animateId);
 			}
 			return animateId;
@@ -5657,23 +7731,23 @@ function ckplayerConfig() {
 			继续运行animate
 		*/
 		animateResume: function(id) {
-			if(this.playerType == 'flashplayer') {
-				this.V.animateResume(this.isUndefined(id) ? '' : id);
+			if (this.playerType == 'flashplayer') {
+				this.V.animateResume(this.isUndefined(id) ? '': id);
 				return;
 			}
 			var arr = [];
-			if(id != '' && !this.isUndefined(id) && id != 'pause') {
+			if (id != '' && !this.isUndefined(id) && id != 'pause') {
 				arr.push(id);
 			} else {
-				if(id === 'pause') {
+				if (id === 'pause') {
 					arr = this.animatePauseArray;
 				} else {
 					arr = this.animateElementArray;
 				}
 			}
-			for(var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 				var index = this.arrIndexOf(this.animateElementArray, arr[i]);
-				if(index > -1) {
+				if (index > -1) {
 					this.animateArray[index].start();
 				}
 			}
@@ -5684,23 +7758,23 @@ function ckplayerConfig() {
 			暂停运行animate
 		*/
 		animatePause: function(id) {
-			if(this.playerType == 'flashplayer') {
-				this.V.animatePause(this.isUndefined(id) ? '' : id);
+			if (this.playerType == 'flashplayer') {
+				this.V.animatePause(this.isUndefined(id) ? '': id);
 				return;
 			}
 			var arr = [];
-			if(id != '' && !this.isUndefined(id) && id != 'pause') {
+			if (id != '' && !this.isUndefined(id) && id != 'pause') {
 				arr.push(id);
 			} else {
-				if(id === 'pause') {
+				if (id === 'pause') {
 					arr = this.animatePauseArray;
 				} else {
 					arr = this.animateElementArray;
 				}
 			}
-			for(var i = 0; i < arr.length; i++) {
+			for (var i = 0; i < arr.length; i++) {
 				var index = this.arrIndexOf(this.animateElementArray, arr[i]);
-				if(index > -1) {
+				if (index > -1) {
 					this.animateArray[index].stop();
 				}
 			}
@@ -5710,15 +7784,16 @@ function ckplayerConfig() {
 			根据ID删除数组里对应的内容
 		*/
 		deleteAnimate: function(id) {
-			if(this.playerType == 'flashplayer' && this.V) {
+			if (this.playerType == 'flashplayer' && this.V) {
 				try {
 					this.V.deleteAnimate(id);
-				} catch(event) {this.log(event);}
+				} catch(event) {
+					this.log(event);
+				}
 				return;
 			}
-			//console.log(this.animateElementArray)
 			var index = this.arrIndexOf(this.animateElementArray, id);
-			if(index > -1) {
+			if (index > -1) {
 				this.animateArray[index].callBackFunction();
 				this.animateArray.splice(index, 1);
 				this.animateElementArray.splice(index, 1);
@@ -5729,7 +7804,7 @@ function ckplayerConfig() {
 			删除外部新建的元件
 		*/
 		deleteElement: function(ele) {
-			if(this.playerType == 'flashplayer' && this.V) {
+			if (this.playerType == 'flashplayer' && this.V) {
 				try {
 					this.V.deleteElement(ele);
 				} catch(event) {}
@@ -5737,53 +7812,66 @@ function ckplayerConfig() {
 			}
 			//先将该元件从元件数组里删除，让其不再跟随播放器的尺寸改变而改变位置
 			var def = this.arrIndexOf(this.elementArr, ele.className);
-			if(def > -1) {
+			if (def > -1) {
 				this.elementArr.splice(def, 1);
 			}
-			this.deleteAnimate(ele);
+			try {
+				def = this.arrIndexOf(this.elementTempArr, ele.className);
+				if (def > -1) {
+					this.elementTempArr.splice(def, 1);
+				}
+			} catch(event) {}
+			this.deleteAnimate(ele.className);
 			this.deleteChild(ele);
-
 		},
 		/*
 			--------------------------------------------------------------
 			共用函数部分
 			以下函数并非只能在本程序中使用，也可以在页面其它项目中使用
-			根据ID获取元素对象
+			根据ID或className获取元素对象
 		*/
 		getByElement: function(obj, parent) {
-			if(this.isUndefined(parent)) {
+			if (this.isUndefined(parent)) {
 				parent = document;
 			}
 			var num = obj.substr(0, 1);
 			var res = [];
-			if(num != '#') {
-				if(num == '.') {
+			if (num != '#') {
+				if (num == '.') {
 					obj = obj.substr(1, obj.length);
 				}
-				if(parent.getElementsByClassName) {
+				if (parent.getElementsByClassName) {
 					res = parent.getElementsByClassName(obj);
+					if(!res.length){
+						return null;
+					}
 				} else {
 					var reg = new RegExp(' ' + obj + ' ', 'i');
 					var ele = parent.getElementsByTagName('*');
-
-					for(var i = 0; i < ele.length; i++) {
-						if(reg.test(' ' + ele[i].className + ' ')) {
+					for (var i = 0; i < ele.length; i++) {
+						if (reg.test(' ' + ele[i].className + ' ')) {
 							res.push(ele[i]);
 						}
 					}
 				}
-
-				if(res.length > 0) {
-					return res[0];
-				} else {
-					return res;
+				if (res.length > 0) {
+					res=res[0];
+				}
+				else{
+					res=null;
 				}
 			} else {
-				if(num == '#') {
+				if (num == '#') {
 					obj = obj.substr(1, obj.length);
 				}
-				return document.getElementById(obj);
+				try{
+					res=document.getElementById(obj);
+				}
+				catch(event){
+					res=null;
+				}
 			}
+			return res;
 		},
 		/*
 		 	共用函数
@@ -5808,48 +7896,49 @@ function ckplayerConfig() {
 		css: function(elem, attribute, value) {
 			var i = 0;
 			var k = '';
-			if(typeof(elem) == 'object') { //对象或数组
-				if(!this.isUndefined(typeof(elem.length))) { //说明是数组
-					for(i = 0; i < elem.length; i++) {
+			if (this.varType(elem) == 'array') { //数组
+				for (i = 0; i < elem.length; i++) {
 						var el;
-						if(typeof(elem[i]) == 'string') {
+						if (typeof(elem[i]) == 'string') {
 							el = this.getByElement(elem[i])
 						} else {
 							el = elem[i];
 						}
-						if(typeof(attribute) != 'object') {
-							if(!this.isUndefined(value)) {
+						if (typeof(attribute) != 'object') {
+							if (!this.isUndefined(value)) {
 								el.style[attribute] = value;
 							}
 						} else {
-							for(k in attribute) {
-								if(!this.isUndefined(attribute[k])) {
-									el.style[k] = attribute[k];
+							for (k in attribute) {
+								if (!this.isUndefined(attribute[k])) {
+									try {
+										el.style[k] = attribute[k];
+									} catch(event) {
+										this.log(event);
+									}
 								}
 							}
 						}
 					}
 					return;
-				}
 
 			}
-			if(typeof(elem) == 'string') {
+			if (this.varType(elem) == 'string') {
 				elem = this.getByElement(elem);
 			}
-
-			if(typeof(attribute) != 'object') {
-				if(!this.isUndefined(value)) {
+			if (this.varType(attribute) != 'object') {
+				if (!this.isUndefined(value)) {
 					elem.style[attribute] = value;
 				} else {
-					if(!this.isUndefined(this.getStyle(elem, attribute))) {
+					if (!this.isUndefined(this.getStyle(elem, attribute))) {
 						return this.getStyle(elem, attribute);
 					} else {
 						return false;
 					}
 				}
 			} else {
-				for(k in attribute) {
-					if(!this.isUndefined(attribute[k])) {
+				for (k in attribute) {
+					if (!this.isUndefined(attribute[k])) {
 						elem.style[k] = attribute[k];
 					}
 				}
@@ -5861,10 +7950,10 @@ function ckplayerConfig() {
 			兼容型获取style
 		*/
 		getStyle: function(obj, attr) {
-			if(!this.isUndefined(obj.style[attr])) {
+			if (!this.isUndefined(obj.style[attr])) {
 				return obj.style[attr];
 			} else {
-				if(obj.currentStyle) {
+				if (obj.currentStyle) {
 					return obj.currentStyle[attr];
 				} else {
 					return getComputedStyle(obj, false)[attr];
@@ -5877,10 +7966,13 @@ function ckplayerConfig() {
 		*/
 		isUndefined: function(value) {
 			try {
-				if(value == 'undefined' || value == undefined) {
+				if (value === 'undefined' || value === undefined || value === null || value === 'NaN' || value === NaN) {
 					return true;
 				}
-			} catch(event) {this.log(event);}
+			} catch(event) {
+				this.log(event);
+				return true;
+			}
 			return false;
 		},
 		/*
@@ -5888,24 +7980,24 @@ function ckplayerConfig() {
 			外部监听函数
 		*/
 		addListener: function(name, funName) {
-			if(name && funName) {
-				if(this.playerType == 'flashplayer') {
+			if (name && funName) {
+				if (this.playerType == 'flashplayer') {
 					var ff = ''; //定义用来向flashplayer传递的函数字符
-					if(typeof(funName) == 'function') {
+					if (this.varType(funName) == 'function') {
 						ff = this.getParameterNames(funName);
 					}
 					this.V.addListener(name, ff);
 					return;
 				}
 				var have = false;
-				for(var i = 0; i < this.listenerJsArr.length; i++) {
+				for (var i = 0; i < this.listenerJsArr.length; i++) {
 					var arr = this.listenerJsArr[i];
-					if(arr[0] == name && arr[1] == funName) {
+					if (arr[0] == name && arr[1] == funName) {
 						have = true;
 						break;
 					}
 				}
-				if(!have) {
+				if (!have) {
 					this.listenerJsArr.push([name, funName]);
 				}
 			}
@@ -5915,18 +8007,18 @@ function ckplayerConfig() {
 			外部删除监听函数
 		*/
 		removeListener: function(name, funName) {
-			if(name && funName) {
-				if(this.playerType == 'flashplayer') {
+			if (name && funName) {
+				if (this.playerType == 'flashplayer') {
 					var ff = ''; //定义用来向flashplayer传递的函数字符
-					if(typeof(funName) == 'function') {
+					if (this.varType(funName) == 'function') {
 						ff = this.getParameterNames(funName);
 					}
 					this.V.removeListener(name, ff);
 					return;
 				}
-				for(var i = 0; i < this.listenerJsArr.length; i++) {
+				for (var i = 0; i < this.listenerJsArr.length; i++) {
 					var arr = this.listenerJsArr[i];
-					if(arr[0] == name && arr[1] == funName) {
+					if (arr[0] == name && arr[1] == funName) {
 						this.listenerJsArr.splice(i, 1);
 						break;
 					}
@@ -5939,21 +8031,21 @@ function ckplayerConfig() {
 			d值为空时，则表示监听当前的视频播放器
 		*/
 		addListenerInside: function(e, f, d, t) {
-			if(this.isUndefined(t)) {
+			if (this.isUndefined(t)) {
 				t = false;
 			}
 			var o = this.V;
-			if(!this.isUndefined(d)) {
+			if (!this.isUndefined(d)) {
 				o = d;
 			}
-			if(o.addEventListener) {
+			if (o.addEventListener) {
 				try {
 					o.addEventListener(e, f, t);
-				} catch(event) {}
-			} else if(o.attachEvent) {
+				} catch(event) {this.log(event)}
+			} else if (o.attachEvent) {
 				try {
 					o.attachEvent('on' + e, f);
-				} catch(event) {}
+				} catch(event) {this.log(event)}
 			} else {
 				o['on' + e] = f;
 			}
@@ -5967,19 +8059,19 @@ function ckplayerConfig() {
 			/*if(this.playerType=='flashplayer' && this.getParameterNames(f) && this.isUndefined(d)) {
 				return;
 			}*/
-			if(this.isUndefined(t)) {
+			if (this.isUndefined(t)) {
 				t = false;
 			}
 			var o = this.V;
-			if(!this.isUndefined(d)) {
+			if (!this.isUndefined(d)) {
 				o = d;
 			}
-			if(o.removeEventListener) {
+			if (o.removeEventListener) {
 				try {
 					this.addNum--;
 					o.removeEventListener(e, f, t);
 				} catch(e) {}
-			} else if(o.detachEvent) {
+			} else if (o.detachEvent) {
 				try {
 					o.detachEvent('on' + e, f);
 				} catch(e) {}
@@ -5992,18 +8084,22 @@ function ckplayerConfig() {
 			统一分配监听，以达到跟as3同样效果
 		*/
 		sendJS: function(name, val) {
-			var list = this.listenerJsArr;
-			var obj = {
-				variable: this.vars['variable']
-			};
-			if(this.vars['playerID']) {
-				obj['playerID'] = this.vars['playerID'];
+			if (this.adPlayerPlay && name.substr( - 2) != 'Ad') {
+				return;
 			}
-			for(var i = 0; i < list.length; i++) {
-				var arr = list[i];
-				if(arr[0] == name) {
-					if(val) {
-						switch(arr[1].length) {
+			if(this.isUndefined(name)){
+				return;
+			}
+			var list = this.listenerJsArr;
+			var obj = this.vars['variable'];
+			if(this.vars['debug']){
+				this.log(name+':'+val);
+			}
+			for (var i = 0; i < list.length; i++) {
+				var arr = list[i];				
+				if (arr[0] == name) {
+					if (!this.isUndefined(val)) {
+						switch (arr[1].length) {
 							case 1:
 								arr[1](val);
 								break;
@@ -6016,15 +8112,7 @@ function ckplayerConfig() {
 						}
 
 					} else {
-						switch(arr[1].length) {
-							case 1:
-								arr[1](obj);
-								break;
-							default:
-								arr[1]();
-								break;
-						}
-
+						arr[1](obj);
 					}
 				}
 			}
@@ -6034,67 +8122,82 @@ function ckplayerConfig() {
 			获取函数名称，如 function ckplayer(){} var fun=ckplayer，则getParameterNames(fun)=ckplayer
 		*/
 		getParameterNames: function(fn) {
-			if(typeof(fn) !== 'function') {
+			if (this.varType(fn) !== 'function') {
 				return false;
 			}
 			var COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 			var code = fn.toString().replace(COMMENTS, '');
 			var result = code.slice(code.indexOf(' ') + 1, code.indexOf('('));
-			return result === null ? false : result;
+			return result === null ? false: result;
 		},
 		/*
 			共用函数
-			获取当前本地时间
+			时间替换
 		*/
-		getNowDate: function() {
-			var nowDate = new Date();
-			var month = nowDate.getMonth() + 1;
-			var date = nowDate.getDate();
-			var hours = nowDate.getHours();
-			var minutes = nowDate.getMinutes();
-			var seconds = nowDate.getSeconds();
-			var tMonth = '',
-				tDate = '',
-				tHours = '',
-				tMinutes = '',
-				tSeconds = '',
-				tSeconds = (seconds < 10) ? '0' + seconds : seconds + '',
-				tMinutes = (minutes < 10) ? '0' + minutes : minutes + '',
-				tHours = (hours < 10) ? '0' + hours : hours + '',
-				tDate = (date < 10) ? '0' + date : date + '',
-				tMonth = (month < 10) ? '0' + month : month + '';
-			return tMonth + '/' + tDate + ' ' + tHours + ':' + tMinutes + ':' + tSeconds;
+		replaceTime:function(str,obj){
+			//var timeStrArr = ['[$timeh]', '[$timei]', '[$timeI]', '[$times]', '[$timeS]', '[$durationh]', '[$durationi]', '[$durationI]', '[$durations]', '[$durationS]','[$liveTimey]', '[$liveTimeY]', '[$liveTimem]', '[$liveTimed]', '[$liveTimeh]', '[$liveTimei]', '[$liveTimes]', '[$liveLanguage]'];
+			for(var k in obj){
+				str=str.replace('[$'+k+']',obj[k])
+			}
+			return str;
 		},
 		/*
 			共用函数
 			格式化时分秒
-			seconds:Int：秒数
-			ishours:Boolean：是否显示小时，如果设置成false，则会显示如80:20，表示1小时20分钟20秒
+			t:Int：秒数,dt:总时间的秒数
 		*/
-		formatTime: function(seconds, ishours) {
-			var tSeconds = '',
-				tMinutes = '',
-				tHours = '';
-			if(isNaN(seconds)) {
+		formatTime: function(t,dt,str) {
+			if (this.isUndefined(t) || isNaN(t)) {
 				seconds = 0;
 			}
-			var s = Math.floor(seconds % 60),
-				m = 0,
-				h = 0;
-			if(ishours) {
-				m = Math.floor(seconds / 60) % 60;
-				h = Math.floor(seconds / 3600);
-			} else {
-				m = Math.floor(seconds / 60);
+			if (this.isUndefined(dt) || isNaN(dt)) {
+				dt = 0;
 			}
-			tSeconds = (s < 10) ? '0' + s : s + '';
-			tMinutes = (m > 0) ? ((m < 10) ? '0' + m + ':' : m + ':') : '00:';
-			tHours = (h > 0) ? ((h < 10) ? '0' + h + ':' : h + ':') : '';
-			if(ishours) {
-				return tHours + tMinutes + tSeconds;
-			} else {
-				return tMinutes + tSeconds;
+			var minuteS=Math.floor(t/60);//将秒数直接转化成分钟取整，这个可以得到如80分钟
+			var minute=minuteS;//获取准确的分钟
+			var hourS=Math.floor(t/3600);//将秒数直接转化成小时取整，这个可以得到100小时
+			var second=t %60;
+			if(minuteS>=60){
+				minute=Math.floor(minuteS%60);
 			}
+			//总时间
+			var hminuteS=Math.floor(dt/60);//将秒数直接转化成分钟取整，这个可以得到如80分钟
+			var hminute=hminuteS;//获取准确的分钟
+			var hhourS=Math.floor(dt/3600);//将秒数直接转化成小时取整，这个可以得到100小时
+			var hsecond=dt %60;
+			if(hminuteS>=60){
+				hminute=Math.floor(hminuteS%60);
+			}
+			//当前时间
+			var nowDate = new Date();
+			var obj={
+				timeh:hourS,//时
+				timei:minute,//分
+				timeI:minuteS,//只有分
+				times:second,//秒
+				timeS:t,//只有秒
+				durationh:hhourS,//时
+				durationi:hminute,//分
+				durationI:hminuteS,//只有分
+				durations:hsecond,//秒
+				durationS:dt,//只有秒
+				liveTimey:nowDate.getYear(),//获取当前年份(2位)
+				liveTimeY:nowDate.getFullYear(),//获取完整的年份(4位,1970-????)
+				liveTimem:nowDate.getMonth()+1,//获取当前月份(0-11,0代表1月)
+				liveTimed:nowDate.getDate(),// 获取当前日(1-31)
+				liveTimeh:nowDate.getHours(),    // 获取当前小时数(0-23)
+				liveTimei:nowDate.getMinutes(),// 获取当前分钟数(0-59)
+				liveTimes:nowDate.getSeconds()// 获取当前秒数(0-59)
+			};
+			for(var k in obj){
+				if(obj[k]<10){
+					obj[k]='0'+Math.floor(obj[k]);
+				}
+				else{
+					obj[k]=Math.floor(obj[k]).toString();
+				}
+			}
+			return this.replaceTime(str,obj);
 		},
 		/*
 			共用函数
@@ -6106,7 +8209,7 @@ function ckplayerConfig() {
 			var chars = 'abcdefghijklmnopqrstuvwxyz';
 			var maxPos = chars.length;
 			var val = '';
-			for(i = 0; i < len; i++) {
+			for (i = 0; i < len; i++) {
 				val += chars.charAt(Math.floor(Math.random() * maxPos));
 			}
 			return 'ch' + val;
@@ -6116,9 +8219,12 @@ function ckplayerConfig() {
 			获取字符串长度,中文算两,英文数字算1
 		*/
 		getStringLen: function(str) {
+			if(this.isUndefined(str)){
+				return 0;
+			}
 			var len = 0;
-			for(var i = 0; i < str.length; i++) {
-				if(str.charCodeAt(i) > 127 || str.charCodeAt(i) == 94) {
+			for (var i = 0; i < str.length; i++) {
+				if (str.charCodeAt(i) > 127 || str.charCodeAt(i) == 94) {
 					len += 2;
 				} else {
 					len++;
@@ -6131,10 +8237,10 @@ function ckplayerConfig() {
 			用来为ajax提供支持
 		*/
 		createXHR: function() {
-			if(window.XMLHttpRequest) {
+			if (window.XMLHttpRequest) {
 				//IE7+、Firefox、Opera、Chrome 和Safari
 				return new XMLHttpRequest();
-			} else if(window.ActiveXObject) {
+			} else if (window.ActiveXObject) {
 				//IE6 及以下
 				try {
 					return new ActiveXObject('Microsoft.XMLHTTP');
@@ -6157,65 +8263,88 @@ function ckplayerConfig() {
 			var thisTemp = this;
 			var callback = null;
 			var obj = {
-				method: 'get', //请求类型
-				dataType: 'json', //请求的数据类型
+				method: 'get',//请求类型
+				dataType: 'json',//请求的数据类型
 				charset: 'utf-8',
-				async: false, //true表示异步，false表示同步
+				async: false,//true表示异步，false表示同步
 				url: '',
 				data: null,
-				success: null
+				success: null,
+				error:null
 			};
-			if(typeof(cObj) != 'object') {
+			if (this.varType(cObj) != 'object') {
 				this.eject(this.errorList[9]);
 				return;
 			}
 			obj = this.standardization(obj, cObj);
-			if(obj.dataType === 'json' || obj.dataType === 'text' || obj.dataType === 'html') {
+			if (obj.dataType === 'json' || obj.dataType === 'text' || obj.dataType === 'html' || obj.dataType === 'xml') {
 				var xhr = this.createXHR();
 				callback = function() {
 					//判断http的交互是否成功
-					if(xhr.status == 200) {
-						if(obj.success == null) {
+					if (xhr.status == 200) {
+						if (thisTemp.isUndefined(obj.success)) {
 							return;
 						}
-						if(obj.dataType === 'json') {
+						if (obj.dataType === 'json') {
 							try {
 								obj.success(eval('(' + xhr.responseText + ')')); //回调传递参数
 							} catch(event) {
-								obj.success(null);
+								if(!thisTemp.isUndefined(obj['error'])){
+									obj.error(event);
+								}
 							}
 						} else {
 							obj.success(xhr.responseText); //回调传递参数
 						}
-					} else {
+					} 
+					else {
+						obj.success(null);
 						thisTemp.eject(thisTemp.errorList[10], 'Ajax.status:' + xhr.status);
 					}
 				};
-				obj.url = obj.url + '?rand=' + this.randomString(6);
+				obj.url = obj.url.indexOf('?') == -1 ? obj.url + '?rand=' + this.randomString(6) : obj.url;
 				obj.data = this.formatParams(obj.data); //通过params()将名值对转换成字符串
-				if(obj.method === 'get' && !this.isUndefined(obj.data)) {
-					obj.url += obj.url.indexOf('?') == -1 ? '?' + obj.data : '&' + obj.data;
+				if (obj.method === 'get' && !this.isUndefined(obj.data)) {
+					if (obj.data != '') {
+						if (obj.url.indexOf('?') == -1) {
+							obj.url += '?' + obj.data
+						} else {
+							obj.url += '&' + obj.data;
+						}
+					}
 				}
-				if(obj.async === true) { //true表示异步，false表示同步
+				if (obj.async === true) { //true表示异步，false表示同步
 					xhr.onreadystatechange = function() {
-						if(xhr.readyState == 4) { //判断对象的状态是否交互完成
+						if (xhr.readyState == 4 && callback != null) { //判断对象的状态是否交互完成
 							callback(); //回调
 						}
 					};
 				}
 				xhr.open(obj.method, obj.url, obj.async);
-				if(obj.method === 'post') {
-					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-					xhr.setRequestHeader('charset', obj['charset']);
-					xhr.send(obj.data);
-				} else {
-					xhr.send(null); //get方式则填null
+				if (obj.method === 'post') {
+					try{
+						xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xhr.setRequestHeader('charset', obj['charset']);
+						xhr.send(obj.data);
+					}
+					catch(event){
+						callback();
+					}
 				}
-				if(obj.async === false) { //同步
+				else {
+					try{
+						xhr.send(null); //get方式则填null
+					}
+					catch(event){
+						callback();
+					}
+				}
+				if (obj.async === false) { //同步
 					callback();
 				}
 
-			} else if(obj.dataType === 'jsonp') {
+			}
+			else if (obj.dataType === 'jsonp') {
 				var oHead = document.getElementsByTagName('head')[0];
 				var oScript = document.createElement('script');
 				var callbackName = 'callback' + new Date().getTime();
@@ -6255,10 +8384,10 @@ function ckplayerConfig() {
 			var b_version = navigator.appVersion;
 			var version = b_version.split(';');
 			var trim_Version = '';
-			if(version.length > 1) {
+			if (version.length > 1) {
 				trim_Version = version[1].replace(/[ ]/g, '');
 			}
-			if(browser == 'Microsoft Internet Explorer' && (trim_Version == 'MSIE6.0' || trim_Version == 'MSIE7.0' || trim_Version == 'MSIE8.0' || trim_Version == 'MSIE9.0' || trim_Version == 'MSIE10.0')) {
+			if (browser == 'Microsoft Internet Explorer' && (trim_Version == 'MSIE6.0' || trim_Version == 'MSIE7.0' || trim_Version == 'MSIE8.0' || trim_Version == 'MSIE9.0' || trim_Version == 'MSIE10.0')) {
 				return false;
 			}
 			return true;
@@ -6269,7 +8398,7 @@ function ckplayerConfig() {
 		*/
 		uploadFlash: function() {
 			var swf;
-			if(navigator.userAgent.indexOf('MSIE') > 0) {
+			if (navigator.userAgent.indexOf('MSIE') > 0) {
 				try {
 					var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
 					return true;
@@ -6277,9 +8406,9 @@ function ckplayerConfig() {
 					return false;
 				}
 			}
-			if(navigator.userAgent.indexOf('Firefox') > 0) {
+			if (navigator.userAgent.indexOf('Firefox') > 0) {
 				swf = navigator.plugins['Shockwave Flash'];
-				if(swf) {
+				if (swf) {
 					return true
 				} else {
 					return false;
@@ -6292,10 +8421,10 @@ function ckplayerConfig() {
 			检测浏览器是否支持HTML5-Video
 		*/
 		supportVideo: function() {
-			if(!this.isMsie()) {
+			if (!this.isMsie()) {
 				return false;
 			}
-			if(!!document.createElement('video').canPlayType) {
+			if ( !! document.createElement('video').canPlayType) {
 				var vidTest = document.createElement('video');
 				var oggTest;
 				try {
@@ -6303,24 +8432,24 @@ function ckplayerConfig() {
 				} catch(error) {
 					oggTest = false;
 				}
-				if(!oggTest) {
+				if (!oggTest) {
 					var h264Test;
 					try {
 						h264Test = vidTest.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
 					} catch(error) {
 						h264Test = false;
 					}
-					if(!h264Test) {
+					if (!h264Test) {
 						return false;
 					} else {
-						if(h264Test == "probably") {
+						if (h264Test == "probably") {
 							return true;
 						} else {
 							return false;
 						}
 					}
 				} else {
-					if(oggTest == "probably") {
+					if (oggTest == "probably") {
 						return true;
 					} else {
 						return false;
@@ -6353,12 +8482,12 @@ function ckplayerConfig() {
 			var x = null;
 			var y = this.getByElement('#' + id);
 			var r = 'embed';
-			if(y && y.nodeName == 'OBJECT') {
-				if(typeof(y.SetVariable) != 'undefined') {
+			if (y && y.nodeName == 'OBJECT') {
+				if (this.varType(y.SetVariable) != 'undefined') {
 					x = y;
 				} else {
 					var z = y.getElementsByTagName(r)[0];
-					if(z) {
+					if (z) {
 						x = z;
 					}
 				}
@@ -6371,7 +8500,7 @@ function ckplayerConfig() {
 		*/
 		formatParams: function(data) {
 			var arr = [];
-			for(var i in data) {
+			for (var i in data) {
 				arr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
 			}
 			return arr.join('&');
@@ -6382,9 +8511,9 @@ function ckplayerConfig() {
 		*/
 		arrSort: function(arr) {
 			var temp = [];
-			for(var i = 0; i < arr.length; i++) {
-				for(var j = 0; j < arr.length - i; j++) {
-					if(!this.isUndefined(arr[j + 1]) && arr[j][3] < arr[j + 1][3]) {
+			for (var i = 0; i < arr.length; i++) {
+				for (var j = 0; j < arr.length - i; j++) {
+					if (!this.isUndefined(arr[j + 1]) && arr[j][3] < arr[j + 1][3]) {
 						temp = arr[j + 1];
 						arr[j + 1] = arr[j];
 						arr[j] = temp;
@@ -6394,16 +8523,24 @@ function ckplayerConfig() {
 			return arr;
 		},
 		/*
+			共用函数
+			获取文件名称
+		*/
+		getFileName: function(filepath) {
+			if(!filepath) return '';
+			return filepath.replace(/(.*\/)*([^.]+).*/ig,'$2');
+		},
+		/*
 			内置函数
 			判断文件后缀
 		*/
 		getFileExt: function(filepath) {
-			if(filepath != '' && !this.isUndefined(filepath)) {
-				if(filepath.indexOf('?') > -1) {
+			if (filepath != '' && !this.isUndefined(filepath)) {
+				if (filepath.indexOf('?') > -1) {
 					filepath = filepath.split('?')[0];
 				}
 				var pos = '.' + filepath.replace(/.+\./, '');
-				return pos;
+				return pos.toLowerCase();
 			}
 			return '';
 		},
@@ -6412,7 +8549,7 @@ function ckplayerConfig() {
 			判断是否是移动端
 		*/
 		isMobile: function() {
-			if(navigator.userAgent.match(/(iPhone|iPad|iPod|Android|ios)/i)) {
+			if (navigator.userAgent.toLowerCase().match(/(iphone|ipad|ipod|android|ios|midp|windows mobile|windows ce|rv:1.2.3.4|ucweb)/i)) {
 				return true;
 			}
 			return false;
@@ -6429,7 +8566,7 @@ function ckplayerConfig() {
 			给地址添加随机数
 		*/
 		getNewUrl: function(url) {
-			if(this.isContains(url, '?')) {
+			if (this.isContains(url, '?')) {
 				return url += '&' + this.randomString(8) + '=' + this.randomString(8);
 			} else {
 				return url += '?' + this.randomString(8) + '=' + this.randomString(8);
@@ -6441,7 +8578,7 @@ function ckplayerConfig() {
 		*/
 		client: function(event) {
 			var eve = event || window.event;
-			if(this.isUndefined(eve)) {
+			if (this.isUndefined(eve)) {
 				eve = {
 					clientX: 0,
 					clientY: 0
@@ -6467,7 +8604,8 @@ function ckplayerConfig() {
 			var parObj = obj;
 			var left = obj.offsetLeft;
 			var top = obj.offsetTop;
-			while(parObj = parObj.offsetParent) {
+			
+			while (parObj = parObj.offsetParent) {
 				left += parObj.offsetLeft;
 				top += parObj.offsetTop;
 			}
@@ -6481,13 +8619,13 @@ function ckplayerConfig() {
 			删除本对象的所有属性
 		*/
 		removeChild: function() {
-			if(this.playerType == 'html5video') {
+			if (this.playerType == 'html5video') {
 				//删除计时器
 				var i = 0;
-				var timerArr = [this.timerError, this.timerFull, this.timerTime, this.timerBuffer, this.timerClick, this.timerLoading, this.timerCBar, this.timerVCanvas];
-				for(i = 0; i < timerArr.length; i++) {
-					if(timerArr[i] != null) {
-						if(timerArr[i].runing) {
+				var timerArr = [this.timerError, this.timerFull, this.timerTime, this.timerBuffer, this.timerClick, this.timerCBar, this.timerVCanvas];
+				for (i = 0; i < timerArr.length; i++) {
+					if (timerArr[i] != null) {
+						if (timerArr[i].runing) {
 							timerArr[i].stop();
 						}
 						timerArr[i] = null;
@@ -6495,13 +8633,13 @@ function ckplayerConfig() {
 				}
 				//删除事件监听
 				var ltArr = this.listenerJsArr;
-				for(i = 0; i < ltArr.length; i++) {
+				for (i = 0; i < ltArr.length; i++) {
 					this.removeListener(ltArr[i][0], ltArr[i][1]);
 				}
 			}
 			this.playerType == '';
 			this.V = null;
-			if(this.showFace) {
+			if (this.conBarShow) {
 				this.deleteChild(this.CB['menu']);
 			}
 			this.deleteChild(this.PD);
@@ -6513,9 +8651,9 @@ function ckplayerConfig() {
 		*/
 		canvasFill: function(name, path) {
 			name.beginPath();
-			for(var i = 0; i < path.length; i++) {
+			for (var i = 0; i < path.length; i++) {
 				var d = path[i];
-				if(i > 0) {
+				if (i > 0) {
 					name.lineTo(d[0], d[1]);
 				} else {
 					name.moveTo(d[0], d[1]);
@@ -6529,7 +8667,7 @@ function ckplayerConfig() {
 			画矩形
 		*/
 		canvasFillRect: function(name, path) {
-			for(var i = 0; i < path.length; i++) {
+			for (var i = 0; i < path.length; i++) {
 				var d = path[i];
 				name.fillRect(d[0], d[1], d[2], d[3]);
 			}
@@ -6540,17 +8678,17 @@ function ckplayerConfig() {
 		*/
 		deleteChild: function(f) {
 			var def = this.arrIndexOf(this.elementArr, f.className);
-			if(def > -1) {
+			if (def > -1) {
 				this.elementArr.splice(def, 1);
 			}
 			var childs = f.childNodes;
-			for(var i = childs.length - 1; i >= 0; i--) {
+			for (var i = childs.length - 1; i >= 0; i--) {
 				f.removeChild(childs[i]);
 			}
 
-			if(f && f != null && f.parentNode) {
+			if (f && f != null && f.parentNode) {
 				try {
-					if(f.parentNode) {
+					if (f.parentNode) {
 						f.parentNode.removeChild(f);
 
 					}
@@ -6564,10 +8702,10 @@ function ckplayerConfig() {
 		*/
 		getProportionCoor: function(stageW, stageH, vw, vh) {
 			var w = 0,
-				h = 0,
-				x = 0,
-				y = 0;
-			if(stageW / stageH < vw / vh) {
+			h = 0,
+			x = 0,
+			y = 0;
+			if (stageW / stageH < vw / vh) {
 				w = stageW;
 				h = w * vh / vw;
 			} else {
@@ -6588,7 +8726,7 @@ function ckplayerConfig() {
 			将字幕文件内容转换成数组
 		*/
 		parseSrtSubtitles: function(srt) {
-			var subtitles = [];
+			var subtitlesArr = [];
 			var textSubtitles = [];
 			var i = 0;
 			var arrs = srt.split('\n');
@@ -6596,26 +8734,31 @@ function ckplayerConfig() {
 			var delHtmlTag = function(str) {
 				return str.replace(/<[^>]+>/g, ''); //去掉所有的html标记
 			};
-			for(i = 0; i < arrs.length; i++) {
-				if(arrs[i].replace(/\s/g, '').length > 0) {
+			for (i = 0; i < arrs.length; i++) {
+				if (arrs[i].replace(/\s/g, '').length > 0) {
 					arr.push(arrs[i]);
 				} else {
-					if(arr.length > 0) {
+					if (arr.length > 0) {
 						textSubtitles.push(arr);
 					}
 					arr = [];
 				}
 			}
-			for(i = 0; i < textSubtitles.length; ++i) {
+			for (i = 0; i < textSubtitles.length; ++i) {
 				var textSubtitle = textSubtitles[i];
-				if(textSubtitle.length >= 2) {
+				if (textSubtitle.length >= 2) {
 					var sn = textSubtitle[0]; // 字幕的序号
 					var startTime = this.toSeconds(this.trim(textSubtitle[1].split(' --> ')[0])); // 字幕的开始时间
 					var endTime = this.toSeconds(this.trim(textSubtitle[1].split(' --> ')[1])); // 字幕的结束时间
 					var content = [delHtmlTag(textSubtitle[2])]; // 字幕的内容
+					var cktrackdelay=this.vars['cktrackdelay'];
+					if(cktrackdelay!=0){
+						startTime+=cktrackdelay;
+						endTime+=cktrackdelay;
+					}
 					// 字幕可能有多行
-					if(textSubtitle.length > 2) {
-						for(var j = 3; j < textSubtitle.length; j++) {
+					if (textSubtitle.length > 2) {
+						for (var j = 3; j < textSubtitle.length; j++) {
 							content.push(delHtmlTag(textSubtitle[j]));
 						}
 					}
@@ -6626,10 +8769,10 @@ function ckplayerConfig() {
 						endTime: endTime,
 						content: content
 					};
-					subtitles.push(subtitle);
+					subtitlesArr.push(subtitle);
 				}
 			}
-			return subtitles;
+			return subtitlesArr;
 		},
 		/*
 			共用函数
@@ -6649,30 +8792,30 @@ function ckplayerConfig() {
 			this.startFun = function() {
 				thisTemp.number++;
 				thisTemp.fun();
-				if(thisTemp.numberTotal != null && thisTemp.number >= thisTemp.numberTotal) {
+				if (thisTemp.numberTotal != null && thisTemp.number >= thisTemp.numberTotal) {
 					thisTemp.stop();
 				}
 			};
 			this.start = function() {
-				if(!thisTemp.runing) {
+				if (!thisTemp.runing) {
 					thisTemp.runing = true;
 					thisTemp.timeObj = window.setInterval(thisTemp.startFun, time);
 				}
 			};
 			this.stop = function() {
-				if(thisTemp.runing) {
+				if (thisTemp.runing) {
 					thisTemp.runing = false;
 					window.clearInterval(thisTemp.timeObj);
 					thisTemp.timeObj = null;
 				}
 			};
-			if(time) {
+			if (time) {
 				this.time = time;
 			}
-			if(fun) {
+			if (fun) {
 				this.fun = fun;
 			}
-			if(number) {
+			if (number) {
 				this.numberTotal = number;
 			}
 			this.start();
@@ -6683,13 +8826,28 @@ function ckplayerConfig() {
 		*/
 		toSeconds: function(t) {
 			var s = 0.0;
-			if(t) {
+			if (t) {
 				var p = t.split(':');
-				for(i = 0; i < p.length; i++) {
+				for (i = 0; i < p.length; i++) {
 					s = s * 60 + parseFloat(p[i].replace(',', '.'));
 				}
 			}
 			return s;
+		},
+		/*将字符变成数字形式的数组*/
+		arrayInt: function(str) {
+			var a = str.split(',');
+			var b = [];
+			for (var i = 0; i < a.length; i++) {
+				if (this.isUndefined(a[i])) {
+					a[i] = 0;
+				}
+				if (a[i].substr( - 1) != '%') {
+					a[i] = parseInt(a[i]);
+				}
+				b.push(a[i]);
+			}
+			return b;
 		},
 		/*
 			共用函数
@@ -6698,12 +8856,15 @@ function ckplayerConfig() {
 		standardization: function(o, n) { //n替换进o
 			var h = {};
 			var k;
-			for(k in o) {
+			for (k in o) {
 				h[k] = o[k];
 			}
-			for(k in n) {
-				var type = typeof(h[k]);
-				switch(type) {
+			for (k in n) {
+				var type ='';
+				if(h[k]){
+					type = this.varType(h[k]);
+				}
+				switch (type) {
 					case 'number':
 						h[k] = parseFloat(n[k]);
 						break;
@@ -6711,24 +8872,44 @@ function ckplayerConfig() {
 						h[k] = n[k];
 						break;
 				}
-
 			}
 			return h;
+		},
+		objectAssign:function(o,n) {
+			if(this.varType(o)!='object' || this.varType(n)!='object'){
+				return null;
+			}
+			var obj1=this.newObj(o),obj2=this.newObj(n);
+			for(var k in obj2){
+				if(this.varType(obj2[k])=='object'){
+					if(this.varType(obj1[k])!='object'){
+						obj1[k]={};
+					}
+					obj1[k]=this.objectAssign(obj1[k],obj2[k]);
+				}
+				else{
+					obj1[k]=obj2[k];
+				}
+			}
+			return obj1;
 		},
 		/*
 			共用函数
 			搜索数组
 		 */
 		arrIndexOf: function(arr, key) {
+			if(this.isUndefined(arr) || this.isUndefined(key)){
+				return -1;
+			}
 			var re = new RegExp(key, ['']);
-			return(arr.toString().replace(re, '┢').replace(/[^,┢]/g, '')).indexOf('┢');
+			return (arr.toString().replace(re, '┢').replace(/[^,┢]/g, '')).indexOf('┢');
 		},
 		/*
 			共用函数
 			去掉空格
 		 */
 		trim: function(str) {
-			if(str!=''){
+			if (str != '') {
 				return str.replace(/(^\s*)|(\s*$)/g, '');
 			}
 			return '';
@@ -6747,17 +8928,84 @@ function ckplayerConfig() {
 			弹出提示
 		*/
 		eject: function(er, val) {
-			if(!this.vars['debug']) {
+			if (!this.vars['debug']) {
 				return;
 			}
 			var errorVal = er[1];
-			if(!this.isUndefined(val)) {
+			if (!this.isUndefined(val)) {
 				errorVal = errorVal.replace('[error]', val);
 			}
 			var value = 'error ' + er[0] + ':' + errorVal;
 			try {
 				this.log(value);
 			} catch(e) {}
+		},
+		/*
+			共用函数
+			系统错误
+		*/
+		sysError: function(er, val) {
+			var ele= this.getByElement(this.vars['container']);
+			var errorVal = er[1];
+			if (!this.isUndefined(val)) {
+				errorVal = errorVal.replace('[error]', val);
+			}
+			var value = 'error ' + er[0] + ':' + errorVal;
+			ele.innerHTML=value;
+			this.css(ele,{
+				backgroundColor: '#000',
+				color:'#FFF',
+				textAlign:'center',
+				lineHeight:ele.offsetHeight+'px'
+			});
+		},
+		/*
+			共用函数
+			判断变量类型
+		*/
+		varType:function(val){
+			if(val===null){
+				return 'string';
+			}
+			var type = typeof(val);
+			switch(type) {
+				case 'string':
+					return 'string';
+					break;
+				case 'number':
+					return 'number';
+					break;
+				case 'boolean':
+					return 'boolean';
+					break;
+				case 'function':
+					return 'function';
+					break;
+				case 'symbol':
+					return 'symbol';
+					break;
+				case 'object':
+					if(!this.isUndefined(typeof(val.length))) {
+						return 'array';
+					}
+					return 'object';
+					break;
+				case 'undefined':
+					return 'undefined';
+					break;
+				default:
+					return typeof(val);
+					break;
+			}
+		},
+		getConfigObject:function(){
+			return this.jsonConfig;
+		},
+		getStyleObject:function(){
+			return this.jsonStyle;
+		},
+		getLanguageObject:function(){
+			return this.jsongLanguage;
 		}
 	};
 	window.ckplayer = ckplayer;
