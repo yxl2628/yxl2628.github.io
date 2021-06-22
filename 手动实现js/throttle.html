@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>节流函数</title>
+</head>
+
+<body>
+  <h1>没有节流函数</h1>
+  <div id="box1"
+    style="width: 400px;height: 300px;background-color: #000;color: #fff;text-align: center;line-height: 300px;font-size: 40px;">
+    <span id="value1">0</span>
+  </div>
+  <h1>增加了节流函数</h1>
+  <div id="box2"
+    style="width: 400px;height: 300px;background-color: #000;color: #fff;text-align: center;line-height: 300px;font-size: 40px;">
+    <span id="value2">0</span>
+  </div>
+</body>
+<script>
+  /**
+   * 实现节流函数
+   * 节流函数的意思是让函数有节制地执行，而不是毫无节制的触发一次就执行一次。什么叫有节制呢？就是在一段时间内，只执行一次。
+   */
+  function throttle(func, delay) {
+    let run = true;
+    return function () {
+      if (!run) {
+        return;
+      }
+      run = false;
+      const that = this;
+      const args = arguments;
+      setTimeout(function () {
+        func.apply(that, args);
+        run = true;
+      }, delay);
+    }
+  }
+  /**
+   * 验证代码
+   */
+  var value1 = 0;
+  var value2 = 0;
+  // 没有防抖
+  document.getElementById('box1').onmousemove = function () {
+    value1++;
+    document.getElementById('value1').innerText = value1;
+  }
+  // 加了防抖
+  document.getElementById('box2').onmousemove = throttle(function () {
+    value2++;
+    document.getElementById('value2').innerText = value2;
+  }, 1000);
+
+</script>
+
+</html>
