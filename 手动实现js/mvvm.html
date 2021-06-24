@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟一个MVVM</title>
+  <meta name="description" content="模拟一个Vue的MVVM前端架构">
+</head>
+<body>
+  <div id="app">
+    <label>
+      <input type="text" v-model="user.name">
+    </label>
+    <button v-on:click="change">hello</button>
+    <div>
+      <div>{{user.name}}</div>
+      <div>{{user.age}}</div>
+      <div>{{user.hobby}}</div>
+      <div>{{myTest}}</div>
+      <div v-html="html"></div>
+    </div>
+  </div>
+  <script src="mvvm.js"></script>
+  <script>
+    let vm = new MVVM({
+      el: "#app",
+      data: {
+        user: {
+          name: "小明",
+          age: 20,
+          hobby: "coding"
+        },
+        html: '<h1>hello world</h1>'
+      },
+      computed: {
+        myTest() {
+          return this.user.name + " computed";
+        }
+      },
+      methods: {
+        change() {
+          this.user.name = "新小明";
+        }
+      }
+    })
+  </script>
+</body>
+</html>
