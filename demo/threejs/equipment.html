@@ -26,7 +26,7 @@
     addMesh({
       type: 'box',
       size: [500, 5, 500],
-      color: {
+      params: {
         color: 0x6593ce,
         opacity: 0.3,
         transparent: true
@@ -35,8 +35,12 @@
     addMesh({
       type: 'box',
       size: [500, 5, 500],
-      position: { x: 0, y: 200, z: 0 },
-      color: {
+      position: {
+        x: 0,
+        y: 200,
+        z: 0
+      },
+      params: {
         color: 0x6593ce,
         opacity: 0.3,
         transparent: true
@@ -44,41 +48,65 @@
     });
     addMesh({
       type: 'cylinder',
-      size: [40, 40, 20, 0],
-      position: { x: 100, y: 200, z: 100 },
-      color: {
-        color: 0x42424e
+      size: [40, 40, 20, 25],
+      position: {
+        x: 100,
+        y: 200,
+        z: 100
+      },
+      textture: 'route.png',
+      params: {
+        color: 0x5C71A0,
       }
     });
     addMesh({
       type: 'cylinder',
-      size: [40, 40, 20, 0],
-      position: { x: -100, y: 200, z: -100 },
-      color: {
-        color: 0x42424e
+      size: [40, 40, 20, 25],
+      position: {
+        x: -100,
+        y: 200,
+        z: -100
+      },
+      textture: 'route.png',
+      params: {
+        color: 0x5C71A0,
       }
     });
     addMesh({
       type: 'cylinder',
-      size: [40, 40, 20, 0],
-      position: { x: 100, y: 200, z: -100 },
-      color: {
-        color: 0x42424e
+      size: [40, 40, 20, 25],
+      position: {
+        x: 100,
+        y: 200,
+        z: -100
+      },
+      textture: 'route.png',
+      params: {
+        color: 0x5C71A0,
       }
     });
     addMesh({
       type: 'cylinder',
-      size: [40, 40, 20, 0],
-      position: { x: -100, y: 200, z: 100 },
-      color: {
-        color: 0x42424e
+      size: [40, 40, 20, 25],
+      position: {
+        x: -100,
+        y: 200,
+        z: 100
+      },
+      textture: 'route.png',
+      params: {
+        color: 0x5C71A0,
       }
     });
     addMesh({
       type: 'box',
       size: [500, 5, 500],
-      position: { x: 0, y: -200, z: 0 },
-      color: {
+      position: {
+        x: 0,
+        y: -200,
+        z: 0
+      },
+      params: {
         color: 0x6593ce,
         opacity: 0.3,
         transparent: true
@@ -96,7 +124,7 @@
     var s = 400; //三维场景显示范围控制系数，系数越大，显示的范围越大
     //创建相机对象
     var camera = new THREE.OrthographicCamera(-s * k, s * k, s, -s, 1, 1000);
-    camera.position.set(288, 108, 274); //设置相机位置
+    camera.position.set(276, 137, 274); //设置相机位置
     camera.lookAt(scene.position); //设置相机方向(指向的场景对象)
     /**
      * 创建渲染器对象
@@ -111,12 +139,12 @@
 
     // 执行渲染
     function render() {
-      renderer.render(scene, camera);//执行渲染操作
+      renderer.render(scene, camera); //执行渲染操作
     }
     render();
     // 设置鼠标操作
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);//创建控件对象
-    controls.addEventListener('change', render);//监听鼠标、键盘事件
+    var controls = new THREE.OrbitControls(camera, renderer.domElement); //创建控件对象
+    controls.addEventListener('change', render); //监听鼠标、键盘事件
 
     /**
      * 下面是抽象的方法
@@ -132,8 +160,11 @@
         // 创建圆柱体 参数：顶部半径， 底部半径， 高度, 圆的分段数
         geometry = new THREE.CylinderGeometry(options.size[0], options.size[1], options.size[2], options.size[1] || 1);
       }
+      if (options.textture) {
+        options.params.map = new THREE.TextureLoader().load('./images/route.png');
+      }
       // 给该平面设定材质 参数： 颜色， 透明度， 透明是否开启
-      var material = new THREE.MeshLambertMaterial(options.color);
+      var material = new THREE.MeshBasicMaterial(options.params);
       //材质对象Material
       var mesh = new THREE.Mesh(geometry, material);
       // 设定位置
@@ -147,11 +178,11 @@
     // 光源设置
     function lightSet() {
       //点光源
-      var point = new THREE.PointLight(0xb9d3ff);
+      var point = new THREE.PointLight(0xffffff);
       point.position.set(400, 200, 300); //点光源位置
       scene.add(point); //点光源添加到场景中
-      //环境光
-      var ambient = new THREE.AmbientLight(0x444444);
+      // //环境光
+      var ambient = new THREE.AmbientLight(0xffffff);
       scene.add(ambient);
     }
   </script>
