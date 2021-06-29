@@ -92,6 +92,18 @@
       textture: './images/route.png',
       params: {}
     });
+    // 添加一个防火墙
+    addMesh({
+      type: 'box',
+      size: [400, 105, 20],
+      position: {
+        x: 0,
+        y: 250,
+        z: 0
+      },
+      textture: './images/firewall.jpeg',
+      params: {}
+    });
     // 添加第三层平面
     addMesh({
       type: 'box',
@@ -107,9 +119,9 @@
         transparent: true
       }
     });
-    
 
-    // lightSet();
+
+    lightSet();
     /**
      * 相机设置
      */
