@@ -22,19 +22,20 @@
      * 创建场景对象Scene
      */
     var scene = new THREE.Scene();
-    // 添加平面
+    // 添加第一层平面
     addMesh({
       type: 'box',
-      size: [500, 5, 500],
+      size: [500, 10, 500],
       params: {
         color: 0x6593ce,
-        opacity: 0.3,
+        opacity: 0.8,
         transparent: true
       }
     });
+    // 添加第二层平面
     addMesh({
       type: 'box',
-      size: [500, 5, 500],
+      size: [500, 10, 500],
       position: {
         x: 0,
         y: 200,
@@ -42,65 +43,59 @@
       },
       params: {
         color: 0x6593ce,
-        opacity: 0.3,
+        opacity: 0.8,
         transparent: true
       }
     });
+    // 添加四个路由
     addMesh({
       type: 'cylinder',
       size: [40, 40, 20, 25],
       position: {
         x: 100,
-        y: 200,
+        y: 220,
         z: 100
       },
-      textture: 'route.png',
-      params: {
-        color: 0x5C71A0,
-      }
+      textture: './images/route.png',
+      params: {}
     });
     addMesh({
       type: 'cylinder',
       size: [40, 40, 20, 25],
       position: {
         x: -100,
-        y: 200,
+        y: 220,
         z: -100
       },
-      textture: 'route.png',
-      params: {
-        color: 0x5C71A0,
-      }
+      textture: './images/route.png',
+      params: {}
     });
     addMesh({
       type: 'cylinder',
       size: [40, 40, 20, 25],
       position: {
         x: 100,
-        y: 200,
+        y: 220,
         z: -100
       },
-      textture: 'route.png',
-      params: {
-        color: 0x5C71A0,
-      }
+      textture: './images/route.png',
+      params: {}
     });
     addMesh({
       type: 'cylinder',
       size: [40, 40, 20, 25],
       position: {
         x: -100,
-        y: 200,
+        y: 220,
         z: 100
       },
-      textture: 'route.png',
-      params: {
-        color: 0x5C71A0,
-      }
+      textture: './images/route.png',
+      params: {}
     });
+    // 添加第三层平面
     addMesh({
       type: 'box',
-      size: [500, 5, 500],
+      size: [500, 10, 500],
       position: {
         x: 0,
         y: -200,
@@ -108,13 +103,13 @@
       },
       params: {
         color: 0x6593ce,
-        opacity: 0.3,
+        opacity: 0.8,
         transparent: true
       }
     });
-    // 给平面添加路由
+    
 
-    lightSet();
+    // lightSet();
     /**
      * 相机设置
      */
@@ -161,7 +156,7 @@
         geometry = new THREE.CylinderGeometry(options.size[0], options.size[1], options.size[2], options.size[1] || 1);
       }
       if (options.textture) {
-        options.params.map = new THREE.TextureLoader().load('./images/route.png');
+        options.params.map = new THREE.TextureLoader().load(options.textture);
       }
       // 给该平面设定材质 参数： 颜色， 透明度， 透明是否开启
       var material = new THREE.MeshBasicMaterial(options.params);
