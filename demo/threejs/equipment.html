@@ -20,15 +20,20 @@
   <script src="./main.js"></script>
   <script src="./add.js"></script>
   <script>
-    var scene, camera, width, height;
+    var scene, camera, renderer, width, height;
     // 初始化场景，相机，灯光
     init();
     // 添加平面
     addFloor();
     // 添加第一层设备
     addFirst();
+    // 添加第二层设备
+    addSecond();
     // 执行渲染
-    render();
+    initRender();
+    // 添加点击事件监听
+    //物体的事件交互
+    window.addEventListener('click', mouseDownFuc);
   </script>
 </body>
 
