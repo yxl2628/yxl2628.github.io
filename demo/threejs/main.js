@@ -4,7 +4,6 @@ function init() {
    * 创建场景对象Scene
    */
   scene = new THREE.Scene();
-  cssScene = new THREE.Scene();
   /**
    * 相机设置
    */
@@ -35,18 +34,7 @@ function initRender() {
   renderer.setSize(width, height);
   // 设置背景颜色
   renderer.setClearColor(0xffffff, 1);
-  // css 渲染器
-  rendererCSS = new THREE.CSS3DRenderer();
-  rendererCSS.setSize(width, height);
-  rendererCSS.domElement.style.position = 'absolute';
-  rendererCSS.domElement.style.top = 0;
-  rendererCSS.domElement.style.margin = 0;
-  rendererCSS.domElement.style.padding = 0;
-  document.body.appendChild(rendererCSS.domElement);
-  renderer.domElement.style.position = 'absolute';
-  renderer.domElement.style.top = 0;
-  renderer.domElement.style.zIndex = 1;
-  rendererCSS.domElement.appendChild(renderer.domElement);
+  document.body.appendChild(renderer.domElement);
 
   // 设置鼠标操作
   controls = new THREE.OrbitControls(camera, renderer.domElement); // 创建控件对象
@@ -55,8 +43,8 @@ function initRender() {
   // 渲染
   function render() {
     requestAnimationFrame(render);
+    divRender();
     renderer.render(scene, camera);
-    rendererCSS.render(cssScene, camera);
   }
   render();
 }
@@ -115,8 +103,24 @@ function addCylinder(options) {
   scene.add(mesh);
 }
 
+// 添加连线
+function addLine(position) {
+  var material = new THREE.LineDashedMaterial({ color: 0x000000 });
+  var geometry = new THREE.BufferGeometry();
+  var pointsArray = [];
+  pointsArray.push(new THREE.Vector3(position.x, position.y, position.z));
+  pointsArray.push(new THREE.Vector3(position.x + 50, position.y + 110, position.z));
+  pointsArray.push(new THREE.Vector3(position.x + 100, position.y + 110, position.z));
+  geometry.setFromPoints(pointsArray);
+  var line = new THREE.Line(geometry, material);
+  scene.add(line);
+}
+
 // 添加html模板
-function addInfo({ id, name, position, rotation, normal, total}){
+function addInfo({ id, name, position, normal, total}){
+  if (!id) {
+    return;
+  }
   var html = [
     '<div class="title">' + name + '</div>',
     '<div class="info">',
@@ -126,12 +130,23 @@ function addInfo({ id, name, position, rotation, normal, total}){
     '</div>',
     '</div>',
   ].join('');
-  var divEl = document.createElement('div');
+  var divEl = document.getElementById(id);
+  if (!divEl) {
+    divEl = document.createElement('div');
+    divEl.id = id;
+    divEl.name = 'info';
+    divEl.className = 'label';
+    divEl.innerHTML = html;
+    divEl.position = position;
+    document.body.append(divEl);
+    divEls.push(divEl);
+    // 添加连线
+    addLine(position);
+  }
   divEl.innerHTML = html;
-  var cssObject = new THREE.CSS3DObject(divEl);
-  cssObject.position = position;
-  cssObject.rotation = rotation;
-  cssScene.add(cssObject);
+  var pos = transPosition(position);
+  divEl.style.left = pos.x + 'px';
+  divEl.style.top = pos.y + 'px';
 }
 
 // 鼠标按键监听
@@ -142,12 +157,10 @@ function mouseDownFuc(e) {
   if (intersects.length > 0) {
     const current = intersects[0].object;
     if (current.userData) {
-      console.log(current.userData.name, current.position, current.rotation);
       addInfo({
         id: current.userData.id,
         name: current.userData.name,
         position: current.position,
-        rotation: current.rotation,
         normal: 3,
         total: 3,
       });
@@ -165,4 +178,26 @@ function getSelsectOBj(mouse, raycaster, e) {
   //确定所点击位置上的物体数量
   var intersects = raycaster.intersectObjects(scene.children, true);
   return intersects;
+}
+
+// 坐标点转换
+function transPosition(position) {
+  var world_vector = new THREE.Vector3(position.x + 100, position.y + 150, position.z);
+  var vector = world_vector.project(camera);
+  var halfWidth = window.innerWidth / 2,
+    halfHeight = window.innerHeight / 2;
+  return {
+    x: Math.round(vector.x * halfWidth + halfWidth),
+    y: Math.round(-vector.y * halfHeight + halfHeight)
+  };
+}
+// div重新绘制
+function divRender() {
+  if (divEls.length > 0) {
+    divEls.forEach(function(el) {
+      var pos = transPosition(el.position);
+      el.style.left = pos.x + 'px';
+      el.style.top = pos.y + 'px';
+    });
+  }
 }
