@@ -3,6 +3,7 @@
 
 ### [可视化前端监控平台](https://demo.yangxl.cn/monitor/)
 > 从前端的角度，来监测系统，更好的对系统进行问题跟踪改进，详细介绍，请访问我的博客https://yangxl.cn
+
 ### [个人简历](https://demo.yangxl.cn/resume/)
 > 网上看到有特别炫的个人简历，自己fork了一个，用来装装门面
 
