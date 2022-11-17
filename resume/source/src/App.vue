@@ -9,7 +9,6 @@
   import StyleEditor from './components/StyleEditor'
   import ResumeEditor from './components/ResumeEditor'
   import './assets/reset.css'
-
   export default {
     name: 'app',
     components: {
@@ -29,7 +28,6 @@
 * 招聘季，很多人在经历各种面试，这时候有一个很炫酷的简历就很重要了
 * 说做就做，我也来写一份简历！
 */
-
 /* 首先给所有元素加上过渡效果 */
 * {
   transition: all .3s;
@@ -52,7 +50,6 @@ html {
 .token.property{ color: rgb(187,137,0); }
 .token.punctuation{ color: yellow; }
 .token.function{ color: rgb(42,161,152); }
-
 /* 加点 3D 效果呗 */
 html{
   perspective: 1000px;
@@ -64,7 +61,6 @@ html{
   -webkit-transform: rotateY(10deg) translateZ(-100px) ;
           transform: rotateY(10deg) translateZ(-100px) ;
 }
-
 /* 接下来我给自己准备一个编辑器 */
 .resumeEditor{
   position: fixed; right: 0; top: 0;
@@ -75,8 +71,6 @@ html{
   overflow: auto;
 }
 /* 好了，我开始写简历了 */
-
-
 `,
           `
 /* 这个简历好像差点什么
@@ -119,39 +113,31 @@ html{
         currentMarkdown: '',
         fullMarkdown: `杨小龙
 ----
-
-前端工程师，现在在 [四达时代](https://www.startimestv.com) 从事前端开发工作。
-
+前端工程师，现在在 [阳光保险集团](https://www.sinosig.com) 从事财务系统的前端开发工作。
 技能
 ----
-
 * 基本技能：Html、Javascript、Css
 * MVVM框架：React、Vue
 * 后台开发：Node.js、Java
 * 可视化开发：Echats、d3.js、threejs
 *
-
 工作经历
 ----
-
-1. [四达时代 | Startimes](https://www.startimestv.com)
-2. 订房宝
-3. 北京税翼
-4. [拓尔思 | TRS](http://www.trs.com.cn/)
-
+1. [阳光保险集团 | Sunshine Insurance Group](https://www.sinosig.com)
+2. [四达时代 | Startimes](https://www.startimestv.com)
+3. 订房宝
+4. 北京税翼
+5. [拓尔思 | TRS](http://www.trs.com.cn/)
 链接
 ----
-
 * [GitHub](https://github.com/yxl2628)
 * [我的文章](https://www.yangxl.cn/archives/)
-
 `
       }
     },
     created() {
       this.makeResume()
     },
-
     methods: {
       makeResume: async function () {
         await this.progressivelyShowStyle(0)
@@ -214,7 +200,6 @@ html{
       }
     }
   }
-
 </script>
 
 <style scoped>
@@ -223,7 +208,6 @@ html{
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
   html {
     min-height: 100vh;
   }
